@@ -1,0 +1,58 @@
+/* ==========================================================================
+   Import core files
+   ========================================================================== */
+@use '../variables' as *;
+@use '../mixins' as *;
+@use '../grid-variables' as *;
+@use 'sass:list';
+
+/* ==========================================================================
+   Grid mixins
+   ========================================================================== */
+
+.it-row-section {
+    --it-columns: 1;
+    --it-columns-col-gap: #{$default-grid-gutter-size}px;
+    --it-columns-row-gap: #{$default-grid-gutter-size}px;
+    @include itRelativeLayout();
+
+    > .it-row {
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(#{var(--it-columns)}, minmax(0, 1fr));
+        row-gap: #{var(--it-columns-row-gap)};
+        column-gap: #{var(--it-columns-col-gap)};
+    }
+
+    .it-column {
+        @include itRelativeLayout();
+        min-height: 1px;
+    }
+
+    @for $i from 0 to $grid-columns-layout-size {
+        $step: $i + 1;
+
+        &.it-col-num--#{$step} {
+
+            > .it-row {
+                --it-columns: #{$step};
+            }
+        }
+    }
+
+    @for $i from 0 to list.length($grid-columns-gutter-label) {
+        &.it-vertical-gutter--#{list.nth($grid-columns-gutter-label,$i+1)} {
+            $gutter-size: list.nth($grid-columns-gutter-size, $i+1);
+
+            --it-columns-row-gap: #{$gutter-size}px;
+        }
+    }
+
+    @for $i from 0 to list.length($grid-columns-gutter-label) {
+        &.it-gutter--#{list.nth($grid-columns-gutter-label,$i+1)} {
+            $gutter-size: list.nth($grid-columns-gutter-size, $i+1);
+
+            --it-columns-col-gap: #{$gutter-size}px;
+        }
+    }
+}
