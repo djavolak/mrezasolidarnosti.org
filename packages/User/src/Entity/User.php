@@ -25,8 +25,6 @@ class User implements AuthenticatableInterface
     public string $lastName;
     #[ORM\Column(type: Types::STRING, length: 128, unique: true)]
     public string $email;
-    #[ORM\Column(type: Types::STRING, length: 128)]
-    public string $password;
     #[ORM\Column(type: Types::SMALLINT, length: 1)]
     public int $role;
     #[ORM\Column(type: Types::SMALLINT)]
