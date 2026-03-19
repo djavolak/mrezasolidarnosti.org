@@ -26,7 +26,6 @@ class Donor implements FilterInterface
         $alnum = new Alnum(true);
         $int = new ToInt();
 
-        //$postData['paymentMethods']
         $data = [
             'id' => (isset($postData['id'])) ? $int->filter($postData['id']) : null,
             'email' => $postData['email'],
@@ -37,8 +36,32 @@ class Donor implements FilterInterface
             'isActive' => $postData['isActive'],
             'projects' => $postData['projects'],
             'status' => (isset($postData['status'])) ? $postData['status'] : 1,
-//            CSRF::TOKEN_NAME => $postData[CSRF::TOKEN_NAME],
+            CSRF::TOKEN_NAME => $postData[CSRF::TOKEN_NAME],
         ];
+
+        // Parse paymentMethods rows from form
+        // JS sends: paymentMethods[idx][project], paymentMethods[idx][paymentType],
+        //           paymentMethods[idx][monthly], paymentMethods[idx][amount], paymentMethods[idx][currency]
+        $paymentMethods = [];
+        if (isset($postData['paymentMethods']) && is_array($postData['paymentMethods'])) {
+            foreach ($postData['paymentMethods'] as $row) {
+                if (empty($row['paymentType']) || $row['paymentType'] === '-1') {
+                    continue;
+                }
+                if (empty($row['project']) || $row['project'] === '-1') {
+                    continue;
+                }
+                $paymentMethods[] = [
+                    'project' => (int) $row['project'],
+                    'type' => (int) $row['paymentType'],
+                    'monthly' => (int) ($row['monthly'] ?? 0),
+                    'amount' => (int) ($row['amount'] ?? 0),
+                    'currency' => (int) ($row['currency'] ?? \Solidarity\Donor\Entity\PaymentMethod::CURRENCY_RSD),
+                ];
+            }
+        }
+        $data['paymentMethods'] = $paymentMethods;
+
         if (!$this->validator->isValid($data)) {
             throw new ValidatorException();
         }

@@ -34,8 +34,8 @@
                 </div>
                 <div class="inputContainer">
                     <label>Valuta</label>
-                    <input readonly class="input currencyView" type="text" <?=$paymentMethod->currency ?? ''?>>
-                    <input type="hidden" class="currencyValue">
+                    <input readonly class="input currencyView" type="text" value="<?=$paymentMethod ? \Solidarity\Donor\Entity\PaymentMethod::getCurrency($paymentMethod->currency) : ''?>">
+                    <input type="hidden" class="currencyValue" value="<?=$paymentMethod->currency ?? ''?>">
                 </div>
                 <button class="deletePaymentMethod btn red">Delete</button>
             </div>

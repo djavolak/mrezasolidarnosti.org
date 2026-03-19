@@ -33,8 +33,6 @@ class Transaction extends TableView
 
     public function prepareEntities($entities)
     {
-        $this->repo->resolveBeneficiaries($entities);
-
         $items = [];
         /* @var \Solidarity\Transaction\Entity\Transaction $transaction */
         foreach ($entities as $transaction) {
@@ -70,8 +68,8 @@ class Transaction extends TableView
     {
         // @TODO add filter per school, search per donor/educator details
         $columnDefinitions = [
-            ['name' => 'email', 'label' => 'Email'],
-            ['name' => 'name', 'label' => 'Ime'],
+            ['name' => 'email', 'label' => 'Donator'],
+            ['name' => 'name', 'label' => 'Oštećeni'],
             ['name' => 'accountNumber', 'label' => 'Br računa'],
             ['name' => 'amount', 'label' => 'Iznos'],
             ['name' => 'status', 'label' => 'Status', 'filterData' => \Solidarity\Transaction\Entity\Transaction::getHrStatuses()],

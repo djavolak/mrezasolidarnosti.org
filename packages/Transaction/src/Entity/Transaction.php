@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Skeletor\Core\Entity\Timestampable;
 use Solidarity\Beneficiary\Entity\Beneficiary;
 use Solidarity\Donor\Entity\Donor;
+use Solidarity\Period\Entity\Period;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'transaction')]
@@ -45,6 +46,10 @@ class Transaction
     #[ORM\ManyToOne(inversedBy: 'transactions')]
     #[ORM\JoinColumn(name: 'projectId', referencedColumnName: 'id', unique: false, nullable: false)]
     public Project $project;
+
+    #[ORM\ManyToOne(inversedBy: 'transactions')]
+    #[ORM\JoinColumn(name: 'periodId', referencedColumnName: 'id', unique: false, nullable: false)]
+    public Period $period;
 
     #[ORM\ManyToOne(targetEntity: Donor::class, inversedBy: 'transactions')]
     #[ORM\JoinColumn(name: 'donorId', referencedColumnName: 'id', unique: false)]

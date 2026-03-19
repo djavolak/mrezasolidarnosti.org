@@ -23,7 +23,7 @@ class Beneficiary extends TableView
     public function fetchTableData(
         $search, $filter, $offset, $limit, $order, $uncountableFilter = null, $idsToInclude = [], $idsToExclude = []
     ) {
-        // delegate can only see own account
+        // delegate can only see beneficiaries added by them
         if ($this->getUserSession()->getLoggedInEntityType() === 'delegate') {
             $uncountableFilter['createdBy'] = $this->getUserSession()->getLoggedInUserId();
         }
@@ -57,10 +57,10 @@ class Beneficiary extends TableView
             $itemData = [
                 'id' => $beneficiary->getId(),
                 'name' =>  [
-                    'value' => $beneficiary->name,
+                    'value' => $beneficiary->name .' ('. implode(', ', $projects) .')',
                     'editColumn' => true,
                 ],
-                'pm.project' => implode(', ', $projects),
+                'rp.project' => implode(', ', $projects),
                 'sumAmount' => number_format($totalAmount, 0),
                 // TODO add message when delegate not existing
                 'delegateVerified' => ($beneficiary->createdBy?->status === Delegate::STATUS_VERIFIED) ? 'Da' : 'Ne',
@@ -79,16 +79,21 @@ class Beneficiary extends TableView
 
     public function compileTableColumns()
     {
-        return [
+        $items = [
             ['name' => 'name', 'label' => 'Ime'],
 //            ['name' => 'amount', 'label' => 'Trenutni iznos'],
-            ['name' => 'pm.project', 'label' => 'Projekat', 'filterData' => $this->project->getFilterData()],
             ['name' => 'sumAmount', 'label' => 'Ukupan iznos'],
             ['name' => 'pm.accountNumber', 'label' => 'Metode plaćanja'],
             ['name' => 'status', 'label' => 'Status', 'filterData' => \Solidarity\Beneficiary\Entity\Beneficiary::getHrStatuses()],
-            ['name' => 'delegateVerified', 'label' => 'Delegat verifikovan'],
-            ['name' => 'createdBy', 'label' => 'Delegat'],
-            ['name' => 'createdAt', 'label' => 'Kreirano'],
+            ['name' => 'rp.project', 'label' => 'Projekat', 'filterData' => $this->project->getFilterData()]
         ];
+
+        if ($this->getUserSession()->getLoggedInEntityType() === 'user') {
+            $items[] = ['name' => 'delegateVerified', 'label' => 'Delegat verifikovan'];
+            $items[] = ['name' => 'createdBy', 'label' => 'Delegat'];
+        }
+        $items[] = ['name' => 'createdAt', 'label' => 'Kreirano'];
+
+        return $items;
     }
 }

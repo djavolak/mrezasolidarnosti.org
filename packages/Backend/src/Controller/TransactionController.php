@@ -6,6 +6,7 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use Solidarity\Delegate\Service\Delegate;
 use Solidarity\Donor\Service\Donor;
 use Solidarity\Mailer\Service\Mailer;
+use Solidarity\Period\Service\Period;
 use Solidarity\Transaction\Service\Project;
 use Solidarity\Transaction\Service\Transaction;
 use Skeletor\Core\Controller\AjaxCrudController;
@@ -38,7 +39,7 @@ class TransactionController extends AjaxCrudController
      */
     public function __construct(
         Transaction    $service, Session $session, Config $config, Flash $flash, Engine $template,
-        private Donor  $donor, private Project $project, private Mailer $mailer, private Delegate $delegate
+        private Donor  $donor, private Project $project, private Mailer $mailer, private Period $period
     ) {
         parent::__construct($service, $session, $config, $flash, $template);
 //        $this->tableViewConfig['createButton'] = false;
@@ -108,21 +109,10 @@ class TransactionController extends AjaxCrudController
         return $this->redirect('/transaction/uploadTransactionListForm/');
     }
 
-    public function sendTransactionListToAffectedDelegates()
-    {
-        foreach ($this->delegate->getAffectedDelegates() as $delegateData) {
-            var_dump($delegateData['email']);
-            $fileName = $this->service->compileXlsxTransactionList(
-                $this->service->getTransactionsBySchool($delegateData['schoolId']), $delegateData['schoolName']
-            );
-//            $this->mailer->sendTransactionListToDelegate($delegateData['email'], $fileName);
-        }
-        die('done');
-    }
-
     public function form(): Response
     {
         $this->formData['projects'] = $this->project->getFilterData();
+        $this->formData['periods'] = $this->period->getFilterData();
         return parent::form();
     }
 

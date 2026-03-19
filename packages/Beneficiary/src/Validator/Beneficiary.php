@@ -2,11 +2,18 @@
 
 namespace Solidarity\Beneficiary\Validator;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Skeletor\Core\Validator\ValidatorInterface;
+use Solidarity\Beneficiary\Entity\PaymentMethod;
 
 class Beneficiary implements ValidatorInterface
 {
     private array $messages = [];
+
+    public function __construct(
+        private EntityManagerInterface $entityManager
+    ) {
+    }
 
     public function isValid(array $data): bool
     {
@@ -34,6 +41,10 @@ class Beneficiary implements ValidatorInterface
                 if (!$this->validateAccountNumber($row['accountNumber'])) {
                     $this->messages['paymentMethods'][] = 'Broj računa nije validan, kontrolni broj je pogrešan.';
                 }
+                // Check account number uniqueness across beneficiaries
+                if (!empty($row['accountNumber'])) {
+                    $this->validateAccountNumberUniqueness($row['accountNumber'], $data['id'] ?? null);
+                }
             }
         }
 
@@ -58,6 +69,30 @@ class Beneficiary implements ValidatorInterface
         }
 
         return empty($this->messages);
+    }
+
+    private function validateAccountNumberUniqueness(string $accountNumber, ?int $beneficiaryId): void
+    {
+        $qb = $this->entityManager->createQueryBuilder();
+        $qb->select('IDENTITY(pm.beneficiary)')
+            ->from(PaymentMethod::class, 'pm')
+            ->where('pm.accountNumber = :accountNumber')
+            ->setParameter('accountNumber', $accountNumber);
+
+        if ($beneficiaryId) {
+            $qb->andWhere('pm.beneficiary != :beneficiaryId')
+                ->setParameter('beneficiaryId', $beneficiaryId);
+        }
+
+        $qb->setMaxResults(1);
+        $result = $qb->getQuery()->getOneOrNullResult();
+
+        if ($result) {
+            $this->messages['paymentMethods'][] = sprintf(
+                'Broj računa %s je već dodeljen drugom korisniku.',
+                $accountNumber
+            );
+        }
     }
 
     private function validateAccountNumber(string $accountNumber): bool

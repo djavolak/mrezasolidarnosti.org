@@ -79,7 +79,7 @@ class Donor extends TableView
         $columnDefinitions = [
             ['name' => 'email', 'label' => 'Email'],
             ['name' => 'status', 'label' => 'Status', 'filterData' => \Solidarity\Donor\Entity\Donor::getHrStatuses()],
-            ['name' => 'monthly', 'label' => 'Monthly', 'filterData' => [0 => 'No', 1 => 'Yes']],
+//            ['name' => 'monthly', 'label' => 'Monthly', 'filterData' => [0 => 'No', 1 => 'Yes']],
 //            ['name' => 'amount', 'label' => 'Amount', 'rangeFilter' => ['type' => 'number']],
             ['name' => 'updatedAt', 'label' => 'Updated at'],
             ['name' => 'createdAt', 'label' => 'Created at'],
