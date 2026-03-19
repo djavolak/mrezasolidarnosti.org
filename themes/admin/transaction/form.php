@@ -23,16 +23,19 @@ $statuses = \Solidarity\Transaction\Entity\Transaction::getHrStatuses();
 $statusCollection = (new OptionCollection(new Option('1', 'New')))->fromArray($statuses, $data['model']?->status);
 $statusSelect = (new Select('status', $statusCollection, 'Status'))
     ->required('Status is required', '');
-$amount = (new \Skeletor\Form\InputTypes\Input\Number(name: 'amount', value: $data['model']?->amount, label:'Amount'))
+$amount = (new \Skeletor\Form\InputTypes\Input\Number(name: 'amount', value: $data['model']?->amount, label:'Amount', readOnly: $readonly))
     ->required('amount is required');
 $accountNumber = (new \Skeletor\Form\InputTypes\Input\Text(name: 'accountNumber', value: $data['model']?->accountNumber, label:'Account number', readOnly: $readonly));
 $comment = (new \Skeletor\Form\InputTypes\TextArea\TextArea(name:'comment', value:$data['model']?->comment, label:'Comment'));
 // @ TODO select first by default
 $projectCollection = (new OptionCollection())->fromArray($data['projects'], $data['model']?->project->id);
-$projectSelect = (new Select('project', $projectCollection, 'Projekat'))
+$projectSelect = (new Select(name:'project', optionsCollection: $projectCollection, label:'Projekat', readOnly: $readonly))
     ->required('Project is required', '');
+$periodCollection = (new OptionCollection())->fromArray($data['periods'], $data['model']?->period->id);
+$periodSelect = (new Select(name:'period', optionsCollection: $periodCollection, label: 'Period', readOnly: $readonly))
+    ->required('Period is required', '');
 $donorConfirmedCollection = (new OptionCollection(new Option(0, 'No')))->fromArray([0 => 'No', 1 => 'Yes'], $data['model']?->donorConfirmed);
-$donorConfirmedSelect = (new Select('donorConfirmed', $donorConfirmedCollection, 'Donator potvrdio uplatu?'));
+$donorConfirmedSelect = (new Select(name:   'donorConfirmed', optionsCollection: $donorConfirmedCollection, label:  'Donator potvrdio uplatu?', readOnly: $readonly));
 
 $donorSelect = (new \Skeletor\Form\InputTypes\AjaxInputSearch\AjaxInputSearch(
     'donor',
@@ -45,19 +48,6 @@ $donorSelect = (new \Skeletor\Form\InputTypes\AjaxInputSearch\AjaxInputSearch(
     'Search donors...',
     [], [], null, null, $readonly
 ))->required('Donor is required');
-
-$educatorSelect = (new \Skeletor\Form\InputTypes\AjaxInputSearch\AjaxInputSearch(
-    'educator',
-    '/educator/tableHandler/',
-    'name',
-    'id',
-    'Educator',
-    $data['model']?->educator?->id ?? null,
-    $data['model']?->educator?->name,
-    'Search educators...',
-    [], [], null, null, $readonly
-));
-//    ->required('Educator is required');
 
 $beneficiarySelect = (new \Skeletor\Form\InputTypes\AjaxInputSearch\AjaxInputSearch(
     'beneficiary',
@@ -76,20 +66,21 @@ $inputGroup = (new InputGroup())
     ->addInput($projectSelect)
     ->addInput($donorSelect);
 if ($readonly) {
-    $inputGroup->addInput($accountNumber);
+//    $inputGroup->addInput($accountNumber);
 }
 
 $form->addTab((new Tab('Basic Info'))
     ->addInputGroup($inputGroup)
     ->addInputGroup((new InputGroup())
-        ->addInput($educatorSelect)
+        ->addInput($periodSelect)
         ->addInput($beneficiarySelect))
     ->addInputGroup((new InputGroup())
-        ->addInput($amount)
-        ->addInput($comment))
+        ->addInput($amount)        )
     ->addInputGroup((new InputGroup())
         ->addInput($statusSelect)
         ->addInput($donorConfirmedSelect))
+    ->addInputGroup((new InputGroup(width: InputGroupWidth::HALF_WIDTH))
+        ->addInput($comment))
 );
 
 $formRenderer = new TabbedFormRenderer($form, $data['formTitle']);

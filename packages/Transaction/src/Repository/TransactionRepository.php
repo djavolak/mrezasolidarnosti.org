@@ -57,38 +57,9 @@ class TransactionRepository extends TableViewRepository
         return $qb->getQuery()->getSingleScalarResult() > Transaction::PER_PERSON_LIMIT;
     }
 
-    /**
-     * Resolves and assigns the beneficiary entity for each transaction.
-     *
-     * @param Transaction[] $transactions
-     */
-    public function resolveBeneficiaries(array $transactions): void
-    {
-        // Group beneficiary IDs by type for batch loading
-        $grouped = [];
-        foreach ($transactions as $transaction) {
-            $grouped[$transaction->beneficiaryType][] = $transaction->beneficiaryId;
-        }
-
-        // Batch load each type
-        $loaded = [];
-        foreach ($grouped as $type => $ids) {
-            $class = Beneficiary::class;
-            $entities = $this->entityManager->getRepository($class)->findBy(['id' => array_unique($ids)]);
-            foreach ($entities as $entity) {
-                $loaded[$type][$entity->getId()] = $entity;
-            }
-        }
-
-        // Assign to each transaction
-        foreach ($transactions as $transaction) {
-            $transaction->beneficiary = $loaded[$transaction->beneficiaryType][$transaction->beneficiaryId] ?? null;
-        }
-    }
-
     public function getSearchableColumns(): array
     {
-        return ['a.amount', 'a.name', 'a.accountNumber', 'a.email'];
+        return ['a.amount', 'a.accountNumber'];
     }
 
     public function getColumnsToCount(): array
