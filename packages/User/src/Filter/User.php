@@ -3,10 +3,8 @@ namespace Solidarity\User\Filter;
 
 use Laminas\Filter\ToInt;
 use Laminas\I18n\Filter\Alnum;
-use Skeletor\ContentEditor\Contracts\ContentEditorParserInterface;
-use Skeletor\Core\Filter\FilterInterface;
 use Skeletor\Core\Validator\ValidatorException;
-use Skeletor\User\Validator\User as UserValidator;
+use Solidarity\User\Validator\User as UserValidator;
 use Volnix\CSRF\CSRF;
 
 class User extends \Skeletor\User\Filter\User
@@ -33,8 +31,6 @@ class User extends \Skeletor\User\Filter\User
         }
         $data = [
             'id' => (isset($postData['id'])) ? $postData['id'] : null,
-            'password' => (isset($postData['password'])) ? $postData['password'] : null,
-            'password2' => (isset($postData['password2'])) ? $postData['password2'] : null,
             'email' => $postData['email'],
             'role' => $postData['role'],
             'isActive' => $int->filter($postData['isActive']),
@@ -48,11 +44,7 @@ class User extends \Skeletor\User\Filter\User
         if (!$this->validator->isValid($data)) {
             throw new ValidatorException();
         }
-        if(trim($data['password']) !== '' && trim($data['password2']) !== '') {
-            $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);
-        }
         unset($data[CSRF::TOKEN_NAME]);
-        unset($data['password2']);
 
         return $data;
     }

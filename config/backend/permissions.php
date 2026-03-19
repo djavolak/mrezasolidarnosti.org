@@ -75,6 +75,7 @@ return [
         '/user/view/' => 'user.view_list',
         '/user/tableHandler/' => 'user.view_list',
         '/user/form/' => 'user.create',
+        '/user/create/' => 'user.create',
         '/user/form/*' => 'user.edit',
         '/user/update/*' => 'user.edit',
         '/user/delete/*' => 'user.delete',
