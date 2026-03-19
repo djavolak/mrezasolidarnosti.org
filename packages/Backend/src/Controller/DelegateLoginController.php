@@ -12,6 +12,7 @@ use Skeletor\Core\Security\Authentication\MagicLinkCredentials;
 use Skeletor\Core\Security\Authenticator\AuthenticatorRegistry;
 use Skeletor\Core\Validator\InvalidFormTokenException;
 use Skeletor\Core\Validator\ValidatorException;
+use Skeletor\Core\Security\EntityRegistry;
 use Skeletor\Login\Exception\InvalidCredentials;
 use Skeletor\Login\Filter\ForgotPassword as ForgotPasswordFilter;
 use Skeletor\Login\Filter\ResetPassword;
@@ -43,7 +44,8 @@ class DelegateLoginController extends Controller
         protected ResetPassword $resetPasswordFilter,
         protected ForgotPasswordRepository $forgotPasswordRepository,
         private MagicLinkService $magicLinkService,
-        private AuthenticatorRegistry $authenticatorRegistry
+        private AuthenticatorRegistry $authenticatorRegistry,
+        private EntityRegistry $entityRegistry
     ) {
         parent::__construct($template, $config, $session, $flash);
     }
@@ -75,6 +77,14 @@ class DelegateLoginController extends Controller
 
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $this->getFlash()->error('Unesite validnu email adresu');
+                return $this->redirect(static::MAGIC_LINK_FORM_PATH);
+            }
+
+            // Check if delegate account is active before sending magic link
+            $repository = $this->entityRegistry->getRepository($entityType);
+            $entity = $repository->findByEmail($email);
+            if ($entity && !$entity->isActive()) {
+                $this->getFlash()->error('Vaš nalog nije aktivan. Kontaktirajte administratora.');
                 return $this->redirect(static::MAGIC_LINK_FORM_PATH);
             }
 
