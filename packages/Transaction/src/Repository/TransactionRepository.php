@@ -53,6 +53,15 @@ class TransactionRepository extends TableViewRepository
         if ($paymentType !== null) {
             $qb->andWhere('t.paymentType = :paymentType')
                 ->setParameter('paymentType', $paymentType);
+
+            // If donor has monthly enabled for this payment method, only count last 30 days
+            foreach ($donor->getPaymentMethodsForProject($project) as $donorPM) {
+                if ($donorPM->type === $paymentType && $donorPM->monthly) {
+                    $qb->andWhere('t.createdAt >= :since')
+                        ->setParameter('since', new \DateTimeImmutable('-30 days'));
+                    break;
+                }
+            }
         }
 
         return (int) $qb->getQuery()->getSingleScalarResult();
