@@ -19,6 +19,16 @@ class School extends TableView
         parent::__construct($repo, $user, $logger);
     }
 
+    public function getFilterData($params = [], $limit = null, $order = null, $property = 'name')
+    {
+        $data = [];
+        foreach ($this->repo->fetchAll($params, $limit, $order) as $entity) {
+            $data[$entity->id] = $entity->{$property} . ' '. $entity->city->name;
+        }
+
+        return $data;
+    }
+
     public function prepareEntities($entities)
     {
         $items = [];

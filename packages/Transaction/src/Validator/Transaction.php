@@ -70,13 +70,6 @@ class Transaction implements ValidatorInterface
             }
         }
 
-        $accountNumber = trim($data['accountNumber'] ?? '');
-        $instructions = trim($data['instructions'] ?? '');
-        if ($accountNumber === '' && $instructions === '') {
-            $this->messages['accountNumber'][] = 'Either account number or instructions must be entered.';
-            $valid = false;
-        }
-
         if (!$data['skipCsrf']) {
             if (!$this->csrf->validate($data)) {
                 $this->messages['general'][] = 'Invalid form key.';

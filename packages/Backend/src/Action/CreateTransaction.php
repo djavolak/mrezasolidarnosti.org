@@ -71,6 +71,7 @@ class CreateTransaction extends Html
 //                            $this->getLogger()->log(\Monolog\Level::Info, sprintf('Yearly max reached for donor %s on project %s', $donor->email, $project->code));
 //                            continue;
 //                        }
+                        // todo check cases with very high amounts, they should be handled separately in order not to get too many instructions
                         // scroll through available payment methods for donor
                         foreach ($donor->getPaymentMethodsForProject($project) as $donorPM) {
                             // donated so far for current payment type and project

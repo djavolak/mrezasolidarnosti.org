@@ -314,3 +314,8 @@ form:has(.selectedService) .fullWidth:has(#totalWithoutVAT) .inputContainer {
   text-decoration: underline;
   color: var(--colorPrimary-500);
 }
+
+
+#paymentMethodPreview {
+  color:white;
+}

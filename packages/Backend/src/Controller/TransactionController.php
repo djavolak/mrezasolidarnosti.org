@@ -3,6 +3,7 @@ namespace Solidarity\Backend\Controller;
 
 use GuzzleHttp\Psr7\UploadedFile;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use Solidarity\Beneficiary\Service\Beneficiary as BeneficiaryService;
 use Solidarity\Delegate\Service\Delegate;
 use Solidarity\Donor\Service\Donor;
 use Solidarity\Mailer\Service\Mailer;
@@ -40,7 +41,8 @@ class TransactionController extends AjaxCrudController
      */
     public function __construct(
         Transaction    $service, Session $session, Config $config, Flash $flash, Engine $template,
-        private Donor  $donor, private Project $project, private Mailer $mailer, private Period $period
+        private Donor  $donor, private Project $project, private Mailer $mailer, private Period $period,
+        private Delegate $delegate, private BeneficiaryService $beneficiaryService
     ) {
         parent::__construct($service, $session, $config, $flash, $template);
         if ($this->getSession()->getStorage()->offsetGet('loggedInRole') !== User::ROLE_ADMIN) {
@@ -216,9 +218,105 @@ class TransactionController extends AjaxCrudController
 
     public function form(): Response
     {
-        $this->formData['projects'] = $this->project->getFilterData();
-        $this->formData['periods'] = $this->period->getFilterData();
+        $periods = $this->period->getEntities(['active' => true]);
+
+        if ($this->getSession()->getStorage()->offsetGet('loggedInEntityType') === 'delegate') {
+            $delegate = $this->delegate->getById($this->getSession()->getStorage()->offsetGet('loggedIn'));
+            $assignedProjects = [];
+            foreach ($delegate->projects as $project) {
+                $assignedProjects[$project->id] = $project->code . ' - ' . $project->name;
+            }
+            $assignedPeriods = [];
+            foreach ($periods as $period) {
+                if (array_key_exists($period->project->id, $assignedProjects)) {
+                    $assignedPeriods[$period->id] = $period->getLabel();
+                }
+            }
+        } else {
+            $assignedProjects = $this->project->getFilterData();
+            $assignedPeriods = [];
+            foreach ($periods as $period) {
+                $assignedPeriods[$period->id] = $period->getLabel();
+            }
+        }
+
+        $periodProjectMap = [];
+        foreach ($periods as $period) {
+            $periodProjectMap[$period->id] = $period->project->id;
+        }
+
+        $this->formData['projects'] = $assignedProjects;
+        $this->formData['periods'] = $assignedPeriods;
+        $this->formData['periodProjectMap'] = $periodProjectMap;
+
         return parent::form();
+    }
+
+    public function getPaymentMethodPreview(): Response
+    {
+        $params = $this->getRequest()->getQueryParams();
+        $donorId = (int) ($params['donorId'] ?? 0);
+        $beneficiaryId = (int) ($params['beneficiaryId'] ?? 0);
+        $projectId = (int) ($params['projectId'] ?? 0);
+        $periodId = (int) ($params['periodId'] ?? 0);
+
+        try {
+            $donor = $this->donor->getById($donorId);
+            $beneficiary = $this->beneficiaryService->getById($beneficiaryId);
+
+            if (!$donor || !$beneficiary) {
+                throw new \Exception('Donor or beneficiary not found.');
+            }
+
+            $result = \Solidarity\Transaction\Factory\TransactionFactory::matchPaymentType($donor, $beneficiary);
+            $result['paymentTypeLabel'] = \Solidarity\Beneficiary\Entity\PaymentMethod::getHrType($result['paymentType']);
+
+            if ($projectId && $periodId) {
+                $project = $this->project->getById($projectId);
+                $periodEntity = $this->period->getById($periodId);
+
+                if ($project && $periodEntity) {
+                    $paymentType = $result['paymentType'];
+
+                    // Donor leftover: pledged (in RSD) minus already donated for this payment type + project
+                    $donorPM = null;
+                    foreach ($donor->getPaymentMethodsForProject($project) as $pm) {
+                        if ($pm->type === $paymentType) {
+                            $donorPM = $pm;
+                            break;
+                        }
+                    }
+                    $donorLeftover = 0;
+                    if ($donorPM) {
+                        $pledgedRsd = $donorPM->type === \Solidarity\Beneficiary\Entity\PaymentMethod::TYPE_BANK_TRANSFER
+                            ? $donorPM->amount
+                            : \Solidarity\Transaction\Entity\Transaction::eurToRsd($donorPM->amount);
+                        $donatedSoFar = $this->service->getPaidSumAmountForDonorPerProject($donor, $project, $paymentType);
+                        $donorLeftover = max(0, $pledgedRsd - $donatedSoFar);
+                    }
+
+                    // Beneficiary leftover: period allocation minus already received
+                    $beneficiaryTotal = $beneficiary->getAmountForPeriod($periodEntity);
+                    $beneficiaryReceived = $this->service->getSumAmountForBeneficiary($beneficiary, $project, $periodEntity);
+                    $beneficiaryLeftover = max(0, $beneficiaryTotal - $beneficiaryReceived);
+
+                    // Per-person limit remaining
+                    $perPersonLeftover = $this->service->getRemainingPerPersonLimit($donor, $beneficiary);
+
+                    $result['donorLeftover'] = $donorLeftover;
+                    $result['beneficiaryLeftover'] = $beneficiaryLeftover;
+                    $result['perPersonLeftover'] = $perPersonLeftover;
+                    $result['maxAmount'] = max(0, min($donorLeftover, $beneficiaryLeftover, $perPersonLeftover));
+                }
+            }
+
+            $this->getResponse()->getBody()->write(json_encode(['success' => true, 'data' => $result]));
+        } catch (\Exception $e) {
+            $this->getResponse()->getBody()->write(json_encode(['success' => false, 'message' => $e->getMessage()]));
+        }
+
+        $this->getResponse()->getBody()->rewind();
+        return $this->getResponse()->withHeader('Content-Type', 'application/json');
     }
 
     public function getEntityData()
