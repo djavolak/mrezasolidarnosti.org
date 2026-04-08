@@ -1,0 +1,304 @@
+<?php
+
+namespace Solidarity\Backend\Action;
+
+use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface as Logger;
+use Laminas\Config\Config;
+use League\Plates\Engine;
+use Skeletor\Core\Action\Web\Html;
+use Solidarity\Beneficiary\Entity\Beneficiary;
+use Solidarity\Delegate\Entity\Delegate;
+use Solidarity\Donor\Entity\Donor;
+use Solidarity\Donor\Entity\PaymentMethod as DonorPaymentMethod;
+use Solidarity\Period\Entity\Period;
+use Solidarity\Transaction\Entity\Transaction;
+use Solidarity\Transaction\Entity\Project;
+
+class Statistics extends Html
+{
+    public function __construct(
+        Logger $logger, Config $config, Engine $template,
+        private EntityManagerInterface $em,
+        \Laminas\Session\ManagerInterface $session,
+    ) {
+        parent::__construct($logger, $config, $template);
+        $storage = $session->getStorage();
+        $this->setGlobalVariable('loggedIn', $storage->offsetGet('loggedIn'));
+        $this->setGlobalVariable('loggedInEmail', $storage->offsetGet('loggedInEmail'));
+        $this->setGlobalVariable('loggedInRole', $storage->offsetGet('loggedInRole'));
+        $this->setGlobalVariable('loggedInEntityType', $storage->offsetGet('loggedInEntityType'));
+    }
+
+    public function __invoke(
+        \Psr\Http\Message\ServerRequestInterface $request,
+        \Psr\Http\Message\ResponseInterface $response
+    ) {
+        $projects = $this->em->getRepository(Project::class)->findAll();
+
+        // Global stats
+        $globalStats = $this->getStats();
+
+        // Per-project stats (with per-period breakdown)
+        $projectStats = [];
+        foreach ($projects as $project) {
+            $periods = $this->em->getRepository(Period::class)->findBy(
+                ['project' => $project],
+                ['year' => 'DESC', 'month' => 'DESC']
+            );
+            $periodStats = [];
+            foreach ($periods as $period) {
+                $periodStats[$period->getId()] = [
+                    'period' => $period,
+                    'stats' => $this->getTransactionStatsByPeriod($project, $period),
+                ];
+            }
+            $projectStats[$project->id] = [
+                'project' => $project,
+                'stats' => $this->getStats($project),
+                'periods' => $periods,
+                'periodStats' => $periodStats,
+            ];
+        }
+
+        return $this->respond('statistics/view', [
+            'globalStats' => $globalStats,
+            'projectStats' => $projectStats,
+            'projects' => $projects,
+            'jsPage' => 'Statistics',
+        ]);
+    }
+
+    private function getStats(?Project $project = null): array
+    {
+        return [
+            'donorCount' => $this->getDonorCount($project),
+            'monthlyDonorCount' => $this->getMonthlyDonorCount($project),
+            'beneficiaryCount' => $this->getBeneficiaryCount($project),
+            'delegateCount' => $this->getDelegateCount($project),
+            'totalPledged' => $this->getTotalPledged($project),
+            'monthlyPledged' => $this->getMonthlyPledged($project),
+            'confirmedAmount' => $this->getTransactionSumByStatus(Transaction::STATUS_CONFIRMED, $project),
+            'confirmedCount' => $this->getTransactionCountByStatus(Transaction::STATUS_CONFIRMED, $project),
+            'paidAmount' => $this->getTransactionSumByStatus(Transaction::STATUS_PAID, $project),
+            'paidCount' => $this->getTransactionCountByStatus(Transaction::STATUS_PAID, $project),
+            'activeAmount' => $this->getTransactionSumByStatus(Transaction::STATUS_NEW, $project),
+            'activeCount' => $this->getTransactionCountByStatus(Transaction::STATUS_NEW, $project),
+            'cancelledAmount' => $this->getTransactionSumByStatus(Transaction::STATUS_CANCELLED, $project),
+            'cancelledCount' => $this->getTransactionCountByStatus(Transaction::STATUS_CANCELLED, $project),
+        ];
+    }
+
+    private function getDonorCount(?Project $project = null): int
+    {
+        $qb = $this->em->createQueryBuilder()
+            ->select('COUNT(DISTINCT d.id)')
+            ->from(Donor::class, 'd')
+            ->where('d.status != :deleted')
+            ->setParameter('deleted', Donor::STATUS_DELETED);
+
+        if ($project) {
+            $qb->innerJoin('d.projects', 'p')
+                ->andWhere('p.id = :projectId')
+                ->setParameter('projectId', $project->id);
+        }
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
+    private function getMonthlyDonorCount(?Project $project = null): int
+    {
+        $qb = $this->em->createQueryBuilder()
+            ->select('COUNT(DISTINCT pm.donor)')
+            ->from(DonorPaymentMethod::class, 'pm')
+            ->innerJoin('pm.donor', 'd')
+            ->where('pm.monthly = 1')
+            ->andWhere('d.status != :deleted')
+            ->setParameter('deleted', Donor::STATUS_DELETED);
+
+        if ($project) {
+            $qb->andWhere('pm.project = :projectId')
+                ->setParameter('projectId', $project->id);
+        }
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
+    private function getBeneficiaryCount(?Project $project = null): int
+    {
+        $qb = $this->em->createQueryBuilder()
+            ->select('COUNT(DISTINCT b.id)')
+            ->from(Beneficiary::class, 'b')
+            ->where('b.status != :deleted')
+            ->setParameter('deleted', Beneficiary::STATUS_DELETED);
+
+        if ($project) {
+            $qb->innerJoin('b.registeredPeriods', 'rp')
+                ->andWhere('rp.project = :projectId')
+                ->setParameter('projectId', $project->id);
+        }
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
+    private function getDelegateCount(?Project $project = null): int
+    {
+        $qb = $this->em->createQueryBuilder()
+            ->select('COUNT(DISTINCT d.id)')
+            ->from(Delegate::class, 'd')
+            ->where('d.status IN (:statuses)')
+            ->setParameter('statuses', [Delegate::STATUS_NEW, Delegate::STATUS_VERIFIED]);
+
+        if ($project) {
+            $qb->innerJoin('d.projects', 'p')
+                ->andWhere('p.id = :projectId')
+                ->setParameter('projectId', $project->id);
+        }
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
+    private function getTotalPledged(?Project $project = null): int
+    {
+        // RSD amounts (bank transfer type = 1)
+        $qbRsd = $this->em->createQueryBuilder()
+            ->select('COALESCE(SUM(pm.amount), 0)')
+            ->from(DonorPaymentMethod::class, 'pm')
+            ->where('pm.type = :bankType')
+            ->setParameter('bankType', DonorPaymentMethod::TYPE_BANK_TRANSFER);
+
+        if ($project) {
+            $qbRsd->andWhere('pm.project = :projectId')
+                ->setParameter('projectId', $project->id);
+        }
+        $rsdTotal = (int) $qbRsd->getQuery()->getSingleScalarResult();
+
+        // EUR amounts (all other types), convert to RSD
+        $qbEur = $this->em->createQueryBuilder()
+            ->select('COALESCE(SUM(pm.amount), 0)')
+            ->from(DonorPaymentMethod::class, 'pm')
+            ->where('pm.type != :bankType')
+            ->setParameter('bankType', DonorPaymentMethod::TYPE_BANK_TRANSFER);
+
+        if ($project) {
+            $qbEur->andWhere('pm.project = :projectId')
+                ->setParameter('projectId', $project->id);
+        }
+        $eurTotal = (int) $qbEur->getQuery()->getSingleScalarResult();
+
+        return $rsdTotal + Transaction::eurToRsd($eurTotal);
+    }
+
+    private function getMonthlyPledged(?Project $project = null): int
+    {
+        // RSD monthly
+        $qbRsd = $this->em->createQueryBuilder()
+            ->select('COALESCE(SUM(pm.amount), 0)')
+            ->from(DonorPaymentMethod::class, 'pm')
+            ->where('pm.type = :bankType')
+            ->andWhere('pm.monthly = 1')
+            ->setParameter('bankType', DonorPaymentMethod::TYPE_BANK_TRANSFER);
+
+        if ($project) {
+            $qbRsd->andWhere('pm.project = :projectId')
+                ->setParameter('projectId', $project->id);
+        }
+        $rsdTotal = (int) $qbRsd->getQuery()->getSingleScalarResult();
+
+        // EUR monthly
+        $qbEur = $this->em->createQueryBuilder()
+            ->select('COALESCE(SUM(pm.amount), 0)')
+            ->from(DonorPaymentMethod::class, 'pm')
+            ->where('pm.type != :bankType')
+            ->andWhere('pm.monthly = 1')
+            ->setParameter('bankType', DonorPaymentMethod::TYPE_BANK_TRANSFER);
+
+        if ($project) {
+            $qbEur->andWhere('pm.project = :projectId')
+                ->setParameter('projectId', $project->id);
+        }
+        $eurTotal = (int) $qbEur->getQuery()->getSingleScalarResult();
+
+        return $rsdTotal + Transaction::eurToRsd($eurTotal);
+    }
+
+    private function getTransactionSumByStatus(int $status, ?Project $project = null): int
+    {
+        $qb = $this->em->createQueryBuilder()
+            ->select('COALESCE(SUM(t.amount), 0)')
+            ->from(Transaction::class, 't')
+            ->where('t.status = :status')
+            ->setParameter('status', $status);
+
+        if ($project) {
+            $qb->andWhere('t.project = :projectId')
+                ->setParameter('projectId', $project->id);
+        }
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
+    private function getTransactionCountByStatus(int $status, ?Project $project = null): int
+    {
+        $qb = $this->em->createQueryBuilder()
+            ->select('COUNT(t.id)')
+            ->from(Transaction::class, 't')
+            ->where('t.status = :status')
+            ->setParameter('status', $status);
+
+        if ($project) {
+            $qb->andWhere('t.project = :projectId')
+                ->setParameter('projectId', $project->id);
+        }
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
+    private function getTransactionStatsByPeriod(Project $project, Period $period): array
+    {
+        $statuses = [
+            'confirmed' => Transaction::STATUS_CONFIRMED,
+            'paid' => Transaction::STATUS_PAID,
+            'active' => Transaction::STATUS_NEW,
+            'cancelled' => Transaction::STATUS_CANCELLED,
+        ];
+
+        $result = [];
+        foreach ($statuses as $key => $status) {
+            $qbSum = $this->em->createQueryBuilder()
+                ->select('COALESCE(SUM(t.amount), 0)')
+                ->from(Transaction::class, 't')
+                ->where('t.status = :status')
+                ->andWhere('t.project = :projectId')
+                ->andWhere('t.period = :periodId')
+                ->setParameter('status', $status)
+                ->setParameter('projectId', $project->id)
+                ->setParameter('periodId', $period->getId());
+
+            $qbCount = $this->em->createQueryBuilder()
+                ->select('COUNT(t.id)')
+                ->from(Transaction::class, 't')
+                ->where('t.status = :status')
+                ->andWhere('t.project = :projectId')
+                ->andWhere('t.period = :periodId')
+                ->setParameter('status', $status)
+                ->setParameter('projectId', $project->id)
+                ->setParameter('periodId', $period->getId());
+
+            $result[$key . 'Amount'] = (int) $qbSum->getQuery()->getSingleScalarResult();
+            $result[$key . 'Count'] = (int) $qbCount->getQuery()->getSingleScalarResult();
+        }
+
+        // Beneficiary count for this period
+        $qbBen = $this->em->createQueryBuilder()
+            ->select('COUNT(DISTINCT rp.beneficiary)')
+            ->from(\Solidarity\Beneficiary\Entity\RegisteredPeriods::class, 'rp')
+            ->where('rp.project = :projectId')
+            ->andWhere('rp.period = :periodId')
+            ->setParameter('projectId', $project->id)
+            ->setParameter('periodId', $period->getId());
+        $result['beneficiaryCount'] = (int) $qbBen->getQuery()->getSingleScalarResult();
+
+        return $result;
+    }
+}

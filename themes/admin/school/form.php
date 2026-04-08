@@ -18,15 +18,16 @@ use Skeletor\Form\TabbedForm;
 $form = new TabbedForm($data['formAction'], $data['dataAction'], $this->formTokenArray());
 
 $action = $data['dataAction'] === 'create' ? 'Create' : 'Edit';
+$readOnly = $data['readOnly'] ?? false;
 
 $statuses = \Solidarity\Delegate\Entity\Delegate::getHrStatuses();
 $formLinkSent = [1 => 'Yes', 0 => 'No'];
 $cityCollection = (new OptionCollection())->fromArray($data['cities'], $data['model']?->city->id);
-$citySelect = (new Select('city', $cityCollection, 'City'));
+$citySelect = (new Select(name: 'city', optionsCollection: $cityCollection, label: 'City', readOnly: $readOnly));
 $typeCollection = (new OptionCollection())->fromArray($data['types'], $data['model']?->type->id);
-$typeSelect = (new Select('schoolType', $typeCollection, 'School type'));
+$typeSelect = (new Select(name: 'schoolType', optionsCollection: $typeCollection, label: 'School type', readOnly: $readOnly));
 
-$name = (new Text('name', $data['model']?->name, 'Name'));
+$name = (new Text(name: 'name', value: $data['model']?->name, label: 'Name', readOnly: $readOnly));
 
 $inputGroup1 = (new InputGroup())
     ->addInput($name);
@@ -42,5 +43,13 @@ $form->addTab((new Tab('Basic Info'))
 );
 
 $formRenderer = new TabbedFormRenderer($form, $data['formTitle']);
+
+if ($data['dataAction'] === 'update' && !empty($data['schoolStats'])) {
+    $statsTab = (new Tab('Statistika'))
+        ->addInputGroup((new InputGroup(width: InputGroupWidth::FULL_WIDTH)));
+    $statsHTML = $this->fetch('/school/statisticsInForm', ['schoolStats' => $data['schoolStats']]);
+    $formRenderer->setAdditionalTabContent($statsTab, $statsHTML);
+    $form->addTab($statsTab);
+}
 ?>
 <?= $formRenderer->render() ?>

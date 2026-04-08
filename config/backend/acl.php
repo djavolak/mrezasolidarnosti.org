@@ -28,6 +28,7 @@ $level2 = [
     '/transaction/view/*',
     '/transaction/tableHandler/*',
     '/transaction/form/*',
+    '/statistics',
     '/school/*',
     '/school/*',
     '/schoolType/*',
@@ -58,6 +59,9 @@ $level1 = [
 $delegate = [
     '/delegate/view/*',
     '/delegate/update/*',
+    '/school/view/*',
+    '/school/tableHandler/*',
+    '/school/form/*',
     '/login/logout/',
 ];
 

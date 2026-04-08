@@ -12,6 +12,7 @@ use Laminas\Session\SessionManager as Session;
 use League\Plates\Engine;
 use Solidarity\School\Service\School;
 use Solidarity\Transaction\Service\Project;
+use Solidarity\Transaction\Service\Transaction;
 use Tamtamchik\SimpleFlash\Flash;
 
 class BeneficiaryController extends AjaxCrudController
@@ -33,7 +34,8 @@ class BeneficiaryController extends AjaxCrudController
      */
     public function __construct(
         Beneficiary $service, Session $session, Config $config, Flash $flash, Engine $template, private School $school,
-        private \Redis $redis, private Period $period, private Project $project, private Delegate $delegate
+        private \Redis $redis, private Period $period, private Project $project, private Delegate $delegate,
+        private Transaction $transaction
     ) {
         parent::__construct($service, $session, $config, $flash, $template);
     }
@@ -91,6 +93,17 @@ class BeneficiaryController extends AjaxCrudController
         }
         $this->formData['paymentMethods'] = $paymentMethods;
 
+        // Calculate confirmed amounts per registered period
+        $confirmedAmounts = [];
+        if ($model && $model->registeredPeriods) {
+            foreach ($model->registeredPeriods as $rp) {
+                $key = $rp->project->getId() . '_' . $rp->period->getId();
+                $confirmedAmounts[$key] = $this->transaction->getSumAmountForBeneficiary(
+                    $model, $rp->project, $rp->period
+                );
+            }
+        }
+        $this->formData['confirmedAmounts'] = $confirmedAmounts;
 
         return parent::form();
     }

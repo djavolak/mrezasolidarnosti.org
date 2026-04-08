@@ -52,6 +52,7 @@ return [
         'transaction.delete' => [User::ROLE_ADMIN],
 
         // School/City permissions
+        'school.view' => [User::ROLE_ADMIN, User::ROLE_STUFF, 10],
         'school.manage' => [User::ROLE_ADMIN],
         'schoolType.manage' => [User::ROLE_ADMIN],
         'project.manage' => [User::ROLE_ADMIN],
@@ -68,6 +69,7 @@ return [
         'translator.manage' => [User::ROLE_ADMIN],
         'activity.view' => [User::ROLE_ADMIN],
         'createTransactions' => [User::ROLE_ADMIN],
+        'statistics.view' => [User::ROLE_ADMIN, User::ROLE_STUFF],
     ],
 
     // Route to permission mappings
@@ -126,6 +128,10 @@ return [
         '/transaction/delete/*' => 'transaction.delete',
 
         // School/City routes
+        '/school/view/' => 'school.view',
+        '/school/view/*' => 'school.view',
+        '/school/tableHandler/' => 'school.view',
+        '/school/form/*' => 'school.view',
         '/school/*' => 'school.manage',
         '/period/*' => 'period.manage',
         '/schoolType/*' => 'schoolType.manage',
@@ -141,6 +147,7 @@ return [
         '/translator/*' => 'translator.manage',
         '/activity/*' => 'activity.view',
         '/createTransactions' => 'createTransactions',
+        '/statistics' => 'statistics.view',
     ],
 
     // Role hierarchy (roles inherit permissions from other roles)
