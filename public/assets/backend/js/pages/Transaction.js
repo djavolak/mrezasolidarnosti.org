@@ -7,6 +7,9 @@ export default class Educator extends CrudPage {
     #data;
     #formTabs;
     #formAction;
+    #projectPeriodFilterCleanup = null;
+    #paymentMethodPreviewCleanup = null;
+
     constructor() {
         super();
         this.dataTableOptions = {
@@ -19,6 +22,147 @@ export default class Educator extends CrudPage {
             editModalWidth: '70%',
             editModalHeight: '70%'
         }
+    }
+
+    onFormReady(data) {
+        this.#initProjectPeriodFilter();
+        this.#initPaymentMethodPreview();
+    }
+
+    onModalBeforeClose() {
+        if (this.#projectPeriodFilterCleanup) {
+            this.#projectPeriodFilterCleanup();
+            this.#projectPeriodFilterCleanup = null;
+        }
+        if (this.#paymentMethodPreviewCleanup) {
+            this.#paymentMethodPreviewCleanup();
+            this.#paymentMethodPreviewCleanup = null;
+        }
+    }
+
+    #initProjectPeriodFilter() {
+        const mapEl = document.getElementById('transactionPeriodMap');
+        if (!mapEl) return;
+
+        const periodProjectMap = JSON.parse(mapEl.textContent);
+        const context = mapEl.parentElement;
+        const projectSelect = context.querySelector('[name="project"]');
+        const periodSelect = context.querySelector('[name="period"]');
+        if (!projectSelect || !periodSelect) return;
+
+        periodSelect.querySelectorAll('option').forEach(option => {
+            const projectId = periodProjectMap[option.value];
+            if (projectId !== undefined) {
+                option.setAttribute('data-project-id', projectId);
+            }
+        });
+
+        const filterPeriods = () => {
+            const selectedProject = projectSelect.value;
+            periodSelect.querySelectorAll('option').forEach(option => {
+                const projectId = option.getAttribute('data-project-id');
+                if (!projectId || String(projectId) === String(selectedProject)) {
+                    option.style.display = '';
+                    option.disabled = false;
+                } else {
+                    option.style.display = 'none';
+                    option.disabled = true;
+                }
+            });
+            const selected = periodSelect.querySelector(`option[value="${periodSelect.value}"]`);
+            if (selected && selected.style.display === 'none') {
+                periodSelect.value = '';
+            }
+        };
+
+        projectSelect.addEventListener('change', filterPeriods);
+        if (projectSelect.value) filterPeriods();
+
+        this.#projectPeriodFilterCleanup = () => {
+            projectSelect.removeEventListener('change', filterPeriods);
+        };
+    }
+
+    #initPaymentMethodPreview() {
+        const mapEl = document.getElementById('transactionPeriodMap');
+        const context = mapEl ? mapEl.parentElement : document;
+        const donorInput = context.querySelector('[name="donor"]');
+        const beneficiaryInput = context.querySelector('[name="beneficiary"]');
+        const projectSelect = context.querySelector('[name="project"]');
+        const periodSelect = context.querySelector('[name="period"]');
+        const previewEl = document.getElementById('paymentMethodPreview');
+        if (!donorInput || !beneficiaryInput || !previewEl) return;
+
+        // The preview div is rendered outside the <form> tag — move it inside, before the submit button
+        const submitBtn = context.querySelector('[type="submit"]');
+        if (submitBtn) {
+            submitBtn.before(previewEl);
+        }
+
+        const fetchPreview = async () => {
+            const donorId = donorInput.value;
+            const beneficiaryId = beneficiaryInput.value;
+            const projectId = projectSelect ? projectSelect.value : '';
+            const periodId = periodSelect ? periodSelect.value : '';
+            if (!donorId || !beneficiaryId) {
+                previewEl.innerHTML = '';
+                return;
+            }
+            try {
+                let url = `/transaction/getPaymentMethodPreview/?donorId=${donorId}&beneficiaryId=${beneficiaryId}`;
+                if (projectId && periodId) {
+                    url += `&projectId=${projectId}&periodId=${periodId}`;
+                }
+                const res = await fetch(url);
+                if (!res.ok) {
+                    previewEl.innerHTML = `<div class="paymentMethodPreviewBox error">Greška servera (${res.status}).</div>`;
+                    return;
+                }
+                const data = await res.json();
+                if (data.success) {
+                    const detail = data.data.accountNumber || data.data.instructions || '—';
+                    let html = `<div class="paymentMethodPreviewBox">
+                        <strong>Način plaćanja:</strong> ${data.data.paymentTypeLabel}<br>
+                        <strong>Detalji:</strong> ${detail}`;
+                    if (data.data.maxAmount !== undefined) {
+                        html += `<br><strong>Dozvoljeni iznos:</strong> 0 - ${data.data.maxAmount.toLocaleString('sr-RS')} RSD`;
+                    }
+                    html += `</div>`;
+                    previewEl.innerHTML = html;
+                } else {
+                    previewEl.innerHTML = `<div class="paymentMethodPreviewBox error">${data.message}</div>`;
+                }
+            } catch (e) {
+                previewEl.innerHTML = `<div class="paymentMethodPreviewBox error">Greška pri učitavanju načina plaćanja.</div>`;
+            }
+        };
+
+        // Poll for value changes — AjaxInputSearch sets the hidden input value
+        // programmatically so a plain change listener is not enough
+        let prevState = `${donorInput.value}|${beneficiaryInput.value}|${projectSelect?.value}|${periodSelect?.value}`;
+        const pollInterval = setInterval(() => {
+            const state = `${donorInput.value}|${beneficiaryInput.value}|${projectSelect?.value}|${periodSelect?.value}`;
+            if (state !== prevState) {
+                prevState = state;
+                fetchPreview();
+            }
+        }, 300);
+
+        // change event is still dispatched by AjaxInputSearch on clear — keep as extra trigger
+        donorInput.addEventListener('change', fetchPreview);
+        beneficiaryInput.addEventListener('change', fetchPreview);
+        if (projectSelect) projectSelect.addEventListener('change', fetchPreview);
+        if (periodSelect) periodSelect.addEventListener('change', fetchPreview);
+
+        if (donorInput.value && beneficiaryInput.value) fetchPreview();
+
+        this.#paymentMethodPreviewCleanup = () => {
+            clearInterval(pollInterval);
+            donorInput.removeEventListener('change', fetchPreview);
+            beneficiaryInput.removeEventListener('change', fetchPreview);
+            if (projectSelect) projectSelect.removeEventListener('change', fetchPreview);
+            if (periodSelect) periodSelect.removeEventListener('change', fetchPreview);
+        };
     }
 
     preload() {

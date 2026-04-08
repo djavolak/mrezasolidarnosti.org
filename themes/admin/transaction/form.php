@@ -91,4 +91,6 @@ $form->addTab((new Tab('Basic Info'))
 
 $formRenderer = new TabbedFormRenderer($form, $data['formTitle']);
 ?>
+<script type="application/json" id="transactionPeriodMap"><?= json_encode($data['periodProjectMap']) ?></script>
 <?= $formRenderer->render() ?>
+<div id="paymentMethodPreview"></div>

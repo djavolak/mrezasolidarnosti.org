@@ -121,6 +121,8 @@ return [
         '/transaction/updateStatus/*' => 'transaction.edit',
         '/transaction/update/*' => 'transaction.edit',
         '/transaction/updateStatusBulk*' => 'transaction.edit',
+        '/transaction/getPaymentMethodPreview/' => 'transaction.create',
+        '/transaction/getEntityData/*' => 'transaction.view',
         '/transaction/delete/*' => 'transaction.delete',
 
         // School/City routes

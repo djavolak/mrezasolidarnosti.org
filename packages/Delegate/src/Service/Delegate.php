@@ -114,7 +114,8 @@ class Delegate extends TableView
                 ],
                 'name' => $delegate->name .' ('. implode(', ', $projects) . ')',
                 'p.id' => implode(', ', $projects),
-                'school' => implode(',<br /> ', array_map(fn($s) => $s->name, $delegate->schools->toArray())),
+                's.id' => implode(',<br /> ', array_map(fn($s) => $s->name, $delegate->schools->toArray())),
+                // todo add city after school name
                 'schoolType' => implode(', ', array_unique(array_filter(array_map(fn($s) => $s->type?->name, $delegate->schools->toArray())))),
                 'phone' => $delegate->phone,
                 'status' => \Solidarity\Delegate\Entity\Delegate::getHrStatus($delegate->status),
@@ -138,7 +139,7 @@ class Delegate extends TableView
             ['name' => 'p.id', 'label' => 'Projekat', 'filterData' => $this->project->getFilterData()],
             ['name' => 'status', 'label' => 'Status', 'filterData' => \Solidarity\Delegate\Entity\Delegate::getHrStatuses()],
             ['name' => 'schoolType', 'label' => 'Tip škole', 'filterData' => $this->schoolType->getFilterData()],
-            ['name' => 'school', 'label' => 'Škola', 'filterData' => $this->school->getFilterData()],
+            ['name' => 's.id', 'label' => 'Škola', 'filterData' => $this->school->getFilterData()],
 //            ['name' => 'city', 'label' => 'City'],
 //            ['name' => 'updatedAt', 'label' => 'Updated at', 'priority' => 8],
             ['name' => 'createdAt', 'label' => 'Registrovan', 'priority' => 9],
