@@ -78,7 +78,7 @@ $registeredProjectsTab = (new Tab('Registrovani Projekti'))
     ->addInputGroup((new InputGroup(width: InputGroupWidth::FULL_WIDTH)));
 
 $registeredPeriodsHTML = $this->fetch('/beneficiary/registeredProjectsInForm',
-    ['projects' => $data['assignedProjects'], 'periods' => $data['assignedPeriods'], 'existingRegisteredPeriods' => $existingRegisteredPeriods]
+    ['projects' => $data['assignedProjects'], 'periods' => $data['assignedPeriods'], 'existingRegisteredPeriods' => $existingRegisteredPeriods, 'confirmedAmounts' => $data['confirmedAmounts'] ?? []]
 );
 $formRenderer->setAdditionalTabContent($registeredProjectsTab, $registeredPeriodsHTML);
 $form->addTab($registeredProjectsTab);

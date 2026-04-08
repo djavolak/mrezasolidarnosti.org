@@ -25,6 +25,14 @@
                     <label>Amount</label>
                     <input class="input registeredAmountInput" type="number" value="<?=$registeredPeriod['amount']?>">
                 </div>
+                <?php
+                    $confirmed = $confirmedAmounts[$registeredPeriod['project'] . '_' . $registeredPeriod['period']] ?? 0;
+                    $pct = $registeredPeriod['amount'] > 0 ? round($confirmed / $registeredPeriod['amount'] * 100) : 0;
+                ?>
+                <div class="inputContainer">
+                    <label>Potvrđeni iznos (<?= $pct ?>%)</label>
+                    <input class="input" type="text" readonly value="<?= $confirmed ?> RSD">
+                </div>
                 <button class="deleteRegisteredPeriod btn red">Delete</button>
             </div>
         <?php endforeach;?>

@@ -1,14 +1,19 @@
 <?php
 namespace Solidarity\Backend\Controller;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Skeletor\Core\Controller\AjaxCrudController;
 use GuzzleHttp\Psr7\Response;
 use Laminas\Config\Config;
 use Laminas\Session\SessionManager as Session;
 use League\Plates\Engine;
+use Solidarity\Beneficiary\Entity\Beneficiary;
+use Solidarity\Beneficiary\Entity\RegisteredPeriods;
+use Solidarity\Delegate\Service\Delegate;
 use Solidarity\School\Service\City;
 use Solidarity\School\Service\School;
 use Solidarity\School\Service\SchoolType;
+use Solidarity\Transaction\Entity\Transaction;
 use Tamtamchik\SimpleFlash\Flash;
 
 class SchoolController extends AjaxCrudController
@@ -30,9 +35,29 @@ class SchoolController extends AjaxCrudController
      */
     public function __construct(
         School $service, Session $session, Config $config, Flash $flash, Engine $template, private City $city,
-        private SchoolType $schoolType
+        private SchoolType $schoolType, private EntityManagerInterface $em, private Delegate $delegate
     ) {
         parent::__construct($service, $session, $config, $flash, $template);
+
+        if ($this->getSession()->getStorage()->offsetGet('loggedInEntityType') === 'delegate') {
+            $this->tableViewConfig['createButton'] = false;
+        }
+    }
+
+    private function isDelegateSession(): bool
+    {
+        return $this->getSession()->getStorage()->offsetGet('loggedInEntityType') === 'delegate';
+    }
+
+    private function getDelegateSchoolIds(): array
+    {
+        $delegateId = $this->getSession()->getStorage()->offsetGet('loggedIn');
+        $delegate = $this->delegate->getById($delegateId);
+        $ids = [];
+        foreach ($delegate->schools as $school) {
+            $ids[] = $school->id;
+        }
+        return $ids;
     }
 
     public function form(): Response
@@ -40,7 +65,116 @@ class SchoolController extends AjaxCrudController
         $this->formData['cities'] = $this->city->getFilterData();
         $this->formData['types'] = $this->schoolType->getFilterData();
 
+        $id = $this->getRequest()->getAttribute('id');
+
+        // Delegates can only view their own schools
+        if ($this->isDelegateSession() && $id) {
+            $allowedIds = $this->getDelegateSchoolIds();
+            if (!in_array((int) $id, $allowedIds)) {
+                return $this->redirect('/school/view/');
+            }
+        }
+
+        $this->formData['readOnly'] = $this->isDelegateSession();
+
+        $schoolStats = [];
+        if ($id) {
+            $schoolStats = $this->getSchoolStatsByPeriod((int) $id);
+        }
+        $this->formData['schoolStats'] = $schoolStats;
+
         return parent::form();
+    }
+
+    public function tableHandler()
+    {
+        if ($this->isDelegateSession()) {
+            $this->uncountableFilters['delegate'] = $this->getSession()->getStorage()->offsetGet('loggedIn');
+        }
+        return parent::tableHandler();
+    }
+
+    private function getSchoolStatsByPeriod(int $schoolId): array
+    {
+        // Get all periods that have beneficiaries from this school
+        $periods = $this->em->createQueryBuilder()
+            ->select('DISTINCT IDENTITY(rp.period) as periodId')
+            ->from(RegisteredPeriods::class, 'rp')
+            ->innerJoin('rp.beneficiary', 'b')
+            ->where('b.school = :schoolId')
+            ->andWhere('b.status != :deleted')
+            ->setParameter('schoolId', $schoolId)
+            ->setParameter('deleted', Beneficiary::STATUS_DELETED)
+            ->getQuery()->getArrayResult();
+
+        $periodIds = array_column($periods, 'periodId');
+        if (empty($periodIds)) {
+            return [];
+        }
+
+        $periodEntities = $this->em->getRepository(\Solidarity\Period\Entity\Period::class)
+            ->findBy(['id' => $periodIds], ['year' => 'DESC', 'month' => 'DESC']);
+
+        $stats = [];
+        foreach ($periodEntities as $period) {
+            // Beneficiary count
+            $benCount = (int) $this->em->createQueryBuilder()
+                ->select('COUNT(DISTINCT rp.beneficiary)')
+                ->from(RegisteredPeriods::class, 'rp')
+                ->innerJoin('rp.beneficiary', 'b')
+                ->where('b.school = :schoolId')
+                ->andWhere('rp.period = :periodId')
+                ->andWhere('b.status != :deleted')
+                ->setParameter('schoolId', $schoolId)
+                ->setParameter('periodId', $period->getId())
+                ->setParameter('deleted', Beneficiary::STATUS_DELETED)
+                ->getQuery()->getSingleScalarResult();
+
+            // Total requested amount
+            $requestedAmount = (int) $this->em->createQueryBuilder()
+                ->select('COALESCE(SUM(rp.amount), 0)')
+                ->from(RegisteredPeriods::class, 'rp')
+                ->innerJoin('rp.beneficiary', 'b')
+                ->where('b.school = :schoolId')
+                ->andWhere('rp.period = :periodId')
+                ->andWhere('b.status != :deleted')
+                ->setParameter('schoolId', $schoolId)
+                ->setParameter('periodId', $period->getId())
+                ->setParameter('deleted', Beneficiary::STATUS_DELETED)
+                ->getQuery()->getSingleScalarResult();
+
+            // Transaction stats by status
+            $trxStats = [];
+            $statusMap = [
+                'confirmed' => Transaction::STATUS_CONFIRMED,
+                'paid' => Transaction::STATUS_PAID,
+                'active' => Transaction::STATUS_NEW,
+                'cancelled' => Transaction::STATUS_CANCELLED,
+            ];
+            foreach ($statusMap as $key => $status) {
+                $qb = $this->em->createQueryBuilder()
+                    ->select('COALESCE(SUM(t.amount), 0) as total, COUNT(t.id) as cnt')
+                    ->from(Transaction::class, 't')
+                    ->innerJoin('t.beneficiary', 'b')
+                    ->where('b.school = :schoolId')
+                    ->andWhere('t.period = :periodId')
+                    ->andWhere('t.status = :status')
+                    ->setParameter('schoolId', $schoolId)
+                    ->setParameter('periodId', $period->getId())
+                    ->setParameter('status', $status);
+                $row = $qb->getQuery()->getSingleResult();
+                $trxStats[$key . 'Amount'] = (int) $row['total'];
+                $trxStats[$key . 'Count'] = (int) $row['cnt'];
+            }
+
+            $stats[] = [
+                'period' => $period,
+                'beneficiaryCount' => $benCount,
+                'requestedAmount' => $requestedAmount,
+            ] + $trxStats;
+        }
+
+        return $stats;
     }
 
     public function import()
