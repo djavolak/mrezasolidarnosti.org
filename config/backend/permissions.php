@@ -79,6 +79,13 @@ return [
         'file.edit' => [User::ROLE_ADMIN],
         'file.delete' => [User::ROLE_ADMIN],
 
+        // Theme settings permissions
+        'theme.all' => [User::ROLE_ADMIN],
+
+        // Navigation settings permissions
+        'navigation.all' => [User::ROLE_ADMIN],
+
+
         // Import permissions
         'import.educator' => [User::ROLE_ADMIN],
         'import.transaction' => [User::ROLE_ADMIN],
@@ -187,6 +194,12 @@ return [
         '/file/form/*' => 'page.edit',
         '/file/update/*' => 'page.edit',
         '/file/delete/*' => 'page.delete',
+
+        // Theme settings routes
+        '/theme/*' => 'theme.all',
+
+        // Navigation settings routes
+        '/navigation/*' => 'navigation.all',
 
         // Import routes
         '/educatorImport/*' => 'import.educator',

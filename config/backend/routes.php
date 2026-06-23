@@ -19,6 +19,8 @@
 
 use Skeletor\File\Controller\FileController;
 use Skeletor\Image\Controller\ImageController;
+use Skeletor\ThemeSettings\Controller\ThemeSettingsController;
+use Skeletor\ThemeSettings\Navigation\Controller\NavigationController;
 use Solidarity\Backend\Controller\PageController;
 
 return [
@@ -30,6 +32,8 @@ return [
     [['GET', 'POST'], '/login/user/{action}[/{token}]', \Skeletor\Login\Controller\LoginController::class],
     [['GET', 'POST'], '/login/delegate/{action}[/{token}]', \Solidarity\Backend\Controller\DelegateLoginController::class],
     [['GET', 'POST'], '/image/{action}[/{id}]', \Skeletor\Image\Controller\ImageController::class],
+    [['GET', 'POST'], '/theme/{action}', ThemeSettingsController::class],
+    [['POST', 'GET'], '/navigation/{action}[/{id}/]', NavigationController::class],
     [['GET', 'POST'], '/file/{action}[/{id}/]', FileController::class],
     [['GET', 'POST'], '/user/{action}[/{id}]', \Solidarity\Backend\Controller\UserController::class],
     [['GET', 'POST'], '/donor/{action}[/{id}]', \Solidarity\Backend\Controller\DonorController::class],
