@@ -2,6 +2,7 @@
   order: 2;
   display: flex;
   padding: 0 1rem;
+  margin-top: 2rem;
 }
 #themeSettingsContainer #themeSettingsNavigation {
   background: var(--colorSurface-200);
@@ -132,6 +133,17 @@
 }
 #socialLinks .socialLink.tumblr svg {
   width: 10px;
+}
+#socialLinks .socialLinkContainer {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: space-between;
+}
+#socialLinks .socialLinkContainer label {
+  color: var(--colorSurface-600);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 #selectedServices {
@@ -309,13 +321,3 @@ form:has(.selectedService) .fullWidth:has(#totalWithoutVAT) .inputContainer {
 }
 
 /*# sourceMappingURL=style.css.map */
-
-#crudTable td a {
-  text-decoration: underline;
-  color: var(--colorPrimary-500);
-}
-
-
-#paymentMethodPreview {
-  color:white;
-}

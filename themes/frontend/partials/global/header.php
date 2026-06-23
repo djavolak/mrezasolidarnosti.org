@@ -18,12 +18,12 @@
         </div>
         <nav>
             <ul>
-                <li><a href="" title="Šta je Mreža">Šta je Mreža</a></li>
-                <li><a href="" title="Kako Mreža funkcioniše">Kako Mreža funkcioniše</a></li>
-                <li><a href="" title="Kako do pomoći">Kako do pomoći</a></li>
-                <li><a href="" title="FAQ">FAQ</a></li>
-                <li><a href="" title="Kontakt">Kontakt</a></li>
-                <li><a href="" title="Blog/Vesti">Blog/Vesti</a></li>
+                <?php if(isset($mainNavigation) && $mainNavigation):?>
+                    <?php foreach($mainNavigation->getItemsFormatted() as $item):?>
+                        <li><a href="<?=htmlentities($item['url'] ?? '')?>" title="<?=htmlentities($item['label'] ?? '')
+                                ?>"><?=htmlentities($item['label'] ?? '')?></a></li>
+                    <?php endforeach;?>
+                <?php endif; ?>
             </ul>
         </nav>
         <div id="headerActions">

@@ -85,6 +85,9 @@ return [
         // Navigation settings permissions
         'navigation.all' => [User::ROLE_ADMIN],
 
+        // Social settings permissions
+        'social.all' => [User::ROLE_ADMIN],
+
 
         // Import permissions
         'import.educator' => [User::ROLE_ADMIN],
@@ -200,6 +203,9 @@ return [
 
         // Navigation settings routes
         '/navigation/*' => 'navigation.all',
+
+        // Social routes
+        '/social/*' => 'social.all',
 
         // Import routes
         '/educatorImport/*' => 'import.educator',

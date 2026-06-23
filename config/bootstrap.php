@@ -11,6 +11,8 @@ use Laminas\Config\Config;
 use Skeletor\Core\Mailer\Service\MailerInterface;
 use Skeletor\Core\Security\Authorization\AuthorizationService;
 use Skeletor\Core\Security\EntityRegistry;
+use Symfony\Component\Cache\Adapter\RedisAdapter;
+use Symfony\Component\Cache\Adapter\TagAwareAdapter;
 use Tamtamchik\SimpleFlash\Flash;
 use Skeletor\Core\Acl\Acl;
 use \League\Flysystem\Filesystem;
@@ -267,6 +269,17 @@ if (getenv('APPLICATION') === 'backend') {
         return $container->get(\Skeletor\Login\Validator\ResetPasswordLoose::class);
     });
 }
+$container->set(TagAwareAdapter::class, function() use ($container) {
+    $config = $container->get(Config::class);
+
+    //@TODO add failover
+    $dsn = "redis://" . array_key_first($config->redis->hosts->toArray()) . $config->redis->hosts[0];
+    $redisClient = RedisAdapter::createConnection($dsn);
+    $redisAdapter = new RedisAdapter($redisClient);
+    $cache = new TagAwareAdapter($redisAdapter);
+
+    return $cache;
+});
 
 $container->set(EntityManagerInterface::class, function() use ($container) {
     $config = ORMSetup::createAttributeMetadataConfiguration(
