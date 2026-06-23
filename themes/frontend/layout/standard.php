@@ -45,46 +45,19 @@
 <!--	<link rel="icon" href="/assets/img/favicon.ico" sizes="any">-->
 <!--	<link rel="apple-touch-icon" href="/assets/img/favicon.png">-->
 
-    <link rel="stylesheet" href="/assets/dist/css/main.css?v=1">
+    <link rel="stylesheet" href="<?=FRONT_ASSET_URL?>/css/style.css?v=0.0.1">
 </head>
-<body class="bg-[#EFEFEF]">
-<div id="mainContainer">
-	<header id="it-page-header" role="banner">
-		<div id="it-page-header-inner" class="">
-			<a class="it-header-logo-link" href="https://mrezasolidarnosti.org/" rel="home">
-				<img src="/assets/img/logo.webp" alt="Mreža Solidarnosti - IT Srbija">
-			</a>
-			<nav class="it-header-navigation" role="navigation" aria-label="Top Menu">
-				<ul class="it-menu">
-					<li class="it-menu-item">
-						<a class="it-menu-item-link" href="https://mrezasolidarnosti.org/">
-							<span class="it-menu-item-text">Mreža Solidarnosti</span>
-						</a>
-					</li>
-					<li class="menu-item">
-						<a href="https://mrezasolidarnosti.org/obrazacDonatori">
-							<span class="it-menu-item-text">Postani donator</span>
-						</a>
-					</li>
-				</ul>
-			</nav>
-		</div>
-	</header>
-    <!-- output flash messages -->
-    <?php if (isset($messages)) { //@todo remove this, but keep if not ajax?
-        echo '<div class="messagesContainer withPadding">';
-        echo $messages;
-        echo '</div>';
-    } ?>
+<body>
+<?=$this->section('header', $this->fetch('partialsGlobal::header'))?>
+
+<main>
     <?=$this->section('content')?>
-</div>
+</main>
 
-<!--  Include 3rd party scripts -->
-<script src="assets/dist/js/plugins/jquery.min.js"></script>
+<?=$this->section('footer', $this->fetch('partialsGlobal::footer'))?>
 
-<!--  Include project scripts -->
-<!--<script src="assets/dist/js/main.js"></script>-->
-<script src="assets/dist/js/main.js?v=1"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script type="module" src="<?=FRONT_ASSET_URL?>/js/global.js?v=0.0.1"></script>
 <?php if (isset($jsPath) && $jsPath != ""): ?>
     <script src="<?=$jsPath?>" type="module"></script>
 <?php endif; ?>

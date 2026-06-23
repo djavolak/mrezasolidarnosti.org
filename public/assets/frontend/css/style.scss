@@ -1,0 +1,33 @@
+@use "setup/reset";
+@use 'setup/colors';
+@use 'setup/spacing';
+@use 'setup/typography';
+@use 'setup/buttons';
+@use 'setup/base';
+
+@use 'header';
+@use 'footer';
+
+@use 'components/languageSwitcher';
+@use 'components/faq';
+@use 'components/testimonials';
+@use 'components/textHero';
+@use 'components/projectsDisplay';
+@use 'components/banner';
+@use 'components/contactCards';
+@use 'components/lineGrid';
+@use 'components/form';
+
+@use 'sections/howItWorks';
+@use 'sections/whyWeAreDifferent';
+@use 'sections/connect';
+@use 'sections/find';
+@use 'sections/direction';
+@use 'sections/hero';
+
+
+@use 'pages/whatIs';
+@use 'pages/howItWorksPage';
+@use 'pages/legal';
+@use 'pages/profile';
+@use 'pages/profileData';

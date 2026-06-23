@@ -1,0 +1,61 @@
+@use '../setup/typography';
+#find {
+  padding: 7.7rem 4.25rem;
+  @media(max-width:768px) {
+    padding: 3rem 1.25rem;
+  }
+  background:var(--colorDarkBlue);
+  h2 {
+    @include typography.type(h1);
+    max-width:536px;
+    color:var(--colorBeige);
+    @media(max-width:768px) {
+        @include typography.type(h3);
+    }
+  }
+  #findSegments {
+    display:grid;
+    gap:2rem;
+    grid-template-columns: repeat(auto-fit, minmax(275px, 1fr));
+    padding:1.25rem;
+    margin-top:5rem;
+    @media(max-width:768px) {
+      grid-template-columns: 1fr;
+      gap:4rem;
+      margin-top:2.5rem;
+      padding:1rem;
+    }
+    .findSegment {
+      display:flex;
+      flex-direction:column;
+      h3 {
+        @include typography.type(h3);
+        color:var(--colorBeige);
+        margin-top:2rem;
+        margin-bottom:0.5rem;
+        @media(max-width:768px) {
+          @include typography.type(h4);
+        }
+      }
+      p {
+        @include typography.type(text);
+        color:var(--colorBeige);
+      }
+      a {
+        @include typography.type(text);
+        display:flex;
+        align-items:center;
+        gap:0.5rem;
+        color:var(--colorBeige);
+        margin-top:2rem;
+        transition:0.3s ease all;
+        &:hover {
+          color: var(--colorOrange);
+        }
+        @media(max-width:768px) {
+          @include typography.type(h5);
+        }
+      }
+    }
+  }
+}

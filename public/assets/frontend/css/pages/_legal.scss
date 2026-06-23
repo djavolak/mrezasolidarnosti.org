@@ -1,0 +1,30 @@
+@use '../setup/typography';
+.legalWrapper {
+  background:var(--colorBackgroundGray);
+  padding: 7.7rem 4.25rem;
+  @media(max-width:768px) {
+    padding: 3rem 1.25rem;
+  }
+  .legal {
+    max-width:871px;
+    margin:0 auto;
+    h1 {
+      @include typography.type(h1);
+      color:var(--colorDarkBlue);
+      text-align:center;
+      margin-bottom:3rem;
+      @media(max-width:768px) {
+        @include typography.type(h2);
+      }
+    }
+    p {
+      @include typography.type(text);
+      color:var(--colorDarkBlue);
+    }
+    h2 {
+      @include typography.type(h3);
+      color:var(--colorDarkBlue);
+      margin-top:1.5rem;
+    }
+  }
+}

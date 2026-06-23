@@ -1,0 +1,99 @@
+@use '../setup/typography';
+#direction {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  padding: 7.7rem 4.25rem;
+  @media(max-width:1100px) {
+    flex-direction:column;
+    padding:3rem 4.25rem;
+    gap:2rem;
+  }
+  @media(max-width:768px) {
+    padding: 3rem 1.25rem;
+  }
+  background: var(--colorDarkBlue);
+  #directionLeft {
+    max-width:443px;
+    h2 {
+      @include typography.type(h1);
+      color:var(--colorBeige);
+      @media(max-width:768px) {
+        @include typography.type(h3);
+      }
+    }
+    p {
+      @include typography.type(text);
+      color:var(--colorBeige);
+      margin-top:1.5rem;
+      margin-bottom:1.5rem;
+      font-weight:300;
+    }
+     span {
+       @include typography.type(text);
+       color:var(--colorBeige);
+       font-weight:600;
+     }
+  }
+  #directionRight {
+    display:flex;
+    gap:1rem;
+    position:relative;
+    bottom:-10.5rem;
+    @media(max-width:1100px) {
+      bottom:unset;
+    }
+    @media(max-width:570px) {
+      flex-direction:column;
+    }
+    #directionEducation {
+      background:var(--colorBlue);
+       span, p, ul, a, h3 {
+          color:var(--colorBeige);
+       }
+    }
+    #directionRepression {
+      background:var(--colorGreen);
+      span, p, ul, a, h3 {
+        color:var(--colorDarkBlue);
+      }
+    }
+    .directionProject {
+      padding:1.25rem;
+      width:316px;
+      @media(max-width:570px) {
+        width:100%;
+      }
+      border-radius:10px;
+      h3 {
+        @include typography.type(h2);
+        margin-bottom:1.5rem;
+      }
+      span {
+        @include typography.type(h5);
+        color:var(--colorBeige);
+      }
+      p {
+        @include typography.type(text);
+        color:var(--colorBeige);
+        font-weight:300;
+      }
+      ul {
+        padding-left:1.5rem;
+        margin-top:1.5rem;
+        margin-bottom:2rem;
+        font-weight:600;
+        list-style:disc;
+      }
+      a  {
+        display:flex;
+        align-items:center;
+        gap:0.5rem;
+        @include typography.type(text);
+        &:hover {
+          color: var(--colorOrange) !important;
+        }
+      }
+    }
+  }
+}

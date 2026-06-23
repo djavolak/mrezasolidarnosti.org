@@ -1,0 +1,53 @@
+$spacing: (
+        xs: 0.25rem,
+        s:  0.5rem,
+        m:  1rem,
+        l:  2rem,
+        xl: 4rem
+);
+
+
+@function space($size) {
+  $value: map-get($spacing, $size);
+
+  @if $value == null {
+    @error "Unknown spacing size: #{$size}";
+  }
+
+  @return $value;
+}
+
+@mixin m($size) {
+  margin: space($size);
+}
+
+@mixin mt($size) {
+  margin-top: space($size);
+}
+
+@mixin mb($size) {
+  margin-bottom: space($size);
+}
+
+@mixin mx($size) {
+  margin-left: space($size);
+  margin-right: space($size);
+}
+
+@mixin p($size) {
+  padding: space($size);
+}
+
+@mixin py($size) {
+  padding-top: space($size);
+  padding-bottom: space($size);
+}
+
+@mixin px($size) {
+  padding-left: space($size);
+  padding-right: space($size);
+}
+
+@mixin gap($size) {
+  gap: space($size);
+}

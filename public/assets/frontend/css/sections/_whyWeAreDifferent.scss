@@ -1,0 +1,71 @@
+@use '../setup/typography';
+
+#whyWeAreDifferent {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  padding: 7.7rem 4.25rem;
+  background: var(--colorBackgroundGray);
+  @media(max-width: 900px) {
+    padding: 3rem 1.25rem;
+    flex-direction:column;
+    gap:2.8rem;
+  }
+
+  #whyWeAreDifferentLeft {
+    max-width: 518px;
+    @media(max-width: 900px) {
+      max-width:100%;
+    }
+
+    h2 {
+      @include typography.type(h5);
+      color: var(--colorDarkBlue);
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+    }
+
+    h3 {
+      @include typography.type(h1);
+      color: var(--colorDarkBlue);
+      margin-bottom: 1.5rem;
+      @media(max-width: 900px) {
+        @include typography.type(h2);
+      }
+
+      b {
+        color: var(--colorOrange);
+        font-weight: inherit;
+      }
+    }
+
+    p {
+      @include typography.type(text);
+      color: var(--colorDarkBlue);
+    }
+  }
+
+  #whyWeAreDifferentRight {
+    display: flex;
+    gap: 3.5rem;
+    flex-direction:column;
+    max-width:580px;
+    @media(max-width: 900px) {
+      max-width:100%;
+    }
+    .reason {
+      h4 {
+        @include typography.type(h3);
+        color: var(--colorDarkBlue);
+      }
+      p {
+        @include typography.type(text);
+        color: var(--colorDarkBlue);
+      }
+    }
+     span {
+         @include typography.type(h3);
+       color:var(--colorOrange);
+     }
+  }
+}

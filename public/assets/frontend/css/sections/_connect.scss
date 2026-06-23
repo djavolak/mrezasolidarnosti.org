@@ -1,0 +1,76 @@
+@use '../setup/typography';
+#connect {
+  display:flex;
+  gap:1rem;
+  justify-content:space-between;
+  padding: 7.7rem 4.25rem;
+  @media(max-width:900px) {
+    padding: 3rem 1.25rem;
+    flex-direction:column;
+    background-image: url('../images/greenArrow.svg');
+    background-repeat:no-repeat;
+    background-size: cover;
+    background-position: 0 50vh;
+  }
+  @media(max-width:518px) {
+    background-size: unset;
+    background-position: 0 320px;
+  }
+  @media(max-width:436px) {
+    background-position: 0 341px;
+  }
+  @media(max-width:420px) {
+    background-position: 0 372px;
+  }
+  @media(max-width:341px) {
+    background-position: 0 391px;
+  }
+  #connectLeft {
+    max-width:570px;
+    h2 {
+        @include typography.type(h1);
+        color:var(--colorDarkBlue);
+        margin-bottom:1.5rem;
+      @media(max-width:900px) {
+        @include typography.type(h2);
+      }
+    }
+    p {
+        @include typography.type(text);
+        color:var(--colorDarkBlue);
+    }
+  }
+  #connectRight {
+    padding:3rem 6.6rem 10rem 3rem;
+    display:flex;
+    flex-direction:column;
+    gap:2.2rem;
+    width:828px;
+    max-width:100%;
+    background-image: url('../images/greenArrow.svg');
+    background-repeat:no-repeat;
+    @media(max-width:900px) {
+      padding:0;
+      margin-top:1.5rem;
+      background-image:unset;
+    }
+    .connectSegment {
+      h3 {
+        @include typography.type(h3);
+        color:var(--colorDarkBlue);
+        margin-bottom:0.5rem;
+      }
+      p {
+        @include typography.type(text);
+        color:var(--colorDarkBlue);
+      }
+    }
+    a {
+      display:flex;
+      align-items:center;
+      gap:0.5rem;
+      color:var(--colorDarkBlue);
+      margin-top:3rem;
+    }
+  }
+}

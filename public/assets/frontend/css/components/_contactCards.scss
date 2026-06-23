@@ -1,0 +1,31 @@
+@use '../setup/typography';
+.contactCards {
+  padding:5rem 11rem;
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(533px, 533px));
+  justify-content: center;
+  @media(max-width:768px) {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    padding:3rem 1.25rem;
+  }
+  margin:0 auto;
+  grid-gap:2rem;
+  .contactCard {
+    max-width:533px;
+    background:var(--colorBackgroundGray);
+    border-radius:20px;
+    padding:2rem;
+    display:flex;
+    flex-direction:column;
+    gap:2rem;
+    h3 {
+      @include typography.type(h3);
+      color:var(--colorDarkBlue);
+    }
+    a {
+      color:var(--colorDarkBlue);
+      font-weight:bold;
+      @include typography.type(h4);
+    }
+  }
+}
