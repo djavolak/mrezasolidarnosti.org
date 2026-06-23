@@ -40,7 +40,8 @@
       "Solidarity\\User\\": "packages/User/src",
       "Solidarity\\Delegate\\": "packages/Delegate/src",
       "Solidarity\\Beneficiary\\": "packages/Beneficiary/src",
-      "Solidarity\\Period\\": "packages/Period/src"
+      "Solidarity\\Period\\": "packages/Period/src",
+      "Solidarity\\Page\\": "packages/Page/src"
     }
   },
   "config": {

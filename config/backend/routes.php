@@ -16,6 +16,11 @@
 /**
  * @var $adminPath string secret path to admin
  */
+
+use Skeletor\File\Controller\FileController;
+use Skeletor\Image\Controller\ImageController;
+use Solidarity\Backend\Controller\PageController;
+
 return [
     // backend
     [['GET'], '/', \Solidarity\Backend\Action\Index::class],
@@ -24,7 +29,8 @@ return [
     [['GET'], '/statistics', \Solidarity\Backend\Action\Statistics::class],
     [['GET', 'POST'], '/login/user/{action}[/{token}]', \Skeletor\Login\Controller\LoginController::class],
     [['GET', 'POST'], '/login/delegate/{action}[/{token}]', \Solidarity\Backend\Controller\DelegateLoginController::class],
-    [['GET', 'POST'], '/image/{action}[/{token}]', \Skeletor\Image\Controller\ImageController::class],
+    [['GET', 'POST'], '/image/{action}[/{id}]', \Skeletor\Image\Controller\ImageController::class],
+    [['GET', 'POST'], '/file/{action}[/{id}/]', FileController::class],
     [['GET', 'POST'], '/user/{action}[/{id}]', \Solidarity\Backend\Controller\UserController::class],
     [['GET', 'POST'], '/donor/{action}[/{id}]', \Solidarity\Backend\Controller\DonorController::class],
     [['GET', 'POST'], '/delegate/{action}[/{id}]', \Solidarity\Backend\Controller\DelegateController::class],
@@ -37,5 +43,5 @@ return [
     [['GET', 'POST'], '/school/{action}[/{id}]', \Solidarity\Backend\Controller\SchoolController::class],
     [['GET', 'POST'], '/schoolType/{action}[/{id}]', \Solidarity\Backend\Controller\SchoolTypeController::class],
     [['GET', 'POST'], '/city/{action}[/{id}]', \Solidarity\Backend\Controller\CityController::class],
-
+    [['GET', 'POST'], '/page/{action}[/{id}]', PageController::class],
 ];
