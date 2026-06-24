@@ -1,0 +1,136 @@
+@use 'typography';
+
+$btnVariants: (
+        primary: (
+                background-color: var(--colorDarkBlue),
+                border: 1px solid var(--colorDarkBlue),
+                color: white,
+                hover: (
+                        background-color: var(--colorBlueHover),
+                        border: 1px solid var(--colorBlueHover),
+                )
+        ),
+        secondary: (
+                background-color: white,
+                color: var(--colorDarkBlue),
+                border: 1px solid var(--colorDarkBlue),
+                hover: (
+                        background-color: var(--colorGrayLight)
+                )
+        ),
+        danger: (
+                background-color: var(--colorOrange),
+                color: white,
+                border: 1px solid var(--colorOrange),
+                hover: (
+                        background-color: var(--colorOrangeHover),
+                        border: 1px solid var(--colorOrangeHover)
+                )
+        ),
+        transparent: (
+                background-color: transparent,
+                color: var(--colorDarkBlue),
+                border: 1px solid var(--colorDarkBlue),
+                hover: (
+                        background-color: var(--colorDarkBlue),
+                        color:white
+                )
+        )
+);
+
+$btnSizes: (
+        small: (py: 12px, px: 16px, radius: 6px),
+        medium: (py: 16px, px: 24px, radius: 6px),
+        large: (py: 16px, px: 24px, radius: 6px)
+);
+
+@mixin buttonVariant($variant) {
+  $conf: map-get($btnVariants, $variant);
+
+  @if $conf == null {
+    @error "Unknown variant: #{$variant}";
+  }
+
+  @each $prop, $value in $conf {
+    @if $prop != hover {
+      #{$prop}: $value;
+    }
+  }
+
+  @if map-has-key($conf, hover) {
+    &:not(:disabled):hover {
+      @each $prop, $value in map-get($conf, hover) {
+        #{$prop}: $value;
+      }
+    }
+  }
+}
+
+@mixin buttonDisabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@mixin buttonBase {
+  border: none;
+  cursor:pointer;
+  transition: 0.3s ease;
+  height:max-content;
+  letter-spacing:0;
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  display:block;
+  @include typography.type(nav);
+}
+
+@mixin buttonIcon {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+@mixin buttonSize($size) {
+  $conf: map-get($btnSizes, $size);
+  padding: map-get($conf, py) map-get($conf, px);
+  border-radius: map-get($conf, radius);
+}
+
+@mixin button($size: medium, $variant: primary) {
+  @include buttonBase;
+  @include buttonSize($size);
+  @include buttonVariant($variant);
+  width:max-content;
+  max-width:100%;
+
+  &.disabled {
+    @include buttonDisabled;
+  }
+  &:disabled {
+    @include buttonDisabled;
+  }
+  &.centered {
+    margin-left:auto;
+    margin-right:auto;
+  }
+}
+
+.buttonPrimary {
+  @include button(medium, primary);
+}
+
+.buttonSecondary {
+  @include button(medium, secondary);
+}
+
+.buttonDanger {
+  @include button(medium, danger);
+}
+
+.btnIcon {
+  @include buttonIcon;
+}
+
+.donateButton {
+    @include button(small, primary);
+    @include buttonIcon;
+}

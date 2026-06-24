@@ -1,0 +1,9 @@
+.freeze {
+  overflow:hidden;
+}
+
+main {
+  &.loggedIn {
+    background:var(--colorBackgroundGray);
+  }
+}

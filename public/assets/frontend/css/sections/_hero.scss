@@ -1,0 +1,281 @@
+@use '../setup/typography';
+@use '../setup/buttons';
+
+#hero {
+  position: relative;
+  padding-top: 5rem;
+  overflow: hidden;
+  background:var(--colorBackgroundGray);
+  @media(max-width:960px) {
+    padding-top:0;
+  }
+  .greenArrow {
+    position: absolute;
+    top: 2%;
+    right: 10%;
+    z-index:1;
+    @media(max-width: 1440px) {
+      right: 6%;
+      top: 1%;
+    }
+    @media(max-width: 1260px) {
+      right: -5%;
+    }
+    @media(max-width: 990px) {
+      right: -20%;
+    }
+    @media(max-width: 960px) {
+      display: none;
+    }
+  }
+
+  .blueArrow {
+    position: absolute;
+    bottom: -18%;
+    left: 16%;
+    z-index:2;
+    @media(max-width: 1774px) {
+      left: 12%;
+    }
+    @media(max-width: 1590px) {
+      left: 8%;
+    }
+    @media(max-width: 1440px) {
+      left: 6%;
+    }
+    @media(max-width: 1400px) {
+      left: 2%;
+    }
+    @media(max-width: 1260px) {
+      left: -3%;
+    }
+    @media(max-width: 1150px) {
+      left: -10%;
+    }
+    @media(max-width: 990px) {
+      left: -18%;
+    }
+    @media(max-width: 960px) {
+      display: none;
+    }
+  }
+
+  #heroTop {
+    z-index:3;
+    position:relative;
+    @media(max-width:960px) {
+      padding: 3rem 1.25rem;
+      background:var(--colorGreen);
+    }
+    h1 {
+      @include typography.type(display);
+      color: var(--colorDarkBlue);
+      max-width: 873px;
+      text-align: center;
+      margin-bottom: 3rem;
+      margin-left: auto;
+      margin-right: auto;
+      @media(max-width: 990px) {
+        font-size: 2rem;
+      }
+    }
+
+    p {
+      @include typography.type(h3);
+      color: var(--colorDarkBlue);
+      max-width: 873px;
+      text-align: center;
+      margin-bottom: 3rem;
+      margin-left: auto;
+      margin-right: auto;
+      @media(max-width: 990px) {
+        @include typography.type(h4);
+      }
+    }
+
+    #heroTopActions {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      margin-bottom: 2rem;
+      @media(max-width:510px) {
+        flex-direction:column;
+        align-items:center;
+      }
+
+      .signUpHero {
+        @include buttons.button(small, secondary);
+        background:transparent;
+      }
+    }
+  }
+
+  #heroBottom {
+    z-index:3;
+    position:relative;
+    display: flex;
+    gap: 8rem;
+    justify-content: center;
+    padding-top: 10rem;
+    padding-bottom: 10rem;
+    @media(max-width:960px){
+      flex-direction:column;
+      align-items:center;
+      gap:0;
+      padding-top:0;
+      padding-bottom:1rem;
+    }
+
+    .heroTitleStats {
+      @include typography.type(h3);
+      color: var(--colorOrange);
+      @media(max-width: 990px) {
+        @include typography.type(h4);
+      }
+    }
+
+    .number {
+      font-size: 2.875rem;
+      font-weight: bold;
+      color: var(--colorBeige);
+      @media(max-width: 990px) {
+        font-size: 2rem;
+      }
+
+      .currency {
+        @include typography.type(h5);
+        color: var(--colorBeige);
+        text-transform: uppercase;
+        margin-left: 5px;
+      }
+    }
+
+    .numberEur {
+      @include typography.type(h3);
+      color: var(--colorBeige);
+
+      .currencyEur {
+        @include typography.type(h5);
+        color: var(--colorBeige);
+        text-transform: uppercase;
+        margin-left: 5px;
+      }
+    }
+    #heroBottomLeft {
+      display: flex;
+      gap: 4rem;
+      @media(max-width:960px) {
+        background:var(--colorBlue);
+        width:100%;
+        padding: 3rem 1.25rem;
+        flex-direction:column;
+        align-items: center;
+        gap:2rem;
+      }
+      .heroAmount {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        @media(max-width:960px) {
+          text-align:center;
+        }
+
+        & > div {
+          display: flex;
+          flex-direction: column;
+        }
+      }
+
+      .heroConnected {
+        display: flex;
+        flex-direction: column;
+        gap: 3rem;
+        @media(max-width:960px) {
+          text-align:center;
+        }
+
+        & > div {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+          @media(max-width:960px) {
+            text-align:center;
+          }
+        }
+      }
+    }
+    #heroBottomRight {
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+      @media(max-width:960px){
+        width:100%;
+        padding: 3rem 1.25rem;
+      }
+
+      .projects {
+        display: flex;
+        flex-direction: column;
+
+        .numberOfProjects {
+          color: var(--colorDarkBlue);
+          font-size: 3.3rem;
+          font-weight: bold;
+        }
+        span {
+          @include typography.type(h3);
+          color: var(--colorDarkBlue);
+          @media(max-width: 990px) {
+            @include typography.type(h4);
+          }
+        }
+      }
+
+      .projectLogos {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        @media(max-width:960px) {
+          flex-direction:row;
+          flex-wrap:wrap;
+          gap:2rem;
+        }
+
+        & > div {
+          display: flex;
+          gap: 1rem;
+          align-items: center;
+          @media(max-width:960px) {
+            flex-direction:column;
+            align-items:flex-start;
+            justify-content:center;
+          }
+
+          span {
+            @include typography.type(h3);
+            color: var(--colorDarkBlue);
+            @media(max-width:990px) {
+              @include typography.type(h4);
+            }
+          }
+        }
+      }
+
+      .howItWorksHero {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+        &:hover {
+          span {
+            color: var(--colorOrange);
+          }
+        }
+        span {
+          @include typography.type(text);
+          color: var(--colorDarkBlue);
+          transition: 0.3s ease all;
+        }
+      }
+    }
+  }
+}

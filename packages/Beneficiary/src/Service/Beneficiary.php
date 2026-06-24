@@ -28,6 +28,11 @@ class Beneficiary extends TableView
         return $this->repo->fetchByPeriod($periodId);
     }
 
+    public function getBeneficiaryCount(): int
+    {
+        return $this->repo->getBeneficiaryCount();
+    }
+
     public function fetchTableData(
         $search, $filter, $offset, $limit, $order, $uncountableFilter = null, $idsToInclude = [], $idsToExclude = []
     ) {

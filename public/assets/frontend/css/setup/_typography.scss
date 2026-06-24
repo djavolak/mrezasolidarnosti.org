@@ -1,0 +1,53 @@
+$typography: (
+        display: (size: 4rem, weight: 700, line-height: 1.2),
+        h1:      (size: 3rem, weight: 700, line-height: 1.2),
+        h2:      (size: 2rem, weight: 700, line-height: 1.2),
+        h3:      (size: 1.5rem, weight: 600, line-height: 1.2),
+        h4:      (size: 1rem, weight: 700, line-height: 1.4),
+        h5:      (size: 0.875rem, weight: 600, line-height: 1.4),
+        caption: (size: 0.75rem, weight: 400, line-height: 1.4),
+        text:    (size: 1rem, weight: 400, line-height: 1.4),
+        nav:     (size: 1rem, weight: 600, line-height: 1.4)
+);
+
+@mixin type($variant) {
+  $style: map-get($typography, $variant);
+
+  @if $style == null {
+    @error "Unknown typography variant: #{$variant}";
+  }
+
+  font-size: map-get($style, size);
+  font-weight: map-get($style, weight);
+  line-height: map-get($style, line-height);
+}
+
+
+body {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+}
+
+h1 {
+  @include type(h1);
+}
+
+h2 {
+  @include type(h2);
+}
+
+h3 {
+  @include type(h3);
+}
+
+h4 {
+  @include type(h4);
+}
+
+h5 {
+  @include type(h5);
+}
+
+p {
+  @include type(text);
+}

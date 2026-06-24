@@ -16,16 +16,18 @@
 /**
  * @var $adminPath string secret path to admin
  */
+
+use Solidarity\Frontend\Action\PageAction;
+
 return [
     // backend
     [['GET'], '/', \Solidarity\Frontend\Action\Index::class],
-    [['GET'], '/hvalaDonatoru', \Solidarity\Frontend\Action\ThankYouDonor::class],
-    [['GET'], '/hvalaDelegatu', \Solidarity\Frontend\Action\ThankYouDelegate::class],
-    [['GET'], '/hvalaZaOstecenog', \Solidarity\Frontend\Action\ThankYouEducator::class],
-    [['GET', 'POST'], '/obrazacDonatori', \Solidarity\Frontend\Action\Donor::class],
-    [['GET', 'POST'], '/obrazacDelegati', \Solidarity\Frontend\Action\Delegate::class],
-    [['GET', 'POST'], '/profileDelegat', \Solidarity\Frontend\Action\ProfileDelegate::class],
-    [['GET', 'POST'], '/obrazacOsteceni', \Solidarity\Frontend\Action\Educator::class],
-
-
+    [['GET'], '/{slug}', PageAction::class],
+//    [['GET'], '/hvalaDonatoru', \Solidarity\Frontend\Action\ThankYouDonor::class],
+//    [['GET'], '/hvalaDelegatu', \Solidarity\Frontend\Action\ThankYouDelegate::class],
+//    [['GET'], '/hvalaZaOstecenog', \Solidarity\Frontend\Action\ThankYouEducator::class],
+//    [['GET', 'POST'], '/obrazacDonatori', \Solidarity\Frontend\Action\Donor::class],
+//    [['GET', 'POST'], '/obrazacDelegati', \Solidarity\Frontend\Action\Delegate::class],
+//    [['GET', 'POST'], '/profileDelegat', \Solidarity\Frontend\Action\ProfileDelegate::class],
+//    [['GET', 'POST'], '/obrazacOsteceni', \Solidarity\Frontend\Action\Educator::class],
 ];

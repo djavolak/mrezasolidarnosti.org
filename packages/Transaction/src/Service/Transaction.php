@@ -32,6 +32,11 @@ class Transaction extends TableView
         return $this->repo->getSumAmountForBeneficiary($beneficiary, $project, $period);
     }
 
+    public function getTotalNetworkedAmount(): int
+    {
+        return $this->repo->getTotalNetworkedAmount();
+    }
+
     public function getPaidSumAmountForDonorPerProject(Donor $donor, Project $project, ?int $paymentType = null)
     {
         return $this->repo->getPaidSumAmountForDonorPerProject($donor, $project, $paymentType);
