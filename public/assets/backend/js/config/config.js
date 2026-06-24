@@ -31,7 +31,8 @@ export const config = Object.freeze({
             'app/faq',
             'app/herotext',
             'app/contactcards',
-            'app/sidebyside'
+            'app/sidebyside',
+            'app/projectsdisplay'
         ],
     },
     page: {

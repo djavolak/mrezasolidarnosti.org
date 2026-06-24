@@ -1420,6 +1420,10 @@ main.loggedIn {
   justify-content: center;
   gap: 6rem;
 }
+.projectsWrapper .projectsDisplay img {
+  width: 140px;
+  height: auto;
+}
 @media (max-width: 768px) {
   .projectsWrapper .projectsDisplay {
     flex-direction: column;
@@ -1460,7 +1464,7 @@ main.loggedIn {
   display: block;
   margin-top: 1rem;
 }
-.projectsWrapper .projectsDisplay .projectDisplay ul {
+.projectsWrapper .projectsDisplay .projectDisplay ul, .projectsWrapper .projectsDisplay .projectDisplay ol {
   list-style: disc;
   padding-left: 1.5rem;
 }

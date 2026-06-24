@@ -16,6 +16,7 @@ use Solidarity\Backend\Blocks\Contactcards\Contactcards;
 use Solidarity\Backend\Blocks\Direction\Direction;
 use Solidarity\Backend\Blocks\Faq\Faq;
 use Solidarity\Backend\Blocks\Herotext\Herotext;
+use Solidarity\Backend\Blocks\Projectsdisplay\Projectsdisplay;
 use Solidarity\Backend\Blocks\Sidebyside\Sidebyside;
 use Solidarity\Backend\Blocks\Howitworks\Howitworks;
 use Solidarity\Backend\Blocks\Testimonials\Testimonials;
@@ -85,6 +86,9 @@ $container->set(\Skeletor\ContentEditor\Contracts\BlockParserFactoryInterface::c
         $container->get(\Skeletor\Image\Service\Image::class)
     ));
     $blockParserFactory->registerBlockParser(Sidebyside::NAME, new Sidebyside());
+    $blockParserFactory->registerBlockParser(Projectsdisplay::NAME, new Projectsdisplay(
+        $container->get(\Skeletor\Image\Service\Image::class)
+    ));
 
     return $blockParserFactory;
 });

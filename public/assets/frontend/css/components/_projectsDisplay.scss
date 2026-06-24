@@ -57,6 +57,10 @@
     display: flex;
     justify-content: center;
     gap: 6rem;
+    img {
+      width:140px;
+      height:auto;
+    }
     @media(max-width: 768px) {
       flex-direction: column;
       gap: 3rem;
@@ -98,7 +102,7 @@
         margin-top:1rem;
       }
 
-      ul {
+      ul, ol {
         list-style: disc;
         padding-left: 1.5rem;
       }
