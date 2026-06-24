@@ -66,6 +66,7 @@
         @include typography.type(h2);
         color:var(--colorDarkBlue);
         width:329px;
+        max-width:100%;
         @media (max-width:768px) {
             @include typography.type(h2);
         }

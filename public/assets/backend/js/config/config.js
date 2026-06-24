@@ -29,7 +29,9 @@ export const config = Object.freeze({
             'app/howitworks',
             'app/testimonials',
             'app/faq',
-            'app/herotext'
+            'app/herotext',
+            'app/contactcards',
+            'app/sidebyside'
         ],
     },
     page: {
