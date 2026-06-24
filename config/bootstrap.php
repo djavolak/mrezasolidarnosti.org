@@ -13,6 +13,7 @@ use Skeletor\Core\Security\Authorization\AuthorizationService;
 use Skeletor\Core\Security\EntityRegistry;
 use Solidarity\Backend\Blocks\Connect\Connect;
 use Solidarity\Backend\Blocks\Direction\Direction;
+use Solidarity\Backend\Blocks\Howitworks\Howitworks;
 use Solidarity\Backend\Blocks\Whywearedifferent\Whywearedifferent;
 use Solidarity\Backend\Blocks\Find\Find;
 use Solidarity\Backend\Blocks\HeroStats\HeroStats;
@@ -69,6 +70,9 @@ $container->set(\Skeletor\ContentEditor\Contracts\BlockParserFactoryInterface::c
     $blockParserFactory->registerBlockParser(Direction::NAME, new Direction());
     $blockParserFactory->registerBlockParser(Connect::NAME, new Connect());
     $blockParserFactory->registerBlockParser(Whywearedifferent::NAME, new Whywearedifferent());
+    $blockParserFactory->registerBlockParser(Howitworks::NAME, new Howitworks(
+        $container->get(\Skeletor\Image\Service\Image::class)
+    ));
 
     return $blockParserFactory;
 });

@@ -25,7 +25,8 @@ export const config = Object.freeze({
             'app/find',
             'app/direction',
             'app/connect',
-            'app/whywearedifferent'
+            'app/whywearedifferent',
+            'app/howitworks'
         ],
     },
     page: {
