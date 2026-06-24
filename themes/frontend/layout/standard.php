@@ -4,25 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title><?=$title?></title>
+    <?php if(isset($title)):?>
+        <title><?=$title?></title>
+        <meta property="og:title" content="<?=$title?>">
+    <?php else:?>
+        <title>Mreža solidarnosti - IT Srbija</title>
+        <meta property="og:title" content="Mreža solidarnosti - IT Srbija">
+    <?php endif;?>
+    <?php if(isset($description)):?>
+        <meta name="description" content="<?=$description?>">
+        <meta property="og:description" content="<?=$description?>">
+    <?php else:?>
+        <meta name="description" content="Mreža solidarnosti je inicijativa IT Srbije za direktnu finansijsku podršku nastavnicima i vannastavnom osoblju čija je plata umanjena zbog obustave rada. Pridruži se, doniraj i podrži one koji se bore za bolje obrazovanje!">
+        <meta property="og:description" content="Direktna podrška nastavnicima čija je plata umanjena zbog obustave rada. Uključi se, doniraj, podrži solidarnost u prosveti!">
+    <?php endif;?>
+    <?php if(isset($canonical)):?>
+        <link rel="canonical" href="<?=$canonical?>">
+    <?php endif;?>
+    <?php if(isset($seoImageSrc, $seoImageAlt)):?>
+        <meta property="og:image" content="<?=$seoImageSrc?>">
+        <meta property="og:image:alt" content="<?=$seoImageAlt?>">
 
-	<meta name="title" content="Mreža solidarnosti - IT Srbija">
-	<meta name="description" content="Mreža solidarnosti je inicijativa IT Srbije za direktnu finansijsku podršku nastavnicima i vannastavnom osoblju čija je plata umanjena zbog obustave rada. Pridruži se, doniraj i podrži one koji se bore za bolje obrazovanje!">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:image" content="<?=$seoImageSrc?>">
+        <meta name="twitter:image:alt" content="<?=$seoImageAlt?>">
+    <?php else:?>
+        <meta property="og:image" content="/assets/img/social.webp">
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:image" content="/assets/img/social.webp">
+    <?php endif;?>
+
 	<meta name="keywords" content="Mreža solidarnosti, IT Srbija, prosveta, donacije, podrška nastavnicima, solidarnost, pomoć nastavnicima, obustava rada, direktna podrška">
 	<!-- Open Graph -->
 	<meta property="og:type" content="website">
 	<meta property="og:url" content="https://mrezasolidarnosti.org/">
-	<meta property="og:title" content="Mreža solidarnosti - IT Srbija">
-	<meta property="og:description" content="Direktna podrška nastavnicima čija je plata umanjena zbog obustave rada. Uključi se, doniraj, podrži solidarnost u prosveti!">
-	<meta property="og:image" content="/assets/img/social.webp">
-
-	<meta property="twitter:card" content="summary_large_image">
-	<meta property="twitter:url" content="https://mrezasolidarnosti.org/">
-	<meta property="twitter:title" content="Mreža solidarnosti - IT Srbija">
-	<meta property="twitter:description" content="Direktna finansijska pomoć nastavnicima u obustavi rada. Pridruži se IT Srbiji u inicijativi solidarnosti!">
-	<meta property="twitter:image" content="/assets/img/social.webp">
-
-	<link rel="canonical" href="https://mrezasolidarnosti.org/">
 
     <link rel="icon" type="image/svg+xml" href="/assets/img/serbian-flag.svg">
     <link rel="apple-touch-icon" href="/assets/img/serbian-flag.svg">
