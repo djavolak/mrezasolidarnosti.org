@@ -334,4 +334,11 @@ div[block-name=Find] .findSectionLabel {
   font-size: 1.2rem;
 }
 
+.pillarLabel {
+  margin: 1rem 0;
+  display: block;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
 /*# sourceMappingURL=style.css.map */
