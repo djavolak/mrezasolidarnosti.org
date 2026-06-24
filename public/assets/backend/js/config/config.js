@@ -28,7 +28,8 @@ export const config = Object.freeze({
             'app/whywearedifferent',
             'app/howitworks',
             'app/testimonials',
-            'app/faq'
+            'app/faq',
+            'app/herotext'
         ],
     },
     page: {

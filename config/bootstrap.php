@@ -14,6 +14,7 @@ use Skeletor\Core\Security\EntityRegistry;
 use Solidarity\Backend\Blocks\Connect\Connect;
 use Solidarity\Backend\Blocks\Direction\Direction;
 use Solidarity\Backend\Blocks\Faq\Faq;
+use Solidarity\Backend\Blocks\Herotext\Herotext;
 use Solidarity\Backend\Blocks\Howitworks\Howitworks;
 use Solidarity\Backend\Blocks\Testimonials\Testimonials;
 use Solidarity\Backend\Blocks\Whywearedifferent\Whywearedifferent;
@@ -77,6 +78,7 @@ $container->set(\Skeletor\ContentEditor\Contracts\BlockParserFactoryInterface::c
     ));
     $blockParserFactory->registerBlockParser(Testimonials::NAME, new Testimonials());
     $blockParserFactory->registerBlockParser(Faq::NAME, new Faq());
+    $blockParserFactory->registerBlockParser(Herotext::NAME, new Herotext());
 
     return $blockParserFactory;
 });
