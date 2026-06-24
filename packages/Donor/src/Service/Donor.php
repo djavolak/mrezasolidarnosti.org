@@ -131,4 +131,9 @@ class Donor extends TableView
         return $columnDefinitions;
     }
 
+    public function getDonorCount(int $status, ?bool $isActive): int
+    {
+        return $this->repo->getDonorCount($status, $isActive);
+    }
+
 }

@@ -1,0 +1,11 @@
+#notFound {
+  display: flex;
+  flex-direction: column;
+  margin: 5rem auto;
+  align-items: center;
+  gap: 1rem;
+  color: var(--colorDarkBlue);
+  a {
+    text-decoration:underline;
+  }
+}

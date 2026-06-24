@@ -88,6 +88,31 @@ class TransactionRepository extends TableViewRepository
         return (int) $qb->getQuery()->getSingleScalarResult();
     }
 
+    /**
+     * Statuses that count as "realized" money actually delivered through the network.
+     */
+    private function getRealizedStatuses(): array
+    {
+        return [
+            Transaction::STATUS_CONFIRMED,
+            Transaction::STATUS_PAID,
+        ];
+    }
+
+    /**
+     * Total amount (RSD) realized through the network across all confirmed/paid transactions.
+     */
+    public function getTotalNetworkedAmount(): int
+    {
+        $qb = $this->entityManager->createQueryBuilder();
+        $qb->select('COALESCE(SUM(t.amount), 0)')
+            ->from(static::ENTITY, 't')
+            ->where('t.status IN (:statuses)')
+            ->setParameter('statuses', $this->getRealizedStatuses());
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
     public function getTransactionsBySchool($schoolId)
     {
         $qb = $this->entityManager->createQueryBuilder();

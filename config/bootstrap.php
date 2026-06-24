@@ -11,6 +11,7 @@ use Laminas\Config\Config;
 use Skeletor\Core\Mailer\Service\MailerInterface;
 use Skeletor\Core\Security\Authorization\AuthorizationService;
 use Skeletor\Core\Security\EntityRegistry;
+use Solidarity\Backend\Blocks\HeroStats\HeroStats;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 use Symfony\Component\Cache\Adapter\TagAwareAdapter;
 use Tamtamchik\SimpleFlash\Flash;
@@ -57,7 +58,7 @@ $container->set(\Skeletor\ContentEditor\Contracts\BlockParserFactoryInterface::c
         $container->get(\Skeletor\Image\Service\Image::class)
     );
 
-//    $blockParserFactory->registerBlockParser(TestBlock::NAME, new TestBlock());
+    $blockParserFactory->registerBlockParser(HeroStats::NAME, new HeroStats());
 
     return $blockParserFactory;
 });
@@ -71,7 +72,18 @@ $container->set(\Skeletor\ContentEditor\Contracts\ContentEditorParserInterface::
 });
 
 $container->set(\Skeletor\ContentEditor\Contracts\BlockViewInterface::class, function() use ($container) {
-    return new \Skeletor\ContentEditor\View();
+    $view = new \Skeletor\ContentEditor\View(
+        $container->get(Engine::class),
+        APP_PATH . '/themes/frontend/blocks'
+    );
+
+    $view->registerViewFilter(HeroStats::NAME, new \Solidarity\Backend\Blocks\HeroStats\HeroStatsViewFilter(
+        $container->get(\Solidarity\Donor\Service\Donor::class),
+        $container->get(\Solidarity\Beneficiary\Service\Beneficiary::class),
+        $container->get(\Solidarity\Transaction\Service\Transaction::class)
+    ));
+
+    return $view;
 });
 
 $container->set(\Skeletor\Exporter\Contracts\ExporterFactoryInterface::class, function() use ($container) {

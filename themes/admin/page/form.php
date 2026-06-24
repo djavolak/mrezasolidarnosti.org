@@ -24,7 +24,6 @@ $title = (new Text('title', $data['model']?->title, 'Title', 'Title'))
     ->required('Title is required')
     ->minLength(2, 'Title must be at least 2 characters');
 
-$description = (new TextArea('description', $data['model']?->description, 'Description'));
 
 $slug = (new Text('slug', $data['model']?->slug, 'Slug', 'Slug'));
 
@@ -44,7 +43,6 @@ $statusSelect = (new Select('status', $statusCollection, 'Status'))
 
 $groupOne = (new InputGroup(width: InputGroupWidth::FULL_WIDTH))
     ->addInput($title)
-    ->addInput($description)
     ->addInput($slug)
     ->addInput($statusSelect)
     ->addInput($featuredImage);
