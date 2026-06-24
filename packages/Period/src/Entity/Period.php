@@ -60,18 +60,4 @@ class Period
     {
         return sprintf('%s-%d-%d-%s', $this->project->code, $this->month, $this->year, $this->type);
     }
-
-    // @todo
-    public function getChoiceLabel(): string
-    {
-        $month = $this->date->format('M');
-
-        $type = match ($this->getType()) {
-            static::TYPE_FIRST_HALF => ' (1/2)',
-            static::TYPE_SECOND_HALF => ' (2/2)',
-            default => '',
-        };
-
-        return $month.$type.', '.$this->getYear();
-    }
 }

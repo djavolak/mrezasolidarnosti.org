@@ -2,6 +2,7 @@
 
 namespace Solidarity\Beneficiary\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -51,6 +52,13 @@ class Beneficiary
     #[ORM\OneToMany(targetEntity: PaymentMethod::class, mappedBy: 'beneficiary')]
     public Collection $paymentMethods;
 
+    public function __construct()
+    {
+        $this->transactions = new ArrayCollection();
+        $this->registeredPeriods = new ArrayCollection();
+        $this->paymentMethods = new ArrayCollection();
+    }
+
     public function getAmountForPeriod(Period $period): int
     {
         foreach ($this->registeredPeriods as $rp) {
@@ -67,6 +75,7 @@ class Beneficiary
             self::STATUS_NEW => 'Ok',
             self::STATUS_PROBLEM => 'Problem',
             self::STATUS_DELETED => 'Deleted',
+            self::STATUS_GAVE_UP => 'Gave up',
         ];
     }
 

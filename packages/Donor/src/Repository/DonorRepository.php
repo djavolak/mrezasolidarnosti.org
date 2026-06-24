@@ -24,10 +24,11 @@ class DonorRepository extends TableViewRepository
         $qb->select('d')
             ->from(Donor::class, 'd')
             ->innerJoin('d.projects', 'p')
-            ->andWhere('p.id = ' . $project->id)
+            ->where('p.id = :projectId')
             ->andWhere('d.isActive = 1')
-            ->andWhere('d.status = ' . Donor::STATUS_VERIFIED)
-            ->orWhere('d.status = ' . Donor::STATUS_NEW)
+            ->andWhere('d.status IN (:statuses)')
+            ->setParameter('projectId', $project->id)
+            ->setParameter('statuses', [Donor::STATUS_VERIFIED, Donor::STATUS_NEW])
             ->orderBy('d.id', 'ASC');
 //            ->setMaxResults(100);
 

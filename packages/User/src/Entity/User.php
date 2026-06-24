@@ -36,6 +36,11 @@ class User implements AuthenticatableInterface
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     public ?\DateTime $lastLogin;
 
+    // Not persisted: this app authenticates via magic link, so there is no
+    // password column. Declared to avoid a dynamic-property deprecation
+    // (PHP 8.2+) from setPassword()/getAuthPassword().
+    public ?string $password = null;
+
     protected $redirectPath = '/';
 
 //    #[ORM\ManyToOne(targetEntity: Tenant::class, fetch: 'EAGER')]

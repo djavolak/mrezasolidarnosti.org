@@ -24,16 +24,17 @@ class SchoolRepository extends TableViewRepository
 
     public function getByNameAndCity($schoolName, $cityName)
     {
-        $sql = "SELECT s.id as cityName FROM `school` s JOIN `city` c ON(s.cityId = c.id) where s.name = :schoolName AND c.name = :cityName";
+        $sql = "SELECT s.id FROM `school` s JOIN `city` c ON (s.city_id = c.id) WHERE s.name = :schoolName AND c.name = :cityName";
         $stmt = $this->entityManager->getConnection()->prepare($sql);
         $stmt->bindValue(':schoolName', $schoolName);
         $stmt->bindValue(':cityName', $cityName);
 
-        if (!$stmt->executeQuery()->fetchFirstColumn()[0]) {
+        $id = $stmt->executeQuery()->fetchOne();
+        if (!$id) {
             return false;
         }
 
-        return $this->getById($stmt->executeQuery()->fetchFirstColumn()[0]);
+        return $this->getById($id);
     }
 
 }

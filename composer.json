@@ -21,7 +21,7 @@
     "doctrine/orm": "^3.3.2"
   },
   "require-dev": {
-    "phpunit/phpunit": "^10.0",
+    "phpunit/phpunit": "^13.0",
     "phpmd/phpmd": "*",
     "roave/security-advisories": "dev-master",
     "rregeer/phpunit-coverage-check": "*"
@@ -42,6 +42,23 @@
       "Solidarity\\Beneficiary\\": "packages/Beneficiary/src",
       "Solidarity\\Period\\": "packages/Period/src"
     }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Solidarity\\Tests\\": "tests"
+    }
+  },
+  "scripts": {
+    "test": "phpunit",
+    "test:coverage": [
+      "@putenv XDEBUG_MODE=coverage",
+      "phpunit --coverage-html public/coverage"
+    ],
+    "test:gate": [
+      "@putenv XDEBUG_MODE=coverage",
+      "phpunit --coverage-clover data/coverage/clover.xml",
+      "coverage-check data/coverage/clover.xml 50"
+    ]
   },
   "config": {
     "preferred-install": "dist",

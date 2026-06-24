@@ -73,4 +73,10 @@ seed.sql
 
 # Office lock/temp files
 ~$*
+
+# PHPUnit
+/.phpunit.cache/
+/data/coverage/
+/public/coverage/
+/.phpunit.result.cache
 docker-compose.override.yml

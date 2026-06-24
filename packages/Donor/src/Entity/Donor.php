@@ -2,6 +2,7 @@
 
 namespace Solidarity\Donor\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -50,6 +51,13 @@ class Donor
     #[ORM\ManyToMany(targetEntity: Project::class, inversedBy: 'donors')]
     #[ORM\JoinTable(name: 'donor_project')]
     public Collection $projects;
+
+    public function __construct()
+    {
+        $this->paymentMethods = new ArrayCollection();
+        $this->transactions = new ArrayCollection();
+        $this->projects = new ArrayCollection();
+    }
 
     public static function getHrStatuses(): array
     {

@@ -2,6 +2,7 @@
 
 namespace Solidarity\Delegate\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -43,6 +44,12 @@ class Delegate implements AuthenticatableInterface
     #[ORM\ManyToMany(targetEntity: Project::class, inversedBy: 'delegates')]
     #[ORM\JoinTable(name: 'delegate_project')]
     public Collection $projects;
+
+    public function __construct()
+    {
+        $this->schools = new ArrayCollection();
+        $this->projects = new ArrayCollection();
+    }
 
     public static function getHrStatuses(): array
     {
@@ -86,7 +93,8 @@ class Delegate implements AuthenticatableInterface
 
     public function isActive(): bool
     {
-        return (bool) $this->status;
+        // Only verified delegates may authenticate (request a magic link / log in).
+        return $this->status === self::STATUS_VERIFIED;
     }
 
     public function supportsAuthenticator(string $authenticatorType): bool

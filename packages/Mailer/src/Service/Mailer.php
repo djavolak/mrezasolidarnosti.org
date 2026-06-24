@@ -16,6 +16,46 @@ class Mailer extends \Skeletor\Core\Mailer\Service\MailerSendMailer
         parent::__construct($mail, $config, $template);
     }
 
+    /**
+     * Only production sends through MailerSend. Everywhere else (development,
+     * staging, CLI/cron without APPLICATION_ENV set) the mail is caught via SMTP
+     * — Mailpit in dev — so no real email is ever sent outside production.
+     */
+    protected function send($recipients, $subject, $html)
+    {
+        if (strtolower((string) getenv('APPLICATION_ENV')) === 'production') {
+            parent::send($recipients, $subject, $html);
+            return;
+        }
+
+        $this->catchViaSmtp($recipients, $subject, $html);
+    }
+
+    /**
+     * @param \MailerSend\Helpers\Builder\Recipient[] $recipients
+     */
+    private function catchViaSmtp($recipients, string $subject, string $html): void
+    {
+        $smtp = $this->config->mailer->smtp;
+
+        $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
+        $mail->isSMTP();
+        $mail->Host = $smtp->host;
+        $mail->Port = (int) $smtp->port;
+        $mail->SMTPAuth = false;
+        $mail->CharSet = \PHPMailer\PHPMailer\PHPMailer::CHARSET_UTF8;
+        $mail->setFrom($this->config->mailer->from, $this->config->offsetGet('appName'));
+        foreach ($recipients as $recipient) {
+            $data = $recipient->toArray();
+            $mail->addAddress($data['email'], (string) ($data['name'] ?? ''));
+        }
+        $mail->isHTML(true);
+        $mail->Subject = $subject;
+        $mail->Body = $html;
+        $mail->AltBody = strip_tags($html);
+        $mail->send();
+    }
+
     // @todo
     public function sendTransactionListToDelegate($email, $listPath)
     {
