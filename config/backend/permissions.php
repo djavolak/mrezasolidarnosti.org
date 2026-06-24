@@ -58,6 +58,37 @@ return [
         'project.manage' => [User::ROLE_ADMIN],
         'city.manage' => [User::ROLE_ADMIN],
 
+        // Page permissions
+        'page.view_list' => [User::ROLE_ADMIN],
+        'page.view' => [User::ROLE_ADMIN],
+        'page.create' => [User::ROLE_ADMIN],
+        'page.edit' => [User::ROLE_ADMIN],
+        'page.delete' => [User::ROLE_ADMIN],
+
+        // Image permissions
+        'image.view_list' => [User::ROLE_ADMIN],
+        'image.view' => [User::ROLE_ADMIN],
+        'image.create' => [User::ROLE_ADMIN],
+        'image.edit' => [User::ROLE_ADMIN],
+        'image.delete' => [User::ROLE_ADMIN],
+
+        // File permissions
+        'file.view_list' => [User::ROLE_ADMIN],
+        'file.view' => [User::ROLE_ADMIN],
+        'file.create' => [User::ROLE_ADMIN],
+        'file.edit' => [User::ROLE_ADMIN],
+        'file.delete' => [User::ROLE_ADMIN],
+
+        // Theme settings permissions
+        'theme.all' => [User::ROLE_ADMIN],
+
+        // Navigation settings permissions
+        'navigation.all' => [User::ROLE_ADMIN],
+
+        // Social settings permissions
+        'social.all' => [User::ROLE_ADMIN],
+
+
         // Import permissions
         'import.educator' => [User::ROLE_ADMIN],
         'import.transaction' => [User::ROLE_ADMIN],
@@ -136,6 +167,45 @@ return [
         '/period/*' => 'period.manage',
         '/schoolType/*' => 'schoolType.manage',
         '/city/*' => 'city.manage',
+
+        // Page routes
+        '/page/view/' => 'page.view_list',
+        '/page/view/*' => 'page.view',
+        '/page/tableHandler/' => 'page.view_list',
+        '/page/create/' => 'page.create',
+        '/page/form/' => 'page.create',
+        '/page/form/*' => 'page.edit',
+        '/page/update/*' => 'page.edit',
+        '/page/delete/*' => 'page.delete',
+
+        // Image routes
+        '/image/view/' => 'page.view_list',
+        '/image/view/*' => 'page.view',
+        '/image/tableHandler/' => 'page.view_list',
+        '/image/create/' => 'page.create',
+        '/image/form/' => 'page.create',
+        '/image/form/*' => 'page.edit',
+        '/image/update/*' => 'page.edit',
+        '/image/delete/*' => 'page.delete',
+
+        // File routes
+        '/file/view/' => 'page.view_list',
+        '/file/view/*' => 'page.view',
+        '/file/tableHandler/' => 'page.view_list',
+        '/file/create/' => 'page.create',
+        '/file/form/' => 'page.create',
+        '/file/form/*' => 'page.edit',
+        '/file/update/*' => 'page.edit',
+        '/file/delete/*' => 'page.delete',
+
+        // Theme settings routes
+        '/theme/*' => 'theme.all',
+
+        // Navigation settings routes
+        '/navigation/*' => 'navigation.all',
+
+        // Social routes
+        '/social/*' => 'social.all',
 
         // Import routes
         '/educatorImport/*' => 'import.educator',

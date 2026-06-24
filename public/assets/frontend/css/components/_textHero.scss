@@ -1,0 +1,57 @@
+@use '../setup/typography';
+.textHero {
+  padding: 7.7rem 4.25rem;
+  background:var(--colorBackgroundGray);
+  @media(max-width: 768px) {
+    padding: 3rem 1.25rem;
+  }
+  &.smallGap {
+    padding:5rem 4.25rem;
+    @media(max-width: 768px) {
+      padding: 3rem 1.25rem;
+    }
+    h1,h2 {
+      margin-bottom:1rem;
+      @media(max-width:768px) {
+        margin-bottom:1rem;
+      }
+    }
+  }
+  &.noGap {
+    padding-bottom:0;
+  }
+  h1 {
+    @include typography.type(h1);
+    text-align:center;
+    color:var(--colorDarkBlue);
+    margin-bottom:3rem;
+    @media(max-width:768px) {
+      @include typography.type(h2);
+      margin-bottom:1.5rem;
+    }
+  }
+  h2 {
+    @include typography.type(h3);
+    text-align:center;
+    color:var(--colorDarkBlue);
+    max-width:871px;
+    margin-left:auto;
+    margin-right:auto;
+    margin-bottom:1.5rem;
+    @media(max-width:768px) {
+      @include typography.type(h4);
+    }
+  }
+  p {
+    @include typography.type(text);
+    color:var(--colorDarkBlue);
+    text-align:center;
+    max-width:871px;
+    margin:0 auto;
+  }
+  .heroIcon {
+    display:block;
+    width:max-content;
+    margin:1.5rem auto 0;
+  }
+}

@@ -1,0 +1,75 @@
+@use '../setup/typography';
+.howItWorksContent {
+  padding-top:5rem;
+  padding-bottom:5rem;
+  @media(max-width: 768px) {
+    padding-top:3rem;
+    padding-bottom:3rem;
+  }
+}
+
+.howItWorksBanner {
+  padding:7.75rem 4.25rem;
+  display:flex;
+  background:var(--colorDarkBlue);
+  gap:4rem;
+  position:relative;
+  overflow:hidden;
+  @media(max-width:768px) {
+    padding:7.75rem 1.25rem 3rem 1.25rem;
+  }
+   a {
+    cursor: pointer;
+    transition: 0.3s ease;
+    height: max-content;
+    letter-spacing: 0;
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.4;
+    padding: 6px 16px;
+    border-radius: 6px;
+    background-color: var(--colorBackgroundGray);
+    border: 1px solid var(--colorBackgroundGray);
+    color: var(--colorDarkBlue);
+    width: max-content;
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+     margin-top:1rem;
+  }
+  svg {
+    position: absolute;
+    top:-95px;
+    left:0;
+    @media(max-width:900px) {
+      width:225px;
+      height:155px;
+      top:-50px;
+      left:-30px;
+    }
+  }
+  &> div {
+    width:663px;
+    max-width:100%;
+    margin-left:30rem;
+    @media(max-width:900px) {
+      margin-left:0;
+    }
+    h2 {
+      @include typography.type(h1);
+      color:var(--colorBeige);
+      margin-bottom:3rem;
+      @media(max-width:768px) {
+        @include typography.type(h2);
+      }
+    }
+    p {
+      @include typography.type(h3);
+      font-weight:normal;
+      color:var(--colorBeige);
+    }
+  }
+}

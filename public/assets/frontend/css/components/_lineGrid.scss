@@ -1,0 +1,174 @@
+@use '../setup/typography';
+
+.lineGridWrapper {
+  padding: 5rem 4.25rem;
+  @media(max-width: 768px) {
+    padding: 3rem 1.25rem;
+  }
+
+  .lineGrid {
+    padding: 5rem;
+    background: var(--colorBackgroundGray);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+
+    .mainLine {
+      position: absolute;
+      height: 100%;
+      width: 4px;
+      background: rgba(38, 33, 133, 0.2);
+      z-index: 1;
+    }
+
+    .grid {
+      z-index: 2;
+      position: relative;
+
+      .title {
+        @include typography.type(h3);
+        color: var(--colorDarkBlue);
+        word-wrap: break-word;
+        white-space: break-spaces;
+        display: block;
+      }
+      .info {
+        width: 237px;
+        display: flex;
+        gap: 1.25rem;
+        flex-direction: column;
+        padding: 1.25rem;
+        border: 1px solid rgba(38, 33, 133, 0.2);
+        border-radius: 10px;
+
+        p {
+          @include typography.type(caption);
+          color: var(--colorDarkBlue);
+        }
+      }
+
+      .connector {
+        position: absolute;
+        height: 1px;
+        width: 23%;
+        left: -23%;
+        top: 30px;
+        background: rgba(38, 33, 133, 0.2);
+      }
+
+      .left, .right {
+        .collapsibleHandle {
+          background: var(--colorDarkBlue);
+          margin-top: 1rem;
+          padding: 1.25rem;
+          border-radius: 10px;
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          cursor: pointer;
+          &:has(.image) {
+            display:grid;
+            grid-template-columns:1fr 1fr 1fr;
+          }
+          span {
+            @include typography.type(h4);
+            color: white;
+            flex: 1;
+            pointer-events: none;
+          }
+        }
+
+        .collapsible {
+          display: grid;
+          grid-template-rows: 0fr;
+          transition: 0.3s ease grid-template-rows;
+
+          &.active {
+            grid-template-rows:1fr;
+          }
+
+          .collapsibleWrapper {
+            overflow: hidden;
+            margin-top: 1rem;
+
+            p {
+              border-radius: 10px;
+              @include typography.type(text);
+              color: var(--colorDarkBlue);
+              background: white;
+              padding: 1rem;
+
+              span {
+                @include typography.type(caption);
+                color: var(--colorDarkBlue);
+                display: block;
+                margin-top: 1rem;
+              }
+            }
+          }
+        }
+        .description {
+          background:white;
+          border-radius:10px;
+          padding:1.25rem;
+          ul, ol {
+            list-style:disc;
+            padding-left:1.5rem;
+          }
+          p,ul,li,a,h1,h2,h3,h4,h5,h6,b {
+            @include typography.type(text);
+            color:var(--colorDarkBlue);
+          }
+          span {
+            @include typography.type(caption);
+            margin-top:1rem;
+            color:var(--colorDarkBlue);
+            display:block;
+          }
+        }
+      }
+
+      .left {
+        position: absolute;
+        width: 344px;
+        right: 110px;
+        top: 0;
+        .title {
+          text-align:right;
+        }
+      }
+
+      .right {
+        position: absolute;
+        width: 344px;
+        left: 110px;
+        top: 0;
+        .title {
+          text-align:left;
+        }
+      }
+
+      .center {
+        width: 56px;
+        height: 56px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+
+        &.numbered {
+          background: var(--colorOrange);
+          @include typography.type(h3);
+          color: var(--colorBeige);
+        }
+
+        &.icon {
+
+        }
+      }
+    }
+  }
+}

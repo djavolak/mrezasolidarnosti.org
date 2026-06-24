@@ -1,0 +1,436 @@
+@use '../setup/typography';
+main {
+  &:has(#donationForm.active) {
+    padding:3rem 0;
+    @media(max-width:768px) {
+      padding:0;
+    }
+  }
+}
+#profileContent {
+  padding: 5rem 4.25rem;
+  &.hidden {
+    display:none;
+  }
+  @media (max-width: 768px) {
+    padding: 3rem 1.25rem;
+  }
+  #profileHeroText {
+    h1 {
+      @include typography.type(h3);
+      color: var(--colorDarkBlue);
+      text-align:center;
+      margin-bottom:1rem;
+    }
+    &> p {
+      @include typography.type(text);
+      color: var(--colorDarkBlue);
+      text-align:center;
+    }
+  }
+  #projectsProfile {
+    margin-top:3rem;
+    margin-bottom:3rem;
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:1.5rem;
+    @media(max-width:1100px) {
+      grid-template-columns:1fr;
+    }
+    .project {
+      padding:1.5rem;
+      display:flex;
+      flex-direction:column;
+      gap:1.9rem;
+      border-radius:10px;
+      transition:0.3s ease all;
+      &.active {
+        box-shadow: 4px 4px 20px 0 rgba(0, 0, 0, 0.25);
+        transform:scale(1.03);
+      }
+      &.disabled {
+        opacity:50%;
+      }
+      .projectTitle {
+        span {
+          @include typography.type(h5);
+          font-weight:300;
+        }
+        h2 {
+          @include typography.type(h2);
+        }
+      }
+      .projectDescription {
+        @include typography.type(text);
+      }
+      button {
+        padding:0.75rem 1.5rem;
+        border:1px solid var(--colorDarkBlue);
+        color:var(--colorDarkBlue);
+        @include typography.type(nav);
+        background:var(--colorBackgroundGray);
+        width:max-content;
+        border-radius:6px;
+        cursor:pointer;
+      }
+      &#education {
+        background:var(--colorBlue);
+        color:var(--colorBeige);
+      }
+      &#repression {
+        background:var(--colorGreen);
+        color:var(--colorDarkBlue);
+      }
+      &#allProjects {
+        background:var(--colorDarkBlue);
+        color:var(--colorBeige);
+      }
+    }
+  }
+  #projectTooltip {
+    display:flex;
+    gap:1rem;
+    align-items:center;
+    justify-content:center;
+    @include typography.type(text);
+    color: var(--colorDarkBlue);
+  }
+}
+
+
+#donationForm {
+  max-width:1312px;
+  padding:4rem 6rem;
+  background:white;
+  border-radius:40px;
+  display:none;
+  margin:0 auto;
+  @media(max-width:768px) {
+    border-radius:0;
+    padding:4rem 1rem;
+  }
+  &.education {
+    #donationFormFields {
+      background:var(--colorBlue);
+    }
+    #donationFormLogo {
+      * {
+        fill:var(--colorBlue);
+      }
+    }
+    .currency {
+      &.active {
+        background:var(--colorBlue);
+        color:white !important;
+      }
+    }
+    #frequencyFields {
+      .trigger {
+        padding:1.5rem;
+        border-radius:8px;
+        color:var(--colorBlue);
+        &.active {
+          background:Var(--colorBlue);
+          color:white !important;
+        }
+      }
+    }
+    #paymentMethodFields {
+      .trigger {
+        &:hover {
+          background:var(--colorBlue) !important;
+          color:white !important;
+        }
+        &.active {
+          background:var(--colorBlue) !important;
+          color:white !important;
+        }
+      }
+    }
+  }
+  &.repression {
+    #donationFormFields {
+      background:var(--colorGreen);
+    }
+    #donationFormLogo {
+      * {
+        fill:#2B6F0A;
+      }
+    }
+    .currency {
+      &.active {
+        background:var(--colorGreen);
+        color:white !important;
+      }
+    }
+    #frequencyFields {
+      .trigger {
+        padding:1.5rem;
+        border-radius:8px;
+        &.active {
+          background:var(--colorGreen);
+          color:var(--colorDarkBlue);
+          border:1px solid var(--colorGreen) !important;
+        }
+      }
+    }
+    #paymentMethodFields {
+      .trigger {
+        &:hover {
+          background:var(--colorGreen) !important;
+        }
+        &.active {
+          background:var(--colorGreen) !important;
+          border:1px solid var(--colorGreen) !important;
+        }
+      }
+    }
+  }
+  &.allProjects {
+    #donationFormFields {
+      background:var(--colorDarkBlue);
+    }
+    #donationFormLogo {
+      * {
+        fill:var(--colorDarkBlue);
+      }
+    }
+    .currency {
+      &.active {
+        background:var(--colorDarkBlue);
+        color:white !important;
+      }
+    }
+    #frequencyFields {
+      .trigger {
+        padding:1.5rem;
+        border-radius:8px;
+        color:var(--colorDarkBlue);
+        &.active {
+          background:Var(--colorDarkBlue);
+          color:white !important;
+        }
+      }
+    }
+    #paymentMethodFields {
+      .trigger {
+        &:hover {
+          background:var(--colorDarkBlue) !important;
+          color:white !important;
+        }
+        &.active {
+          background:var(--colorDarkBlue) !important;
+          color:white !important;
+        }
+      }
+    }
+  }
+  &.active {
+    display:block;
+  }
+  #donationFormTopBar {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    #backToProfile {
+      display:flex;
+      align-items:center;
+      gap:0.5rem;
+      cursor:pointer;
+      background: transparent;
+      border: none;
+      outline: none;
+      @include typography.type(text);
+      color: var(--colorDarkBlue);
+    }
+    #closeForm {
+      cursor:pointer;
+    }
+  }
+  #donationFormInner {
+    max-width:866px;
+    margin:2rem auto;
+    #donationFormLogo {
+      svg {
+        width: 218px;
+        height: auto;
+      }
+    }
+    h2 {
+      margin-top:1rem;
+      margin-bottom:1rem;
+      @include typography.type(h2);
+      color: var(--colorDarkBlue);
+      @media(max-width:768px) {
+        @include typography.type(h3);
+      }
+    }
+    #donationFormDescription {
+      display:flex;
+      align-items:center;
+      gap:1rem;
+      @media(max-width:768px) {
+        align-items:flex-start;
+      }
+      span {
+        @include typography.type(text);
+        color: var(--colorDarkBlue);
+        flex:1;
+        @media(max-width:768px) {
+          @include typography.type(caption);
+        }
+      }
+    }
+    #donationFormFields {
+      margin-top:3rem;
+      padding:2rem;
+      border-radius:10px;
+      display:flex;
+      flex-direction:column;
+      gap:1rem;
+      .formFields {
+        background:white;
+        padding:1.5rem;
+        border-radius:10px;
+        h3 {
+          @include typography.type(h4);
+          color: var(--colorDarkBlue);
+        }
+        .info {
+          display:block;
+          @include typography.type(caption);
+          color: var(--colorDarkBlue);
+        }
+      }
+      #frequencyFields {
+        .inputs {
+          display:grid;
+          grid-template-columns:1fr 1fr;
+          gap:1rem;
+          margin-top:1.5rem;
+          margin-bottom:1.5rem;
+          @media(max-width:960px) {
+            grid-template-columns:1fr;
+          }
+          .trigger {
+            opacity:40%;
+            cursor:pointer;
+            transition:0.3s ease all;
+            border:1px solid var(--colorBlue);
+            color:var(--colorDarkBlue);
+            font-weight:600;
+            &:hover {
+              opacity:100%;
+            }
+            &.active {
+              opacity:100%;
+            }
+          }
+        }
+      }
+      #paymentMethodFields {
+        input {
+          &[type="checkbox"] {
+            display:none;
+          }
+        }
+        .inputs {
+          display:grid;
+          grid-template-columns:1fr 1fr 1fr 1fr;
+          gap:1rem;
+          @media(max-width:960px) {
+            grid-template-columns:1fr;
+          }
+        }
+        .triggerContainer {
+          display:flex;
+          flex-direction:column;
+          gap:0.5rem;
+          &> span {
+            @include typography.type(caption);
+            color: var(--colorDarkBlue);
+          }
+        }
+        .info {
+          margin-top:1rem;
+          margin-bottom:1rem;
+          display:block;
+        }
+        .trigger {
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          padding:1.5rem;
+          background:white;
+          border:1px solid  var(--colorDarkBlue);
+          border-radius:8px;
+          color:var(--colorDarkBlue);
+          transition:0.3s ease all;
+          cursor:pointer;
+          font-weight:600;
+        }
+      }
+      .paymentInputContainer {
+        .inputs {
+          display:flex;
+          gap:1rem;
+          margin-top:1rem;
+          margin-bottom:1rem;
+          @media(max-width:960px) {
+            flex-direction:column;
+          }
+          input {
+            &[type="number"] {
+              padding: 1rem 1.5rem;
+              border: 1px solid var(--colorDarkBlue);
+              border-radius: 8px;
+              color: var(--colorDarkBlue);
+              flex:1;
+              outline:none;
+              @include typography.type(h3);
+              font-weight:bold;
+              &::placeholder {
+                color:Var(--colorDarkBlue);
+                opacity:50%;
+                font-weight:normal;
+                @include typography.type(h4);
+              }
+            }
+            &[type="radio"] {
+              display:none;
+            }
+          }
+          .currencies {
+            display:flex;
+            gap:1rem;
+            .currency {
+              padding:1rem 2rem;
+              border:1px solid var(--colorDarkBlue);
+              display:flex;
+              align-items:center;
+              justify-content:center;
+              @include typography.type(nav);
+              font-weight:600;
+              border-radius:10px;
+              cursor:pointer;
+              color:var(--colorDarkBlue);
+              transition:0.3s ease all;
+              &.active {
+                border:1px solid transparent;
+              }
+            }
+          }
+        }
+      }
+    }
+    #donationFormActions {
+      display:flex;
+      gap:1rem;
+      margin-top:3rem;
+      a {
+        padding-top:0.5rem;
+        padding-bottom:0.5rem;
+      }
+    }
+  }
+}

@@ -1,149 +1,82 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title><?=$this->e($pageTitle)?></title>
-
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Custom fonts for this template-->
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-          rel="stylesheet">
-
-    <!-- Custom styles for this template-->
-    <link href="<?=ADMIN_ASSET_URL .'/css/style.css?v=3'?>" rel="stylesheet"/>
-    <link rel="stylesheet" href="https://skeletor.greenfriends.systems/dtables/1.x/0.0/css/style.css">
-
-    <?=$this->section('cssinclude')?>
-    <?=$this->section('jsinclude')?>
+    <link rel="stylesheet" href="https://skeletor.greenfriends.systems/skeletorjs/css/style.css">
+    <link rel="stylesheet" href="<?=ADMIN_ASSET_URL . '/css/style.css?v=0.0.8'?>">
+    <link rel="shortcut icon" href="<?= ADMIN_ASSET_URL ?>/images/favicon.ico"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="<?= ADMIN_ASSET_URL ?>/images/apple-touch-icon.png"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100;0,9..40,200;0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;0,9..40,900;0,9..40,1000;1,9..40,100;1,9..40,200;1,9..40,300;1,9..40,400;1,9..40,500;1,9..40,600;1,9..40,700;1,9..40,800;1,9..40,900;1,9..40,1000&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
 </head>
-<body id="page-top">
-<!-- Page Wrapper -->
-<div id="wrapper">
-
-    <!-- Sidebar -->
+<body>
+<?php if(isset($loggedIn) && $loggedIn):?>
     <?=$this->section('navigation', $this->fetch('partialsGlobal::navigation'))?>
-    <!-- End of Sidebar -->
+<?php endif;?>
+<main id="main" <?= isset($data, $data['jsPage']) ? 'data-page="' . $data['jsPage'] . '"' : '' ?>>
+    <!-- Message container start -->
+    <div id="messageContainer"></div>
+    <!-- Message container end -->
+    <div id="messageContainerFixed"></div>
+    <?=$this->section('content')?>
 
-    <!-- Content Wrapper -->
-    <div id="content-wrapper" class="d-flex flex-column">
-        <!-- Main Content -->
-        <div id="content">
-            <!-- Topbar -->
-            <?=$this->section('topBar', $this->fetch('partialsGlobal::topBar'))?>
-            <!-- End of Topbar -->
-            <div id="pageMessageContainer">
-                <div id="pageErrorContainer"></div>
-                <div id="messageContainer"></div>
-                <!-- output flash messages -->
-                <?php if (isset($messages)) { //@todo remove this, but keep if not ajax?
-                    echo $messages;
-                } ?>
+    <!-- Media Library start -->
+    <div id="mediaLibraryOverlay" class="hidden">
+        <div id="mediaLibrary">
+            <div id="mediaLibraryTopBar">
+                <div id="uploadMedia" title="Upload">
+                    <input type="file" multiple id="uploadMediaInput">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
+                        <path d="M144 480C64.5 480 0 415.5 0 336c0-62.8 40.2-116.2 96.2-135.9c-.1-2.7-.2-5.4-.2-8.1c0-88.4 71.6-160 160-160c59.3 0 111 32.2 138.7 80.2C409.9 102 428.3 96 448 96c53 0 96 43 96 96c0 12.2-2.3 23.8-6.4 34.6C596 238.4 640 290.1 640 352c0 70.7-57.3 128-128 128H144zm79-217c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l39-39V392c0 13.3 10.7 24 24 24s24-10.7 24-24V257.9l39 39c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-80-80c-9.4-9.4-24.6-9.4-33.9 0l-80 80z"/>
+                    </svg>
+                    <span>File Upload</span>
+                </div>
+                <input aria-label="Search" type="text" placeholder="Search..." class="input" id="searchMediaLibraryInput">
+                <select aria-label="File Type" class="input" id="mediaLibraryFileTypeSelect">
+                    <option value="0" disabled>Images</option>
+                    <option value="1" disabled>Documents</option>
+                </select>
+                <input aria-label="From" type="date" class="input" id="mediaLibraryDateFrom">
+                <input aria-label="To" type="date" class="input" id="mediaLibraryDateTo">
+                <div id="closeMediaLibrary">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                        <path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"/>
+                    </svg>
+                </div>
+                <div id="mediaLibraryProgressBarContainer"></div>
             </div>
-            <!-- Begin Page Content -->
-            <div class="container-fluid contentWrapper">
-                <?=$this->section('content')?>
-            </div>
-            <!-- /.container-fluid -->
-        </div>
-        <!-- End of Main Content -->
+            <div id="mediaLibraryContent">
+                <div id="cellsWrapper">
+                    <div id="cells">
 
-        <!-- Footer -->
-        <footer class="sticky-footer bg-white">
-            <div class="container my-auto">
-                <div class="copyright text-center my-auto">
-                    <span>Copyright &copy; Gampo <?=date('Y')?>.</span>
+                    </div>
+                </div>
+                <div id="mediaLibrarySidebar">
+                    <div id="mediaLibrarySidebarMessageContainer"></div>
                 </div>
             </div>
-        </footer>
-        <!-- End of Footer -->
-    </div>
-    <!-- End of Content Wrapper -->
-</div>
-<!-- End of Page Wrapper -->
-
-<!-- Scroll to Top Button-->
-<a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-</a>
-<div id="userId" data-userId="<?=($userId ?? '')?>"></div>
-
-<!-- Modal -->
-<div id="modal" class="hidden">
-    <div id="innerModal">
-        <div id="errorContainer"></div>
-        <div id="modalContent"></div>
-        <div id="closeModal">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-        </div>
-    </div>
-</div>
-
-<!-- Scroll to Top Button-->
-<a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-</a>
-<div id="userId" data-userId="<?=($userId ?? '')?>"></div>
-
-<template id="userOptionsTemplate">
-    <div id="userOptionsModal">
-        <div id="closeUserOptionsButton">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
-                <path d="M310.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L160 210.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L114.7 256 9.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 301.3 265.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L205.3 256 310.6 150.6z"></path>
-            </svg>
-        </div>
-        <div id="userColumnOptionsHeader">
-            <h4>Column options</h4>
-            <div id="userColumnOptionsExpand">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                    <path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"></path>
-                </svg>
-            </div>
-        </div>
-        <div id="userColumnOptionsContainer">
-
-        </div>
-        <div id="userTableOptionsHeader">
-            <h4>Table options</h4>
-            <div id="userTableOptionsExpand">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                    <path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"></path>
-                </svg>
-            </div>
-        </div>
-        <div id="userTableOptionsContainer">
-            <div class="userTableOption">
-                <input id="userTableFontSizeOption" type="number" class="userOptionInput" placeholder="Table font size">
+            <div id="mediaLibraryBottomBar">
+                <button class="btn primary hidden" id="insertMedia">
+                    Insert
+                </button>
             </div>
         </div>
     </div>
-</template>
-<template id="userColumnOptionTemplate">
-    <div class="userColumnOption">
-        <div>
-            <input type="checkbox" class="toggleColumn">
-            <span class="columnName"></span>
-        </div>
-        <div>
-            <input type="number" class="userOptionInput columnWidth" placeholder="Column width">
-        </div>
+    <!-- Media Library end -->
+    <div id="toTopButton">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M233.4 105.4c12.5-12.5 32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L256 173.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l192-192z"/></svg>
     </div>
-</template>
+</main>
 
 
-<!-- Bootstrap core JavaScript-->
-<script src="<?=ADMIN_ASSET_URL .'/vendor/jquery/jquery.min.js'?>"></script>
-<script src="<?=ADMIN_ASSET_URL .'/vendor/bootstrap/js/bootstrap.bundle.min.js'?>"></script>
-<script src="<?=ADMIN_ASSET_URL .'/js/bootstrap-datetimepicker.min.js'?>"></script>
-
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-
-<!-- Custom scripts for all pages-->
-<script src="<?=ADMIN_ASSET_URL .'/js/luxon.js'?>"></script>
-<script src="<?=ADMIN_ASSET_URL .'/js/sb-admin-2.js'?>"></script>
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
 <script src="<?=ADMIN_ASSET_URL .'/js/global.js?v=1.0.6'?>" type="module"></script>
+<script type="module" src="<?=ADMIN_ASSET_URL . '/js/dashboard.js?v=1.0.0'?>"></script>
 </body>
 </html>

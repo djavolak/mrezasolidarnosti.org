@@ -1,0 +1,89 @@
+@use '../setup/typography';
+@use '../setup/buttons';
+#howItWorks {
+  display:flex;
+  gap:1rem;
+  justify-content:space-between;
+  padding: 7.7rem 4.25rem;
+  background:var(--colorBackgroundGray);
+  @media(max-width:1130px) {
+    flex-direction:column;
+  }
+  @media(max-width:900px) {
+    padding: 3rem 1.25rem;
+  }
+  #howItWorksLeft {
+    max-width:408px;
+    h2 {
+        @include typography.type(h1);
+        color:var(--colorDarkBlue);
+        margin-bottom:1.5rem;
+        @media (max-width:1230px) {
+          @include typography.type(h2);
+        }
+    }
+    p {
+      @include typography.type(text);
+      color:var(--colorDarkBlue);
+      margin-bottom:1.5rem;
+    }
+    a {
+      @include typography.type(text);
+      display:flex;
+      gap:0.3rem;
+      align-items:center;
+      color:var(--colorDarkBlue);
+      &:hover {
+        color: var(--colorOrange);
+      }
+    }
+  }
+  #howItWorksRight {
+    display:flex;
+    gap:1rem;
+    margin-top:14rem;
+    position:relative;
+    @media(max-width:1130px) {
+      margin-top:6rem;
+    }
+    @media(max-width:900px) {
+      flex-direction:column;
+      margin-top:0;
+      gap:2rem;
+    }
+    img {
+      position:absolute;
+      top: -5rem;
+      left: 5.5rem;
+      @media(max-width:900px) {
+        position:static;
+        width:100%;
+        margin:1.5rem auto;
+      }
+    }
+    .step {
+      width:205px;
+      .stepNumber {
+        @include typography.type(display);
+        color:var(--colorOrange);
+        margin-bottom:1rem;
+        @media(max-width:900px) {
+          @include typography.type(h2);
+        }
+      }
+      h3 {
+        @include typography.type(h4);
+        color:var(--colorDarkBlue);
+        margin-bottom:0.5rem;
+      }
+      p {
+        @include typography.type(text);
+        color:var(--colorDarkBlue);
+      }
+      a {
+        @include buttons.button(small);
+        margin-top:1.5rem;
+      }
+    }
+  }
+}

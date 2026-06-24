@@ -1,5 +1,5 @@
 <?php $this->layout('layout::standard') ?>
-<main class="it-grid">
+<div id="notFound">
     <h1>Stranica nije pronađena</h1>
-    <p>Probajte <a href="/">iz početka</a>.</p>
-</main>
+    <p>Probajte <a href="/" title="Home">iz početka</a>.</p>
+</div>

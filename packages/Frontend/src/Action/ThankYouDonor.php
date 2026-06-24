@@ -4,15 +4,19 @@ namespace Solidarity\Frontend\Action;
 use Laminas\Config\Config;
 use Laminas\Session\SessionManager as Session;
 use League\Plates\Engine;
+use Skeletor\ThemeSettings\Navigation\Service\Navigation;
+use Skeletor\ThemeSettings\SocialLinks\Service\SocialLinks;
 use Solidarity\Frontend\Action\BaseAction;
 use Psr\Log\LoggerInterface as Logger;
 
 class ThankYouDonor extends BaseAction
 {
     public function __construct(
-        Logger $logger, Config $config, Engine $template, private \Solidarity\Delegate\Service\Delegate $delegate
+        Logger $logger, Config $config, Engine $template, private \Solidarity\Delegate\Service\Delegate $delegate,
+        protected Navigation $navigationService,
+        protected SocialLinks $socialLinks,
     ) {
-        parent::__construct($logger, $config, $template);
+        parent::__construct($logger, $config, $template, $this->navigationService, $this->socialLinks);
 
     }
 

@@ -1,0 +1,37 @@
+@use '../setup/typography';
+.languageSwitcher {
+  position:relative;
+  cursor:pointer;
+  .currentLanguage {
+    color:var(--colorDarkBlue);
+    @include typography.type(nav);
+  }
+  .languageOptions {
+    display:none;
+    flex-direction:column;
+    position:absolute;
+    left:-150%;
+    background:white;
+    top:100%;
+    border:2px solid var(--colorDarkBlue);
+    border-radius:6px;
+    &.active  {
+      display:flex;
+    }
+      li {
+        a {
+          padding:0.2rem 2rem;
+          display:block;
+          &.active {
+            background:var(--colorGray);
+            color:white;
+            opacity:50%;
+          }
+          &:not(.active):hover {
+            background: var(--colorDarkBlue);
+            color:white;
+          }
+        }
+      }
+    }
+}

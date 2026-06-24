@@ -51,6 +51,23 @@ class DonorRepository extends TableViewRepository
         return ['a.email', 'a.status'];
     }
 
+    public function getDonorCount(int $status, ?bool $isActive = true): int
+    {
+        $qb = $this->entityManager->createQueryBuilder();
+
+        $qb->select('COUNT(d.id)')
+            ->from(Donor::class, 'd')
+            ->where('d.status = :status')
+            ->setParameter('status', $status);
+
+        if ($isActive !== null) {
+            $qb->andWhere('d.isActive = :isActive')
+                ->setParameter('isActive', $isActive);
+        }
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
 //    public function fetchForMapping()
 //    {
 //        $sql = "SELECT *,

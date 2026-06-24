@@ -35,6 +35,18 @@ class BeneficiaryRepository extends TableViewRepository
         return [];
     }
 
+    public function getBeneficiaryCount(int $excludeStatus = Beneficiary::STATUS_DELETED): int
+    {
+        $qb = $this->entityManager->createQueryBuilder();
+
+        $qb->select('COUNT(b.id)')
+            ->from(Beneficiary::class, 'b')
+            ->where('b.status != :status')
+            ->setParameter('status', $excludeStatus);
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
     public function fetchByPeriod(int $periodId): array
     {
         $qb = $this->entityManager->createQueryBuilder();

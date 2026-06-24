@@ -11,6 +11,26 @@ use Laminas\Config\Config;
 use Skeletor\Core\Mailer\Service\MailerInterface;
 use Skeletor\Core\Security\Authorization\AuthorizationService;
 use Skeletor\Core\Security\EntityRegistry;
+use Solidarity\Backend\Blocks\About\About;
+use Solidarity\Backend\Blocks\Banner\Banner;
+use Solidarity\Backend\Blocks\Connect\Connect;
+use Solidarity\Backend\Blocks\Contactcards\Contactcards;
+use Solidarity\Backend\Blocks\Ctabanner\Ctabanner;
+use Solidarity\Backend\Blocks\Direction\Direction;
+use Solidarity\Backend\Blocks\Faq\Faq;
+use Solidarity\Backend\Blocks\Herotext\Herotext;
+use Solidarity\Backend\Blocks\Projectsdisplay\Projectsdisplay;
+use Solidarity\Backend\Blocks\Sidebyside\Sidebyside;
+use Solidarity\Backend\Blocks\Threepillars\Threepillars;
+use Solidarity\Backend\Blocks\Valuecards\Valuecards;
+use Solidarity\Backend\Blocks\Whotocall\Whotocall;
+use Solidarity\Backend\Blocks\Howitworks\Howitworks;
+use Solidarity\Backend\Blocks\Testimonials\Testimonials;
+use Solidarity\Backend\Blocks\Whywearedifferent\Whywearedifferent;
+use Solidarity\Backend\Blocks\Find\Find;
+use Solidarity\Backend\Blocks\HeroStats\HeroStats;
+use Symfony\Component\Cache\Adapter\RedisAdapter;
+use Symfony\Component\Cache\Adapter\TagAwareAdapter;
 use Tamtamchik\SimpleFlash\Flash;
 use Skeletor\Core\Acl\Acl;
 use \League\Flysystem\Filesystem;
@@ -55,7 +75,36 @@ $container->set(\Skeletor\ContentEditor\Contracts\BlockParserFactoryInterface::c
         $container->get(\Skeletor\Image\Service\Image::class)
     );
 
-//    $blockParserFactory->registerBlockParser(TestBlock::NAME, new TestBlock());
+    $blockParserFactory->registerBlockParser(HeroStats::NAME, new HeroStats());
+    $blockParserFactory->registerBlockParser(Find::NAME, new Find(
+        $container->get(\Skeletor\Image\Service\Image::class)
+    ));
+    $blockParserFactory->registerBlockParser(Direction::NAME, new Direction());
+    $blockParserFactory->registerBlockParser(Connect::NAME, new Connect());
+    $blockParserFactory->registerBlockParser(Whywearedifferent::NAME, new Whywearedifferent());
+    $blockParserFactory->registerBlockParser(Howitworks::NAME, new Howitworks(
+        $container->get(\Skeletor\Image\Service\Image::class)
+    ));
+    $blockParserFactory->registerBlockParser(Testimonials::NAME, new Testimonials());
+    $blockParserFactory->registerBlockParser(Faq::NAME, new Faq());
+    $blockParserFactory->registerBlockParser(Herotext::NAME, new Herotext());
+    $blockParserFactory->registerBlockParser(Contactcards::NAME, new Contactcards(
+        $container->get(\Skeletor\Image\Service\Image::class)
+    ));
+    $blockParserFactory->registerBlockParser(Sidebyside::NAME, new Sidebyside());
+    $blockParserFactory->registerBlockParser(Projectsdisplay::NAME, new Projectsdisplay(
+        $container->get(\Skeletor\Image\Service\Image::class)
+    ));
+    $blockParserFactory->registerBlockParser(Threepillars::NAME, new Threepillars(
+        $container->get(\Skeletor\Image\Service\Image::class)
+    ));
+    $blockParserFactory->registerBlockParser(Banner::NAME, new Banner());
+    $blockParserFactory->registerBlockParser(Whotocall::NAME, new Whotocall());
+    $blockParserFactory->registerBlockParser(Ctabanner::NAME, new Ctabanner());
+    $blockParserFactory->registerBlockParser(About::NAME, new About());
+    $blockParserFactory->registerBlockParser(Valuecards::NAME, new Valuecards(
+        $container->get(\Skeletor\Image\Service\Image::class)
+    ));
 
     return $blockParserFactory;
 });
@@ -69,7 +118,18 @@ $container->set(\Skeletor\ContentEditor\Contracts\ContentEditorParserInterface::
 });
 
 $container->set(\Skeletor\ContentEditor\Contracts\BlockViewInterface::class, function() use ($container) {
-    return new \Skeletor\ContentEditor\View();
+    $view = new \Skeletor\ContentEditor\View(
+        $container->get(Engine::class),
+        APP_PATH . '/themes/frontend/blocks'
+    );
+
+    $view->registerViewFilter(HeroStats::NAME, new \Solidarity\Backend\Blocks\HeroStats\HeroStatsViewFilter(
+        $container->get(\Solidarity\Donor\Service\Donor::class),
+        $container->get(\Solidarity\Beneficiary\Service\Beneficiary::class),
+        $container->get(\Solidarity\Transaction\Service\Transaction::class)
+    ));
+
+    return $view;
 });
 
 $container->set(\Skeletor\Exporter\Contracts\ExporterFactoryInterface::class, function() use ($container) {
@@ -267,6 +327,17 @@ if (getenv('APPLICATION') === 'backend') {
         return $container->get(\Skeletor\Login\Validator\ResetPasswordLoose::class);
     });
 }
+$container->set(TagAwareAdapter::class, function() use ($container) {
+    $config = $container->get(Config::class);
+
+    //@TODO add failover
+    $dsn = "redis://" . array_key_first($config->redis->hosts->toArray()) . $config->redis->hosts[0];
+    $redisClient = RedisAdapter::createConnection($dsn);
+    $redisAdapter = new RedisAdapter($redisClient);
+    $cache = new TagAwareAdapter($redisAdapter);
+
+    return $cache;
+});
 
 $container->set(EntityManagerInterface::class, function() use ($container) {
     $config = ORMSetup::createAttributeMetadataConfiguration(
@@ -278,6 +349,10 @@ $container->set(EntityManagerInterface::class, function() use ($container) {
             APP_PATH . "/packages/Beneficiary/src/Entity",
             APP_PATH . "/packages/School/src/Entity",
             APP_PATH . "/packages/User/src/Entity",
+            APP_PATH . "/packages/Page/src/Entity",
+            APP_PATH . '/vendor/dj_avolak/skeletor/src/ThemeSettings',
+            APP_PATH . "/vendor/dj_avolak/skeletor/src/Image",
+            APP_PATH . '/vendor/dj_avolak/skeletor/src/File',
             APP_PATH . "/vendor/dj_avolak/skeletor/src/Image",
             APP_PATH . "/vendor/dj_avolak/skeletor/src/Login",
             APP_PATH . '/vendor/dj_avolak/skeletor/src/ThemeSettings',

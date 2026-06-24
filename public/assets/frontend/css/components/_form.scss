@@ -1,0 +1,250 @@
+@use '../setup/typography';
+.actionWrapper {
+  padding-bottom:8rem;
+  &.withSpacing {
+    padding-top:8rem;
+    @media(max-width:768px) {
+      padding:1.25rem;
+    }
+  }
+  @media(max-width:768px) {
+    padding:1.25rem;
+  }
+  &.lowGapAction {
+    padding-top:2rem;
+    @media(max-width:768px) {
+      padding-top:3rem;
+    }
+    .centered {
+      margin-top:3rem;
+      margin-bottom:3rem;
+    }
+    h1, .heading {
+      margin-top:2rem;
+      margin-bottom:2rem;
+    }
+  }
+  &.mediumGapAction {
+    padding-top:5rem;
+    @media(max-width:768px) {
+      padding-top:3rem;
+    }
+    .centered {
+      margin-top:3rem;
+      margin-bottom:3rem;
+    }
+    h1, .heading {
+      margin-top:2rem;
+      margin-bottom:2rem;
+    }
+  }
+}
+
+.actionStep {
+  padding:2rem;
+  background:white;
+  border-radius:8px;
+  width:648px;
+  max-width:100%;
+  margin:0 auto;
+  &> svg {
+    display:block;
+    margin:3rem auto 1rem auto;
+  }
+  &> h1, .heading {
+    @include typography.type(h2);
+    color:var(--colorDarkBlue);
+    text-align:center;
+    margin-bottom:1rem;
+    @media(max-width:768px) {
+      @include typography.type(h3);
+    }
+  }
+  &>p {
+    @include typography.type(nav);
+    color:var(--colorDarkBlue);
+    text-align:center;
+    margin-bottom:1rem;
+  }
+  .formInputs {
+    display:flex;
+    flex-direction:column;
+    gap:1rem;
+    .inputContainer {
+      display:flex;
+      flex-direction:column;
+      .label {
+        @include typography.type(nav);
+        color:var(--colorDarkBlue);
+        .required {
+          color:var(--colorOrange);
+        }
+      }
+      input {
+        border-radius:8px;
+        border:1px solid var(--colorDarkBlue);
+        padding:0.75rem;
+        width:100%;
+        color:var(--colorDarkBlue);
+        transition:0.3s ease all;
+        outline:none;
+        &::placeholder {
+          color:var(--colorDarkBlue);
+          opacity:50%;
+        }
+      }
+      .inputWithIcons {
+        position:relative;
+        input {
+          padding:0.75rem 2.5rem;
+        }
+        .iconLeft {
+          position:absolute;
+          left:5px;
+          top:9px;
+        }
+        .iconRight {
+          position:absolute;
+          right:5px;
+          top:9px;
+        }
+      }
+    }
+  }
+  .step {
+    @include typography.type(nav);
+    text-align:center;
+    display:block;
+    color:var(--colorDarkBlue);
+    opacity:50%;
+  }
+  button {
+    &[type="submit"] {
+      margin:3rem auto;
+    }
+  }
+  .logIn {
+    @include typography.type(nav);
+    color:var(--colorDarkBlue);
+    text-align:center;
+    a {
+      color:var(--colorOrange);
+      border-bottom:1px solid rgba(254, 81, 1 , 0.5);
+    }
+  }
+  .loginLinks {
+    margin-top:2rem;
+    display:flex;
+    flex-direction:column;
+    gap:1rem;
+    p {
+      @include typography.type(nav);
+      color:var(--colorDarkBlue);
+      text-align:center;
+      a {
+        color:var(--colorDarkBlue);
+        text-decoration:underline;
+      }
+    }
+  }
+  a.buttonPrimary {
+    margin:3rem auto 0;
+  }
+  .requiredFieldsNotice {
+    margin-top:1rem;
+    span {
+      @include typography.type(caption);
+      color:var(--colorDarkBlue);
+      .required {
+        color:var(--colorOrange);
+      }
+    }
+  }
+}
+
+.lowGapForm {
+  h1 {
+    max-width:910px;
+    margin-left:auto;
+    margin-right:auto;
+    margin-bottom:2rem;
+  }
+  &>p {
+    @include typography.type(nav);
+  }
+  &>svg {
+    display:block;
+    margin:1rem auto;
+  }
+}
+
+#loginAction {
+  h3 {
+    @include typography.type(nav);
+    text-align:center;
+    color:var(--colorDarkBlue);
+    margin-bottom:1.5rem;
+  }
+  #loginActionContainer {
+    label {
+      @include typography.type(nav);
+      color:var(--colorDarkBlue);
+      span {
+        color:var(--colorOrange);
+      }
+    }
+    #loginInputContainer {
+      position:relative;
+      margin-top:5px;
+      input {
+        padding:1.3rem 2.5rem;
+        width:100%;
+        border:1px solid var(--colorDarkBlue);
+        border-radius:8px;
+        outline:none;
+        &::placeholder {
+          color:var(--colorDarkBlue);
+          opacity:50%;
+        }
+      }
+      #loginMailSvg {
+        position:absolute;
+        left:0.7rem;
+        top:0;
+        bottom:0;
+        margin-top:auto;
+        margin-bottom:auto;
+        height:max-content;
+      }
+      #loginTooltip {
+        position:absolute;
+        right:0.7rem;
+        top:0;
+        bottom:0;
+        margin-top:auto;
+        margin-bottom:auto;
+        height:max-content;
+        cursor:pointer;
+      }
+    }
+    .buttonPrimary {
+      display:flex;
+      align-items:center;
+      gap:0.5rem;
+      margin-top:1.5rem;
+      margin-bottom:1.5rem;
+    }
+    >p {
+      @include typography.type(h5);
+      color:var(--colorDarkBlue);
+      text-align:center;
+      &:first-of-type {
+        margin-bottom: 1.5rem;
+      }
+      a {
+        text-decoration:underline;
+      }
+    }
+  }
+}
+
