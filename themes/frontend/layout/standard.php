@@ -40,6 +40,7 @@
     <meta property="twitter:image" content="/assets/img/social.webp">
 
     <script defer src="https://cloud.umami.is/script.js" data-website-id="775ac248-d1eb-4779-9e22-1ae08ede6310"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
     <!-- Tabler Icons -->
 
 <!--	<link rel="icon" href="/assets/img/favicon.ico" sizes="any">-->

@@ -6,8 +6,8 @@ import LineGrid from "./lineGrid/lineGrid.js";
 document.addEventListener('DOMContentLoaded', () => {
     const languageSwitcherContainers = document.querySelectorAll('.languageSwitcher');
     languageSwitcherContainers.forEach((container) => {
-       const languageSwitcher = new LanguageSwitcher(container);
-       languageSwitcher.init();
+        const languageSwitcher = new LanguageSwitcher(container);
+        languageSwitcher.init();
     });
 
     const headerContent = document.getElementById('headerContent');
@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const lineGrids = document.querySelectorAll('.lineGrid');
     lineGrids.forEach((lineGridContainer) => {
-       const lineGrid = new LineGrid(lineGridContainer);
-       lineGrid.init();
+        const lineGrid = new LineGrid(lineGridContainer);
+        lineGrid.init();
     });
 });

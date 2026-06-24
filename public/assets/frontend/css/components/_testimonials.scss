@@ -16,9 +16,15 @@
       }
       color:var(--colorDarkBlue);
       margin-bottom:1rem;
-      b {
+      b,strong {
         color:var(--colorOrange);
         font-weight:inherit;
+      }
+      p,b,span {
+        @include typography.type(h1);
+        @media(max-width:1100px) {
+          @include typography.type(h2);
+        }
       }
     }
     p {
