@@ -12,6 +12,7 @@ import TextEditor from "https://skeletor.greenfriends.systems/skeletorjs/src/Tex
 export default class Projectsdisplay extends Block {
 
     container;
+    titleInput;
     blockBuilder;
     #tabbedContent;
     #images = [];
@@ -25,7 +26,17 @@ export default class Projectsdisplay extends Block {
     }
 
     #generateView() {
-        [this.container] = this.blockBuilder.getSpread();
+        [
+            this.container,
+            this.titleInput,
+        ] = this.blockBuilder
+            .buildInput({
+                label: 'Title',
+                inputName: `${this.getBaseInputName()}[${this.getName()}][title]`,
+                value: this.data?.title ?? null
+            })
+            .getSpread();
+
         this.#generateProjects();
     }
 
@@ -156,6 +167,7 @@ export default class Projectsdisplay extends Block {
         });
 
         return {
+            title: this.titleInput.value,
             projects: projects,
         };
     }

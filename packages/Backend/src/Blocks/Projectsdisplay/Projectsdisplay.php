@@ -21,6 +21,7 @@ class Projectsdisplay implements BlockParserInterface
 
         $parsedData = [
             'type' => static::NAME,
+            'title' => $blockData['title'] ?? '',
             'projects' => $this->parseProjects($blockData['projects'] ?? []),
         ];
 

@@ -33,7 +33,8 @@ export const config = Object.freeze({
             'app/contactcards',
             'app/sidebyside',
             'app/projectsdisplay',
-            'app/threepillars'
+            'app/threepillars',
+            'app/banner'
         ],
     },
     page: {

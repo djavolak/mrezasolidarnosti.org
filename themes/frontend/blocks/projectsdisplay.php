@@ -1,6 +1,9 @@
 <?php if(isset($block)): ?>
 
     <div class="projectsWrapper">
+        <?php if(!empty($block['title'])): ?>
+            <h2><?=htmlentities($block['title'])?></h2>
+        <?php endif; ?>
         <div class="projectsDisplay">
             <?php foreach(($block['projects'] ?? []) as $project): ?>
                 <div class="projectDisplay<?=!empty($project['className']) ? ' ' . htmlentities($project['className']) : ''?>">

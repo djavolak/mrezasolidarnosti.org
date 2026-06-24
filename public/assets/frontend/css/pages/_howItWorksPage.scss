@@ -18,6 +18,28 @@
   @media(max-width:768px) {
     padding:7.75rem 1.25rem 3rem 1.25rem;
   }
+   a {
+    cursor: pointer;
+    transition: 0.3s ease;
+    height: max-content;
+    letter-spacing: 0;
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.4;
+    padding: 6px 16px;
+    border-radius: 6px;
+    background-color: var(--colorBackgroundGray);
+    border: 1px solid var(--colorBackgroundGray);
+    color: var(--colorDarkBlue);
+    width: max-content;
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+     margin-top:1rem;
+  }
   svg {
     position: absolute;
     top:-95px;

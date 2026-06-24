@@ -11,6 +11,7 @@ use Laminas\Config\Config;
 use Skeletor\Core\Mailer\Service\MailerInterface;
 use Skeletor\Core\Security\Authorization\AuthorizationService;
 use Skeletor\Core\Security\EntityRegistry;
+use Solidarity\Backend\Blocks\Banner\Banner;
 use Solidarity\Backend\Blocks\Connect\Connect;
 use Solidarity\Backend\Blocks\Contactcards\Contactcards;
 use Solidarity\Backend\Blocks\Direction\Direction;
@@ -93,6 +94,7 @@ $container->set(\Skeletor\ContentEditor\Contracts\BlockParserFactoryInterface::c
     $blockParserFactory->registerBlockParser(Threepillars::NAME, new Threepillars(
         $container->get(\Skeletor\Image\Service\Image::class)
     ));
+    $blockParserFactory->registerBlockParser(Banner::NAME, new Banner());
 
     return $blockParserFactory;
 });
