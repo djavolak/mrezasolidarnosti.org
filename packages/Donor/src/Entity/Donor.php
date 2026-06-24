@@ -21,9 +21,11 @@ class Donor
     const STATUS_PROBLEM = 3;
     const STATUS_DELETED = 4;
 
+    // Values aligned with the legacy app's UserDonor::SCHOOL_TYPE_* so the data
+    // migration is a direct copy (ALL=1, UNIVERSITY/UNI=2, EDUCATION/SCHOOL=3).
     const DONATE_TO_ALL = 1;
-    const DONATE_TO_SCHOOL = 2;
-    const DONATE_TO_UNI = 3;
+    const DONATE_TO_UNI = 2;
+    const DONATE_TO_SCHOOL = 3;
 
     #[ORM\Column(type: Types::STRING, length: 255, unique: true)]
     public string $email;

@@ -45,6 +45,9 @@ return array(
         // Cron entry point. CliSkeletor invokes Action classes via __invoke().
         // Run: php public/cli.php createTransactions run   (the 2nd arg is ignored)
         'createTransactions' => \Solidarity\Backend\Action\CreateTransaction::class,
+        // Legacy data migration. Dry-run: `php public/cli.php migrateLegacy run`
+        // Commit:                `php public/cli.php migrateLegacy commit`
+        'migrateLegacy' => \Solidarity\Backend\Action\MigrateLegacy::class,
     ],
 
 );
