@@ -1,12 +1,18 @@
 <?php
 
-namespace Solidarity\Backend\Blocks\Sidebyside;
+namespace Solidarity\Backend\Blocks\Valuecards;
 
 use Skeletor\ContentEditor\Contracts\BlockParserInterface;
+use Skeletor\Core\Service\Contracts\CrudServiceInterface;
 
-class Sidebyside implements BlockParserInterface
+class Valuecards implements BlockParserInterface
 {
-    const NAME = 'sidebyside';
+    const NAME = 'valuecards';
+
+    public function __construct(protected CrudServiceInterface $imageService)
+    {
+
+    }
 
     public function parse(array $data, array $customDataKeys = []): array
     {
@@ -15,12 +21,7 @@ class Sidebyside implements BlockParserInterface
 
         $parsedData = [
             'type' => static::NAME,
-            'title' => $blockData['title'] ?? '',
-            'description' => $blockData['description'] ?? '',
-            'linkText' => $blockData['linkText'] ?? '',
-            'linkUrl' => $blockData['linkUrl'] ?? '',
-            'topPadding' => $blockData['topPadding'] ?? 'big',
-            'bottomPadding' => $blockData['bottomPadding'] ?? 'big',
+            'cards' => $this->parseCards($blockData['cards'] ?? []),
         ];
 
         foreach ($customDataKeys as $key) {
@@ -30,6 +31,28 @@ class Sidebyside implements BlockParserInterface
         }
 
         return $parsedData;
+    }
+
+    protected function parseCards(array $cards): array
+    {
+        $cardsData = [];
+        foreach ($cards as $card) {
+            $cardsData[] = $this->parseCard($card);
+        }
+        return $cardsData;
+    }
+
+    protected function parseCard(array $card): array
+    {
+        $image = empty($card['imageId']) ? null : $this->imageService->getById($card['imageId']);
+
+        return [
+            'title' => $card['title'] ?? '',
+            'description' => $card['description'] ?? '',
+            'imageId' => $image?->id,
+            'filename' => $image?->filename,
+            'alt' => $image?->alt,
+        ];
     }
 
     protected function getDefaultDataKeys(): array

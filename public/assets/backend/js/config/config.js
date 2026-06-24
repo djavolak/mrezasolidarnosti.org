@@ -16,7 +16,7 @@ export const config = Object.freeze({
             // 'core/navigationtabs',
             // 'core/pricing',
             // 'core/testimonials',
-            // 'core/text',
+            'core/text',
             // 'core/quote',
             // 'core/slider',
             // 'core/tabs',
@@ -34,7 +34,11 @@ export const config = Object.freeze({
             'app/sidebyside',
             'app/projectsdisplay',
             'app/threepillars',
-            'app/banner'
+            'app/banner',
+            'app/whotocall',
+            'app/ctabanner',
+            'app/about',
+            'app/valuecards'
         ],
     },
     page: {

@@ -1517,7 +1517,7 @@ main.loggedIn {
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
 }
-.projectsWrapper .points .point ul {
+.projectsWrapper .points .point ul, .projectsWrapper .points .point ol {
   list-style: disc;
   padding-left: 1.5rem;
   margin-top: 1.5rem;
@@ -1574,7 +1574,6 @@ main.loggedIn {
   display: flex;
   align-items: center;
   gap: 1rem;
-  flex-wrap: wrap;
 }
 .bannerWrapper .banner .buttons a.primary {
   border: none;
@@ -1802,7 +1801,7 @@ main.loggedIn {
   border-radius: 10px;
   padding: 1.25rem;
 }
-.lineGridWrapper .lineGrid .grid .left .description ul, .lineGridWrapper .lineGrid .grid .right .description ul {
+.lineGridWrapper .lineGrid .grid .left .description ul, .lineGridWrapper .lineGrid .grid .left .description ol, .lineGridWrapper .lineGrid .grid .right .description ul, .lineGridWrapper .lineGrid .grid .right .description ol {
   list-style: disc;
   padding-left: 1.5rem;
 }
@@ -2658,7 +2657,7 @@ main.loggedIn {
   color: var(--colorBeige);
   font-weight: 300;
 }
-#direction #directionRight .directionProject ul {
+#direction #directionRight .directionProject ul, #direction #directionRight .directionProject ol {
   padding-left: 1.5rem;
   margin-top: 1.5rem;
   margin-bottom: 2rem;
@@ -3058,10 +3057,22 @@ main.loggedIn {
   padding-bottom: 7.7rem;
   position: relative;
 }
+.whatIsContent.smallTop {
+  padding-top: 1rem;
+}
+.whatIsContent.smallBottom {
+  padding-bottom: 1rem;
+}
 @media (max-width: 768px) {
   .whatIsContent {
     padding-top: 3rem;
     padding-bottom: 3rem;
+  }
+  .whatIsContent.smallTop {
+    padding-top: 1.5rem;
+  }
+  .whatIsContent.smallBottom {
+    padding-bottom: 1.5rem;
   }
 }
 .whatIsContent .whatIsArrow {
@@ -3121,11 +3132,11 @@ main.loggedIn {
     padding: 0 1.25rem;
   }
 }
-.whatIsContent > .whatIsSection ul {
+.whatIsContent > .whatIsSection ul, .whatIsContent > .whatIsSection ol {
   list-style: disc;
   padding-left: 1.5rem;
 }
-.whatIsContent > .whatIsSection ul li {
+.whatIsContent > .whatIsSection ul li, .whatIsContent > .whatIsSection ol li {
   color: var(--colorDarkBlue);
 }
 .whatIsContent > .whatIsSection span {
@@ -3158,6 +3169,22 @@ main.loggedIn {
 .whatIsContent > .whatIsSection > div {
   max-width: 650px;
 }
+.whatIsContent > .whatIsSection > div > a {
+  margin-top: 5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--colorDarkBlue);
+  transition: 0.3s ease all;
+}
+@media (max-width: 768px) {
+  .whatIsContent > .whatIsSection > div > a {
+    margin-top: 2rem;
+  }
+}
+.whatIsContent > .whatIsSection > div > a:hover {
+  color: var(--colorOrange);
+}
 .whatIsContent .paragraphSeparator {
   margin-top: 1.5rem;
   margin-bottom: 3rem;
@@ -3167,6 +3194,7 @@ main.loggedIn {
 }
 .whatIsContent .whatWeDo .whatWeDoProjects {
   display: flex;
+  margin-top: 3rem;
   justify-content: space-between;
   margin-bottom: 3rem;
 }
@@ -3185,31 +3213,6 @@ main.loggedIn {
   line-height: 1.2;
   color: var(--colorDarkBlue);
   margin-top: 1rem;
-}
-.whatIsContent .howWeFunction .howWeFunctionParagraphSeparator {
-  margin-top: 1.5rem;
-  margin-bottom: 1.5rem;
-}
-.whatIsContent .howWeFunction span {
-  color: var(--colorDarkBlue);
-}
-.whatIsContent .howWeFunction ul {
-  padding-left: 1.5rem;
-  list-style: disc;
-}
-.whatIsContent .howWeFunction ul li {
-  color: var(--colorDarkBlue);
-}
-.whatIsContent .howWeFunction a {
-  margin-top: 5rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: var(--colorDarkBlue);
-  transition: 0.3s ease all;
-}
-.whatIsContent .howWeFunction a:hover {
-  color: var(--colorOrange);
 }
 
 .whatIsVisual {
@@ -3243,8 +3246,10 @@ main.loggedIn {
     width: 100%;
   }
 }
-.whatIsVisual > div svg {
-  height: 73px;
+.whatIsVisual > div img {
+  width: 69px;
+  height: 69px;
+  object-fit: contain;
 }
 .whatIsVisual > div h2 {
   font-size: 2rem;
@@ -3266,11 +3271,11 @@ main.loggedIn {
   color: var(--colorBeige);
   font-weight: 300;
 }
-.whatIsVisual > div ul {
+.whatIsVisual > div ul, .whatIsVisual > div ol {
   padding-left: 1.5rem;
   list-style: disc;
 }
-.whatIsVisual > div ul li {
+.whatIsVisual > div ul li, .whatIsVisual > div ol li {
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.4;
@@ -3486,20 +3491,20 @@ main.loggedIn {
   color: var(--colorBeige);
 }
 
-.legalWrapper {
+.staticWrapper {
   background: var(--colorBackgroundGray);
   padding: 7.7rem 4.25rem;
 }
 @media (max-width: 768px) {
-  .legalWrapper {
+  .staticWrapper {
     padding: 3rem 1.25rem;
   }
 }
-.legalWrapper .legal {
+.staticWrapper .static {
   max-width: 871px;
   margin: 0 auto;
 }
-.legalWrapper .legal h1 {
+.staticWrapper .static h1 {
   font-size: 3rem;
   font-weight: 700;
   line-height: 1.2;
@@ -3508,19 +3513,19 @@ main.loggedIn {
   margin-bottom: 3rem;
 }
 @media (max-width: 768px) {
-  .legalWrapper .legal h1 {
+  .staticWrapper .static h1 {
     font-size: 2rem;
     font-weight: 700;
     line-height: 1.2;
   }
 }
-.legalWrapper .legal p {
+.staticWrapper .static p {
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.4;
   color: var(--colorDarkBlue);
 }
-.legalWrapper .legal h2 {
+.staticWrapper .static h2 {
   font-size: 1.5rem;
   font-weight: 600;
   line-height: 1.2;

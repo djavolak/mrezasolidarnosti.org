@@ -1,26 +1,19 @@
 <?php
 
-namespace Solidarity\Backend\Blocks\Sidebyside;
+namespace Solidarity\Backend\Blocks\Whotocall;
 
 use Skeletor\ContentEditor\Contracts\BlockParserInterface;
 
-class Sidebyside implements BlockParserInterface
+class Whotocall implements BlockParserInterface
 {
-    const NAME = 'sidebyside';
+    const NAME = 'whotocall';
 
     public function parse(array $data, array $customDataKeys = []): array
     {
         $customDataKeys = array_merge($customDataKeys, $this->getDefaultDataKeys());
-        $blockData = $data[static::NAME] ?? [];
 
         $parsedData = [
             'type' => static::NAME,
-            'title' => $blockData['title'] ?? '',
-            'description' => $blockData['description'] ?? '',
-            'linkText' => $blockData['linkText'] ?? '',
-            'linkUrl' => $blockData['linkUrl'] ?? '',
-            'topPadding' => $blockData['topPadding'] ?? 'big',
-            'bottomPadding' => $blockData['bottomPadding'] ?? 'big',
         ];
 
         foreach ($customDataKeys as $key) {

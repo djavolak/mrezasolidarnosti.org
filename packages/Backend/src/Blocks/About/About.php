@@ -1,12 +1,12 @@
 <?php
 
-namespace Solidarity\Backend\Blocks\Sidebyside;
+namespace Solidarity\Backend\Blocks\About;
 
 use Skeletor\ContentEditor\Contracts\BlockParserInterface;
 
-class Sidebyside implements BlockParserInterface
+class About implements BlockParserInterface
 {
-    const NAME = 'sidebyside';
+    const NAME = 'about';
 
     public function parse(array $data, array $customDataKeys = []): array
     {
@@ -15,12 +15,13 @@ class Sidebyside implements BlockParserInterface
 
         $parsedData = [
             'type' => static::NAME,
-            'title' => $blockData['title'] ?? '',
-            'description' => $blockData['description'] ?? '',
-            'linkText' => $blockData['linkText'] ?? '',
-            'linkUrl' => $blockData['linkUrl'] ?? '',
-            'topPadding' => $blockData['topPadding'] ?? 'big',
-            'bottomPadding' => $blockData['bottomPadding'] ?? 'big',
+            'firstTitle' => $blockData['firstTitle'] ?? '',
+            'firstDescription' => $blockData['firstDescription'] ?? '',
+            'firstFooterText' => $blockData['firstFooterText'] ?? '',
+            'secondTitle' => $blockData['secondTitle'] ?? '',
+            'secondDescription' => $blockData['secondDescription'] ?? '',
+            'secondFooterText' => $blockData['secondFooterText'] ?? '',
+            'projects' => $this->parseProjects($blockData['projects'] ?? []),
         ];
 
         foreach ($customDataKeys as $key) {
@@ -30,6 +31,19 @@ class Sidebyside implements BlockParserInterface
         }
 
         return $parsedData;
+    }
+
+    protected function parseProjects(array $projects): array
+    {
+        $projectsData = [];
+        foreach ($projects as $project) {
+            $projectsData[] = [
+                'svg' => $project['svg'] ?? '',
+                'title' => $project['title'] ?? '',
+                'description' => $project['description'] ?? '',
+            ];
+        }
+        return $projectsData;
     }
 
     protected function getDefaultDataKeys(): array

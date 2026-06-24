@@ -1,11 +1,11 @@
 @use '../setup/typography';
-.legalWrapper {
+.staticWrapper {
   background:var(--colorBackgroundGray);
   padding: 7.7rem 4.25rem;
   @media(max-width:768px) {
     padding: 3rem 1.25rem;
   }
-  .legal {
+  .static {
     max-width:871px;
     margin:0 auto;
     h1 {

@@ -1,12 +1,12 @@
 <?php
 
-namespace Solidarity\Backend\Blocks\Sidebyside;
+namespace Solidarity\Backend\Blocks\Ctabanner;
 
 use Skeletor\ContentEditor\Contracts\BlockParserInterface;
 
-class Sidebyside implements BlockParserInterface
+class Ctabanner implements BlockParserInterface
 {
-    const NAME = 'sidebyside';
+    const NAME = 'ctabanner';
 
     public function parse(array $data, array $customDataKeys = []): array
     {
@@ -17,10 +17,7 @@ class Sidebyside implements BlockParserInterface
             'type' => static::NAME,
             'title' => $blockData['title'] ?? '',
             'description' => $blockData['description'] ?? '',
-            'linkText' => $blockData['linkText'] ?? '',
-            'linkUrl' => $blockData['linkUrl'] ?? '',
-            'topPadding' => $blockData['topPadding'] ?? 'big',
-            'bottomPadding' => $blockData['bottomPadding'] ?? 'big',
+            'buttons' => $this->parseButtons($blockData['buttons'] ?? []),
         ];
 
         foreach ($customDataKeys as $key) {
@@ -30,6 +27,19 @@ class Sidebyside implements BlockParserInterface
         }
 
         return $parsedData;
+    }
+
+    protected function parseButtons(array $buttons): array
+    {
+        $buttonsData = [];
+        foreach ($buttons as $button) {
+            $buttonsData[] = [
+                'buttonTitle' => $button['buttonTitle'] ?? '',
+                'buttonUrl' => $button['buttonUrl'] ?? '',
+                'type' => $button['type'] ?? 'primary',
+            ];
+        }
+        return $buttonsData;
     }
 
     protected function getDefaultDataKeys(): array
