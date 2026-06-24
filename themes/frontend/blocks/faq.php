@@ -1,6 +1,5 @@
 <?php if(isset($block)): ?>
-
-    <div class="faq home">
+    <div class="faq<?=$isHome ? ' home' : ''?>">
         <div class="faqLeft">
             <h2><?=htmlentities($block['title'] ?? '')?></h2>
             <?php if(!empty($block['buttonText'])): ?>

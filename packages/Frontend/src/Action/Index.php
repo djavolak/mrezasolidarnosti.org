@@ -28,6 +28,7 @@ class Index extends BaseAction
         \Psr\Http\Message\ServerRequestInterface $request,
         \Psr\Http\Message\ResponseInterface $response
     ) {
+        $this->setGlobalVariable('isHome', true);
         $this->setGlobalVariable('title', 'Mreža Solidarnosti');
         try {
             $homepage = $this->pageService->getEntities(['slug' => 'homepage']);

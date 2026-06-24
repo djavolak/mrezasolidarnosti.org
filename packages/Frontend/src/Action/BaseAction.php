@@ -20,7 +20,8 @@ class BaseAction extends Html
         protected SocialLinks $socialLinks,
     ) {
         parent::__construct($logger, $config, $template);
-	    $this->setGlobalVariable( 'url', $this->getConfig()->offsetGet( 'baseUrl' ) );
+	    $this->setGlobalVariable( 'url', $this->getConfig()->offsetGet( 'baseUrl' ));
+        $this->setGlobalVariable('isHome', false);
         $this->setGlobalVariable('mainNavigation', $this->navigationService->getByTitle("Main Navigation"));
         $socialLinks = $this->socialLinks->getSocialItems();
         $this->setGlobalVariable('socialLinks', \Solidarity\Frontend\Service\SocialLinks\SocialLinks::getSocialLinks($socialLinks));
