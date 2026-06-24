@@ -11,6 +11,10 @@ use Laminas\Config\Config;
 use Skeletor\Core\Mailer\Service\MailerInterface;
 use Skeletor\Core\Security\Authorization\AuthorizationService;
 use Skeletor\Core\Security\EntityRegistry;
+use Solidarity\Backend\Blocks\Connect\Connect;
+use Solidarity\Backend\Blocks\Direction\Direction;
+use Solidarity\Backend\Blocks\Whywearedifferent\Whywearedifferent;
+use Solidarity\Backend\Blocks\Find\Find;
 use Solidarity\Backend\Blocks\HeroStats\HeroStats;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 use Symfony\Component\Cache\Adapter\TagAwareAdapter;
@@ -59,6 +63,12 @@ $container->set(\Skeletor\ContentEditor\Contracts\BlockParserFactoryInterface::c
     );
 
     $blockParserFactory->registerBlockParser(HeroStats::NAME, new HeroStats());
+    $blockParserFactory->registerBlockParser(Find::NAME, new Find(
+        $container->get(\Skeletor\Image\Service\Image::class)
+    ));
+    $blockParserFactory->registerBlockParser(Direction::NAME, new Direction());
+    $blockParserFactory->registerBlockParser(Connect::NAME, new Connect());
+    $blockParserFactory->registerBlockParser(Whywearedifferent::NAME, new Whywearedifferent());
 
     return $blockParserFactory;
 });

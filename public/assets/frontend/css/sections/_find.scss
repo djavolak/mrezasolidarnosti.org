@@ -28,6 +28,10 @@
     .findSegment {
       display:flex;
       flex-direction:column;
+      img {
+        width:49px;
+        height:49px;
+      }
       h3 {
         @include typography.type(h3);
         color:var(--colorBeige);

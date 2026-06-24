@@ -320,4 +320,18 @@ form:has(.selectedService) .fullWidth:has(#totalWithoutVAT) .inputContainer {
   padding: 0.57rem 0.7rem;
 }
 
+.tabs .tab span {
+  color: var(--colorSurface-0);
+}
+
+.ql-container {
+  height: auto !important;
+}
+
+div[block-name=Find] .findSectionLabel {
+  margin: 1rem 0;
+  display: block;
+  font-size: 1.2rem;
+}
+
 /*# sourceMappingURL=style.css.map */

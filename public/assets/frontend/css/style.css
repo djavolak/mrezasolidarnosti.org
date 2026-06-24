@@ -2487,6 +2487,10 @@ main.loggedIn {
   display: flex;
   flex-direction: column;
 }
+#find #findSegments .findSegment img {
+  width: 49px;
+  height: 49px;
+}
 #find #findSegments .findSegment h3 {
   font-size: 1.5rem;
   font-weight: 600;

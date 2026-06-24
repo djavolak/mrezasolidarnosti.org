@@ -21,7 +21,11 @@ export const config = Object.freeze({
             // 'core/slider',
             // 'core/tabs',
             // 'core/table',
-            'app/herostats'
+            'app/herostats',
+            'app/find',
+            'app/direction',
+            'app/connect',
+            'app/whywearedifferent'
         ],
     },
     page: {
