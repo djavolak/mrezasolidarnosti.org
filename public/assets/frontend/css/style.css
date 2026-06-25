@@ -1753,6 +1753,9 @@ main.loggedIn {
   right: -23%;
   left: unset;
 }
+.lineGridWrapper .lineGrid .grid .left:has(.collapsible.active) .collapsibleHandle svg:first-of-type, .lineGridWrapper .lineGrid .grid .right:has(.collapsible.active) .collapsibleHandle svg:first-of-type {
+  transform: rotate(-180deg);
+}
 .lineGridWrapper .lineGrid .grid .left .title.end, .lineGridWrapper .lineGrid .grid .right .title.end {
   white-space: unset;
 }
@@ -1900,6 +1903,9 @@ main.loggedIn {
   margin-bottom: 3rem;
   z-index: 1;
 }
+.lineGridWrapperMobile .stepSection:has(.collapsible.active) .collapsibleHandle svg:first-of-type {
+  transform: rotate(-180deg);
+}
 .lineGridWrapperMobile .stepSection:has(.title) .description {
   text-align: center;
   margin-top: 1rem;
@@ -1996,6 +2002,9 @@ main.loggedIn {
   color: white;
   flex: 1;
   pointer-events: none;
+}
+.collapsibleHandle svg {
+  transition: 0.3s ease all;
 }
 
 .collapsible {

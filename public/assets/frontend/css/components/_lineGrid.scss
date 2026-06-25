@@ -68,6 +68,15 @@
       }
 
       .left, .right {
+        &:has(.collapsible.active) {
+          .collapsibleHandle {
+            svg {
+              &:first-of-type {
+                transform: rotate(-180deg);
+              }
+            }
+          }
+        }
         .title {
           &.end {
             white-space: unset;
@@ -215,6 +224,15 @@
     width:100%;
     margin-bottom:3rem;
     z-index:1;
+    &:has(.collapsible.active) {
+      .collapsibleHandle {
+        svg {
+          &:first-of-type {
+            transform: rotate(-180deg);
+          }
+        }
+      }
+    }
     &:has(.title) {
       .description {
         text-align:center;
@@ -308,6 +326,9 @@
     color: white;
     flex: 1;
     pointer-events: none;
+  }
+  svg {
+    transition:0.3s ease all;
   }
 }
 
