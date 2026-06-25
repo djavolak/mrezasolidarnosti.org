@@ -1,21 +1,25 @@
 <?php if(isset($block)): ?>
-
+    <!--  @TODO JS VALIDATION  -->
     <div class="textHero smallGap">
         <h1><?=htmlentities($block['title'] ?? '')?></h1>
         <p><b><?=nl2br(htmlentities($block['description'] ?? ''))?></b></p>
     </div>
 
     <div class="actionWrapper gray">
-        <form class="basicForm actionStep">
+        <form class="basicForm registrationForm actionStep" action="/donor/register" method="post">
+            <?=$this->formToken(); ?>
+            <div class="messagesContainer">
+
+            </div>
             <span class="step">Korak 1 od 3</span>
             <div class="formInputs">
                 <label class="inputContainer">
                     <span class="label">Ime<span class="required">*</span></span>
-                    <input type="text" name="name">
+                    <input type="text" name="firstName">
                 </label>
                 <label class="inputContainer">
                     <span class="label">Prezime<span class="required">*</span></span>
-                    <input type="text" name="lastname">
+                    <input type="text" name="lastName">
                 </label>
                 <label class="inputContainer">
                     <span class="label">Email adresa<span class="required">*</span></span>
@@ -49,4 +53,5 @@
             </div>
         </form>
     </div>
+<script src="<?=FRONT_ASSET_URL?>/js/register.js"></script>
 <?php endif; ?>

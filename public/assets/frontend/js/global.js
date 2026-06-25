@@ -45,6 +45,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const lineGridDesktop = document.querySelector('.lineGrid');
     const lineGridMobile = document.querySelector('.lineGridWrapperMobile');
-    const lineGrid = new LineGrid(lineGridDesktop, lineGridMobile);
-    lineGrid.init();
+    if(lineGridDesktop && lineGridMobile) {
+        const lineGrid = new LineGrid(lineGridDesktop, lineGridMobile);
+        lineGrid.init();
+    }
 });
