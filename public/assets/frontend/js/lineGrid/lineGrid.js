@@ -4,11 +4,14 @@ export default class LineGrid {
     #maxProgress = 0;
 
     container;
+    mobileContainer;
     progressLine;
     collapsibleHandles;
     collapsibleObserver;
-    constructor(container) {
+    collapsibleHandlesMobile;
+    constructor(container, mobileContainer) {
         this.container = container;
+        this.mobileContainer = mobileContainer;
     }
 
     init() {
@@ -16,6 +19,7 @@ export default class LineGrid {
             throw new Error('GridLine is already initialized');
         }
         this.collapsibleHandles = this.container.querySelectorAll('.collapsibleHandle');
+        this.collapsibleHandlesMobile = this.mobileContainer.querySelectorAll('.collapsibleHandle');
         this.progressLine = this.container.querySelector('.mainLine');
         this.#addListeners();
         this.#initComplete = true;
@@ -33,6 +37,9 @@ export default class LineGrid {
         this.collapsibleHandles.forEach((handle) => {
            handle.addEventListener('click', this.collapsibleHandleCallback)
         });
+        this.collapsibleHandlesMobile.forEach((handle) => {
+            handle.addEventListener('click', this.collapsibleHandleCallback)
+        });
     }
 
 
@@ -40,6 +47,7 @@ export default class LineGrid {
         const content = e.target.parentElement.querySelector('.collapsible');
         content.classList.toggle('active');
     };
+
 
     // Opens a row's collapsible(s) once scrolling reaches that row's center
     // icon / number (the viewport vertical midline). Once opened it stays open.
@@ -120,6 +128,11 @@ export default class LineGrid {
     destroy() {
         if(this.collapsibleHandles) {
             this.collapsibleHandles.forEach((handle) => {
+                handle.removeEventListener('click', this.collapsibleHandleCallback);
+            });
+        }
+        if(this.collapsibleHandlesMobile) {
+            this.collapsibleHandlesMobile.forEach((handle) => {
                 handle.removeEventListener('click', this.collapsibleHandleCallback);
             });
         }
