@@ -50,7 +50,7 @@ $container->set(ManagerInterface::class, function() use ($container) {
     $config = $container->get(Config::class);
     $redisHost = array_keys($config->redis->hosts->toArray())[0];
     $redisPort = array_values($config->redis->hosts->toArray())[0];
-    $sessionName = str_replace(' ', '_', $config->appName . getenv('APPLICATION'));
+    $sessionName = str_replace(' ', '_', $config->appName . \Solidarity\Core\Environment::application());
 
     // Set session name via ini_set BEFORE creating SessionConfig
     ini_set('session.name', $sessionName);
@@ -142,10 +142,10 @@ $container->set(\Skeletor\User\Repository\UserRepositoryInterface::class, functi
 
 $container->set(Engine::class, function() use ($container) {
     $path = 'admin';
-    if (getenv('APPLICATION') === 'backend') {
+    if (\Solidarity\Core\Environment::isBackend()) {
         $path = 'admin';
     }
-    if (getenv('APPLICATION') === 'frontend') {
+    if (\Solidarity\Core\Environment::isFrontend()) {
         $path = 'frontend';
     }
     $defaultTheme = APP_PATH . '/vendor/dj_avolak/skeletor/themes/' . $path;
@@ -176,7 +176,7 @@ $container->set(Filesystem::class, function() use ($container) {
 
 $container->set(\FastRoute\Dispatcher::class, function() use ($container) {
     $adminPath = $container->get(Config::class)->adminPath;
-    $routeList = require APP_PATH . sprintf('/config/%s/routes.php', getenv('APPLICATION'));
+    $routeList = require APP_PATH . sprintf('/config/%s/routes.php', \Solidarity\Core\Environment::application());
 
     /** @var \FastRoute\Dispatcher $dispatcher */
     return FastRoute\simpleDispatcher(
@@ -192,12 +192,12 @@ $container->set(Acl::class, function() use ($container) {
     return new Acl(
         $container->get(ManagerInterface::class),
         $container->get(Config::class),
-        require APP_PATH . sprintf('/config/%s/acl.php', getenv('APPLICATION')),
-        require APP_PATH . sprintf('/config/%s/aclMessages.php', getenv('APPLICATION'))
+        require APP_PATH . sprintf('/config/%s/acl.php', \Solidarity\Core\Environment::application()),
+        require APP_PATH . sprintf('/config/%s/aclMessages.php', \Solidarity\Core\Environment::application())
     );
 });
 
-if (getenv('APPLICATION') === 'backend') {
+if (\Solidarity\Core\Environment::isBackend()) {
     $container->set(Skeletor\Core\Middleware\MiddlewareInterface::class, function () use ($container) {
         return new \Skeletor\Core\Middleware\AuthMiddleware(
             $container->get(ManagerInterface::class),
@@ -214,8 +214,8 @@ if (getenv('APPLICATION') === 'backend') {
 $container->set(Config::class, function() use ($container) {
     $config = new Config(include(APP_PATH . "/config/config.php"), true);
     $config = $config->merge(new Config(include(APP_PATH . "/config/config-local.php"), true));
-    if (file_exists(APP_PATH . sprintf("/config/%s/config-local.php", getenv('APPLICATION')))) {
-        $config = $config->merge(new Config(include(APP_PATH . sprintf("/config/%s/config-local.php", getenv('APPLICATION'))), true));
+    if (file_exists(APP_PATH . sprintf("/config/%s/config-local.php", \Solidarity\Core\Environment::application()))) {
+        $config = $config->merge(new Config(include(APP_PATH . sprintf("/config/%s/config-local.php", \Solidarity\Core\Environment::application())), true));
     }
 
     return $config;
@@ -226,12 +226,12 @@ $container->set(\Skeletor\Core\Action\Web\NotFoundInterface::class, function() u
 });
 
 $container->set(Logger::class, function() use ($container) {
-    $logger = new \Monolog\Logger($container->get(Config::class)->appName . getenv('APPLICATION'));
+    $logger = new \Monolog\Logger($container->get(Config::class)->appName . \Solidarity\Core\Environment::application());
     $date = $container->get(\DateTime::class);
     $logDir = DATA_PATH . '/logs/';
     $logSubDir = $logDir . $date->format('Y') . '-' . $date->format('m');
-    $logFile = $logSubDir . '/' . gethostname() . '-'. getenv('APPLICATION') .'-' . $date->format('d') . '.log';
-    $debugLog = DATA_PATH . '/logs/'. gethostname() . '-'. getenv('APPLICATION') .'-debug.log';
+    $logFile = $logSubDir . '/' . gethostname() . '-'. \Solidarity\Core\Environment::application() .'-' . $date->format('d') . '.log';
+    $debugLog = DATA_PATH . '/logs/'. gethostname() . '-'. \Solidarity\Core\Environment::application() .'-debug.log';
     // create dir or file if needed
     if (!is_dir($logDir)) {
         mkdir($logDir);
@@ -249,14 +249,11 @@ $container->set(Logger::class, function() use ($container) {
     $logger->pushHandler(
         new StreamHandler($logFile, \Monolog\Level::Error, false)
     );
-    $env = strtolower(getenv('APPLICATION_ENV'));
-    if ($env && strtolower($env) === 'production') {
+    if (\Solidarity\Core\Environment::isProduction()) {
         $mailHandler = new \Skeletor\Core\Mailer\Service\MonologHandler(\Monolog\Level::Error, true);
         $mailHandler->setMail($container->get(\Skeletor\Core\Mailer\Service\PhpMailer::class));
         $logger->pushHandler($mailHandler);
-    }
-
-    if ($env !== 'production') {
+    } else {
         $logger->pushHandler(new BrowserConsoleHandler());
     }
     ErrorHandler::register($logger);
@@ -325,7 +322,7 @@ $container->set(EntityRegistry::class, function() use ($container) {
     return $registry;
 });
 
-if (getenv('APPLICATION') === 'backend') {
+if (\Solidarity\Core\Environment::isBackend()) {
     // Voter-based authorization — uses backend permission config, backend only.
     $container->set(\Skeletor\Core\Security\Authorization\PermissionRegistry::class, function() use ($container) {
         $config = require APP_PATH . '/config/backend/permissions.php';
@@ -373,10 +370,8 @@ $container->set(EntityManagerInterface::class, function() use ($container) {
             APP_PATH . "/vendor/dj_avolak/skeletor/src/Image",
             APP_PATH . "/vendor/dj_avolak/skeletor/src/Login",
             APP_PATH . '/vendor/dj_avolak/skeletor/src/ThemeSettings',
-
         ],
-//            APP_PATH . "/packages"],
-        isDevMode: true,
+        isDevMode: !\Solidarity\Core\Environment::isProduction(),
     );
     $config->setAutoGenerateProxyClasses(true);
 //    $resultCache = new Symfony\Component\Cache\Adapter\RedisTagAwareAdapter($container->get(\Redis::class));
