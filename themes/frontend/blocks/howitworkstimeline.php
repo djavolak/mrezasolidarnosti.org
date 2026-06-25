@@ -491,7 +491,7 @@
                         </svg>
                         <span>Donacija se uplaćuje direktno osobi kojoj je podrška namenjena.</span>
                     </div>
-                    <div class="collapsible active">
+                    <div class="collapsible">
                         <div class="collapsibleWrapper">
                             <p>
                                 Mreža solidarnosti funkcioniše po <b>peer-to-peer</b> principu.<br>
@@ -546,7 +546,7 @@
                         </svg>
                         <span>Praćenje statusa</span>
                     </div>
-                    <div class="collapsible active">
+                    <div class="collapsible">
                         <div class="collapsibleWrapper">
                             <p>
                                 U svom profilu donator može pratiti status instrukcije:
@@ -566,7 +566,7 @@
                 </div>
                 <div class="right"></div>
             </div>
-            <div class="grid" style="margin-bottom:260px;">
+            <div class="grid" style="margin-bottom:360px;">
                 <div class="left">
 
                 </div>

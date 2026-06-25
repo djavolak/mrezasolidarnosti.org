@@ -2,8 +2,8 @@
 
 .lineGridWrapper {
   padding: 5rem 4.25rem;
-  @media(max-width: 768px) {
-    padding: 3rem 1.25rem;
+  @media(max-width: 1000px) {
+    display:none;
   }
 
   .lineGrid {

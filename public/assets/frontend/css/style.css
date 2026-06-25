@@ -1688,9 +1688,9 @@ main.loggedIn {
 .lineGridWrapper {
   padding: 5rem 4.25rem;
 }
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
   .lineGridWrapper {
-    padding: 3rem 1.25rem;
+    display: none;
   }
 }
 .lineGridWrapper .lineGrid {
