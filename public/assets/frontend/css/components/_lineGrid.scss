@@ -18,7 +18,7 @@
 
     .mainLine {
       position: absolute;
-      height: 100%;
+      height: 96%;
       width: 4px;
       background: rgba(38, 33, 133, 0.2);
       z-index: 1;
@@ -58,8 +58,44 @@
         top: 30px;
         background: rgba(38, 33, 133, 0.2);
       }
+      .left {
+        .info {
+          margin-left:auto;
+        }
+        .connector {
+          right: -23%;
+          left:unset;
+        }
+      }
 
       .left, .right {
+        .title {
+          &.end {
+            white-space: unset;
+            .main {
+              @include typography.type(h2);
+              color: var(--colorDarkBlue);
+              display:block;
+            }
+            .secondary {
+              @include typography.type(h3);
+              color: var(--colorDarkBlue);
+              font-weight:500;
+              display:block;
+            }
+          }
+        }
+        .belowTitleDescription {
+          border-radius: 10px;
+          font-size: 1rem;
+          font-weight: 400;
+          line-height: 1.4;
+          color: var(--colorDarkBlue);
+          background: white;
+          padding: 1rem;
+          display:block;
+          position:relative;
+        }
         .collapsibleHandle {
           background: var(--colorDarkBlue);
           margin-top: 1rem;
@@ -100,7 +136,46 @@
               color: var(--colorDarkBlue);
               background: white;
               padding: 1rem;
-
+              &>a {
+                display:flex;
+                align-items:center;
+                gap:0.5rem;
+                margin-top:1rem;
+                transition:0.3s ease all;
+                &:hover {
+                  color:var(--colorOrange);
+                }
+              }
+              .listItemInText {
+                margin-top:0;
+                margin-left:10px;
+                @include typography.type(text);
+                color: var(--colorDarkBlue);
+                &:before {
+                  content: "•";
+                  margin-right: 8px;
+                }
+              }
+              .boldSubtitle {
+                margin-top:1rem;
+                display:block;
+              }
+              b {
+                &.footerText {
+                  font-weight:bold;
+                  @include typography.type(h5);
+                }
+              }
+              .belowFooterText {
+                @include typography.type(text);
+                color: var(--colorDarkBlue);
+                margin-top:1rem;
+              }
+              .footerText {
+                @include typography.type(caption);
+                margin-top:1rem;
+                display:block;
+              }
               span {
                 @include typography.type(caption);
                 color: var(--colorDarkBlue);
@@ -130,6 +205,7 @@
           }
         }
       }
+
 
       .left {
         position: absolute;
