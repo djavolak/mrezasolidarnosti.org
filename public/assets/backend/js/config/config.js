@@ -39,7 +39,11 @@ export const config = Object.freeze({
             'app/ctabanner',
             'app/about',
             'app/valuecards',
-            'app/howitworkstimeline'
+            'app/howitworkstimeline',
+            'app/registerform',
+            'app/registerconfirmemail',
+            'app/registersuccessbox',
+            'app/login'
         ],
     },
     page: {

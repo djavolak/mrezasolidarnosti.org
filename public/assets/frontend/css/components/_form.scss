@@ -1,6 +1,9 @@
 @use '../setup/typography';
 .actionWrapper {
   padding-bottom:8rem;
+  &.gray {
+    background: var(--colorBackgroundGray);
+  }
   &.withSpacing {
     padding-top:8rem;
     @media(max-width:768px) {
@@ -174,7 +177,7 @@
   }
   &>svg {
     display:block;
-    margin:1rem auto;
+    margin: 1rem auto 0 auto;
   }
 }
 
@@ -238,9 +241,6 @@
       @include typography.type(h5);
       color:var(--colorDarkBlue);
       text-align:center;
-      &:first-of-type {
-        margin-bottom: 1.5rem;
-      }
       a {
         text-decoration:underline;
       }
