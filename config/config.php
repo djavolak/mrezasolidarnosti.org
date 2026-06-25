@@ -38,6 +38,11 @@ return array(
     'mailer' => [
         'from' => 'noreply@mrezasolidarnosti.org',
         'fromName' => 'Mreža Solidarnosti',
+        // Outside production, mail is caught here via SMTP (Mailpit)
+        'smtp' => [
+            'host' => '127.0.0.1',
+            'port' => 1025,
+        ],
         'recipients' => [
             'errorNotice' => [
                 'djavolak@mail.ru',
@@ -58,7 +63,13 @@ return array(
         'educator' => \Solidarity\Backend\Controller\EducatorController::class,
         'educatorImport' => \Solidarity\Backend\Controller\EducatorImportController::class,
         'transactionImport' => \Solidarity\Backend\Controller\TransactionImportController::class,
-        'transaction' => \Solidarity\Backend\Controller\TransactionController::class
+        'transaction' => \Solidarity\Backend\Controller\TransactionController::class,
+        // Cron entry point. CliSkeletor invokes Action classes via __invoke().
+        // Run: php public/cli.php createTransactions run   (the 2nd arg is ignored)
+        'createTransactions' => \Solidarity\Backend\Action\CreateTransaction::class,
+        // Legacy data migration. Dry-run: `php public/cli.php migrateLegacy run`
+        // Commit:                `php public/cli.php migrateLegacy commit`
+        'migrateLegacy' => \Solidarity\Backend\Action\MigrateLegacy::class,
     ],
     'cropSizes' => [
         PORTRAIT_600x820 => [600, 820, true],

@@ -2,6 +2,7 @@
 
 namespace Solidarity\Transaction\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -31,4 +32,9 @@ class Project
     #[ORM\OneToMany(targetEntity: Period::class, mappedBy: 'project')]
     public Collection $periods;
 
+    public function __construct()
+    {
+        $this->delegates = new ArrayCollection();
+        $this->periods = new ArrayCollection();
+    }
 }

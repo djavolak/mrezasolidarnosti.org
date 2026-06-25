@@ -173,15 +173,15 @@ class CreateTransaction extends Html
             }
 
             $transaction = $this->transaction->create([
-                'donor' => $donor,
-                'project' => $project,
+                'donor' => $donor->id,
+                'project' => $project->id,
                 'amount' => $transactionAmount,
                 'amountEur' => $amountEur,
-                'period' => $period,
+                'period' => $period->id,
                 'comment' => '',
                 'status' => Transaction::STATUS_NEW,
                 'donorConfirmed' => 0,
-                'beneficiary' => $beneficiary,
+                'beneficiary' => $beneficiary->id,
                 'paymentType' => $paymentType,
                 'accountNumber' => $accountNumber,
                 'instructions' => $instructions,

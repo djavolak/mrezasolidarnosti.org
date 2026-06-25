@@ -19,14 +19,13 @@ class PageAction extends BaseAction
         Logger $logger,
         Config $config,
         Engine $template,
-        Session $session,
         Navigation $navigationService,
         SocialLinks $socialLinks,
-        \Skeletor\User\Service\Session $adminSession,
+        \Solidarity\Frontend\Service\Session $session,
         protected Page $pageService,
         protected BlockViewInterface $blockView
     ) {
-        parent::__construct($logger, $config, $template, $navigationService, $socialLinks);
+        parent::__construct($logger, $config, $template, $navigationService, $socialLinks, $session);
         $this->setGlobalVariable('isHome', false);
         $this->setGlobalVariable(
             'homeSocialImgPath',

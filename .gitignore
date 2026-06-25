@@ -58,4 +58,26 @@ Thumbs.db
 /db/data/
 .env
 *.env
+
+# Secrets / deploy keys — never commit
+deployer.key
+*.key
+*.pem
+
+# Personal data exports (donor / beneficiary PII) — never commit
+*.xlsx
+*.xls
+*.docx
+*.doc
+*.csv
+seed.sql
+
+# Office lock/temp files
+~$*
+
+# PHPUnit
+/.phpunit.cache/
+/data/coverage/
+/public/coverage/
+/.phpunit.result.cache
 docker-compose.override.yml

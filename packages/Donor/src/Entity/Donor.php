@@ -2,16 +2,18 @@
 
 namespace Solidarity\Donor\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Skeletor\Core\Entity\Timestampable;
+use Skeletor\Core\Security\Authentication\AuthenticatableInterface;
 use Solidarity\Transaction\Entity\Project;
 use Solidarity\Transaction\Entity\Transaction;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'donor')]
-class Donor
+class Donor implements AuthenticatableInterface
 {
     use Timestampable;
 
@@ -20,9 +22,13 @@ class Donor
     const STATUS_PROBLEM = 3;
     const STATUS_DELETED = 4;
 
+    // Values aligned with the legacy app's UserDonor::SCHOOL_TYPE_* so the data
+    // migration is a direct copy (ALL=1, UNIVERSITY/UNI=2, EDUCATION/SCHOOL=3).
     const DONATE_TO_ALL = 1;
-    const DONATE_TO_SCHOOL = 2;
-    const DONATE_TO_UNI = 3;
+    const DONATE_TO_UNI = 2;
+    const DONATE_TO_SCHOOL = 3;
+
+    const ROLE_DONOR = 20;
 
     #[ORM\Column(type: Types::STRING, length: 255, unique: true)]
     public string $email;
@@ -32,8 +38,8 @@ class Donor
     public string $lastName;
     #[ORM\Column(type: Types::SMALLINT)]
     public int $status;
-    #[ORM\Column(type: Types::SMALLINT)]
-    public int $wantsToDonateTo;
+    #[ORM\Column(type: Types::SMALLINT, nullable: true)]
+    public ?int $wantsToDonateTo;
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     public ?string $comment;
     #[ORM\Column(type: Types::INTEGER)]
@@ -50,6 +56,35 @@ class Donor
     #[ORM\ManyToMany(targetEntity: Project::class, inversedBy: 'donors')]
     #[ORM\JoinTable(name: 'donor_project')]
     public Collection $projects;
+
+    public function __construct()
+    {
+        $this->paymentMethods = new ArrayCollection();
+        $this->transactions = new ArrayCollection();
+        $this->projects = new ArrayCollection();
+    }
+
+    public function getId(): int|string { return $this->id; }
+    public function getAuthIdentifier(): string { return $this->email; }
+    public function getAuthPassword(): ?string { return null; }            // passwordless
+    public function getAuthRole(): int { return self::ROLE_DONOR; }
+    public function getRedirectPath(): string { return '/donor/profile/'; } // wherever donors land
+    public function getEmail(): string { return $this->email; }
+    public function getDisplayName(): ?string { return trim($this->firstName . ' ' . $this->lastName); }
+
+    public function isActive(): bool
+    {
+        // NEW can authenticate (the click *is* the verification); DELETED/PROBLEM cannot.
+        return in_array($this->status, [self::STATUS_NEW, self::STATUS_VERIFIED], true);
+    }
+
+    public function supportsAuthenticator(string $type): bool { return $type === 'magic_link'; }
+
+    public function updateLoginInfo(string $ip, \DateTime $time): void
+    {
+        $this->ipv4 = $ip;
+        $this->lastLogin = $time;
+    }
 
     public static function getHrStatuses(): array
     {

@@ -16,87 +16,59 @@ class Mailer extends \Skeletor\Core\Mailer\Service\MailerSendMailer
         parent::__construct($mail, $config, $template);
     }
 
-    // @todo
-    public function sendTransactionListToDelegate($email, $listPath)
+    /**
+     * Only production sends through MailerSend. Everywhere else (development,
+     * staging, CLI/cron without APPLICATION_ENV set) the mail is caught via SMTP
+     * — Mailpit in dev — so no real email is ever sent outside production.
+     */
+    protected function send($recipients, $subject, $html)
     {
-        $body = $this->render('transactionList', []);
-        $recipients = [
-            new Recipient($email, $email),
-        ];
-        $emailParams = (new \MailerSend\Helpers\Builder\EmailParams())
-            ->setFrom('delegati@mrezasolidarnosti.org')
-            ->setFromName('Mreža solidarnosti')
-            ->setRecipients($recipients)
-            ->setSubject('Nerealizovane isplate za 1. deo februara')
-            ->setHtml($body)
-            ->setReplyTo('delegati@mrezasolidarnosti.org')
-            ->setReplyToName('Mreža solidarnosti')
-            ->setAttachments([new Attachment(file_get_contents($listPath), basename($listPath))]);
+        if (strtolower((string) getenv('APPLICATION_ENV')) === 'production') {
+            parent::send($recipients, $subject, $html);
+            return;
+        }
 
-        $this->send($emailParams);
+        $this->catchViaSmtp($recipients, $subject, $html);
     }
 
-    // @todo, might not be required
-    public function sendRoundStartMailToDelegate($email)
+    /**
+     * @param \MailerSend\Helpers\Builder\Recipient[] $recipients
+     */
+    private function catchViaSmtp($recipients, string $subject, string $html): void
     {
-        $body = $this->render('roundStart', []);
-        $recipients = [
-            new Recipient($email, $email),
-        ];
-        $uputstvoPath = DATA_PATH .'/Uputstvo-prijava-2.-deo-februar.pdf';
-        $emailParams = (new \MailerSend\Helpers\Builder\EmailParams())
-            ->setFrom('delegati@mrezasolidarnosti.org')
-            ->setFromName('Mreža solidarnosti')
-            ->setRecipients($recipients)
-            ->setSubject('Prijava oštećenih, 2. deo februar')
-            ->setHtml($body)
-            ->setReplyTo('delegati@mrezasolidarnosti.org')
-            ->setReplyToName('Mreža solidarnosti')
-            ->setAttachments([new Attachment(file_get_contents($uputstvoPath), 'Uputstvo prijava 2. deo februar.pdf')]);
+        $smtp = $this->config->mailer->smtp;
 
-        $this->send($emailParams);
+        $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
+        $mail->isSMTP();
+        $mail->Host = $smtp->host;
+        $mail->Port = (int) $smtp->port;
+        $mail->SMTPAuth = false;
+        $mail->CharSet = \PHPMailer\PHPMailer\PHPMailer::CHARSET_UTF8;
+        $mail->setFrom($this->config->mailer->from, $this->config->offsetGet('appName'));
+        foreach ($recipients as $recipient) {
+            $data = $recipient->toArray();
+            $mail->addAddress($data['email'], (string) ($data['name'] ?? ''));
+        }
+        $mail->isHTML(true);
+        $mail->Subject = $subject;
+        $mail->Body = $html;
+        $mail->AltBody = strip_tags($html);
+        $mail->send();
     }
 
-    // @todo, might not be required
-    public function sendDelegateRegisteredMail($email)
-    {
-        $body = $this->render('delegateRegistered', []);
-        $recipients = [
-            new Recipient($email, $email),
-        ];
-        $emailParams = (new \MailerSend\Helpers\Builder\EmailParams())
-            ->setFrom('delegati@mrezasolidarnosti.org')
-            ->setFromName('Mreža solidarnosti')
-            ->setRecipients($recipients)
-            ->setSubject('Potvrda registracije za delegata na Mrežu solidarnosti')
-            ->setHtml($body)
-            ->setReplyTo('delegati@mrezasolidarnosti.org')
-            ->setReplyToName('Mreža solidarnosti');
-
-        $this->send($emailParams);
-    }
-
-    // @todo
-    public function sendDonorRegisteredMail($email)
+    public function sendDonorRegisteredMail($email, $name, $token)
     {
         $body = $this->render('donorRegistered', [
-//            'email' => $email,
-//            'baseUrl' => $this->config->offsetGet('baseUrl')
+            'name' => $name,
+            'token' => $token,
+            'baseUrl' => $this->config->offsetGet('baseUrl')
         ]);
-
         $recipients = [
             new Recipient($email, $email),
         ];
-        $emailParams = (new \MailerSend\Helpers\Builder\EmailParams())
-            ->setFrom('donatori@mrezasolidarnosti.org')
-            ->setFromName('Mreža solidarnosti')
-            ->setRecipients($recipients)
-            ->setSubject('Potvrda registracije na Mrežu solidarnosti')
-            ->setHtml($body)
-            ->setReplyTo('donatori@mrezasolidarnosti.org')
-            ->setReplyToName('Mreža solidarnosti');
+        $subject = 'Potvrda registracije na Mrežu solidarnosti';
 
-        $this->send($emailParams);
+        $this->send($recipients, $subject, $body);
     }
 
     public function sendDashboardMagicLinkMail(string $email, string $magicLinkUrl, string $displayName): void
@@ -113,6 +85,20 @@ class Mailer extends \Skeletor\Core\Mailer\Service\MailerSendMailer
         $subject = "Vaš link za prijavu na Mrežu solidarnosti";
 
         $this->send($recipients, $subject, $body);
+    }
+
+    public function sendDonorLoginMail(string $email, string $displayName, string $token): void
+    {
+        $baseUrl = $this->config->offsetGet('baseUrl');
+        $magicLinkUrl = $baseUrl . '/donor/verifyEmail?token=' . $token;
+
+        $body = $this->render('magicLink', [
+            'displayName' => $displayName,
+            'loginUrl' => $magicLinkUrl, // template reads $data['loginUrl']
+            'baseUrl' => $baseUrl,
+        ]);
+
+        $this->send([new Recipient($email, $email)], 'Vaš link za prijavu na Mrežu solidarnosti', $body);
     }
 
 }

@@ -22,9 +22,9 @@ sudo apt-get install -y zip unzip imagemagick
 sudo apt-get install -y nginx
 sudo apt-get install -y curl git redis-server
 sudo apt-get install -y software-properties-common python-software-properties xpdf
-sudo apt-get install -y php8.4-common php8.4-cli php8.4-fpm
-sudo apt-get install -y php8.4-{bz2,curl,mysql,readline,xml,gd,dev,mbstring,opcache,zip,xsl,dom,intl,redis,igbinary}
 sudo apt-get install -y php8.4-{xdebug,imagick,mcrypt}
+sudo apt-get install -y php8.4-{bz2,curl,mysql,readline,xml,gd,dev,mbstring,opcache,zip,xsl,dom,intl,redis,igbinary}
+sudo apt-get install -y php8.4-common php8.4-cli php8.4-fpm
 
 cd /vagrant/
 
@@ -111,6 +111,32 @@ sudo bash -c "echo 'server {
 
 sudo ln -s /etc/nginx/sites-available/solidarityadmin.local /etc/nginx/sites-enabled/solidarityadmin.local
 sudo service nginx restart
+
+# Mailpit — development mail catcher (SMTP :1025, web inbox :8025).
+# Non-production mail (APPLICATION_ENV != production) is delivered here instead
+# of MailerSend; see packages/Mailer/src/Service/Mailer.php.
+if [ ! -f /usr/local/bin/mailpit ]; then
+    echo 'installing mailpit ...'
+    curl -sL https://raw.githubusercontent.com/axllent/mailpit/develop/install.sh | sudo bash
+fi
+sudo tee /etc/systemd/system/mailpit.service > /dev/null <<'EOF'
+[Unit]
+Description=Mailpit
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/mailpit --smtp 0.0.0.0:1025 --listen 0.0.0.0:8025
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+EOF
+sudo systemctl daemon-reload
+sudo systemctl enable --now mailpit
+echo 'mailpit running — inbox at http://192.168.25.43:8025'
+
+grep -q "alias composer=" /home/vagrant/.bashrc || \
+echo "alias composer='php /vagrant/composer.phar'" >> /home/vagrant/.bashrc
 
 echo 'run composer install ...'
 php composer.phar install

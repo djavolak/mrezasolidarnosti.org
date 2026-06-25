@@ -22,12 +22,19 @@ use Solidarity\Frontend\Action\PageAction;
 return [
     // backend
     [['GET'], '/', \Solidarity\Frontend\Action\Index::class],
+
+    [['GET'], '/registracija-donatora', \Solidarity\Frontend\Action\Donor\Register::class],
+    [['POST'], '/donor/register', \Solidarity\Frontend\Action\Donor\Register::class],
+    [['GET'], '/donor/verifyEmail', \Solidarity\Frontend\Action\Donor\VerifyEmail::class],
+    [['GET', 'POST'], '/donor/login', \Solidarity\Frontend\Action\Donor\Login::class],
+
     [['GET'], '/{slug}', PageAction::class],
-//    [['GET'], '/hvalaDonatoru', \Solidarity\Frontend\Action\ThankYouDonor::class],
-//    [['GET'], '/hvalaDelegatu', \Solidarity\Frontend\Action\ThankYouDelegate::class],
-//    [['GET'], '/hvalaZaOstecenog', \Solidarity\Frontend\Action\ThankYouEducator::class],
-//    [['GET', 'POST'], '/obrazacDonatori', \Solidarity\Frontend\Action\Donor::class],
-//    [['GET', 'POST'], '/obrazacDelegati', \Solidarity\Frontend\Action\Delegate::class],
-//    [['GET', 'POST'], '/profileDelegat', \Solidarity\Frontend\Action\ProfileDelegate::class],
 //    [['GET', 'POST'], '/obrazacOsteceni', \Solidarity\Frontend\Action\Educator::class],
+//    [['GET', 'POST'], '/profileDelegat', \Solidarity\Frontend\Action\ProfileDelegate::class],
+//    [['GET', 'POST'], '/obrazacDelegati', \Solidarity\Frontend\Action\Delegate::class],
+//    [['GET', 'POST'], '/obrazacDonatori', \Solidarity\Frontend\Action\Donor::class],
+//    [['GET'], '/hvalaZaOstecenog', \Solidarity\Frontend\Action\ThankYouEducator::class],
+//    [['GET'], '/hvalaDelegatu', \Solidarity\Frontend\Action\ThankYouDelegate::class],
+//    [['GET'], '/hvalaDonatoru', \Solidarity\Frontend\Action\ThankYouDonor::class],
+
 ];

@@ -42,8 +42,6 @@ class Donor implements ValidatorInterface
     {
         $valid = true;
         $this->messages = [];
-        // todo better validation for email
-
         if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
             $this->messages['email'][] = 'Uneta email adresa nije ispravna. ' . $data['email'];
             $valid = false;

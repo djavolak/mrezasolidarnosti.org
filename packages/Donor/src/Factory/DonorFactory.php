@@ -15,7 +15,7 @@ class DonorFactory extends AbstractFactory
         $paymentMethodsData = $data['paymentMethods'] ?? [];
         unset($data['paymentMethods']);
 
-        $data['projects'] = self::resolveProjectEntities($data, $em);
+        // formatForWrite resolves the project ids for the ManyToMany relation.
         $entityId = parent::compileEntityForCreate($data, $em);
 
         static::syncPaymentMethods($entityId, $paymentMethodsData, $em);

@@ -2,11 +2,12 @@
 namespace Solidarity\Donor\Repository;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Skeletor\Login\Repository\LoginRepositoryInterface;
 use Solidarity\Donor\Entity\Donor;
 use Solidarity\Donor\Factory\DonorFactory;
 use Skeletor\Core\TableView\Repository\TableViewRepository;
 
-class DonorRepository extends TableViewRepository
+class DonorRepository extends TableViewRepository implements LoginRepositoryInterface
 {
     const ENTITY = Donor::class;
     const FACTORY = DonorFactory::class;
@@ -17,6 +18,19 @@ class DonorRepository extends TableViewRepository
         parent::__construct($entityManager);
     }
 
+    public function findByEmail(string $email)
+    {
+        return $this->entityManager->getRepository(Donor::class)->findOneBy(['email' => $email]);
+    }
+
+    public function updatePassword($userId, $password) { /* no-op, passwordless */ }
+
+    public function updateLoginInfo($model)
+    {
+        $this->entityManager->persist($model);
+        $this->entityManager->flush();
+    }
+
     public function getDonorsByProject($project): array
     {
         $qb = $this->entityManager->createQueryBuilder();
@@ -24,10 +38,11 @@ class DonorRepository extends TableViewRepository
         $qb->select('d')
             ->from(Donor::class, 'd')
             ->innerJoin('d.projects', 'p')
-            ->andWhere('p.id = ' . $project->id)
+            ->where('p.id = :projectId')
             ->andWhere('d.isActive = 1')
-            ->andWhere('d.status = ' . Donor::STATUS_VERIFIED)
-            ->orWhere('d.status = ' . Donor::STATUS_NEW)
+            ->andWhere('d.status IN (:statuses)')
+            ->setParameter('projectId', $project->id)
+            ->setParameter('statuses', [Donor::STATUS_VERIFIED, Donor::STATUS_NEW])
             ->orderBy('d.id', 'ASC');
 //            ->setMaxResults(100);
 

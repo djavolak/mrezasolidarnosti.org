@@ -119,3 +119,7 @@ Za čišćenje ORM keša:
 php bin/doctrine orm:clear-cache:metadata
 php bin/doctrine orm:clear-cache:query
 php bin/doctrine orm:clear-cache:result
+```
+
+## mailpit adresa
+- http://192.168.25.43:8025

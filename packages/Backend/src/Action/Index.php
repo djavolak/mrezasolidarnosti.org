@@ -49,7 +49,7 @@ class Index extends Html
         \Psr\Http\Message\ServerRequestInterface $request,
         \Psr\Http\Message\ResponseInterface $response
     ) {
-        $url = $this->getConfig()->offsetGet('adminUrl') . '/login/delegate/magicLinkForm/';
+        // Unauthenticated visitors land on the user (admin/staff) login by default.
         $url = $this->getConfig()->offsetGet('adminUrl') . '/login/user/magicLinkForm/';
 
         if ($this->session->getStorage()->offsetGet('loggedIn')) {

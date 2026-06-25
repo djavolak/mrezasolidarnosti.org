@@ -2,13 +2,10 @@
 
 namespace Solidarity\Delegate\Entity;
 
-use Solidarity\School\Entity\City;
-use Solidarity\School\Entity\School;
-use Solidarity\School\Entity\SchoolType;
-use App\Entity\User;
 use Doctrine\DBAL\Types\Types;
-use Skeletor\Core\Entity\Timestampable;
 use Doctrine\ORM\Mapping as ORM;
+use Skeletor\Core\Entity\Timestampable;
+use Solidarity\School\Entity\School;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'userDelegateRequest')]
@@ -20,40 +17,31 @@ class UserDelegateRequest
     public const STATUS_CONFIRMED = 2;
     public const STATUS_REJECTED = 3;
 
-//    #[Assert\Length(min: 3, max: 100, minMessage: 'Polje mora imati bar {{ limit }} karaktera', maxMessage: 'Polje ne može imati više od {{ limit }} karaktera')]
     #[ORM\Column(length: 255)]
-    private string $firstName;
+    public string $firstName;
 
-//    #[Assert\Length(min: 3, max: 100, minMessage: 'Polje mora imati bar {{ limit }} karaktera', maxMessage: 'Polje ne može imati više od {{ limit }} karaktera')]
     #[ORM\Column(length: 255)]
-    private string $lastName;
-
-    //todo USER
-//    #[ORM\OneToOne(inversedBy: 'userDelegateRequest')]
-////    #[ORM\JoinColumn(nullable: false)]
-//    private ?UserDelegateRequest $user = null;
+    public string $lastName;
 
     #[ORM\Column(length: 50, nullable: true)]
-    private ?string $phone = null;
+    public ?string $phone = null;
 
-    #[ORM\ManyToOne(inversedBy: 'userDelegateRequests')]
-    #[ORM\JoinColumn(nullable: false)]
-    private School $school;
-
-    #[ORM\Column(nullable: true)]
-//    #[Assert\LessThan(value: 1000, message: 'Ukupan broj zaposlenih u školi ne može da bude veći od 1000')]
-    private ?int $totalEducators = null;
+    #[ORM\ManyToOne(targetEntity: School::class)]
+    #[ORM\JoinColumn(nullable: true)]
+    public ?School $school = null;
 
     #[ORM\Column(nullable: true)]
-//    #[Assert\LessThan(propertyPath: 'totalEducators', message: 'Ukupno u obustavi ne može da bude veće od ukupnog broja zaposlenih')]
-    private ?int $totalBlockedEducators = null;
+    public ?int $totalEducators = null;
+
+    #[ORM\Column(nullable: true)]
+    public ?int $totalBlockedEducators = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $comment = null;
+    public ?string $comment = null;
 
     #[ORM\Column]
-    private ?int $status = 1;
+    public int $status = self::STATUS_NEW;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $adminComment = null;
+    public ?string $adminComment = null;
 }

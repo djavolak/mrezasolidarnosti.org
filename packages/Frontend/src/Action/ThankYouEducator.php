@@ -15,8 +15,9 @@ class ThankYouEducator extends BaseAction
         Logger $logger, Config $config, Engine $template, private \Solidarity\Delegate\Service\Delegate $delegate,
         protected Navigation $navigationService,
         protected SocialLinks $socialLinks,
+        \Solidarity\Frontend\Service\Session $frontendSession,
     ) {
-        parent::__construct($logger, $config, $template, $this->navigationService, $this->socialLinks);
+        parent::__construct($logger, $config, $template, $this->navigationService, $this->socialLinks, $frontendSession);
 
     }
 

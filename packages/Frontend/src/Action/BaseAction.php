@@ -7,6 +7,7 @@ use Psr\Log\LoggerInterface as Logger;
 use Skeletor\Core\Action\Web\Html;
 use Skeletor\ThemeSettings\Navigation\Service\Navigation;
 use Skeletor\ThemeSettings\SocialLinks\Service\SocialLinks;
+use Solidarity\Frontend\Service\Session;
 use Tamtamchik\SimpleFlash\Flash;
 
 class BaseAction extends Html
@@ -18,6 +19,7 @@ class BaseAction extends Html
         Engine $template,
         protected Navigation $navigationService,
         protected SocialLinks $socialLinks,
+        protected Session $session,
     ) {
         parent::__construct($logger, $config, $template);
 	    $this->setGlobalVariable( 'url', $this->getConfig()->offsetGet( 'baseUrl' ));
@@ -25,9 +27,26 @@ class BaseAction extends Html
         $this->setGlobalVariable('mainNavigation', $this->navigationService->getByTitle("Main Navigation"));
         $socialLinks = $this->socialLinks->getSocialItems();
         $this->setGlobalVariable('socialLinks', \Solidarity\Frontend\Service\SocialLinks\SocialLinks::getSocialLinks($socialLinks));
+        // Logged-in state available to every template (cheap — read straight from session).
+        $this->setGlobalVariable('isLoggedIn', $this->session->isLoggedIn());
+        $this->setGlobalVariable('currentUserName', $this->session->getDisplayName());
+        $this->setGlobalVariable('isDonorLoggedIn', $this->session->isDonor());
         if (Flash::hasMessages('error')) { // print only errors
             $this->setGlobalVariable('messages', Flash::display());
         }
+    }
+
+    /**
+     * Guard for donor-only actions. Returns a redirect Response to the login
+     * page when no donor is logged in, or null when access is allowed.
+     */
+    protected function requireDonor(): ?\Psr\Http\Message\ResponseInterface
+    {
+        if ($this->session->isDonor()) {
+            return null;
+        }
+
+        return new \GuzzleHttp\Psr7\Response(302, ['Location' => $this->getConfig()->offsetGet('baseUrl') . '/donor/login']);
     }
 
     public function return404()
