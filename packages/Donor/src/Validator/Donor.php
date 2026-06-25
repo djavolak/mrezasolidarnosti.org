@@ -51,16 +51,16 @@ class Donor implements ValidatorInterface
             $this->messages['firstName'][] = 'First name is required';
         }
 
-        if(strlen(trim($data['firstName'])) < 3) {
-            $this->messages['firstName'][] = 'First name must be at least 3 characters long';
+        if(strlen(trim($data['firstName'])) < 2) {
+            $this->messages['firstName'][] = 'First name must be at least 2 characters long';
         }
 
         if(trim($data['lastName']) === '') {
             $this->messages['lastName'][] = 'Last name is required';
         }
 
-        if(strlen(trim($data['lastName'])) < 3) {
-            $this->messages['lastName'][] = 'Last name must be at least 3 characters long';
+        if(strlen(trim($data['lastName'])) < 2) {
+            $this->messages['lastName'][] = 'Last name must be at least 2 characters long';
         }
 
         if (!$this->csrf->validate($data)) {
