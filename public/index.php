@@ -9,7 +9,7 @@ ini_set('display_errors', 0);
 include(__DIR__ . "/../config/constants.php");
 include(APP_PATH . "/vendor/autoload.php");
 $path = getenv('APPLICATION');
-if (getenv('APPLICATION_ENV') !== 'production') {
+if (!\Solidarity\Core\Environment::isProduction()) {
     \Tracy\Debugger::enable(false);
 }
 

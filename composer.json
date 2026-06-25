@@ -28,6 +28,7 @@
   },
   "autoload": {
     "psr-4": {
+      "Solidarity\\Core\\": "packages/Core/src",
       "Solidarity\\Backend\\": "packages/Backend/src",
       "Solidarity\\Frontend\\": "packages/Frontend/src",
       "Solidarity\\Mailer\\": "packages/Mailer/src",

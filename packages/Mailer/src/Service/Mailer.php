@@ -23,7 +23,7 @@ class Mailer extends \Skeletor\Core\Mailer\Service\MailerSendMailer
      */
     protected function send($recipients, $subject, $html)
     {
-        if (strtolower((string) getenv('APPLICATION_ENV')) === 'production') {
+        if (\Solidarity\Core\Environment::isProduction()) {
             parent::send($recipients, $subject, $html);
             return;
         }
