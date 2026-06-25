@@ -2086,6 +2086,9 @@ main.loggedIn {
 .actionWrapper {
   padding-bottom: 8rem;
 }
+.actionWrapper.gray {
+  background: var(--colorBackgroundGray);
+}
 .actionWrapper.withSpacing {
   padding-top: 8rem;
 }
@@ -2283,7 +2286,7 @@ main.loggedIn {
 }
 .lowGapForm > svg {
   display: block;
-  margin: 1rem auto;
+  margin: 1rem auto 0 auto;
 }
 
 #loginAction h3 {
@@ -2350,9 +2353,6 @@ main.loggedIn {
   line-height: 1.4;
   color: var(--colorDarkBlue);
   text-align: center;
-}
-#loginAction #loginActionContainer > p:first-of-type {
-  margin-bottom: 1.5rem;
 }
 #loginAction #loginActionContainer > p a {
   text-decoration: underline;
