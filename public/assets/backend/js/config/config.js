@@ -38,7 +38,12 @@ export const config = Object.freeze({
             'app/whotocall',
             'app/ctabanner',
             'app/about',
-            'app/valuecards'
+            'app/valuecards',
+            'app/howitworkstimeline',
+            'app/registerform',
+            'app/registerconfirmemail',
+            'app/registersuccessbox',
+            'app/login'
         ],
     },
     page: {

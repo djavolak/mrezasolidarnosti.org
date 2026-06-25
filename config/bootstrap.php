@@ -25,6 +25,11 @@ use Solidarity\Backend\Blocks\Threepillars\Threepillars;
 use Solidarity\Backend\Blocks\Valuecards\Valuecards;
 use Solidarity\Backend\Blocks\Whotocall\Whotocall;
 use Solidarity\Backend\Blocks\Howitworks\Howitworks;
+use Solidarity\Backend\Blocks\Howitworkstimeline\Howitworkstimeline;
+use Solidarity\Backend\Blocks\Login\Login;
+use Solidarity\Backend\Blocks\Registerconfirmemail\Registerconfirmemail;
+use Solidarity\Backend\Blocks\Registerform\Registerform;
+use Solidarity\Backend\Blocks\Registersuccessbox\Registersuccessbox;
 use Solidarity\Backend\Blocks\Testimonials\Testimonials;
 use Solidarity\Backend\Blocks\Whywearedifferent\Whywearedifferent;
 use Solidarity\Backend\Blocks\Find\Find;
@@ -105,6 +110,11 @@ $container->set(\Skeletor\ContentEditor\Contracts\BlockParserFactoryInterface::c
     $blockParserFactory->registerBlockParser(Valuecards::NAME, new Valuecards(
         $container->get(\Skeletor\Image\Service\Image::class)
     ));
+    $blockParserFactory->registerBlockParser(Howitworkstimeline::NAME, new Howitworkstimeline());
+    $blockParserFactory->registerBlockParser(Registerform::NAME, new Registerform());
+    $blockParserFactory->registerBlockParser(Registerconfirmemail::NAME, new Registerconfirmemail());
+    $blockParserFactory->registerBlockParser(Registersuccessbox::NAME, new Registersuccessbox());
+    $blockParserFactory->registerBlockParser(Login::NAME, new Login());
 
     return $blockParserFactory;
 });

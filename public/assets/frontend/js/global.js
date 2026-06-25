@@ -43,9 +43,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    const lineGrids = document.querySelectorAll('.lineGrid');
-    lineGrids.forEach((lineGridContainer) => {
-        const lineGrid = new LineGrid(lineGridContainer);
-        lineGrid.init();
-    });
+    const lineGridDesktop = document.querySelector('.lineGrid');
+    const lineGridMobile = document.querySelector('.lineGridWrapperMobile');
+    const lineGrid = new LineGrid(lineGridDesktop, lineGridMobile);
+    lineGrid.init();
 });
