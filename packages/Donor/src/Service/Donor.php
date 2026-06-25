@@ -152,4 +152,9 @@ class Donor extends TableView
         return $this->repo->getDonorCount($status, $isActive);
     }
 
+    public function getFilterErrors()
+    {
+        return $this->filter->getErrors();
+    }
+
 }

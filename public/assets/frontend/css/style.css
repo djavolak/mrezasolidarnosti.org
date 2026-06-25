@@ -249,6 +249,21 @@ main.loggedIn {
   background: var(--colorBackgroundGray);
 }
 
+.messagesContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem 0;
+}
+.messagesContainer > span.error {
+  background: #dc3545;
+  color: white;
+  padding: 0.5em;
+  width: 100%;
+}
+
 #mainHeader {
   padding: 1.5rem 4rem;
   display: flex;

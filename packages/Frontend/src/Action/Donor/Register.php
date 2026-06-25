@@ -8,6 +8,7 @@ use Skeletor\Core\Validator\ValidatorException;
 use Skeletor\ThemeSettings\Navigation\Service\Navigation;
 use Skeletor\ThemeSettings\SocialLinks\Service\SocialLinks;
 use Solidarity\Frontend\Action\BaseAction;
+use Volnix\CSRF\CSRF;
 
 class Register extends BaseAction
 {
@@ -26,6 +27,8 @@ class Register extends BaseAction
         \Psr\Http\Message\ResponseInterface $response
     ) {
         $data = $request->getParsedBody();
+        $responseData = [];
+        $success = true;
         if (!empty($data)) {
             try {
                 $data['isActive'] = 1;
@@ -35,20 +38,23 @@ class Register extends BaseAction
                 $data['status'] = \Solidarity\Donor\Entity\Donor::STATUS_NEW;
                 $this->donor->create($data);
 
-                return $this->redirect('/hvalaDonatoru'); // @TODO step one complete, magic link sent, redirect or return json
-            } catch (\Exception $e) {
-                if ($e->getMessage() === "Donor already exists") {
-                    //@TODO redirect to login with message?
-                    var_dump($e->getMessage());
-                    die();
+                $responseData['redirect'] = '/potvrdi-email';
+            } catch(ValidatorException $e) {
+                $success = false;
+                $responseData['token'] = CSRF::getToken();
+                foreach($this->donor->getFilterErrors() as $error){
+                    $responseData['errors'][] = $error;
                 }
-                var_dump($e->getMessage());
-                die();
-
-                return $this->respond('donor/signup', ['errors' => $errors, 'data' => $data]);
+            }
+            catch (\Exception $e) {
+                $success = false;
+                $responseData['token'] = CSRF::getToken();
+                if ($e->getMessage() === "Donor already exists") {
+                    $responseData['errors'][] = 'A donor with this email address already exists.';
+                }
             }
         }
 
-        return $this->respond('donor/signup', []);
+        return $this->returnWithData($success, $responseData);
     }
 }

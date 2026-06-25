@@ -22,8 +22,6 @@ use Solidarity\Frontend\Action\PageAction;
 return [
     // backend
     [['GET'], '/', \Solidarity\Frontend\Action\Index::class],
-
-    [['GET'], '/registracija-donatora', \Solidarity\Frontend\Action\Donor\Register::class],
     [['POST'], '/donor/register', \Solidarity\Frontend\Action\Donor\Register::class],
     [['GET'], '/donor/verifyEmail', \Solidarity\Frontend\Action\Donor\VerifyEmail::class],
     [['GET', 'POST'], '/donor/login', \Solidarity\Frontend\Action\Donor\Login::class],

@@ -47,10 +47,26 @@ class Donor implements ValidatorInterface
             $valid = false;
         }
 
-//        if (!$this->csrf->validate($data)) {
-//            $this->messages['general'][] = 'Stranice je istekla, probajte ponovo.';
-//            $valid = false;
-//        }
+        if(trim($data['firstName']) === '') {
+            $this->messages['firstName'][] = 'First name is required';
+        }
+
+        if(strlen(trim($data['firstName'])) < 2) {
+            $this->messages['firstName'][] = 'First name must be at least 2 characters long';
+        }
+
+        if(trim($data['lastName']) === '') {
+            $this->messages['lastName'][] = 'Last name is required';
+        }
+
+        if(strlen(trim($data['lastName'])) < 2) {
+            $this->messages['lastName'][] = 'Last name must be at least 2 characters long';
+        }
+
+        if (!$this->csrf->validate($data)) {
+            $this->messages['general'][] = 'Expired, please try again.';
+            $valid = false;
+        }
 
         return $valid;
     }

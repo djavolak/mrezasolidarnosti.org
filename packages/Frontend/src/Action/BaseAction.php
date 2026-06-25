@@ -80,4 +80,13 @@ class BaseAction extends Html
             $this->setGlobalVariable('seoImageAlt', $this->getConfig()->siteName);
         }
     }
+
+    protected function returnWithData(bool $success = true, array $data = []): \Psr\Http\Message\MessageInterface
+    {
+        $returnData['success'] = $success;
+        $returnData['data'] = $data;
+        $this->response->getBody()->write(json_encode($returnData));
+        $this->response->getBody()->rewind();
+        return $this->response->withHeader('Content-Type', 'application/json');
+    }
 }
