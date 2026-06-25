@@ -1854,7 +1854,7 @@ main.loggedIn {
 }
 .lineGridWrapperMobile .mainLine {
   position: absolute;
-  height: 96%;
+  height: 98%;
   width: 4px;
   background: rgba(38, 33, 133, 0.2);
   z-index: 0;
