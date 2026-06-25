@@ -56,87 +56,19 @@ class Mailer extends \Skeletor\Core\Mailer\Service\MailerSendMailer
         $mail->send();
     }
 
-    // @todo
-    public function sendTransactionListToDelegate($email, $listPath)
-    {
-        $body = $this->render('transactionList', []);
-        $recipients = [
-            new Recipient($email, $email),
-        ];
-        $emailParams = (new \MailerSend\Helpers\Builder\EmailParams())
-            ->setFrom('delegati@mrezasolidarnosti.org')
-            ->setFromName('Mreža solidarnosti')
-            ->setRecipients($recipients)
-            ->setSubject('Nerealizovane isplate za 1. deo februara')
-            ->setHtml($body)
-            ->setReplyTo('delegati@mrezasolidarnosti.org')
-            ->setReplyToName('Mreža solidarnosti')
-            ->setAttachments([new Attachment(file_get_contents($listPath), basename($listPath))]);
-
-        $this->send($emailParams);
-    }
-
-    // @todo, might not be required
-    public function sendRoundStartMailToDelegate($email)
-    {
-        $body = $this->render('roundStart', []);
-        $recipients = [
-            new Recipient($email, $email),
-        ];
-        $uputstvoPath = DATA_PATH .'/Uputstvo-prijava-2.-deo-februar.pdf';
-        $emailParams = (new \MailerSend\Helpers\Builder\EmailParams())
-            ->setFrom('delegati@mrezasolidarnosti.org')
-            ->setFromName('Mreža solidarnosti')
-            ->setRecipients($recipients)
-            ->setSubject('Prijava oštećenih, 2. deo februar')
-            ->setHtml($body)
-            ->setReplyTo('delegati@mrezasolidarnosti.org')
-            ->setReplyToName('Mreža solidarnosti')
-            ->setAttachments([new Attachment(file_get_contents($uputstvoPath), 'Uputstvo prijava 2. deo februar.pdf')]);
-
-        $this->send($emailParams);
-    }
-
-    // @todo, might not be required
-    public function sendDelegateRegisteredMail($email)
-    {
-        $body = $this->render('delegateRegistered', []);
-        $recipients = [
-            new Recipient($email, $email),
-        ];
-        $emailParams = (new \MailerSend\Helpers\Builder\EmailParams())
-            ->setFrom('delegati@mrezasolidarnosti.org')
-            ->setFromName('Mreža solidarnosti')
-            ->setRecipients($recipients)
-            ->setSubject('Potvrda registracije za delegata na Mrežu solidarnosti')
-            ->setHtml($body)
-            ->setReplyTo('delegati@mrezasolidarnosti.org')
-            ->setReplyToName('Mreža solidarnosti');
-
-        $this->send($emailParams);
-    }
-
-    // @todo
-    public function sendDonorRegisteredMail($email)
+    public function sendDonorRegisteredMail($email, $name, $token)
     {
         $body = $this->render('donorRegistered', [
-//            'email' => $email,
-//            'baseUrl' => $this->config->offsetGet('baseUrl')
+            'name' => $name,
+            'token' => $token,
+            'baseUrl' => $this->config->offsetGet('baseUrl')
         ]);
-
         $recipients = [
             new Recipient($email, $email),
         ];
-        $emailParams = (new \MailerSend\Helpers\Builder\EmailParams())
-            ->setFrom('donatori@mrezasolidarnosti.org')
-            ->setFromName('Mreža solidarnosti')
-            ->setRecipients($recipients)
-            ->setSubject('Potvrda registracije na Mrežu solidarnosti')
-            ->setHtml($body)
-            ->setReplyTo('donatori@mrezasolidarnosti.org')
-            ->setReplyToName('Mreža solidarnosti');
+        $subject = 'Potvrda registracije na Mrežu solidarnosti';
 
-        $this->send($emailParams);
+        $this->send($recipients, $subject, $body);
     }
 
     public function sendDashboardMagicLinkMail(string $email, string $magicLinkUrl, string $displayName): void
@@ -153,6 +85,20 @@ class Mailer extends \Skeletor\Core\Mailer\Service\MailerSendMailer
         $subject = "Vaš link za prijavu na Mrežu solidarnosti";
 
         $this->send($recipients, $subject, $body);
+    }
+
+    public function sendDonorLoginMail(string $email, string $displayName, string $token): void
+    {
+        $baseUrl = $this->config->offsetGet('baseUrl');
+        $magicLinkUrl = $baseUrl . '/donor/verifyEmail?token=' . $token;
+
+        $body = $this->render('magicLink', [
+            'displayName' => $displayName,
+            'loginUrl' => $magicLinkUrl, // template reads $data['loginUrl']
+            'baseUrl' => $baseUrl,
+        ]);
+
+        $this->send([new Recipient($email, $email)], 'Vaš link za prijavu na Mrežu solidarnosti', $body);
     }
 
 }

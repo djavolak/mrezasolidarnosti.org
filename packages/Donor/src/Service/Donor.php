@@ -1,6 +1,7 @@
 <?php
 namespace Solidarity\Donor\Service;
 
+use Skeletor\Login\Service\MagicLinkService;
 use Solidarity\Donor\Repository\DonorRepository;
 use Skeletor\Core\TableView\Service\TableView;
 use Psr\Log\LoggerInterface as Logger;
@@ -21,8 +22,8 @@ class Donor extends TableView
      * @param Logger $logger
      */
     public function __construct(
-        DonorRepository $repo, Session $user, Logger $logger, DonorFilter $filter, private \DateTime $dt,
-        private Mailer $mailer, private Project $project
+        DonorRepository $repo, Session $user, Logger $logger, DonorFilter $filter,
+        private Mailer $mailer, private Project $project, private MagicLinkService $magicLinkService
     ) {
         parent::__construct($repo, $user, $logger, $filter);
     }
@@ -36,15 +37,30 @@ class Donor extends TableView
     {
         $entity = $this->getEntities(['email' => $data['email']]);
         if (count($entity)) {
-            $data['id'] = $entity[0]->id;
-            $entity = parent::update($data);
+            throw new \Exception('Donor already exists');
         } else {
             $entity = parent::create($data);
+
+            $token = $this->magicLinkService->requestMagicLink($entity->email, 'donor', false);
+            $this->mailer->sendDonorRegisteredMail($entity->email, $entity->firstName .' '. $entity->lastName, $token);
         }
-        //@TODO
-//        $this->mailer->sendDonorRegisteredMail($entity->email);
 
         return $entity;
+    }
+
+    /**
+     * Send a magic-link login email to an existing donor. Silent if the email
+     * isn't registered, so the form can't be used to enumerate accounts.
+     */
+    public function requestLoginLink(string $email): void
+    {
+        $donor = $this->repo->findByEmail($email);
+        if (!$donor) {
+            return;
+        }
+
+        $token = $this->magicLinkService->requestMagicLink($email, 'donor', false);
+        $this->mailer->sendDonorLoginMail($email, $donor->getDisplayName(), $token);
     }
 
     public function prepareEntities($entities)

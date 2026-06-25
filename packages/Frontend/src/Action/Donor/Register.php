@@ -1,23 +1,23 @@
 <?php
-namespace Solidarity\Frontend\Action;
+namespace Solidarity\Frontend\Action\Donor;
 
 use Laminas\Config\Config;
-use Laminas\Session\SessionManager as Session;
 use League\Plates\Engine;
+use Psr\Log\LoggerInterface as Logger;
 use Skeletor\Core\Validator\ValidatorException;
 use Skeletor\ThemeSettings\Navigation\Service\Navigation;
 use Skeletor\ThemeSettings\SocialLinks\Service\SocialLinks;
 use Solidarity\Frontend\Action\BaseAction;
-use Psr\Log\LoggerInterface as Logger;
 
-class Donor extends BaseAction
+class Register extends BaseAction
 {
     public function __construct(
         Logger $logger, Config $config, Engine $template, private \Solidarity\Donor\Service\Donor $donor,
         protected Navigation $navigationService,
         protected SocialLinks $socialLinks,
+        \Solidarity\Frontend\Service\Session $session,
     ) {
-        parent::__construct($logger, $config, $template, $this->navigationService, $this->socialLinks);
+        parent::__construct($logger, $config, $template, $this->navigationService, $this->socialLinks, $session);
 
     }
 
@@ -25,19 +25,26 @@ class Donor extends BaseAction
         \Psr\Http\Message\ServerRequestInterface $request,
         \Psr\Http\Message\ResponseInterface $response
     ) {
-        $this->setGlobalVariable('title', 'Forma za donatore');
         $data = $request->getParsedBody();
         if (!empty($data)) {
             try {
+                $data['isActive'] = 1;
+                $data['wantsToDonateTo'] = null;
+                $data['comment'] = '';
+                $data['projects'] = [];
+                $data['status'] = \Solidarity\Donor\Entity\Donor::STATUS_NEW;
                 $this->donor->create($data);
-                // @TODO send mail
-                return $this->redirect('/hvalaDonatoru');
-            } catch (ValidatorException $e) {
-                $errors = [];
-                foreach ($this->donor->parseErrors() as $key => $error) {
-                    unset($data[$key]);
-                    $errors[] = $error['message'];
+
+                return $this->redirect('/hvalaDonatoru'); // @TODO step one complete, magic link sent, redirect or return json
+            } catch (\Exception $e) {
+                if ($e->getMessage() === "Donor already exists") {
+                    //@TODO redirect to login with message?
+                    var_dump($e->getMessage());
+                    die();
                 }
+                var_dump($e->getMessage());
+                die();
+
                 return $this->respond('donor/signup', ['errors' => $errors, 'data' => $data]);
             }
         }

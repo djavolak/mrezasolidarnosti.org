@@ -18,9 +18,10 @@ class Index extends BaseAction
         protected Navigation $navigationService,
         protected SocialLinks $socialLinks,
         protected Page $pageService,
-        protected BlockViewInterface $blockView
+        protected BlockViewInterface $blockView,
+        \Solidarity\Frontend\Service\Session $session,
     ) {
-        parent::__construct($logger, $config, $template, $this->navigationService, $this->socialLinks);
+        parent::__construct($logger, $config, $template, $this->navigationService, $this->socialLinks, $session);
 
     }
 

@@ -287,46 +287,63 @@ $container->set(Flash::class, function () use ($container) {
 });
 
 $container->set(\MailerSend\MailerSend::class, function() use ($container) {
-    return new \MailerSend\MailerSend(['api_key' => $container->get(Config::class)->mailer->server->mailersend->apiKey]);
+    // The SDK requires a non-empty api_key just to construct, even though it is
+    // only actually used in production (elsewhere mail is caught via SMTP/Mailpit).
+    // Fall back to a placeholder so the app boots locally without a real key.
+    $apiKey = $container->get(Config::class)->mailer?->server?->mailersend?->apiKey;
+    return new \MailerSend\MailerSend(['api_key' => $apiKey ?: 'unused-outside-production']);
 });
 
 $container->set(MailerInterface::class, function() use ($container) {
-    return $container->get(\Skeletor\Core\Mailer\Service\MailerSendMailer::class);
+    // Use the app Mailer (extends MailerSendMailer) so its environment guard
+    // applies to every path — incl. the framework login/magic-link flow, which
+    // resolves MailerInterface. Outside production this catches mail via SMTP
+    // (Mailpit) instead of hitting MailerSend.
+    return $container->get(\Solidarity\Mailer\Service\Mailer::class);
+});
+
+// Authenticatable entity registry — needed by BOTH apps: backend for
+// user/delegate login, frontend for the donor magic-link / email verification.
+$container->set(EntityRegistry::class, function() use ($container) {
+    $registry = new EntityRegistry();
+    $registry->register(
+        'user',
+        \Solidarity\User\Entity\User::class,
+        $container->get(\Solidarity\User\Repository\UserRepository::class)
+    );
+    $registry->register(
+        'delegate',
+        \Solidarity\Delegate\Entity\Delegate::class,
+        $container->get(\Solidarity\Delegate\Repository\DelegateRepository::class)
+    );
+    $registry->register(
+        'donor',
+        \Solidarity\Donor\Entity\Donor::class,
+        $container->get(\Solidarity\Donor\Repository\DonorRepository::class)
+    );
+
+    return $registry;
 });
 
 if (getenv('APPLICATION') === 'backend') {
-    // Configure Permission Registry for voter-based authorization
+    // Voter-based authorization — uses backend permission config, backend only.
     $container->set(\Skeletor\Core\Security\Authorization\PermissionRegistry::class, function() use ($container) {
         $config = require APP_PATH . '/config/backend/permissions.php';
         return new \Skeletor\Core\Security\Authorization\PermissionRegistry($config);
     });
-
-    $container->set(EntityRegistry::class, function() use ($container) {
-        $registry = new EntityRegistry();
-        $registry->register(
-            'user',
-            \Solidarity\User\Entity\User::class,
-            $container->get(\Solidarity\User\Repository\UserRepository::class)
-        );
-        $registry->register(
-            'delegate',
-            \Solidarity\Delegate\Entity\Delegate::class,
-            $container->get(\Solidarity\Delegate\Repository\DelegateRepository::class)
-        );
-
-        return $registry;
-    });
-
-    $container->set(\Skeletor\Login\Provider\ProviderInterface::class, function() use ($container) {
-        return new \Skeletor\Login\Provider\DbProvider(
-            $container->get(\Skeletor\User\Repository\UserRepositoryInterface::class)
-        );
-    });
-
-    $container->set(\Skeletor\Login\Validator\ResetPasswordInterface::class, function() use ($container) {
-        return $container->get(\Skeletor\Login\Validator\ResetPasswordLoose::class);
-    });
 }
+
+// Login-service dependencies — needed by BOTH apps (the frontend resolves Login
+// for the donor magic-link / email-verification flow).
+$container->set(\Skeletor\Login\Provider\ProviderInterface::class, function() use ($container) {
+    return new \Skeletor\Login\Provider\DbProvider(
+        $container->get(\Skeletor\User\Repository\UserRepositoryInterface::class)
+    );
+});
+
+$container->set(\Skeletor\Login\Validator\ResetPasswordInterface::class, function() use ($container) {
+    return $container->get(\Skeletor\Login\Validator\ResetPasswordLoose::class);
+});
 $container->set(TagAwareAdapter::class, function() use ($container) {
     $config = $container->get(Config::class);
 

@@ -2,11 +2,12 @@
 namespace Solidarity\Donor\Repository;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Skeletor\Login\Repository\LoginRepositoryInterface;
 use Solidarity\Donor\Entity\Donor;
 use Solidarity\Donor\Factory\DonorFactory;
 use Skeletor\Core\TableView\Repository\TableViewRepository;
 
-class DonorRepository extends TableViewRepository
+class DonorRepository extends TableViewRepository implements LoginRepositoryInterface
 {
     const ENTITY = Donor::class;
     const FACTORY = DonorFactory::class;
@@ -15,6 +16,19 @@ class DonorRepository extends TableViewRepository
         protected EntityManagerInterface $entityManager
     ) {
         parent::__construct($entityManager);
+    }
+
+    public function findByEmail(string $email)
+    {
+        return $this->entityManager->getRepository(Donor::class)->findOneBy(['email' => $email]);
+    }
+
+    public function updatePassword($userId, $password) { /* no-op, passwordless */ }
+
+    public function updateLoginInfo($model)
+    {
+        $this->entityManager->persist($model);
+        $this->entityManager->flush();
     }
 
     public function getDonorsByProject($project): array
