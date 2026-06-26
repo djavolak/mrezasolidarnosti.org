@@ -67,6 +67,38 @@ class TransactionRepository extends TableViewRepository
         return (int) $qb->getQuery()->getSingleScalarResult();
     }
 
+    /**
+     * Total allocated amount for a donor across all projects and all payment types.
+     */
+    public function getPaidSumAmountForDonor(Donor $donor): int
+    {
+        $qb = $this->entityManager->createQueryBuilder();
+        $qb->select('SUM(t.amount)')
+            ->from(static::ENTITY, 't')
+            ->where('t.donor = :donor')
+            ->andWhere('t.status IN (:includedStatuses)')
+            ->setParameter('donor', $donor->getId())
+            ->setParameter('includedStatuses', $this->getAllocatedStatuses());
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
+    /**
+     * Number of allocated transactions for a donor across all projects and all payment types.
+     */
+    public function getTransactionCountForDonor(Donor $donor): int
+    {
+        $qb = $this->entityManager->createQueryBuilder();
+        $qb->select('COUNT(t.id)')
+            ->from(static::ENTITY, 't')
+            ->where('t.donor = :donor')
+            ->andWhere('t.status IN (:includedStatuses)')
+            ->setParameter('donor', $donor->getId())
+            ->setParameter('includedStatuses', $this->getAllocatedStatuses());
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
     public function getSumAmountForBeneficiary(Beneficiary $beneficiary, ?Project $project = null, ?Period $period = null): int
     {
         $qb = $this->entityManager->createQueryBuilder();

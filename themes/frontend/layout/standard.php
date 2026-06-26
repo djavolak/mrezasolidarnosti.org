@@ -74,7 +74,16 @@
 <body>
 <?=$this->section('header', $this->fetch('partialsGlobal::header'))?>
 
-<main <?=!empty($isHome) ? 'class="home"' : ''?>>
+<?php
+$mainClasses = [];
+if(!empty($isHome)) {
+    $mainClasses[] = 'home';
+}
+if(!empty($isDonorLoggedIn)) {
+    $mainClasses[] = 'loggedIn';
+}
+?>
+<main <?=!empty($mainClasses) ? 'class="' . implode(' ', $mainClasses) .'"' : ''?>>
     <?=$this->section('content')?>
 </main>
 

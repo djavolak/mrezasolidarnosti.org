@@ -11,8 +11,8 @@ use Skeletor\Core\Mapper\NotFoundException;
 use Skeletor\ThemeSettings\Navigation\Service\Navigation;
 use Skeletor\ThemeSettings\SocialLinks\Service\SocialLinks;
 use Solidarity\Frontend\Service\Locale;
-use Solidarity\Page\Entity\Page;
 use Solidarity\Page\Repository\PageRepository;
+use Solidarity\Page\Service\Page;
 
 class PageAction extends BaseAction
 {
@@ -48,6 +48,9 @@ class PageAction extends BaseAction
             if (!$page) {
                 throw new NotFoundException();
             }
+            if($page->isLoginProtected && !$this->session->isLoggedIn()) {
+                throw new NotFoundException();
+            }
             $this->setSEO($page);
             $this->setGlobalVariable(
                 'canonical',
@@ -69,7 +72,7 @@ class PageAction extends BaseAction
      * Point the language switcher at this page's sibling slug in each locale,
      * falling back to the localized homepage where no translation exists yet.
      */
-    private function setLocalizedSwitcher(Page $page): void
+    private function setLocalizedSwitcher(\Solidarity\Page\Entity\Page $page): void
     {
         $slugs = $this->pageRepository->getLocalizedSlugs($page->translationGroupId);
         $slugs[$this->locale->current()] = $page->slug; // a page is always its own variant

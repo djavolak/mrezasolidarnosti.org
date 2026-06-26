@@ -10,7 +10,6 @@ class PageFactory extends \Skeletor\Page\Factory\PageFactory
     {
         $page = new \Solidarity\Page\Entity\Page();
         $page->title = $data['title'];
-        $page->description = $data['description'];
         $page->slug = $data['slug'];
         $page->status = $data['status'];
         if(isset($data['featuredImageId'])) {
@@ -20,6 +19,7 @@ class PageFactory extends \Skeletor\Page\Factory\PageFactory
         $page->blockData = $data['blockData'];
         $page->seoTitle = $data['seoTitle'] ?? $page->title;
         $page->seoDescription = $data['seoDescription'] ?? '';
+        $page->isLoginProtected = $data['isLoginProtected'] ?? false;
         if(isset($data['seoImageId'])) {
             $image = $em->getRepository(Image::class)->find($data['seoImageId']);
             $page->seoImage = $image;
@@ -36,7 +36,6 @@ class PageFactory extends \Skeletor\Page\Factory\PageFactory
     {
         $page = $em->getRepository(\Solidarity\Page\Entity\Page::class)->find($data['id']);
         $page->title = $data['title'];
-        $page->description = $data['description'];
         $page->slug = $data['slug'];
         $page->status = $data['status'];
         if(isset($data['featuredImageId'])) {
@@ -48,6 +47,7 @@ class PageFactory extends \Skeletor\Page\Factory\PageFactory
         $page->blockData = $data['blockData'];
         $page->seoTitle = $data['seoTitle'] ?? $page->title;
         $page->seoDescription = $data['seoDescription'] ?? '';
+        $page->isLoginProtected = $data['isLoginProtected'] ?? false;
         if(isset($data['seoImageId'])) {
             $image = $em->getRepository(Image::class)->find($data['seoImageId']);
             $page->seoImage = $image;

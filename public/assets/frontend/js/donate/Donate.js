@@ -2,7 +2,7 @@ import Project from "./Project.js";
 import EventEmitter from "../EventEmitter/EventEmitter.js";
 import Form from "./Form.js";
 
-export default class Profile {
+export default class Donate {
     #setupComplete = false;
     #initiatorElements;
     #container;

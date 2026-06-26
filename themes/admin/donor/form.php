@@ -22,7 +22,8 @@ $statuses = \Solidarity\Donor\Entity\Donor::getHrStatuses();
 $statusCollection = (new OptionCollection(new Option('1', 'New')))->fromArray($statuses, $data['model']?->status);
 $statusSelect = (new Select('status', $statusCollection, 'Status'))
     ->required('Status je neophodan', '');
-$email = (new Email('email', $data['model']?->email, 'Email'));
+$email = (new Email('email', $data['model']?->email, 'Email', readOnly: $data['dataAction'] !== 'create'));
+
 //    ->emailInvalidMessage('Email is invalid');
 $firstName = (new Text('firstName', $data['model']?->firstName, 'Ime'))
     ->required('Ime je neophodno')

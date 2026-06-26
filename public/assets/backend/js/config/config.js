@@ -43,7 +43,9 @@ export const config = Object.freeze({
             'app/registerform',
             'app/registerconfirmemail',
             'app/registersuccessbox',
-            'app/login'
+            'app/login',
+            'app/loginsuccess',
+            'app/profiledata'
         ],
     },
     page: {

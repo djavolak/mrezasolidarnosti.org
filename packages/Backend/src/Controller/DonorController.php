@@ -41,13 +41,44 @@ class DonorController extends AjaxCrudController
         $id = $this->getRequest()->getAttribute('id');
         // todo find user if registers again and suggest to restore data?
         $this->service->updateField('status', \Solidarity\Donor\Entity\Donor::STATUS_DELETED, $id);
-        $this->getFlash()->success('Donator je uspešno označen kao obrisan.');
 
         $this->getResponse()->getBody()->write(json_encode([
             'errors' => [],
             'message' => 'Donator je uspešno označen kao obrisan.',
             'generalErrors' => [],
             'status' => 1,
+        ]));
+        $this->getResponse()->getBody()->rewind();
+
+        return $this->getResponse()->withHeader('Content-Type', 'application/json');
+    }
+
+    public function deleteBulk(): Response
+    {
+        $errors = [];
+        $status = false;
+        $generalError = [];
+        try {
+            $data = json_decode($this->getRequest()->getBody(), true);
+            if(!isset($data['ids'])) {
+                throw new \Exception('No ids provided.');
+            }
+            foreach($data['ids'] as $id) {
+                $this->service->updateField('status', \Solidarity\Donor\Entity\Donor::STATUS_DELETED, $id);
+            }
+            $status = true;
+            $message = $this->translate(static::TITLE_DELETE_SUCCESS);
+
+        } catch (\Exception $e) {
+//            $this->logger->error('Bulk delete failed: ' . $e->getMessage(), ['exception' => $e]);
+            $message = $this->translate(static::TITLE_DELETE_ERROR);
+            $generalError[]['message'] = $this->translate('An unexpected error occurred. Please try again.');
+        }
+        $this->getResponse()->getBody()->write(json_encode([
+            'errors' => $errors,
+            'message' => $message,
+            'generalErrors' => $generalError,
+            'status' => $status,
         ]));
         $this->getResponse()->getBody()->rewind();
 

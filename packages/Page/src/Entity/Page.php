@@ -55,6 +55,10 @@ class Page
     #[ORM\Column(type: Types::INTEGER, nullable: true)]
     public ?int $translationGroupId = null;
 
+    #[ORM\Column(type: Types::INTEGER)]
+    public int $isLoginProtected;
+
+
     public static function getHrStatuses(): array
     {
         return array(

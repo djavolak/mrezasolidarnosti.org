@@ -27,6 +27,8 @@ use Solidarity\Backend\Blocks\Whotocall\Whotocall;
 use Solidarity\Backend\Blocks\Howitworks\Howitworks;
 use Solidarity\Backend\Blocks\Howitworkstimeline\Howitworkstimeline;
 use Solidarity\Backend\Blocks\Login\Login;
+use Solidarity\Backend\Blocks\Loginsuccess\Loginsuccess;
+use Solidarity\Backend\Blocks\Profiledata\Profiledata;
 use Solidarity\Backend\Blocks\Registerconfirmemail\Registerconfirmemail;
 use Solidarity\Backend\Blocks\Registerform\Registerform;
 use Solidarity\Backend\Blocks\Registersuccessbox\Registersuccessbox;
@@ -115,6 +117,8 @@ $container->set(\Skeletor\ContentEditor\Contracts\BlockParserFactoryInterface::c
     $blockParserFactory->registerBlockParser(Registerconfirmemail::NAME, new Registerconfirmemail());
     $blockParserFactory->registerBlockParser(Registersuccessbox::NAME, new Registersuccessbox());
     $blockParserFactory->registerBlockParser(Login::NAME, new Login());
+    $blockParserFactory->registerBlockParser(Loginsuccess::NAME, new Loginsuccess());
+    $blockParserFactory->registerBlockParser(Profiledata::NAME, new Profiledata());
 
     return $blockParserFactory;
 });
@@ -136,6 +140,11 @@ $container->set(\Skeletor\ContentEditor\Contracts\BlockViewInterface::class, fun
     $view->registerViewFilter(HeroStats::NAME, new \Solidarity\Backend\Blocks\HeroStats\HeroStatsViewFilter(
         $container->get(\Solidarity\Donor\Service\Donor::class),
         $container->get(\Solidarity\Beneficiary\Service\Beneficiary::class),
+        $container->get(\Solidarity\Transaction\Service\Transaction::class)
+    ));
+
+    $view->registerViewFilter(Profiledata::NAME, new \Solidarity\Backend\Blocks\Profiledata\ProfiledataViewFilter(
+        $container->get(\Solidarity\Frontend\Service\Session::class),
         $container->get(\Solidarity\Transaction\Service\Transaction::class)
     ));
 
@@ -243,6 +252,7 @@ if (\Solidarity\Core\Environment::isBackend()) {
             true  // Enable voter-based authorization
         );
     });
+
 }
 
 $container->set(Config::class, function() use ($container) {
