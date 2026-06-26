@@ -26,6 +26,7 @@ return [
     [['GET'], '/donor/verifyEmail', \Solidarity\Frontend\Action\Donor\VerifyEmail::class],
     [['POST'], '/donor/login', \Solidarity\Frontend\Action\Donor\Login::class],
     [['GET'], '/donor/logout', \Solidarity\Frontend\Action\Donor\Logout::class],
+    [['POST'], '/donor/updateProfileData', \Solidarity\Frontend\Action\Donor\UpdateProfileData::class],
 
     [['GET'], '/{slug}', PageAction::class],
 

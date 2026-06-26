@@ -42,6 +42,16 @@ class Transaction extends TableView
         return $this->repo->getPaidSumAmountForDonorPerProject($donor, $project, $paymentType);
     }
 
+    public function getPaidSumAmountForDonor(Donor $donor): int
+    {
+        return $this->repo->getPaidSumAmountForDonor($donor);
+    }
+
+    public function getTransactionCountForDonor(Donor $donor): int
+    {
+        return $this->repo->getTransactionCountForDonor($donor);
+    }
+
     private const LOCKED_STATUSES = [
         TransactionEntity::STATUS_CONFIRMED,
         TransactionEntity::STATUS_CANCELLED,

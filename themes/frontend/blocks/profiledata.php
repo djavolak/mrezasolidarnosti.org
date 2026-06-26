@@ -3,14 +3,18 @@
         <h1><?=htmlentities($block['title'] ?? '')?></h1>
         <div id="profileDataInfo">
             <div id="profileDataForm">
-                <form action="" method="POST">
+                <form id="formProfileData" action="/donor/updateProfileData" method="POST">
+                    <?=$this->formToken(); ?>
+                    <div class="messagesContainer">
+
+                    </div>
                     <div class="inputContainer">
                         <label for="name">Ime</label>
-                        <input type="text" id="name" name="name" disabled value="<?=$block['donor']->firstName?>">
+                        <input type="text" id="name" name="firstName" disabled value="<?=$block['donor']->firstName?>">
                     </div>
                     <div class="inputContainer">
                         <label for="lastname">Prezime</label>
-                        <input type="text" id="lastname" name="lastname" disabled value="<?=$block['donor']->lastName?>">
+                        <input type="text" id="lastname" name="lastName" disabled value="<?=$block['donor']->lastName?>">
                     </div>
                     <div class="inputContainer">
                         <label for="email">Email</label>
@@ -23,12 +27,12 @@
             <div id="profileDataStats">
                 <div class="left">
                     <h2>Ukupno donirano</h2>
-                    <div class="amount big">20.000 RSD</div>
-                    <div class="amount small">2.000 EUR</div>
+                    <div class="amount big"><?=$block['totalDonated']?> RSD</div>
+                    <div class="amount small"><?=$block['totalDonatedEUR']?> EUR</div>
                 </div>
                 <div class="right">
                     <h2>Ukupno transakcija</h2>
-                    <div class="amount big">25</div>
+                    <div class="amount big"><?=$block['totalTransactions']?></div>
                 </div>
                 <a class="instructions buttonPrimary centered" href="/instrukcije-za-uplatu" title="Kreiraj instrukcije za uplatu">
                     <svg width="12" height="14" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg">

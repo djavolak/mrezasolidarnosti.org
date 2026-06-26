@@ -83,12 +83,12 @@ class BaseAction extends Html
         }
     }
 
-    protected function returnWithData(bool $success = true, array $data = []): \Psr\Http\Message\MessageInterface
+    protected function returnWithData(bool $success = true, array $data = [],   int $statusCode = 200): \Psr\Http\Message\MessageInterface
     {
         $returnData['success'] = $success;
         $returnData['data'] = $data;
         $this->response->getBody()->write(json_encode($returnData));
         $this->response->getBody()->rewind();
-        return $this->response->withHeader('Content-Type', 'application/json');
+        return $this->response->withHeader('Content-Type', 'application/json')->withStatus($statusCode);
     }
 }

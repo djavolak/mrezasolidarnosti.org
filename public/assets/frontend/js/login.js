@@ -44,8 +44,6 @@ document.addEventListener('DOMContentLoaded', (e) => {
                         }
                     }
                 } catch (e) {
-                    //@TODO TRANSLATE
-                    messagesContainer.appendChild(getMessageElement('Dogodila se neočekivana greška, probajte ponovo.', 'error'));
                 }
             });
         });

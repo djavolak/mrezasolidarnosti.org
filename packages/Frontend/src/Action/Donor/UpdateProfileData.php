@@ -1,4 +1,5 @@
 <?php
+
 namespace Solidarity\Frontend\Action\Donor;
 
 use Laminas\Config\Config;
@@ -10,7 +11,7 @@ use Skeletor\ThemeSettings\SocialLinks\Service\SocialLinks;
 use Solidarity\Frontend\Action\BaseAction;
 use Volnix\CSRF\CSRF;
 
-class Register extends BaseAction
+class UpdateProfileData extends BaseAction
 {
     public function __construct(
         Logger $logger, Config $config, Engine $template, private \Solidarity\Donor\Service\Donor $donor,
@@ -25,39 +26,35 @@ class Register extends BaseAction
     public function __invoke(
         \Psr\Http\Message\ServerRequestInterface $request,
         \Psr\Http\Message\ResponseInterface $response
-    ) {
+    )
+    {
         $data = $request->getParsedBody();
         $responseData = [];
         $success = true;
         $statusCode = 200;
-        if (!empty($data)) {
-            try {
-                $data['isActive'] = 1;
-                $data['wantsToDonateTo'] = null;
-                $data['comment'] = '';
-                $data['projects'] = [];
-                $data['status'] = \Solidarity\Donor\Entity\Donor::STATUS_NEW;
-                $this->donor->create($data);
-
-                $responseData['redirect'] = '/potvrdi-email';
-            } catch(ValidatorException $e) {
-                $success = false;
-                $responseData['token'] = CSRF::getToken();
-                foreach($this->donor->getFilterErrors() as $error){
-                    $responseData['errors'][] = $error;
-                }
-                $statusCode = 400;
-            }
-            catch (\Exception $e) {
-                $success = false;
-                $responseData['token'] = CSRF::getToken();
-                $statusCode = 400;
-                if ($e->getMessage() === "Donor already exists") {
-                    $responseData['errors'][] = 'A donor with this email address already exists.';
-                }
-            }
+        if (!$this->session->isDonor()) {
+            return $this->returnWithData(false,
+                ['errors' => ['Morate biti ulogovani da bi izvršili ovu akciju.']],
+                401
+            );
         }
-
+        try {
+            $data['id'] = $this->session->getId();
+            $this->donor->updateProfileData($data);
+            $responseData['token'] = CSRF::getToken();
+        } catch (ValidatorException $e) {
+            $success = false;
+            $responseData['token'] = CSRF::getToken();
+            foreach ($this->donor->getProfileDataFilterErrors() as $error) {
+                $responseData['errors'][] = $error;
+            }
+            $statusCode = 400;
+        } catch (\Exception $e) {
+            $success = false;
+            $responseData['token'] = CSRF::getToken();
+            $statusCode = 400;
+            $responseData['errors'][] = 'An unexpected error occurred, please try again.';
+        }
         return $this->returnWithData($success, $responseData, $statusCode);
     }
 }

@@ -144,7 +144,8 @@ $container->set(\Skeletor\ContentEditor\Contracts\BlockViewInterface::class, fun
     ));
 
     $view->registerViewFilter(Profiledata::NAME, new \Solidarity\Backend\Blocks\Profiledata\ProfiledataViewFilter(
-        $container->get(\Solidarity\Frontend\Service\Session::class)
+        $container->get(\Solidarity\Frontend\Service\Session::class),
+        $container->get(\Solidarity\Transaction\Service\Transaction::class)
     ));
 
     return $view;
@@ -227,6 +228,7 @@ if (\Solidarity\Core\Environment::isBackend()) {
             true  // Enable voter-based authorization
         );
     });
+
 }
 
 $container->set(Config::class, function() use ($container) {
