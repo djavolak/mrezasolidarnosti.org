@@ -96,8 +96,8 @@ class Session
         }
 
         $repository = $this->entityRegistry->getRepository($type);
-        if (method_exists($repository, 'find')) {
-            $entity = $repository->find($id);
+        if (method_exists($repository, 'getById')) {
+            $entity = $repository->getById(['id' => $id]);
             if ($entity instanceof AuthenticatableInterface) {
                 $this->user = $entity;
             }

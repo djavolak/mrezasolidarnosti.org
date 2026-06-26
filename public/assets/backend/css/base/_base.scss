@@ -1,0 +1,11 @@
+.input[type="checkbox"] {
+  transition:none !important;
+}
+
+#crudForm {
+  .inputContainer {
+    &:has(input[type="checkbox"]) {
+      width: max-content;
+    }
+  }
+}

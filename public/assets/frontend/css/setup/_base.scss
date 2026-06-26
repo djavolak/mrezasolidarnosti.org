@@ -16,11 +16,15 @@ main {
   align-items: center;
   margin: 1rem 0;
   &>span {
+    padding: 0.5em;
+    width: 100%;
     &.error {
       background: #dc3545;
       color: white;
-      padding: 0.5em;
-      width: 100%;
+    }
+    &.success {
+      background:#198754;
+      color: white;
     }
   }
 }

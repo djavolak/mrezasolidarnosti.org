@@ -1,12 +1,12 @@
 <?php
 
-namespace Solidarity\Backend\Blocks\Login;
+namespace Solidarity\Backend\Blocks\Profiledata;
 
 use Skeletor\ContentEditor\Contracts\BlockParserInterface;
 
-class Login implements BlockParserInterface
+class Profiledata implements BlockParserInterface
 {
-    const NAME = 'login';
+    const NAME = 'profiledata';
 
     public function parse(array $data, array $customDataKeys = []): array
     {
@@ -16,11 +16,6 @@ class Login implements BlockParserInterface
         $parsedData = [
             'type' => static::NAME,
             'title' => $blockData['title'] ?? '',
-            'description' => $blockData['description'] ?? '',
-            'subtitle' => $blockData['subtitle'] ?? '',
-            'buttonText' => $blockData['buttonText'] ?? '',
-            'buttonSvg' => $blockData['buttonSvg'] ?? '',
-            'footerText' => $blockData['footerText'] ?? '',
         ];
 
         foreach ($customDataKeys as $key) {

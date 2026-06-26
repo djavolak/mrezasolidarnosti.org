@@ -23,16 +23,17 @@ class Login extends BaseAction
         \Psr\Http\Message\ResponseInterface $response
     ) {
         $data = $request->getParsedBody();
+        $responseData = [];
         if (!empty($data)) {
             $email = trim($data['email'] ?? '');
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                return $this->respond('donor/login', ['error' => 'Unesite ispravnu email adresu.', 'data' => $data]);
+                $responseData['errors'][] = 'Unesite ispravnu email adresu';
+                return $this->returnWithData(false, $responseData);
             }
             $this->donor->requestLoginLink($email);
-
-            return $this->respond('donor/login', ['sent' => true]);
         }
+        $responseData['redirect'] = '/login-link-poslat';
 
-        return $this->respond('donor/login', []);
+        return $this->returnWithData(true, $responseData);
     }
 }

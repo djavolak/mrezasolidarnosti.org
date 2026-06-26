@@ -1,12 +1,14 @@
 <?php
 namespace Solidarity\Donor\Service;
 
+use Skeletor\Core\Validator\ValidatorException;
 use Skeletor\Login\Service\MagicLinkService;
+use Solidarity\Donor\Filter\DonorFilterInterface;
+use Solidarity\Donor\Filter\DonorProfileData;
 use Solidarity\Donor\Repository\DonorRepository;
 use Skeletor\Core\TableView\Service\TableView;
 use Psr\Log\LoggerInterface as Logger;
 use Skeletor\User\Service\Session;
-use Solidarity\Donor\Filter\Donor as DonorFilter;
 use Solidarity\Donor\Entity\PaymentMethod;
 use Solidarity\Mailer\Service\Mailer;
 use Solidarity\Transaction\Entity\Transaction;
@@ -22,8 +24,10 @@ class Donor extends TableView
      * @param Logger $logger
      */
     public function __construct(
-        DonorRepository $repo, Session $user, Logger $logger, DonorFilter $filter,
-        private Mailer $mailer, private Project $project, private MagicLinkService $magicLinkService
+        DonorRepository $repo, Session $user, Logger $logger, \Solidarity\Donor\Filter\Donor $filter,
+        private Mailer $mailer, private Project $project, private MagicLinkService $magicLinkService,
+        private DonorProfileData $donorProfileDataFilter,
+        private \Solidarity\Donor\Validator\DonorProfileData $donorProfileDataValidator,
     ) {
         parent::__construct($repo, $user, $logger, $filter);
     }
@@ -155,6 +159,24 @@ class Donor extends TableView
     public function getFilterErrors()
     {
         return $this->filter->getErrors();
+    }
+
+    public function getProfileDataFilterErrors(): array
+    {
+        return $this->donorProfileDataValidator->getMessages();
+    }
+
+    public function updateProfileData(array $data): void
+    {
+        if (!$this->donorProfileDataValidator->isValid($data)) {
+            throw new ValidatorException();
+        }
+        $filteredData = $this->donorProfileDataFilter->filter($data);
+        $this->repo->updateProfileData(
+            $filteredData['id'],
+            $filteredData['firstName'],
+            $filteredData['lastName']
+        );
     }
 
 }

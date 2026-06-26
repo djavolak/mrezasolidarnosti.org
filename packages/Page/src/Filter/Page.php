@@ -22,7 +22,6 @@ class Page extends \Skeletor\Page\Filter\Page
         $data = [
             'id' => (isset($postData['id'])) ? (new ToInt())->filter($postData['id']) : null,
             'title' => $postData['title'],
-            'description' => $postData['description'],
             'slug' => $slug,
             'status' => $postData['status'],
             'featuredImageId' => $postData['featuredImageId'] ?? '',
@@ -30,6 +29,7 @@ class Page extends \Skeletor\Page\Filter\Page
             'seoTitle' => $postData['seoTitle'] ?? null,
             'seoDescription' => $postData['seoDescription'] ?? null,
             'seoImageId' => $postData['seoImageId'] ?? '',
+            'isLoginProtected' => $postData['isLoginProtected'] === 'on' ? true : false,
             CSRF::TOKEN_NAME => $postData[CSRF::TOKEN_NAME],
         ];
         if (!$this->validator->isValid($data)) {

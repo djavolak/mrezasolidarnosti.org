@@ -37,6 +37,9 @@ class Page
     #[ORM\Column(type: Types::INTEGER)]
     public int $status;
 
+    #[ORM\Column(type: Types::INTEGER)]
+    public int $isLoginProtected;
+
     public static function getHrStatuses(): array
     {
         return array(

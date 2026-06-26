@@ -1,5 +1,4 @@
 <?php if(isset($block)): ?>
-
     <div class="textHero noGap lowGapForm">
         <h1><?=htmlentities($block['title'] ?? '')?></h1>
         <p><?=nl2br(htmlentities($block['description'] ?? ''))?></p>

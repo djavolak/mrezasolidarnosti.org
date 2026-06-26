@@ -9,9 +9,9 @@ use Psr\Log\LoggerInterface as Logger;
 use Skeletor\ContentEditor\Contracts\BlockViewInterface;
 use Skeletor\ContentEditor\Exceptions\TemplateNotFoundException;
 use Skeletor\Core\Mapper\NotFoundException;
-use Skeletor\Page\Service\Page;
 use Skeletor\ThemeSettings\Navigation\Service\Navigation;
 use Skeletor\ThemeSettings\SocialLinks\Service\SocialLinks;
+use Solidarity\Page\Service\Page;
 
 class PageAction extends BaseAction
 {
@@ -43,6 +43,9 @@ class PageAction extends BaseAction
             }
             $page = $this->pageService->getEntities(['slug' => $request->getAttribute('slug'), 'status' => 1]);
             if(!isset($page[0])) {
+                throw new NotFoundException();
+            }
+            if($page[0]->isLoginProtected && !$this->session->isLoggedIn()) {
                 throw new NotFoundException();
             }
             $this->setSEO($page[0]);

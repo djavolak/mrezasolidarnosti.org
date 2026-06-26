@@ -28,9 +28,11 @@ class BaseAction extends Html
         $socialLinks = $this->socialLinks->getSocialItems();
         $this->setGlobalVariable('socialLinks', \Solidarity\Frontend\Service\SocialLinks\SocialLinks::getSocialLinks($socialLinks));
         // Logged-in state available to every template (cheap — read straight from session).
-        $this->setGlobalVariable('isLoggedIn', $this->session->isLoggedIn());
         $this->setGlobalVariable('currentUserName', $this->session->getDisplayName());
         $this->setGlobalVariable('isDonorLoggedIn', $this->session->isDonor());
+        $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        $slug = basename(trim($path, '/'));
+        $this->setGlobalVariable('slug', $slug);
         if (Flash::some('error')) { // print only errors
             $this->setGlobalVariable('messages', Flash::display());
         }
@@ -81,12 +83,12 @@ class BaseAction extends Html
         }
     }
 
-    protected function returnWithData(bool $success = true, array $data = []): \Psr\Http\Message\MessageInterface
+    protected function returnWithData(bool $success = true, array $data = [],   int $statusCode = 200): \Psr\Http\Message\MessageInterface
     {
         $returnData['success'] = $success;
         $returnData['data'] = $data;
         $this->response->getBody()->write(json_encode($returnData));
         $this->response->getBody()->rewind();
-        return $this->response->withHeader('Content-Type', 'application/json');
+        return $this->response->withHeader('Content-Type', 'application/json')->withStatus($statusCode);
     }
 }

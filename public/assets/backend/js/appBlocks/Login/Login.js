@@ -9,7 +9,6 @@ export default class Login extends Block {
     descriptionInput;
     subtitleInput;
     buttonTextInput;
-    buttonLinkInput;
     buttonSvgInput;
     blockBuilder;
     #footerEditor;
@@ -28,7 +27,6 @@ export default class Login extends Block {
             this.descriptionInput,
             this.subtitleInput,
             this.buttonTextInput,
-            this.buttonLinkInput,
             this.buttonSvgInput,
         ] = this.blockBuilder
             .buildInput({
@@ -51,11 +49,6 @@ export default class Login extends Block {
                 label: 'Button Text',
                 inputName: `${this.getBaseInputName()}[${this.getName()}][buttonText]`,
                 value: this.data?.buttonText ?? null
-            })
-            .buildInput({
-                label: 'Button Link',
-                inputName: `${this.getBaseInputName()}[${this.getName()}][buttonLink]`,
-                value: this.data?.buttonLink ?? null
             })
             .buildTextArea({
                 label: 'Button SVG code',
@@ -91,7 +84,6 @@ export default class Login extends Block {
             description: this.descriptionInput.value,
             subtitle: this.subtitleInput.value,
             buttonText: this.buttonTextInput.value,
-            buttonLink: this.buttonLinkInput.value,
             buttonSvg: this.buttonSvgInput.value,
             footerText: this.#footerInput.value,
         };

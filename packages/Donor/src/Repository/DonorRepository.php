@@ -82,6 +82,18 @@ class DonorRepository extends TableViewRepository implements LoginRepositoryInte
         return (int) $qb->getQuery()->getSingleScalarResult();
     }
 
+    public function updateProfileData(int $donorId, string $firstName, string $lastName): void
+    {
+        $donor = $this->entityManager
+            ->getRepository(Donor::class)
+            ->find($donorId);
+
+        $donor->firstName = $firstName;
+        $donor->lastName = $lastName;
+
+        $this->entityManager->flush();
+    }
+
 //    public function fetchForMapping()
 //    {
 //        $sql = "SELECT *,
