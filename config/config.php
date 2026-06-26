@@ -35,6 +35,12 @@ return array(
     'imageBasePath' => IMAGES_PATH,
     'ignoreTrailingSlash' => true,
     'compileAssets' => false,
+    // Frontend i18n. 'default' is served at the URL root (no prefix); every other
+    // available locale is served under its own path prefix (e.g. /en/...).
+    'locales' => [
+        'default' => 'sr',
+        'available' => ['sr', 'en'],
+    ],
     'mailer' => [
         'from' => 'noreply@mrezasolidarnosti.org',
         'fromName' => 'Mreža Solidarnosti',

@@ -20,18 +20,18 @@
             <ul>
                 <?php if(isset($mainNavigation) && $mainNavigation):?>
                     <?php foreach($mainNavigation->getItemsFormatted() as $item):?>
-                        <li><a href="<?=htmlentities($item['url'] ?? '')?>" title="<?=htmlentities($item['label'] ?? '')
-                                ?>"><?=htmlentities($item['label'] ?? '')?></a></li>
+                        <?php $itemLabel = $this->t($item['label'] ?? ''); ?>
+                        <li><a href="<?=htmlentities($this->localizeUrl($item['url'] ?? ''))?>" title="<?=htmlentities($itemLabel)?>"><?=htmlentities($itemLabel)?></a></li>
                     <?php endforeach;?>
                 <?php endif; ?>
             </ul>
         </nav>
         <div id="headerActions">
             <?php if (!empty($isLoggedIn)): ?>
-                <a href="/donor/logout" id="login">Izloguj se</a>
+                <a href="/donor/logout" id="login"><?=$this->t('Izloguj se')?></a>
                 <?php $donateUrl = '/doniraj'; ?>
             <?php else: ?>
-                <a href="/logovanje" id="login">Uloguj se</a>
+                <a href="/logovanje" id="login"><?=$this->t('Uloguj se')?></a>
                 <?php $donateUrl = '/registracija-donatora'; ?>
             <?php endif; ?>
             <a href="<?=$donateUrl?>" id="donate" class="donateButton">
@@ -39,19 +39,26 @@
                     <path d="M11.2479 1.62712C10.9699 1.34905 10.6399 1.12846 10.2767 0.977961C9.9135 0.827462 9.52419 0.75 9.13103 0.75C8.73787 0.75 8.34856 0.827462 7.98535 0.977961C7.62213 1.12846 7.29212 1.34905 7.01418 1.62712L6.43735 2.20395L5.86053 1.62712C5.2991 1.0657 4.53765 0.750291 3.74368 0.750291C2.9497 0.750291 2.18825 1.0657 1.62683 1.62712C1.0654 2.18854 0.75 2.95 0.75 3.74397C0.75 4.53794 1.0654 5.29939 1.62683 5.86082L6.43735 10.6713L11.2479 5.86082C11.526 5.58288 11.7465 5.25287 11.897 4.88965C12.0475 4.52644 12.125 4.13713 12.125 3.74397C12.125 3.35081 12.0475 2.9615 11.897 2.59828C11.7465 2.23507 11.526 1.90506 11.2479 1.62712Z"
                           stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-                Doniraj
+                <?=$this->t('Doniraj')?>
             </a>
+            <?php
+                $localeLabels = ['sr' => 'RS', 'en' => 'EN'];
+                $localeTitles = ['sr' => 'Srpski', 'en' => 'English'];
+                $currentLoc   = $currentLocale ?? 'sr';
+                $alternates   = $localeAlternates ?? [];
+            ?>
             <div class="languageSwitcher">
                     <span class="currentLanguage">
-                        RS
+                        <?=$localeLabels[$currentLoc] ?? strtoupper($currentLoc)?>
                     </span>
                 <ul class="languageOptions">
-                    <li><a class="active" href="" title="Serbian">RS</a></li>
-                    <li><a href="" title="English">EN</a></li>
+                    <?php foreach ($alternates as $loc => $locUrl): ?>
+                        <li><a class="<?=$loc === $currentLoc ? 'active' : ''?>" href="<?=htmlentities($locUrl)?>" title="<?=htmlentities($localeTitles[$loc] ?? $loc)?>"><?=$localeLabels[$loc] ?? strtoupper($loc)?></a></li>
+                    <?php endforeach; ?>
                 </ul>
             </div>
         </div>
-        <a id="privacyNav" href="" title="Politika privatnosti">Politika privatnosti</a>
+        <a id="privacyNav" href="" title="<?=$this->t('Politika privatnosti')?>"><?=$this->t('Politika privatnosti')?></a>
     </div>
     <div id="headerMobileActions">
         <a href="" id="donateMobile" class="btnIcon">

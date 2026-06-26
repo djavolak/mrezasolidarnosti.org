@@ -18,6 +18,19 @@ try {
     /* @var \DI\Container $container */
 //    $container = require sprintf('%s/config/%s/bootstrap.php', APP_PATH, $path);
     $container = require sprintf('%s/config/bootstrap.php', APP_PATH);
+    // Frontend i18n: resolve the locale from the URL prefix and strip it before
+    // routing, so every language dispatches the same base routes. Expose the
+    // resolved locale to every template as shared Plates data.
+    if ($path === 'frontend') {
+        $locale = $container->get(\Solidarity\Frontend\Service\Locale::class);
+        $locale->detectFromRequest();
+        $container->get(\League\Plates\Engine::class)->addData([
+            'currentLocale'    => $locale->current(),
+            'defaultLocale'    => $locale->default(),
+            'availableLocales' => $locale->available(),
+            'localeAlternates' => $locale->alternates(),
+        ]);
+    }
     $app = new WebSkeletor($container, $container->get(LoggerInterface::class));
 } catch (\Exception $e) {
     if (isset($app) && $app) {

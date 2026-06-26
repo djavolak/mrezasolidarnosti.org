@@ -9,6 +9,7 @@ use Skeletor\Image\Entity\Image;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'page')]
+#[ORM\UniqueConstraint(name: 'uniq_page_slug_language', columns: ['slug', 'languageCode'])]
 class Page
 {
     use \Skeletor\Core\Entity\Timestampable;
@@ -24,7 +25,7 @@ class Page
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     public ?string $description;
 
-    #[ORM\Column(type: Types::STRING, length: 128, unique: true, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 128, nullable: true)]
     public string $slug;
 
     #[ORM\Column(type: Types::JSON, nullable: true)]
@@ -36,6 +37,23 @@ class Page
 
     #[ORM\Column(type: Types::INTEGER)]
     public int $status;
+
+    /**
+     * Locale this page's content is written in (e.g. 'sr', 'en'); matches the
+     * frontend Locale codes. Nullable so the column can be added to an existing
+     * table — backfill existing rows to the default locale, then it behaves as
+     * required. A page is only served on the frontend for its own locale.
+     */
+    #[ORM\Column(type: Types::STRING, length: 8, nullable: true)]
+    public ?string $languageCode = null;
+
+    /**
+     * Links the language variants of one logical page. All translations of the
+     * same page share a translationGroupId; the language switcher uses it to find
+     * the sibling page (and its localized slug) in another locale.
+     */
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    public ?int $translationGroupId = null;
 
     public static function getHrStatuses(): array
     {

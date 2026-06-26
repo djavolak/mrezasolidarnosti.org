@@ -172,8 +172,32 @@ $container->set(Engine::class, function() use ($container) {
     });
     $plates->registerFunction('formToken', function () { return \Volnix\CSRF\CSRF::getHiddenInputString(); });
     $plates->registerFunction('formTokenArray', function () { return  \Volnix\CSRF\CSRF::getTokenAsArray(); });
-    $plates->registerFunction('t', function ($string) { return $string; });
-//    $plates->loadExtension($container->get(\Skeletor\Translator\Service\Translator::class));
+    // i18n: the default locale (sr) is the source language strings are authored in,
+    // so t() is a pass-through there. For any other frontend locale, drive t() through
+    // the Translator (SR source -> translated string, falling back to the original).
+    // localizeUrl() prefixes internal links with the active locale (for menus/links).
+    $useTranslator = false;
+    if (\Solidarity\Core\Environment::isFrontend()) {
+        $locale = $container->get(\Solidarity\Frontend\Service\Locale::class);
+        $plates->registerFunction('localizeUrl', function (string $url) use ($locale) {
+            // Only touch internal, root-relative paths; leave external/protocol-relative/anchors alone.
+            if ($url === '' || !str_starts_with($url, '/') || str_starts_with($url, '//')) {
+                return $url;
+            }
+            return $locale->localize($url);
+        });
+        if (!$locale->isDefault()) {
+            $translator = $container->get(\Skeletor\Translator\Service\Translator::class);
+            $translator->setLanguage($locale->current());
+            $plates->loadExtension($translator);
+            $useTranslator = true;
+        }
+    } else {
+        $plates->registerFunction('localizeUrl', function (string $url) { return $url; });
+    }
+    if (!$useTranslator) {
+        $plates->registerFunction('t', function ($string) { return $string; });
+    }
 
     return $plates;
 });
@@ -379,6 +403,7 @@ $container->set(EntityManagerInterface::class, function() use ($container) {
             APP_PATH . '/vendor/dj_avolak/skeletor/src/File',
             APP_PATH . "/vendor/dj_avolak/skeletor/src/Image",
             APP_PATH . "/vendor/dj_avolak/skeletor/src/Login",
+            APP_PATH . "/vendor/dj_avolak/skeletor/src/Translator",
             APP_PATH . '/vendor/dj_avolak/skeletor/src/ThemeSettings',
         ],
         isDevMode: !\Solidarity\Core\Environment::isProduction(),
