@@ -26,7 +26,7 @@
                 <h2>Kontakt</h2>
                 <p>
                     Za pitanja, podršku ili uključivanje u rad Mreže, pišite nam putem emaila ili nam se pridružite na
-                    <a href="" title="Discord">
+                    <a href="https://discord.gg/ZBEdes5zG7" title="Discord" target="_blank">
                         Discordu
                     </a>.
                 </p>
