@@ -24,7 +24,7 @@ class BaseAction extends Html
         parent::__construct($logger, $config, $template);
 	    $this->setGlobalVariable( 'url', $this->getConfig()->offsetGet( 'baseUrl' ));
         $this->setGlobalVariable('isHome', false);
-        $this->setGlobalVariable('mainNavigation', $this->navigationService->getByTitle("Main Navigation"));
+        // mainNavigation is set per-locale in public/index.php (frontend i18n).
         $socialLinks = $this->socialLinks->getSocialItems();
         $this->setGlobalVariable('socialLinks', \Solidarity\Frontend\Service\SocialLinks\SocialLinks::getSocialLinks($socialLinks));
         // Logged-in state available to every template (cheap — read straight from session).

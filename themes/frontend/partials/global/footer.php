@@ -39,6 +39,15 @@
                     <?php endforeach; ?>
                 <?php endif; ?>
             </ul>
+            <div id="footerBottomLast">
+                <a href="/" title="Mreža solidarnosti">
+                    <img src="<?=FRONT_ASSET_URL?>/images/logoBlue.svg" alt="Mreža solidarnosti">
+                </a>
+                <div class="copy">
+                    <a href="" title="<?=$this->t('Politika privatnosti')?>"><?=$this->t('Politika privatnosti')?></a>
+                    <span>© 2026 Mreža solidarnosti. <?=$this->t('Sva prava zadržana.')?></span>
+                </div>
+            </div>
         </div>
         <div class="right">
             <h2>Linkovi</h2>
@@ -108,7 +117,6 @@
                                     <?=$socialLink['icon']?>
                                 </a>
                             </li>
-
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </ul>

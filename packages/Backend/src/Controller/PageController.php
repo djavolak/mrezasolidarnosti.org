@@ -17,7 +17,7 @@ class PageController extends AjaxCrudController
     const TITLE_UPDATE_SUCCESS = "Page updated successfully.";
     const TITLE_CREATE_SUCCESS = "Page created successfully.";
     const TITLE_DELETE_SUCCESS = "Page deleted successfully.";
-    const PATH = 'page';
+    const PATH = 'Page';
     const FORM_TITLE_ENTITY_IDENTIFIER = 'title';
 
     public function __construct(

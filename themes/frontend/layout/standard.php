@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="sr">
+<html lang="<?=htmlentities($currentLocale ?? 'sr')?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, minimum-scale=1.0">
@@ -20,6 +20,14 @@
     <?php endif;?>
     <?php if(isset($canonical)):?>
         <link rel="canonical" href="<?=$canonical?>">
+    <?php endif;?>
+    <?php if(!empty($localeAlternates)):?>
+        <?php foreach($localeAlternates as $hrefLocale => $hrefUrl):?>
+            <link rel="alternate" hreflang="<?=htmlentities($hrefLocale)?>" href="<?=htmlentities(($url ?? '') . $hrefUrl)?>">
+        <?php endforeach;?>
+        <?php if(isset($localeAlternates[$defaultLocale ?? 'sr'])):?>
+            <link rel="alternate" hreflang="x-default" href="<?=htmlentities(($url ?? '') . $localeAlternates[$defaultLocale ?? 'sr'])?>">
+        <?php endif;?>
     <?php endif;?>
     <?php if(isset($seoImageSrc, $seoImageAlt)):?>
         <meta property="og:image" content="<?=$seoImageSrc?>">
