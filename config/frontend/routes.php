@@ -24,7 +24,7 @@ return [
     [['GET'], '/', \Solidarity\Frontend\Action\Index::class],
     [['POST'], '/donor/register', \Solidarity\Frontend\Action\Donor\Register::class],
     [['GET'], '/donor/verifyEmail', \Solidarity\Frontend\Action\Donor\VerifyEmail::class],
-    [['POST'], '/logovanje', \Solidarity\Frontend\Action\Donor\Login::class],
+    [['POST'], '/donor/login', \Solidarity\Frontend\Action\Donor\Login::class],
     [['GET'], '/donor/logout', \Solidarity\Frontend\Action\Donor\Logout::class],
 
     [['GET'], '/{slug}', PageAction::class],

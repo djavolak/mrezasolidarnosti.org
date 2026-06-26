@@ -33,25 +33,27 @@ class VerifyEmail extends BaseAction
         try {
             $token = $request->getQueryParams()['token'] ?? null;
             if (!$token) {
-                return $this->redirect('/'); // @TODO "invalid/missing token" page
+                return $this->respond('donor/invalidVerifyEmailToken');
             }
             $credentials = new MagicLinkCredentials($token, 'donor');
             $donor = $this->authenticatorRegistry->authenticate($credentials);   // validates + consumes the token
+            $verifyingAfterRegister = $donor->status === \Solidarity\Donor\Entity\Donor::STATUS_NEW;
 
             if ($donor->status === \Solidarity\Donor\Entity\Donor::STATUS_NEW) {        // first click = email verified
                 $donor->status = \Solidarity\Donor\Entity\Donor::STATUS_VERIFIED;
                 $this->entityRegistry->getRepository('donor')->updateLoginInfo($donor); // persist
             }
 
+            if($donor->status !== \Solidarity\Donor\Entity\Donor::STATUS_VERIFIED) {
+                return $this->redirect('/'); //@TODO redirect to a page displaying a message?
+            }
             $this->loginService->login($donor, 'donor');
-            return $this->redirect('/registrovani-ste');
+            if($verifyingAfterRegister) {
+                return $this->redirect('/registrovani-ste');
+            }
+            return $this->redirect('/instrukcije-za-placanje');
         } catch (InvalidCredentials $e) {
-            echo $e->getMessage();
-
-            die();
-            return $this->redirect('/'); // @TODO could only be invalid/expired token, need to display message
+            return $this->respond('donor/invalidVerifyEmailToken');
         }
-
-        return $this->respond('donor/thankyou', []); // @TODO go to step 3
     }
 }

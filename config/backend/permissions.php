@@ -29,6 +29,7 @@ return [
         'donor.create' => [User::ROLE_ADMIN, User::ROLE_STUFF],
         'donor.edit' => [User::ROLE_ADMIN, User::ROLE_STUFF],
         'donor.delete' => [User::ROLE_ADMIN],
+        'donor.delete_bulk' => [User::ROLE_ADMIN],
 
         // Educator permissions
         'educator.view_list' => [User::ROLE_ADMIN, User::ROLE_STUFF, 10],
@@ -133,6 +134,7 @@ return [
         '/donor/form/*' => 'donor.edit',
         '/donor/update/*' => 'donor.edit',
         '/donor/delete/*' => 'donor.delete',
+        '/donor/deleteBulk/' => 'donor.delete_bulk',
 
         // beneficiary routes
         '/beneficiary/view/' => 'beneficiary.view_list',

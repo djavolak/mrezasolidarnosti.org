@@ -53,6 +53,7 @@ Thumbs.db
 /data/phinx/phinx-local.php
 /public/assets/package-lock.json
 /public/images
+/public/assets/backend/js/config/config-local.js
 
 # Docker
 /db/data/

@@ -40,11 +40,14 @@ new Image(
 $statusSelect = (new Select('status', $statusCollection, 'Status'))
     ->required('Status is required', $statusCollection->getDefaultOption()->getValue());
 
+$isLoginProtectedCheckbox = (new \Skeletor\Form\InputTypes\Input\Checkbox('isLoginProtected', $data['model']?->isLoginProtected, 'Login Protected'));
+
 
 $groupOne = (new InputGroup(width: InputGroupWidth::FULL_WIDTH))
     ->addInput($title)
     ->addInput($slug)
     ->addInput($statusSelect)
+    ->addInput($isLoginProtectedCheckbox)
     ->addInput($featuredImage);
 
 if ($data['model']?->blockData) {

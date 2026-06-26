@@ -1,5 +1,4 @@
 <?php if(isset($block)): ?>
-    <!--  @TODO JS VALIDATION  -->
     <div class="textHero smallGap">
         <h1><?=htmlentities($block['title'] ?? '')?></h1>
         <p><b><?=nl2br(htmlentities($block['description'] ?? ''))?></b></p>

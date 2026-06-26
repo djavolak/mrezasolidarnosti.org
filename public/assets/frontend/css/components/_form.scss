@@ -188,7 +188,7 @@
     color:var(--colorDarkBlue);
     margin-bottom:1.5rem;
   }
-  #loginActionContainer {
+  .loginActionContainer {
     label {
       @include typography.type(nav);
       color:var(--colorDarkBlue);
@@ -196,7 +196,7 @@
         color:var(--colorOrange);
       }
     }
-    #loginInputContainer {
+    .loginInputContainer {
       position:relative;
       margin-top:5px;
       input {
@@ -210,7 +210,7 @@
           opacity:50%;
         }
       }
-      #loginMailSvg {
+      .loginMailSvg {
         position:absolute;
         left:0.7rem;
         top:0;
@@ -219,7 +219,7 @@
         margin-bottom:auto;
         height:max-content;
       }
-      #loginTooltip {
+      .loginTooltip {
         position:absolute;
         right:0.7rem;
         top:0;

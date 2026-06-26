@@ -4,7 +4,7 @@ namespace Solidarity\Backend\Controller;
 use Laminas\Config\Config;
 use Laminas\Session\SessionManager as Session;
 use League\Plates\Engine;
-use Skeletor\Page\Service\Page;
+use Solidarity\Page\Service\Page;
 use Tamtamchik\SimpleFlash\Flash;
 use Skeletor\Core\Controller\AjaxCrudController;
 

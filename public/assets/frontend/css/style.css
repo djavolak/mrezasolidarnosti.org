@@ -285,6 +285,17 @@ main.loggedIn {
   padding: 0.2rem 0.3rem;
   border-radius: 8px;
 }
+#mainHeader.loggedIn ul li a:hover .donate {
+  fill: var(--colorOrange);
+}
+#mainHeader.loggedIn ul li a.active .donate {
+  fill: var(--colorDarkBlue);
+}
+#mainHeader.loggedIn ul li a .donate {
+  fill: white;
+  width: 24px;
+  height: 24px;
+}
 @media (max-width: 1100px) {
   #mainHeader.loggedIn:not(.withNav) #headerContent {
     position: static;
@@ -1011,6 +1022,12 @@ main.loggedIn {
   font-weight: 400;
   line-height: 1.4;
   color: var(--colorDarkBlue);
+}
+#footerLoggedIn #footerSocials a svg {
+  pointer-events: all;
+  width: 30px;
+  height: 30px;
+  fill: rgb(38, 33, 133);
 }
 
 .languageSwitcher {
@@ -2312,31 +2329,31 @@ main.loggedIn {
   color: var(--colorDarkBlue);
   margin-bottom: 1.5rem;
 }
-#loginAction #loginActionContainer label {
+#loginAction .loginActionContainer label {
   font-size: 1rem;
   font-weight: 600;
   line-height: 1.4;
   color: var(--colorDarkBlue);
 }
-#loginAction #loginActionContainer label span {
+#loginAction .loginActionContainer label span {
   color: var(--colorOrange);
 }
-#loginAction #loginActionContainer #loginInputContainer {
+#loginAction .loginActionContainer .loginInputContainer {
   position: relative;
   margin-top: 5px;
 }
-#loginAction #loginActionContainer #loginInputContainer input {
+#loginAction .loginActionContainer .loginInputContainer input {
   padding: 1.3rem 2.5rem;
   width: 100%;
   border: 1px solid var(--colorDarkBlue);
   border-radius: 8px;
   outline: none;
 }
-#loginAction #loginActionContainer #loginInputContainer input::placeholder {
+#loginAction .loginActionContainer .loginInputContainer input::placeholder {
   color: var(--colorDarkBlue);
   opacity: 50%;
 }
-#loginAction #loginActionContainer #loginInputContainer #loginMailSvg {
+#loginAction .loginActionContainer .loginInputContainer .loginMailSvg {
   position: absolute;
   left: 0.7rem;
   top: 0;
@@ -2345,7 +2362,7 @@ main.loggedIn {
   margin-bottom: auto;
   height: max-content;
 }
-#loginAction #loginActionContainer #loginInputContainer #loginTooltip {
+#loginAction .loginActionContainer .loginInputContainer .loginTooltip {
   position: absolute;
   right: 0.7rem;
   top: 0;
@@ -2355,21 +2372,21 @@ main.loggedIn {
   height: max-content;
   cursor: pointer;
 }
-#loginAction #loginActionContainer .buttonPrimary {
+#loginAction .loginActionContainer .buttonPrimary {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
 }
-#loginAction #loginActionContainer > p {
+#loginAction .loginActionContainer > p {
   font-size: 0.875rem;
   font-weight: 600;
   line-height: 1.4;
   color: var(--colorDarkBlue);
   text-align: center;
 }
-#loginAction #loginActionContainer > p a {
+#loginAction .loginActionContainer > p a {
   text-decoration: underline;
 }
 
@@ -4387,6 +4404,14 @@ main:has(#donationForm.active) {
 }
 #notFound a {
   text-decoration: underline;
+}
+#notFound h1 {
+  text-align: center;
+}
+
+main.loggedIn #notFound {
+  padding: 7rem 0;
+  margin-top: 0;
 }
 
 /*# sourceMappingURL=style.css.map */

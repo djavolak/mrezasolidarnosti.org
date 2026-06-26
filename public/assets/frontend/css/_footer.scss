@@ -262,4 +262,14 @@
       }
     }
   }
+  #footerSocials {
+    a {
+      svg {
+        pointer-events: all;
+        width:30px;
+        height:30px;
+        fill:rgb(38, 33, 133);
+      }
+    }
+  }
 }
