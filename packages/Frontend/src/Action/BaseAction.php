@@ -31,7 +31,7 @@ class BaseAction extends Html
         $this->setGlobalVariable('isLoggedIn', $this->session->isLoggedIn());
         $this->setGlobalVariable('currentUserName', $this->session->getDisplayName());
         $this->setGlobalVariable('isDonorLoggedIn', $this->session->isDonor());
-        if (Flash::hasMessages('error')) { // print only errors
+        if (Flash::some('error')) { // print only errors
             $this->setGlobalVariable('messages', Flash::display());
         }
     }

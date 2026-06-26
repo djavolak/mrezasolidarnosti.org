@@ -11,7 +11,7 @@ use Skeletor\Form\InputTypes\TextArea\TextArea;
 use Skeletor\Form\Renderer\TabbedFormRenderer;
 use Skeletor\Form\Tab\Tab;
 use Skeletor\Form\TabbedForm;
-use Skeletor\Page\Model\Page;
+use Skeletor\Page\Entity\Page;
 
 $form = new TabbedForm($data['formAction'], $data['dataAction'], $this->formTokenArray());
 

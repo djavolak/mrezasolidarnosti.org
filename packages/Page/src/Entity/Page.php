@@ -12,8 +12,11 @@ use Skeletor\Image\Entity\Image;
 class Page
 {
     use \Skeletor\Core\Entity\Timestampable;
-
     use Seo;
+
+    const STATUS_NEW = 0;
+    const STATUS_PUBLISHED = 1;
+    const STATUS_DRAFT = 2;
 
     #[ORM\Column(type: Types::STRING, length: 128, nullable: true)]
     public string $title;
@@ -33,4 +36,18 @@ class Page
 
     #[ORM\Column(type: Types::INTEGER)]
     public int $status;
+
+    public static function getHrStatuses(): array
+    {
+        return array(
+            self::STATUS_NEW => 'New',
+            self::STATUS_PUBLISHED => 'Published',
+            self::STATUS_DRAFT => 'Draft',
+        );
+    }
+
+    public static function getHrStatus($status): string
+    {
+        return static::getHrStatuses()[$status];
+    }
 }

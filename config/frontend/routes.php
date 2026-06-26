@@ -24,15 +24,9 @@ return [
     [['GET'], '/', \Solidarity\Frontend\Action\Index::class],
     [['POST'], '/donor/register', \Solidarity\Frontend\Action\Donor\Register::class],
     [['GET'], '/donor/verifyEmail', \Solidarity\Frontend\Action\Donor\VerifyEmail::class],
-    [['GET', 'POST'], '/donor/login', \Solidarity\Frontend\Action\Donor\Login::class],
+    [['POST'], '/logovanje', \Solidarity\Frontend\Action\Donor\Login::class],
+    [['GET'], '/donor/logout', \Solidarity\Frontend\Action\Donor\Logout::class],
 
     [['GET'], '/{slug}', PageAction::class],
-//    [['GET', 'POST'], '/obrazacOsteceni', \Solidarity\Frontend\Action\Educator::class],
-//    [['GET', 'POST'], '/profileDelegat', \Solidarity\Frontend\Action\ProfileDelegate::class],
-//    [['GET', 'POST'], '/obrazacDelegati', \Solidarity\Frontend\Action\Delegate::class],
-//    [['GET', 'POST'], '/obrazacDonatori', \Solidarity\Frontend\Action\Donor::class],
-//    [['GET'], '/hvalaZaOstecenog', \Solidarity\Frontend\Action\ThankYouEducator::class],
-//    [['GET'], '/hvalaDelegatu', \Solidarity\Frontend\Action\ThankYouDelegate::class],
-//    [['GET'], '/hvalaDonatoru', \Solidarity\Frontend\Action\ThankYouDonor::class],
 
 ];
