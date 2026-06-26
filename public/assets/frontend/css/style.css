@@ -1567,7 +1567,7 @@ main.loggedIn {
 }
 
 .bannerWrapper {
-  padding: 5rem 4.25rem;
+  padding: 2rem 4.25rem;
 }
 @media (max-width: 768px) {
   .bannerWrapper {
