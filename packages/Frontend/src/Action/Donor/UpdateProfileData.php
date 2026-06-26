@@ -41,20 +41,18 @@ class UpdateProfileData extends BaseAction
         try {
             $data['id'] = $this->session->getId();
             $this->donor->updateProfileData($data);
-            $responseData['token'] = CSRF::getToken();
         } catch (ValidatorException $e) {
             $success = false;
-            $responseData['token'] = CSRF::getToken();
             foreach ($this->donor->getProfileDataFilterErrors() as $error) {
                 $responseData['errors'][] = $error;
             }
             $statusCode = 400;
         } catch (\Exception $e) {
             $success = false;
-            $responseData['token'] = CSRF::getToken();
             $statusCode = 400;
             $responseData['errors'][] = 'An unexpected error occurred, please try again.';
         }
+        $responseData['token'] = CSRF::getToken();
         return $this->returnWithData($success, $responseData, $statusCode);
     }
 }
