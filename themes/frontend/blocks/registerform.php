@@ -46,7 +46,7 @@
                 Registruj se
             </button>
             <p class="logIn">
-                Ako već imaš nalog na sajtu možeš se ulogovati <a href="" title="Uloguj se">ovde</a>
+                Ako već imaš nalog na sajtu možeš se ulogovati <a href="/logovanje" title="Uloguj se">ovde</a>
             </p>
             <div class="requiredFieldsNotice">
                 <span><span class="required">*</span>Obavezna polja</span>
