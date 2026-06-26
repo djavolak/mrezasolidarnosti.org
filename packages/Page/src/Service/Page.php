@@ -37,6 +37,7 @@ class Page extends TableView
                     'editColumn' => true,
                 ],
                 'slug' => $page->slug,
+                'languageCode' => $page->languageCode,
                 'image' => $imgHtml,
                 'status' => \Skeletor\Page\Entity\Page::getHrStatus($page->status),
                 'createdAt' => $page->createdAt->format('d.m.Y'),
@@ -56,6 +57,7 @@ class Page extends TableView
         return [
             ['name' => 'title', 'label' => 'Name'],
             ['name' => 'slug', 'label' => 'Slug'],
+            ['name' => 'languageCode', 'label' => 'Lang', 'filterData' => [1 => 'sr', 2 => 'en']],
             ['name' => 'status', 'label' => 'Status'],
             ['name' => 'updatedAt', 'label' => 'Updated at'],
             ['name' => 'createdAt', 'label' => 'Created at'],

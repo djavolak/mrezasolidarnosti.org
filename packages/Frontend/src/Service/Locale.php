@@ -1,0 +1,129 @@
+<?php
+namespace Solidarity\Frontend\Service;
+
+use Laminas\Config\Config;
+
+/**
+ * Frontend locale resolver.
+ *
+ * The default locale is served at the URL root (no prefix); every other available
+ * locale lives under its own path prefix, e.g. default `sr` → `/o-nama`, `en` →
+ * `/en/o-nama`. This service detects the active locale from the request path,
+ * strips the prefix so the router matches the same base routes for every language,
+ * and builds prefixed URLs for the language switcher / hreflang tags.
+ *
+ * Registered as a shared (singleton) DI service: `detectFromRequest()` runs once
+ * in the frontend entrypoint, and the same instance is later injected into actions
+ * so templates can read the resolved locale.
+ */
+class Locale
+{
+    private string $default;
+    /** @var string[] */
+    private array $available;
+
+    private string $current;
+    /** Request path with the locale prefix removed (always starts with '/'). */
+    private string $basePath = '/';
+
+    public function __construct(Config $config)
+    {
+        $locales = $config->get('locales');
+        $this->default = $locales?->get('default') ?: 'sr';
+        $available = $locales?->get('available');
+        $this->available = $available ? $available->toArray() : [$this->default];
+        $this->current = $this->default;
+    }
+
+    /**
+     * Read the active locale from $_SERVER['REQUEST_URI'], remember it and the
+     * de-prefixed base path, then rewrite REQUEST_URI in place so the router
+     * dispatches the language-agnostic route. Call once, early, per request.
+     */
+    public function detectFromRequest(): void
+    {
+        $requestUri = $_SERVER['REQUEST_URI'] ?? '/';
+        $query = '';
+        if (($pos = strpos($requestUri, '?')) !== false) {
+            $query = substr($requestUri, $pos);          // includes leading '?'
+            $requestUri = substr($requestUri, 0, $pos);
+        }
+
+        $this->current = $this->parse($requestUri);
+        $this->basePath = $this->strip($requestUri);
+
+        $_SERVER['REQUEST_URI'] = $this->basePath . $query;
+    }
+
+    /** Locale encoded in the given path, or the default when none/unknown. */
+    public function parse(string $path): string
+    {
+        $first = strtok(trim($path, '/'), '/');
+        if ($first && $first !== $this->default && in_array($first, $this->available, true)) {
+            return $first;
+        }
+        return $this->default;
+    }
+
+    /** The given path with a leading locale prefix removed. */
+    public function strip(string $path): string
+    {
+        $locale = $this->parse($path);
+        if ($locale === $this->default) {
+            return $path === '' ? '/' : $path;
+        }
+        $stripped = substr($path, strlen('/' . $locale));
+        return $stripped === '' ? '/' : $stripped;
+    }
+
+    /**
+     * Build a public URL for $path (a de-prefixed, root-relative path) in $locale.
+     * Default locale → no prefix; others → '/{locale}' prefix.
+     */
+    public function localize(string $path, ?string $locale = null): string
+    {
+        $locale = $locale ?? $this->current;
+        $path = '/' . ltrim($path, '/');
+        if ($locale === $this->default) {
+            return $path;
+        }
+        return '/' . $locale . ($path === '/' ? '' : $path);
+    }
+
+    /** [locale => url] for the current page in every available locale (switcher/hreflang). */
+    public function alternates(): array
+    {
+        $urls = [];
+        foreach ($this->available as $locale) {
+            $urls[$locale] = $this->localize($this->basePath, $locale);
+        }
+        return $urls;
+    }
+
+    public function current(): string
+    {
+        return $this->current;
+    }
+
+    public function default(): string
+    {
+        return $this->default;
+    }
+
+    /** @return string[] */
+    public function available(): array
+    {
+        return $this->available;
+    }
+
+    public function isDefault(): bool
+    {
+        return $this->current === $this->default;
+    }
+
+    /** The de-prefixed request path (root-relative). */
+    public function basePath(): string
+    {
+        return $this->basePath;
+    }
+}

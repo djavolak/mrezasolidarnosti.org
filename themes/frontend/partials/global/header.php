@@ -7,7 +7,7 @@
 <?php if($isDonorLoggedIn):?>
     <header id="mainHeader" class="loggedIn">
         <div id="headerLogo">
-            <a href="/" title="Mreža solidarnosti">
+            <a href="<?=$this->localizeUrl('/')?>" title="Mreža solidarnosti">
                 <picture>
                     <source srcset="<?=FRONT_ASSET_URL?>/images/logoWhiteMobile.svg" media="(max-width: 500px)">
                     <img src="<?=FRONT_ASSET_URL?>/images/logoWhite.svg" alt="Mreža solidarnosti">
@@ -17,13 +17,13 @@
         <nav>
             <ul>
                 <li>
-                    <a href="/doniraj" title="<?=$this->t('Doniraj')?>" class="<?=$slug === 'doniraj' ? 'active' : ''?>">
+                    <a href="<?=$this->localizeUrl('/doniraj')?>" title="<?=$this->t('Doniraj')?>" class="<?=$slug === 'doniraj' ? 'active' : ''?>">
                         <svg class="donate" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M279.6 31C265.5 11.5 242.9 0 218.9 0 177.5 0 144 33.5 144 74.9l0 2.4c0 64.4 82 133.4 122.2 163.3 13 9.7 30.5 9.7 43.5 0 40.2-30 122.2-98.9 122.2-163.3l0-2.4c0-41.4-33.5-74.9-74.9-74.9-24 0-46.6 11.5-60.7 31L288 42.7 279.6 31zM109.3 341.5L66.7 384 32 384c-17.7 0-32 14.3-32 32l0 64c0 17.7 14.3 32 32 32l320.5 0c29 0 57.3-9.3 80.7-26.5l126.6-93.3c17.8-13.1 21.6-38.1 8.5-55.9s-38.1-21.6-55.9-8.5L392.6 416 280 416c-13.3 0-24-10.7-24-24s10.7-24 24-24l72 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-152.2 0c-33.9 0-66.5 13.5-90.5 37.5z"/></svg>
                         <span><?=$this->t('Doniraj')?></span>
                     </a>
                 </li>
                 <li>
-                    <a href="/instrukcije-za-uplatu" title="<?=$this->t('Instrukcije za uplatu')?>" class="<?=$slug === 'instrukcije-za-uplatu' ? 'active' : ''?>">
+                    <a href="<?=$this->localizeUrl('/instrukcije-za-uplatu')?>" title="<?=$this->t('Instrukcije za uplatu')?>" class="<?=$slug === 'instrukcije-za-uplatu' ? 'active' : ''?>">
                         <svg width="24" height="22" viewBox="0 0 24 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M11.4211 17.4706H4.47368C3.55241 17.4706 2.66886 17.0987 2.01742 16.4368C1.36598 15.775 1 14.8772 1 13.9412V4.52941C1 3.59335 1.36598 2.69563 2.01742 2.03374C2.66886 1.37185 3.55241 1 4.47368 1H18.3684C19.2897 1 20.1732 1.37185 20.8247 2.03374C21.4761 2.69563 21.8421 3.59335 21.8421 4.52941V9.82353M1 6.88235H21.8421M16.0526 17.4706H23M19.5263 21L23 17.4706L19.5263 13.9412M5.63737 12.7647H5.64316M10.2632 12.7647H12.5789" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
@@ -31,7 +31,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/korisnicki-podaci" title="<?=$this->t('Korisnički podaci')?>" class="<?=$slug === 'korisnicki-podaci' ? 'active' : ''?>">
+                    <a href="<?=$this->localizeUrl('/korisnicki-podaci')?>" title="<?=$this->t('Korisnički podaci')?>" class="<?=$slug === 'korisnicki-podaci' ? 'active' : ''?>">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M11.231 20.828C11.003 20.7183 10.803 20.5583 10.6461 20.3599C10.4891 20.1615 10.3793 19.9301 10.325 19.683C10.2611 19.4192 10.1358 19.1742 9.95929 18.968C9.7828 18.7618 9.56011 18.6001 9.30935 18.4963C9.05859 18.3924 8.78683 18.3491 8.51621 18.3701C8.24559 18.3911 7.98375 18.4757 7.752 18.617C6.209 19.557 4.442 17.791 5.382 16.247C5.5231 16.0153 5.60755 15.7537 5.62848 15.4832C5.64942 15.2128 5.60624 14.9412 5.50247 14.6906C5.3987 14.44 5.23726 14.2174 5.03127 14.0409C4.82529 13.8645 4.58056 13.7391 4.317 13.675C2.561 13.249 2.561 10.751 4.317 10.325C4.5808 10.2611 4.82578 10.1358 5.032 9.95929C5.23822 9.7828 5.39985 9.56011 5.50375 9.30935C5.60764 9.05859 5.65085 8.78683 5.62987 8.51621C5.60889 8.24559 5.5243 7.98375 5.383 7.752C4.443 6.209 6.209 4.442 7.753 5.382C8.753 5.99 10.049 5.452 10.325 4.317C10.751 2.561 13.249 2.561 13.675 4.317C13.7389 4.5808 13.8642 4.82578 14.0407 5.032C14.2172 5.23822 14.4399 5.39985 14.6907 5.50375C14.9414 5.60764 15.2132 5.65085 15.4838 5.62987C15.7544 5.60889 16.0162 5.5243 16.248 5.383C17.791 4.443 19.558 6.209 18.618 7.753C18.4769 7.98466 18.3924 8.24634 18.3715 8.51677C18.3506 8.78721 18.3938 9.05877 18.4975 9.30938C18.6013 9.55999 18.7627 9.78258 18.9687 9.95905C19.1747 10.1355 19.4194 10.2609 19.683 10.325C20.192 10.448 20.553 10.746 20.767 11.117" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             <path d="M14.8818 11.165C14.7443 10.69 14.4916 10.2563 14.1461 9.90244C13.8006 9.54863 13.3729 9.28569 12.9013 9.137C12.4296 8.98832 11.9285 8.95851 11.4425 9.05022C10.9566 9.14193 10.5008 9.35232 10.1158 9.66267C9.73072 9.97303 9.42834 10.3737 9.23553 10.8291C9.04272 11.2846 8.96544 11.7806 9.01057 12.273C9.0557 12.7655 9.22184 13.2392 9.49422 13.652C9.76659 14.0648 10.1368 14.4038 10.5718 14.639" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -96,7 +96,7 @@
 <?php else:?>
     <header id="mainHeader">
         <div id="headerLogo">
-            <a href="/" title="Mreža solidarnosti">
+            <a href="<?=$this->localizeUrl('/')?>" title="Mreža solidarnosti">
                 <picture>
                     <source srcset="<?=FRONT_ASSET_URL?>/images/logoBlueMobile.svg" media="(max-width: 500px)">
                     <img src="<?=FRONT_ASSET_URL?>/images/logoBlue.svg" alt="Mreža solidarnosti">
@@ -116,8 +116,7 @@
                 <ul>
                     <?php if(isset($mainNavigation) && $mainNavigation):?>
                         <?php foreach($mainNavigation->getItemsFormatted() as $item):?>
-                            <?php $itemLabel = $this->t($item['label'] ?? ''); ?>
-                            <li><a href="<?=htmlentities($this->localizeUrl($item['url'] ?? ''))?>" title="<?=htmlentities($itemLabel)?>"><?=htmlentities($itemLabel)?></a></li>
+                            <li><a href="<?=htmlentities($item['url'] ?? '')?>" title="<?=htmlentities($item['label'] ?? '')?>"><?=htmlentities($item['label'] ?? '')?></a></li>
                         <?php endforeach;?>
                     <?php endif; ?>
                 </ul>
@@ -127,10 +126,10 @@
                     <a href="/donor/logout" id="login"><?=$this->t('Izloguj se')?></a>
                     <?php $donateUrl = '/doniraj'; ?>
                 <?php else: ?>
-                    <a href="/logovanje" id="login"><?=$this->t('Uloguj se')?></a>
+                    <a href="<?=$this->localizeUrl('/logovanje')?>" id="login"><?=$this->t('Uloguj se')?></a>
                     <?php $donateUrl = '/registracija-donatora'; ?>
                 <?php endif; ?>
-                <a href="<?=$donateUrl?>" id="donate" class="donateButton">
+                <a href="<?=$this->localizeUrl($donateUrl)?>" id="donate" class="donateButton">
                     <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M11.2479 1.62712C10.9699 1.34905 10.6399 1.12846 10.2767 0.977961C9.9135 0.827462 9.52419 0.75 9.13103 0.75C8.73787 0.75 8.34856 0.827462 7.98535 0.977961C7.62213 1.12846 7.29212 1.34905 7.01418 1.62712L6.43735 2.20395L5.86053 1.62712C5.2991 1.0657 4.53765 0.750291 3.74368 0.750291C2.9497 0.750291 2.18825 1.0657 1.62683 1.62712C1.0654 2.18854 0.75 2.95 0.75 3.74397C0.75 4.53794 1.0654 5.29939 1.62683 5.86082L6.43735 10.6713L11.2479 5.86082C11.526 5.58288 11.7465 5.25287 11.897 4.88965C12.0475 4.52644 12.125 4.13713 12.125 3.74397C12.125 3.35081 12.0475 2.9615 11.897 2.59828C11.7465 2.23507 11.526 1.90506 11.2479 1.62712Z"
                               stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -148,7 +147,6 @@
                     </ul>
                 </div>
             </div>
-            <a id="privacyNav" href="" title="<?=$this->t('Politika privatnosti')?>"><?=$this->t('Politika privatnosti')?></a>
         </div>
         <div id="headerMobileActions">
             <a href="" id="donateMobile" class="btnIcon">

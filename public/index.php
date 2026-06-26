@@ -24,11 +24,22 @@ try {
     if ($path === 'frontend') {
         $locale = $container->get(\Solidarity\Frontend\Service\Locale::class);
         $locale->detectFromRequest();
+
+        // Locale-aware main navigation: a per-language menu titled "Main Navigation {locale}"
+        // (e.g. "Main Navigation en"), falling back to the default "Main Navigation". Each
+        // language's menu carries its own labels and (locale-correct) URLs.
+        $navigationService = $container->get(\Skeletor\ThemeSettings\Navigation\Service\Navigation::class);
+        $mainNavigation = $locale->isDefault()
+            ? $navigationService->getByTitle('Main Navigation')
+            : ($navigationService->getByTitle('Main Navigation ' . $locale->current())
+                ?? $navigationService->getByTitle('Main Navigation'));
+
         $container->get(\League\Plates\Engine::class)->addData([
             'currentLocale'    => $locale->current(),
             'defaultLocale'    => $locale->default(),
             'availableLocales' => $locale->available(),
             'localeAlternates' => $locale->alternates(),
+            'mainNavigation'   => $mainNavigation,
         ]);
     }
     $app = new WebSkeletor($container, $container->get(LoggerInterface::class));
