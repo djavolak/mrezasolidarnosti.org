@@ -3,7 +3,6 @@ namespace Solidarity\Delegate\Repository;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Skeletor\Core\Mapper\NotFoundException;
-use Skeletor\Core\Repository\LoginRepoTrait;
 use Skeletor\Login\Repository\LoginRepositoryInterface;
 use Solidarity\Delegate\Entity\Delegate;
 use Solidarity\Delegate\Factory\DelegateFactory;
@@ -13,8 +12,6 @@ use Solidarity\School\Entity\SchoolType;
 
 class DelegateRepository extends TableViewRepository implements LoginRepositoryInterface
 {
-    use LoginRepoTrait;
-
     const ENTITY = Delegate::class;
     const FACTORY = DelegateFactory::class;
 
@@ -26,6 +23,26 @@ class DelegateRepository extends TableViewRepository implements LoginRepositoryI
     ) {
         parent::__construct($entityManager);
     }
+
+    /**
+     * @throws NotFoundException
+     */
+    public function findByEmail(string $email)
+    {
+        $delegate = $this->entityManager->getRepository(static::ENTITY)->findBy(['email' => $email]);
+        if (!isset($delegate[0])) {
+            throw new NotFoundException();
+        }
+        return $delegate[0];
+    }
+
+    public function updateLoginInfo($model)
+    {
+        $this->entityManager->persist($model);
+        $this->entityManager->flush();
+    }
+
+    public function updatePassword($userId, $password) { /* no-op, delegates use magic-link */ }
 
     public function getJoinableEntities(): array
     {

@@ -66,7 +66,7 @@
 <body>
 <?=$this->section('header', $this->fetch('partialsGlobal::header'))?>
 
-<main <?=$isHome ? 'class="home"' : ''?>>
+<main <?=!empty($isHome) ? 'class="home"' : ''?>>
     <?=$this->section('content')?>
 </main>
 

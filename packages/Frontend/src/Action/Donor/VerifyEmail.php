@@ -44,7 +44,7 @@ class VerifyEmail extends BaseAction
             }
 
             $this->loginService->login($donor, 'donor');
-            return $this->redirect($donor->getRedirectPath());
+            return $this->redirect('/registrovani-ste');
         } catch (InvalidCredentials $e) {
             echo $e->getMessage();
 
