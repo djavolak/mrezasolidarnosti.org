@@ -14,7 +14,9 @@ document.addEventListener('DOMContentLoaded', () => {
             submitButton.textContent = 'Sačuvaj';
             formEmailNotice.textContent = 'U slučaju da želite da promenite e-mail stići će Vam verifikacioni e-mail koji ćete morati potvrditi.';
             inputs.forEach((input) => {
-                input.disabled = false;
+                if(input.name !== 'email') {
+                    input.disabled = false;
+                }
             });
         }
         isEdit = true;
