@@ -4,8 +4,10 @@ namespace Solidarity\Donor\Repository;
 use Doctrine\ORM\EntityManagerInterface;
 use Skeletor\Login\Repository\LoginRepositoryInterface;
 use Solidarity\Donor\Entity\Donor;
+use Solidarity\Donor\Entity\PaymentMethod;
 use Solidarity\Donor\Factory\DonorFactory;
 use Skeletor\Core\TableView\Repository\TableViewRepository;
+use Solidarity\Transaction\Entity\Project;
 
 class DonorRepository extends TableViewRepository implements LoginRepositoryInterface
 {
@@ -94,9 +96,47 @@ class DonorRepository extends TableViewRepository implements LoginRepositoryInte
         $this->entityManager->flush();
     }
 
-    public function updateDonationData(array $data)
+    public function updateDonationData(array $data): void
     {
+        $donor = $this->entityManager->getRepository(Donor::class)->find($data['donorId']);
+        if (!$donor) {
+            return;
+        }
 
+        $projectIds = $data['project'] === -1 ? [1, 2] : [$data['project']];
+        $monthly = $data['frequency'];
+
+        $projectRepository = $this->entityManager->getRepository(Project::class);
+        $paymentMethodRepository = $this->entityManager->getRepository(PaymentMethod::class);
+
+        $existingPaymentMethods = $paymentMethodRepository->findBy(['donor' => $donor]);
+        foreach ($existingPaymentMethods as $existingPaymentMethod) {
+            $this->entityManager->remove($existingPaymentMethod);
+        }
+
+        $donor->projects->clear();
+
+        foreach ($projectIds as $projectId) {
+            $project = $projectRepository->find($projectId);
+            if (!$project) {
+                continue;
+            }
+
+            foreach ($data['paymentData'] as $type => $payment) {
+                $paymentMethod = new PaymentMethod();
+                $paymentMethod->donor = $donor;
+                $paymentMethod->project = $project;
+                $paymentMethod->type = (int) $type;
+                $paymentMethod->amount = $payment['amount'];
+                $paymentMethod->currency = $payment['currency'];
+                $paymentMethod->monthly = $monthly;
+                $this->entityManager->persist($paymentMethod);
+            }
+
+            $donor->projects->add($project);
+        }
+
+        $this->entityManager->flush();
     }
 
 //    public function fetchForMapping()

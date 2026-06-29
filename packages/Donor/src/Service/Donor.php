@@ -193,7 +193,7 @@ class Donor extends TableView
         if (!$this->donorDonationDataValidator->isValid($filteredData)) {
             throw new ValidatorException();
         }
-        $this->repo->updateDonationData($data);
+        $this->repo->updateDonationData($filteredData);
     }
 
 }

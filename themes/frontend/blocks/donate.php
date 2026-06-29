@@ -228,7 +228,7 @@
             </div>
             <div id="donationFormActions">
                 <button type="submit" class="buttonPrimary" title="Sačuvaj">Sačuvaj</button>
-<!--                <a class="buttonSecondary small" href="" title="Izmeni">Izmeni</a>-->
+                <button id="changeDonation" class="buttonSecondary small" href="" title="Izmeni">Izmeni</button>
             </div>
         </div>
     </form>

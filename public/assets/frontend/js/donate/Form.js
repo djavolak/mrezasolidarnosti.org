@@ -15,6 +15,7 @@ export default class Form {
     #formFieldsContainer;
     #projectInput;
     #messagesContainer;
+    #changeDonationButton;
     constructor({form, eventEmitter}) {
         this.#form = form;
         this.eventEmitter = eventEmitter;
@@ -43,6 +44,8 @@ export default class Form {
         this.#formFieldsContainer = document.getElementById('donationFormFields');
         this.#projectInput = document.getElementById('projectInput');
         this.#messagesContainer = document.querySelector('.messagesContainer');
+        this.#changeDonationButton = document.getElementById('changeDonation');
+
     }
 
     #listenToEvents() {
@@ -63,6 +66,7 @@ export default class Form {
 
     #addListeners() {
         this.#backToProfileButton.addEventListener('click', this.#close);
+        this.#changeDonationButton.addEventListener('click', this.#close);
         this.#closeFormButton.addEventListener('click', this.#close);
         this.#frequencyTriggers.forEach((trigger) => {
             trigger.addEventListener('click', () => {
@@ -181,7 +185,8 @@ export default class Form {
         this.#form.querySelector('input[name^="_csrf"]').value = val;
     }
 
-    #close = () => {
+    #close = (e) => {
+        e.preventDefault();
         this.#form.className = '';
         this.#form.classList.remove('active');
         this.eventEmitter.emit('formClosed');

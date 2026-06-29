@@ -9,11 +9,14 @@ class DonorDonationData
     public function filter($postData): array
     {
         $paymentData = [];
-        foreach($postData['payment'] as $paymentId => $paymentInfo) {
-            $paymentData[$paymentId] = [
-                'amount' => filter_var($paymentInfo['value'] ?? null, FILTER_VALIDATE_INT) ?: null, //@TODO can it be float?
-                'currency' => filter_var($paymentInfo['currency'] ?? null, FILTER_VALIDATE_INT) ?: null,
-            ];
+        if(isset($postData['payment']) && is_array($postData['payment'])) {
+            foreach ($postData['payment'] as $paymentId => $paymentInfo) {
+                $paymentData[$paymentId] = [
+                    'amount' => filter_var($paymentInfo['value'] ?? null, FILTER_VALIDATE_INT) ?: null,
+                    //@TODO can it be float?
+                    'currency' => filter_var($paymentInfo['currency'] ?? null, FILTER_VALIDATE_INT) ?: null,
+                ];
+            }
         }
         $data = [
             'donorId' => filter_var($postData['donorId'] ?? null, FILTER_VALIDATE_INT) ?: null,
