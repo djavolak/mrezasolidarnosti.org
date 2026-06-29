@@ -21,7 +21,35 @@ export default class Donate {
         this.#setProjects();
         this.#setForm();
         this.#listenToEvents();
+        this.#openExistingProject();
         this.#setupComplete = true;
+    }
+
+    // When the donor already has donation data, open the matching project's popup
+    // (their single project, or the "all projects" -1 one) and pre-fill the form.
+    #openExistingProject() {
+        const existingData = this.#getExistingData();
+        if (!existingData || existingData.projectId === null || existingData.projectId === undefined) {
+            return;
+        }
+        const project = this.#projects.find((project) => project.projectId === String(existingData.projectId));
+        if (!project) {
+            return;
+        }
+        this.eventEmitter.emit('showForm', project);
+        this.eventEmitter.emit('prefillForm', existingData);
+    }
+
+    #getExistingData() {
+        const element = document.getElementById('donationExistingData');
+        if (!element) {
+            return null;
+        }
+        try {
+            return JSON.parse(element.textContent);
+        } catch (e) {
+            return null;
+        }
     }
 
     #setProjects() {

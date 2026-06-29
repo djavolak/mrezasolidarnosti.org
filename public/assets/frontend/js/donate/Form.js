@@ -61,6 +61,43 @@ export default class Form {
             this.#titleElement.textContent = project.thankYouTitle;
             this.#projectInput.value = project.projectId;
         });
+        this.eventEmitter.on('prefillForm', (data) => {
+            this.#prefill(data);
+        });
+    }
+
+    // Pre-fills the form with the donor's existing donation data: frequency and,
+    // for each saved payment method, its amount (currency is derived from the method).
+    #prefill(data) {
+        if (data.frequency !== null && data.frequency !== undefined) {
+            const frequencyTrigger = Array.from(this.#frequencyTriggers)
+                .find((trigger) => trigger.getAttribute('data-value') === String(data.frequency));
+            if (frequencyTrigger) {
+                this.#frequencyActiveTrigger?.classList.remove('active');
+                frequencyTrigger.classList.add('active');
+                this.#frequencyActiveTrigger = frequencyTrigger;
+                this.#frequencyInput.value = frequencyTrigger.getAttribute('data-value');
+            }
+        }
+
+        // Clear any previously built payment fields / active triggers first.
+        this.#paymentMethodsTriggers.forEach((trigger) => trigger.classList.remove('active'));
+        this.#formFieldsContainer.querySelectorAll('.formFields[data-method]').forEach((fields) => fields.remove());
+
+        (data.paymentMethods ?? []).forEach((paymentMethod) => {
+            const trigger = Array.from(this.#paymentMethodsTriggers)
+                .find((trigger) => trigger.getAttribute('data-method') === String(paymentMethod.type));
+            if (!trigger) {
+                return;
+            }
+            // Reuse the trigger's own handler to build the amount/currency fields.
+            trigger.click();
+            const fields = this.#formFieldsContainer.querySelector(`.formFields[data-method="${paymentMethod.type}"]`);
+            const amountInput = fields?.querySelector('input[type="number"]');
+            if (amountInput) {
+                amountInput.value = paymentMethod.amount;
+            }
+        });
     }
 
 
