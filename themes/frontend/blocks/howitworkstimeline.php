@@ -7,7 +7,7 @@ if (isset($block)): ?>
                 <div class="left" style="top:10px;">
                     <span class="title">Registracija i login</span>
                 </div>
-                <div class="center numbered">1</div>
+                <div id="numbered1" class="center numbered">1</div>
                 <div class="right" style="top:10px;">
                 </div>
             </div>
@@ -124,7 +124,7 @@ if (isset($block)): ?>
                 <div class="left" style="top:10px;">
                     <span class="title">Odabir oblast podrške</span>
                 </div>
-                <div class="center numbered">2</div>
+                <div id="numbered2" class="center numbered">2</div>
                 <div class="right" style="top:20px;">
                     <div class="description">
                         <p>Donator može odabrati da podrži:</p>
@@ -354,7 +354,7 @@ if (isset($block)): ?>
                 <div class="left">
                     <span class="title"></span>
                 </div>
-                <div class="center numbered">3</div>
+                <div id="numbered3" class="center numbered">3</div>
                 <div class="right" style="top:12px;">
                     <span class="title">Biranje načina donacije</span>
                 </div>
@@ -466,7 +466,7 @@ if (isset($block)): ?>
                 <div class="left">
                     <span class="title"></span>
                 </div>
-                <div class="center numbered">4</div>
+                <div id="numbered4" class="center numbered">4</div>
                 <div class="right">
                     <span class="title">Biranje načina donacije</span>
                     <span class="belowTitleDescription" style="top:20px;">
@@ -580,7 +580,7 @@ if (isset($block)): ?>
                 <div class="left">
 
                 </div>
-                <div class="center numbered">
+                <div id="numbered5" class="center numbered">
                     5
                 </div>
                 <div class="right">

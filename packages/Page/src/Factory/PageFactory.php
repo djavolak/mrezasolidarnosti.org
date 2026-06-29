@@ -20,6 +20,7 @@ class PageFactory extends \Skeletor\Page\Factory\PageFactory
         $page->seoTitle = $data['seoTitle'] ?? $page->title;
         $page->seoDescription = $data['seoDescription'] ?? '';
         $page->isLoginProtected = $data['isLoginProtected'] ?? false;
+        $page->languageCode = $data['languageCode'] ?? 'sr';
         if(isset($data['seoImageId'])) {
             $image = $em->getRepository(Image::class)->find($data['seoImageId']);
             $page->seoImage = $image;
@@ -48,6 +49,7 @@ class PageFactory extends \Skeletor\Page\Factory\PageFactory
         $page->seoTitle = $data['seoTitle'] ?? $page->title;
         $page->seoDescription = $data['seoDescription'] ?? '';
         $page->isLoginProtected = $data['isLoginProtected'] ?? false;
+        $page->languageCode = $data['languageCode'] ?? 'sr';
         if(isset($data['seoImageId'])) {
             $image = $em->getRepository(Image::class)->find($data['seoImageId']);
             $page->seoImage = $image;

@@ -10,6 +10,7 @@ use Skeletor\Core\TableView\Service\TableView;
 use Psr\Log\LoggerInterface as Logger;
 use Skeletor\User\Service\Session;
 use Solidarity\Donor\Entity\PaymentMethod;
+use Solidarity\Donor\Validator\DonorDonationData;
 use Solidarity\Mailer\Service\Mailer;
 use Solidarity\Transaction\Entity\Transaction;
 use Solidarity\Transaction\Service\Project;
@@ -28,6 +29,8 @@ class Donor extends TableView
         private Mailer $mailer, private Project $project, private MagicLinkService $magicLinkService,
         private DonorProfileData $donorProfileDataFilter,
         private \Solidarity\Donor\Validator\DonorProfileData $donorProfileDataValidator,
+        private DonorDonationData $donorDonationDataValidator,
+        private \Solidarity\Donor\Filter\DonorDonationData $donorDonationDataFilter,
     ) {
         parent::__construct($repo, $user, $logger, $filter);
     }
@@ -166,6 +169,11 @@ class Donor extends TableView
         return $this->donorProfileDataValidator->getMessages();
     }
 
+    public function getDonationDataFilterErrors(): array
+    {
+        return $this->donorDonationDataValidator->getMessages();
+    }
+
     public function updateProfileData(array $data): void
     {
         if (!$this->donorProfileDataValidator->isValid($data)) {
@@ -177,6 +185,15 @@ class Donor extends TableView
             $filteredData['firstName'],
             $filteredData['lastName']
         );
+    }
+
+    public function updateDonationData(array $data): void
+    {
+        $filteredData = $this->donorDonationDataFilter->filter($data);
+        if (!$this->donorDonationDataValidator->isValid($filteredData)) {
+            throw new ValidatorException();
+        }
+        $this->repo->updateDonationData($filteredData);
     }
 
 }

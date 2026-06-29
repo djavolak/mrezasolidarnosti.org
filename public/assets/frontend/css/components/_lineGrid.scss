@@ -158,6 +158,7 @@
           background: var(--colorOrange);
           @include typography.type(h3);
           color: var(--colorBeige);
+          //scroll-margin-top: 100px;
         }
 
         &.icon {
