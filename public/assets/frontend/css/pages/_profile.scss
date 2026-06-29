@@ -108,6 +108,9 @@ main {
   @media(max-width:768px) {
     border-radius:0;
     padding:4rem 1rem;
+    &.active {
+      padding-top:0;
+    }
   }
   &.education {
     #donationFormFields {

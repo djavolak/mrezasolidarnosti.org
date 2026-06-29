@@ -299,11 +299,26 @@ main.loggedIn {
 }
 #mainHeader.loggedIn {
   background: var(--colorDarkBlue);
+  justify-content: flex-start;
+}
+#mainHeader.loggedIn nav {
+  margin-left: auto;
+}
+@media (max-width: 1100px) {
+  #mainHeader.loggedIn nav {
+    margin-left: 0;
+  }
 }
 #mainHeader.loggedIn .languageSwitcher {
   background: var(--colorBeige);
   padding: 0.2rem 0.3rem;
   border-radius: 8px;
+}
+#mainHeader.loggedIn #headerMobileActions {
+  margin-left: auto;
+}
+#mainHeader.loggedIn #hamburger svg path {
+  fill: white;
 }
 #mainHeader.loggedIn ul li a:hover .donate {
   fill: var(--colorOrange);
@@ -315,20 +330,6 @@ main.loggedIn {
   fill: white;
   width: 24px;
   height: 24px;
-}
-@media (max-width: 1100px) {
-  #mainHeader.loggedIn:not(.withNav) #headerContent {
-    position: static;
-    left: unset;
-    transition: unset;
-    width: unset;
-    height: unset;
-    background: unset;
-    flex-direction: unset;
-    padding: unset;
-    align-items: center;
-    gap: 1.5rem;
-  }
 }
 #mainHeader.loggedIn.withNav #headerContent nav ul li a {
   color: white;
@@ -345,6 +346,11 @@ main.loggedIn {
 @media (max-width: 1100px) {
   #mainHeader.loggedIn.withNav #headerContent {
     background: var(--colorDarkBlue);
+  }
+}
+@media (min-width: 1101px) {
+  #mainHeader.loggedIn #headerContent nav {
+    display: none;
   }
 }
 @media (max-width: 1200px) {
@@ -548,10 +554,6 @@ main.loggedIn {
     font-weight: 400;
     line-height: 1.4;
   }
-}
-#mainHeader > nav {
-  margin-left: auto;
-  margin-right: 2rem;
 }
 @media (max-width: 1100px) {
   #mainHeader > nav {
@@ -3332,6 +3334,86 @@ main.loggedIn {
   transition: 0.3s ease all;
 }
 
+.instructionsWhatIs {
+  display: flex;
+  padding: 5rem 11rem 2rem 11rem;
+  position: relative;
+  gap: 8rem;
+  align-items: center;
+}
+@media (max-width: 1200px) {
+  .instructionsWhatIs {
+    flex-direction: column;
+    padding: 3rem 1.25rem;
+    gap: 2rem;
+  }
+}
+.instructionsWhatIs h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--colorDarkBlue);
+}
+.instructionsWhatIs .left {
+  width: 682px;
+  max-width: 100%;
+}
+.instructionsWhatIs .left > p {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--colorDarkBlue);
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+.instructionsWhatIs .left .instructionsLink {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--colorDarkBlue);
+}
+.instructionsWhatIs .left .instructionsLink a {
+  text-decoration: underline;
+}
+.instructionsWhatIs .right {
+  margin-left: auto;
+}
+@media (max-width: 1200px) {
+  .instructionsWhatIs .right {
+    margin-right: auto;
+  }
+}
+
+.infoWhatIs {
+  padding-top: 0;
+}
+
+.infoSection {
+  padding: 1rem;
+  background: white;
+  border-radius: 10px;
+  display: flex;
+  gap: 1rem;
+}
+.infoSection svg {
+  flex-shrink: 0;
+}
+.infoSection h2 {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--colorDarkBlue);
+}
+.infoSection p {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--colorDarkBlue);
+}
+
 .whatIsContent {
   display: flex;
   flex-direction: column;
@@ -3941,6 +4023,9 @@ main:has(#donationForm.active) {
   #donationForm {
     border-radius: 0;
     padding: 4rem 1rem;
+  }
+  #donationForm.active {
+    padding-top: 0;
   }
 }
 #donationForm.education #donationFormFields {
