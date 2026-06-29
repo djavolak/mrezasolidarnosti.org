@@ -69,4 +69,32 @@ class PageRepository extends \Skeletor\Page\Repository\PageRepository
 
         return $map;
     }
+
+    public function createTranslation(int $pageId): ?Page
+    {
+        $source = $this->entityManager->find(static::ENTITY, $pageId);
+        if (!$source) {
+            return null;
+        }
+
+        $translation = new Page();
+        $translation->title = $source->title;
+        $translation->description = $source->description;
+        $translation->slug = $source->slug;
+        $translation->blockData = $source->blockData;
+        $translation->featuredImage = $source->featuredImage;
+        $translation->status = $source->status;
+        $translation->isLoginProtected = $source->isLoginProtected;
+        $translation->seoTitle = $source->seoTitle;
+        $translation->seoDescription = $source->seoDescription;
+        $translation->seoImage = $source->seoImage;
+
+        $translation->languageCode = 'en';
+        $translation->translationGroupId = $pageId;
+
+        $this->entityManager->persist($translation);
+        $this->entityManager->flush();
+
+        return $translation;
+    }
 }

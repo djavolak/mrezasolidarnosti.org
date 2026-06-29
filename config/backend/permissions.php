@@ -65,6 +65,7 @@ return [
         'page.create' => [User::ROLE_ADMIN],
         'page.edit' => [User::ROLE_ADMIN],
         'page.delete' => [User::ROLE_ADMIN],
+        'page.create_translation' => [User::ROLE_ADMIN],
 
         // Image permissions
         'image.view_list' => [User::ROLE_ADMIN],
@@ -179,6 +180,7 @@ return [
         '/page/form/*' => 'page.edit',
         '/page/update/*' => 'page.edit',
         '/page/delete/*' => 'page.delete',
+        '/page/createTranslation/*' => 'page.create_translation',
 
         // Image routes
         '/image/view/' => 'page.view_list',
