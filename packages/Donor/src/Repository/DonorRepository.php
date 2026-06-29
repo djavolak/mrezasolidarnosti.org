@@ -94,6 +94,11 @@ class DonorRepository extends TableViewRepository implements LoginRepositoryInte
         $this->entityManager->flush();
     }
 
+    public function updateDonationData(array $data)
+    {
+
+    }
+
 //    public function fetchForMapping()
 //    {
 //        $sql = "SELECT *,

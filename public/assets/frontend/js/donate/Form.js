@@ -14,6 +14,7 @@ export default class Form {
     #paymentTemplate;
     #formFieldsContainer;
     #projectInput;
+    #messagesContainer;
     constructor({form, eventEmitter}) {
         this.#form = form;
         this.eventEmitter = eventEmitter;
@@ -41,6 +42,7 @@ export default class Form {
         this.#paymentTemplate = document.getElementById('paymentTemplate');
         this.#formFieldsContainer = document.getElementById('donationFormFields');
         this.#projectInput = document.getElementById('projectInput');
+        this.#messagesContainer = document.querySelector('.messagesContainer');
     }
 
     #listenToEvents() {
@@ -83,26 +85,101 @@ export default class Form {
                     template.querySelector('h3').textContent = 'IZNOS ' + trigger.parentElement.querySelector(':scope >span').textContent;
                     template.querySelector('.formFields').setAttribute('data-method', method);
                     template.querySelector('input[type="number"]').name = `payment[${method}][value]`;
-                    template.querySelectorAll('input[type="radio"]').forEach((radio) => {
-                       radio.name = `payment[${method}][currency]`;
-                    });
-                    template.querySelectorAll('.currency').forEach((currencyButton) => {
-                        currencyButton.addEventListener('click', () => {
-                           const currency = currencyButton.getAttribute('data-currency');
-                           const inputs = currencyButton.parentElement.querySelectorAll('input');
-                           inputs.forEach((input) => {
-                              input.checked = currency === input.getAttribute('data-currency');
-                           });
-                           currencyButton.parentElement.querySelector('.currency.active').classList.remove('active');
-                           currencyButton.classList.add('active');
-                        });
-                    });
+                    // template.querySelectorAll('input[type="radio"]').forEach((radio) => {
+                    //    radio.name = `payment[${method}][currency]`;
+                    // });
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = `payment[${method}][currency]`;
+                    const button = document.createElement('span');
+                    button.classList.add('currency', 'active');
+                    const amountInput = template.querySelector('.amountInput');
+                    switch(method) {
+                        case '1':
+                            input.value = '1';
+                            button.setAttribute('data-currency', 'RSD');
+                            button.textContent = 'RSD';
+                            amountInput.placeholder = 'min 500 RSD';
+                            break;
+                        case '2':
+                        case '3':
+                        case '4':
+                            input.value = '2';
+                            button.setAttribute('data-currency', 'EUR');
+                            button.textContent = 'EUR';
+                            amountInput.placeholder = 'min 10 EUR';
+                            break;
+                    }
+                    const currenciesElement = template.querySelector('.currencies');
+                    currenciesElement.appendChild(input);
+                    currenciesElement.appendChild(button);
+                    // template.querySelectorAll('.currency').forEach((currencyButton) => {
+                    //     currencyButton.addEventListener('click', () => {
+                    //        const currency = currencyButton.getAttribute('data-currency');
+                    //        const inputs = currencyButton.parentElement.querySelectorAll('input');
+                    //        inputs.forEach((input) => {
+                    //           input.checked = currency === input.getAttribute('data-currency');
+                    //        });
+                    //        currencyButton.parentElement.querySelector('.currency.active').classList.remove('active');
+                    //        currencyButton.classList.add('active');
+                    //     });
+                    // });
                     this.#formFieldsContainer.appendChild(template);
                 }
            });
         });
+
+        this.#form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            this.#messagesContainer.innerHTML = '';
+            const res = await fetch(this.#form.action, {
+                method: 'POST',
+                body: new FormData(this.#form)
+            });
+            const resData = await res.json();
+            if(!resData.success) {
+                if(resData.data.errors.length) {
+                    resData.data.errors.forEach((error) => {
+                        if (Array.isArray(error)) {
+                            error.forEach((errorEntry) => {
+                                this.#messagesContainer.appendChild(this.#getMessageElement(errorEntry, 'error'));
+                            });
+                            this.#scrollToMessagesContainer();
+                        } else {
+                            this.#messagesContainer.appendChild(this.#getMessageElement(error, 'error'));
+                            this.#scrollToMessagesContainer();
+                        }
+                    });
+                }
+            } else {
+                this.#messagesContainer.appendChild(this.#getMessageElement('Uspešno ste sačuvali izmene.', 'success'))
+                this.#scrollToMessagesContainer();
+            }
+            if(resData.data.token) {
+                this.#replaceCsrf(resData.data.token);
+            }
+        });
     }
 
+    #scrollToMessagesContainer() {
+        const top = this.#messagesContainer.getBoundingClientRect().top + window.scrollY - 100;
+
+        window.scrollTo({
+            top,
+            behavior: 'smooth'
+        });
+    }
+
+    #getMessageElement(message, type) {
+        const messageElement = document.createElement('span');
+        messageElement.textContent = message;
+        messageElement.classList.add(type);
+        return messageElement;
+    }
+
+    #replaceCsrf(val) {
+        this.#form.querySelector('input[name^="_csrf"]').value = val;
+    }
 
     #close = () => {
         this.#form.className = '';

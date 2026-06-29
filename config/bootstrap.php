@@ -17,6 +17,7 @@ use Solidarity\Backend\Blocks\Connect\Connect;
 use Solidarity\Backend\Blocks\Contactcards\Contactcards;
 use Solidarity\Backend\Blocks\Ctabanner\Ctabanner;
 use Solidarity\Backend\Blocks\Direction\Direction;
+use Solidarity\Backend\Blocks\Donate\Donate;
 use Solidarity\Backend\Blocks\Faq\Faq;
 use Solidarity\Backend\Blocks\Herotext\Herotext;
 use Solidarity\Backend\Blocks\Projectsdisplay\Projectsdisplay;
@@ -119,6 +120,7 @@ $container->set(\Skeletor\ContentEditor\Contracts\BlockParserFactoryInterface::c
     $blockParserFactory->registerBlockParser(Login::NAME, new Login());
     $blockParserFactory->registerBlockParser(Loginsuccess::NAME, new Loginsuccess());
     $blockParserFactory->registerBlockParser(Profiledata::NAME, new Profiledata());
+    $blockParserFactory->registerBlockParser(Donate::NAME, new Donate());
 
     return $blockParserFactory;
 });

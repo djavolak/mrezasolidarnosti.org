@@ -63,7 +63,6 @@
                 </ul>
             </div>
         </div>
-        <a id="privacyNav" href="" title="<?=$this->t('Politika privatnosti')?>"><?=$this->t('Politika privatnosti')?></a>
         <div id="headerMobileActions">
             <a href="" id="donateMobile" class="btnIcon">
                 <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
