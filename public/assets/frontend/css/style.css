@@ -2560,10 +2560,14 @@ main.loggedIn {
   margin: auto;
   outline: none;
   border: none;
-  z-index: 100;
   background: white;
   border-radius: 45px;
   padding: 4rem 6rem 2rem 6rem;
+  z-index: 1001;
+  display: none !important;
+}
+#paymentDialog.active {
+  display: block !important;
 }
 @media (max-width: 1150px) {
   #paymentDialog {
