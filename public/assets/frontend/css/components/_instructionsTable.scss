@@ -6,6 +6,7 @@
     background:white;
     width:100%;
     border-radius:10px;
+    border-collapse: collapse;
     thead {
       tr {
         th {
@@ -13,6 +14,42 @@
           padding:1rem;
           @include typography.type(h4);
           color:var(--colorDarkBlue);
+          border-bottom:1px solid var(--colorDarkBlue);
+        }
+      }
+    }
+    tbody {
+      tr {
+        &.new {
+          td {
+            &:first-of-type {
+              font-weight:bold;
+              @include typography.type(h4);
+            }
+            background:var(--colorGreen);
+            &.status {
+              background:var(--colorGreen);
+            }
+            &.expires {
+              &>div {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                span {
+                  @include typography.type(nav);
+                }
+              }
+            }
+          }
+        }
+        td {
+          text-align:left;
+          padding:1rem;
+          @include typography.type(text);
+          color:var(--colorDarkBlue);
+          &.status {
+            background:var(--colorBackgroundGray);
+          }
         }
       }
     }

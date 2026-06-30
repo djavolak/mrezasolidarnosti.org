@@ -1,6 +1,6 @@
 <?php if(isset($block)): ?>
     <div class="instructionsTable">
-
+        <?=$this->formToken()?>
     </div>
     <template id="desktopTemplateInstructionsTable">
         <table>

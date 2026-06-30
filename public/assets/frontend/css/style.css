@@ -2420,6 +2420,7 @@ main.loggedIn {
   background: white;
   width: 100%;
   border-radius: 10px;
+  border-collapse: collapse;
 }
 .instructionsTable table thead tr th {
   text-align: left;
@@ -2428,6 +2429,40 @@ main.loggedIn {
   font-weight: 700;
   line-height: 1.4;
   color: var(--colorDarkBlue);
+  border-bottom: 1px solid var(--colorDarkBlue);
+}
+.instructionsTable table tbody tr.new td {
+  background: var(--colorGreen);
+}
+.instructionsTable table tbody tr.new td:first-of-type {
+  font-weight: bold;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+.instructionsTable table tbody tr.new td.status {
+  background: var(--colorGreen);
+}
+.instructionsTable table tbody tr.new td.expires > div {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.instructionsTable table tbody tr.new td.expires > div span {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.instructionsTable table tbody tr td {
+  text-align: left;
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--colorDarkBlue);
+}
+.instructionsTable table tbody tr td.status {
+  background: var(--colorBackgroundGray);
 }
 
 #howItWorks {

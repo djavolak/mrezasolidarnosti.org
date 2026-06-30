@@ -43,8 +43,8 @@ class GetInstructions extends BaseAction
             $responseData['errors'][] = 'Your session has expired, please refresh the page and try again.';
         }
         try {
-            $data['id'] = $this->session->getId();
-            //@TODO get instructions
+            $page = max(1, (int) ($data['page'] ?? 1));
+            $responseData['instructions'] = $this->donor->getInstructions($this->session->getId(), $page);
         } catch (\Exception $e) {
             $success = false;
             $statusCode = 400;

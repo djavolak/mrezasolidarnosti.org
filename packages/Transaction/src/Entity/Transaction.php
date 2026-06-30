@@ -100,7 +100,16 @@ class Transaction
 
     public function getReferenceCode(): string
     {
-        return 'MS'.$this->getId();
+        return $this->project->code . ' - ' . $this->getId();
+    }
+
+    /**
+     * Point at which the instruction expires: 72 hours after it was created.
+     * Cloned so the entity's createdAt is not mutated.
+     */
+    public function getExpiryDate(): \DateTimeInterface
+    {
+        return (clone $this->createdAt)->modify('+72 hours');
     }
 
     public static function getHrStatus($status): string
