@@ -1,4 +1,11 @@
 @use '../setup/typography';
+.loggedIn {
+  .contactCards {
+    .contactCard{
+      background:white;
+    }
+  }
+}
 .contactCards {
   padding:5rem 11rem;
   display:grid;

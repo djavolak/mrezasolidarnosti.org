@@ -1702,6 +1702,10 @@ main.loggedIn {
   margin-right: auto;
 }
 
+.loggedIn .contactCards .contactCard {
+  background: white;
+}
+
 .contactCards {
   padding: 5rem 11rem;
   display: grid;
@@ -2414,7 +2418,12 @@ main.loggedIn {
 
 .instructionsTable {
   background: var(--colorDarkBlue);
-  padding: 5rem 11rem;
+  padding: 5rem 11rem 2rem 11rem;
+}
+@media (max-width: 1000px) {
+  .instructionsTable {
+    padding: 3rem 1.5rem;
+  }
 }
 .instructionsTable table {
   background: white;
@@ -2456,6 +2465,7 @@ main.loggedIn {
 .instructionsTable table tbody tr td {
   text-align: left;
   padding: 1rem;
+  border-bottom: 1px solid var(--colorDarkBlue);
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.4;
@@ -2463,6 +2473,315 @@ main.loggedIn {
 }
 .instructionsTable table tbody tr td.status {
   background: var(--colorBackgroundGray);
+}
+.instructionsTable table tbody tr td .status2 {
+  background: var(--colorYellow);
+  width: max-content;
+  padding: 0.5rem;
+  border-radius: 14px;
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--colorDarkBlue);
+}
+.instructionsTable table tbody tr td .status3, .instructionsTable table tbody tr td .status7 {
+  background: var(--colorGrassGreen);
+  width: max-content;
+  padding: 0.5rem 0.7rem;
+  border-radius: 14px;
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: white;
+}
+.instructionsTable table tbody tr td .status4, .instructionsTable table tbody tr td .status5 {
+  background: #CF3443;
+  width: max-content;
+  padding: 0.5rem 0.7rem;
+  border-radius: 14px;
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: white;
+}
+.instructionsTable table tbody tr td .status6 {
+  background: var(--colorOrange);
+  width: max-content;
+  padding: 0.5rem 0.7rem;
+  border-radius: 14px;
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: white;
+}
+.instructionsTable table#mobileTableInstructions th {
+  border-bottom: 1px solid var(--colorDarkBlue);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--colorDarkBlue);
+  padding: 1rem;
+  text-align: left;
+  width: 40%;
+}
+.instructionsTable table#mobileTableInstructions td {
+  border-bottom: 1px solid var(--colorDarkBlue);
+  text-align: left;
+}
+.instructionsTable table#mobileTableInstructions td.new {
+  background: var(--colorGreen);
+}
+.instructionsTable table#mobileTableInstructions td.expires > div {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+.instructionsTable .instructionsNavContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+.instructionsTable .instructionsNavContainer > div {
+  display: flex;
+  gap: 0.3rem;
+  align-items: center;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--colorBeige);
+}
+.instructionsTable .instructionsNavContainer > div.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+#paymentDialog {
+  margin: auto;
+  outline: none;
+  border: none;
+  z-index: 100;
+  background: white;
+  border-radius: 45px;
+  padding: 4rem 6rem 2rem 6rem;
+}
+@media (max-width: 1150px) {
+  #paymentDialog {
+    border-radius: 0;
+    width: 100vw;
+    height: 100dvh;
+    margin: 0;
+    max-width: none;
+    max-height: none;
+    padding: 5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+#paymentDialog.education #paymentInfo {
+  background: var(--colorDarkBlue);
+}
+#paymentDialog.education .column label {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: white;
+}
+#paymentDialog.education .paymentContact {
+  color: white;
+}
+#paymentDialog.education .print {
+  color: white;
+}
+#paymentDialog.repression #paymentInfo {
+  background: var(--colorGreen);
+}
+#paymentDialog.repression .column label {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--colorDarkBlue);
+}
+#paymentDialog.repression .paymentContact {
+  color: var(--colorDarkBlue);
+}
+#paymentDialog.repression .print {
+  color: var(--colorDarkBlue);
+}
+#paymentDialog #closePaymentDialog {
+  text-align: right;
+  cursor: pointer;
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+}
+@media (max-width: 1150px) {
+  #paymentDialog #closePaymentDialog svg {
+    width: 36px;
+  }
+}
+#paymentDialog h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--colorDarkBlue);
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+@media (max-width: 1150px) {
+  #paymentDialog h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+}
+#paymentDialog .paymentDialogTop {
+  width: 950px;
+  max-width: 100%;
+}
+@media (max-width: 1150px) {
+  #paymentDialog .paymentDialogTop > svg {
+    display: none;
+  }
+}
+#paymentDialog .paymentDialogTop .info {
+  display: flex;
+  gap: 0.5rem;
+  color: var(--colorDarkBlue);
+}
+#paymentDialog .paymentDialogTop .info svg {
+  flex-shrink: 0;
+}
+#paymentDialog #paymentInfo {
+  width: 950px;
+  max-width: 100%;
+  margin-top: 3rem;
+  padding: 2rem;
+  border-radius: 10px;
+}
+#paymentDialog #paymentInfo #paymentInfoLogo {
+  margin-bottom: 4rem;
+}
+#paymentDialog #paymentInfo #paymentInfoData {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2rem;
+}
+@media (max-width: 1150px) {
+  #paymentDialog #paymentInfo #paymentInfoData {
+    grid-template-columns: 1fr;
+  }
+}
+#paymentDialog #paymentInfo #paymentInfoData .column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+#paymentDialog #paymentInfo #paymentInfoData .column .inputContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+#paymentDialog #paymentInfo #paymentInfoData .column .inputContainer .inputWrapper {
+  position: relative;
+}
+#paymentDialog #paymentInfo #paymentInfoData .column .inputContainer .inputWrapper input {
+  padding: 0.5rem 3rem 0.5rem 1rem;
+  background: white;
+  border-radius: 10px;
+  outline: none;
+  border: none;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--colorDarkBlue);
+}
+@media (max-width: 1150px) {
+  #paymentDialog #paymentInfo #paymentInfoData .column .inputContainer .inputWrapper input {
+    width: 100%;
+  }
+}
+#paymentDialog #paymentInfo #paymentInfoData .column .inputContainer .inputWrapper .copyInput {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 1rem;
+  margin-top: auto;
+  margin-bottom: auto;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: transform 120ms ease;
+}
+#paymentDialog #paymentInfo #paymentInfoData .column .inputContainer .inputWrapper .copyInput.active {
+  animation: pop 220ms ease;
+}
+#paymentDialog #paymentInfo .paymentContact {
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.4;
+}
+#paymentDialog #paymentInfo .paymentContact svg {
+  margin-right: 0.5rem;
+}
+#paymentDialog #paymentInfo .paymentContact a {
+  text-decoration: underline;
+  margin-left: 0.3rem;
+}
+#paymentDialog #confirmPayment {
+  margin-top: 2rem;
+}
+#paymentDialog .print {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+#overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 99;
+  background: rgba(0, 0, 0, 0.5);
+}
+#overlay.active {
+  display: block;
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.85);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+#loadMoreContainer {
+  background: var(--colorDarkBlue);
+  padding-bottom: 3rem;
+}
+@media (max-width: 1150px) {
+  #loadMoreContainer {
+    display: none;
+  }
+}
+#loadMoreContainer #loadMore {
+  margin: 0 auto;
+  display: block;
+  padding: 0.5rem 1rem;
 }
 
 #howItWorks {

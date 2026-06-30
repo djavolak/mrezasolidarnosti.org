@@ -5,12 +5,13 @@ namespace Solidarity\Frontend\Action\Donor;
 use Laminas\Config\Config;
 use League\Plates\Engine;
 use Psr\Log\LoggerInterface as Logger;
+use Skeletor\Core\Validator\ValidatorException;
 use Skeletor\ThemeSettings\Navigation\Service\Navigation;
 use Skeletor\ThemeSettings\SocialLinks\Service\SocialLinks;
 use Solidarity\Frontend\Action\BaseAction;
 use Volnix\CSRF\CSRF;
 
-class GetInstructions extends BaseAction
+class ConfirmPayment extends BaseAction
 {
     public function __construct(
         Logger $logger, Config $config, Engine $template, private \Solidarity\Donor\Service\Donor $donor,
@@ -43,9 +44,8 @@ class GetInstructions extends BaseAction
             $responseData['errors'][] = 'Your session has expired, please refresh the page and try again.';
         }
         try {
-            $page = max(1, (int) ($data['page'] ?? 1));
-            $perPage = (int)($data['perPage']) ?? 10;
-            $responseData['instructions'] = $this->donor->getInstructions($this->session->getId(), $page, $perPage);
+            //@TODO CHECK THAT ITS THE RIGHT STATUS BEFORE UPDATING AND THAT IT IS ASSIGNED TO THE LOGGED IN DONOR
+            //@TODO CONFIRM PAYMENT
         } catch (\Exception $e) {
             $success = false;
             $statusCode = 400;

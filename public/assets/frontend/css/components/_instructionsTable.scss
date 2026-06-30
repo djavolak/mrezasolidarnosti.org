@@ -1,7 +1,10 @@
 @use '../setup/typography';
 .instructionsTable {
   background:var(--colorDarkBlue);
-  padding:5rem 11rem;
+  padding:5rem 11rem 2rem 11rem;
+  @media(max-width:1000px) {
+    padding:3rem 1.5rem;
+  }
   table {
     background:white;
     width:100%;
@@ -45,14 +48,294 @@
         td {
           text-align:left;
           padding:1rem;
+          border-bottom:1px solid var(--colorDarkBlue);
           @include typography.type(text);
           color:var(--colorDarkBlue);
           &.status {
             background:var(--colorBackgroundGray);
+          }
+          .status2 {
+            background:var(--colorYellow);
+            width:max-content;
+            padding:0.5rem;
+            border-radius:14px;
+            @include typography.type(caption);
+            color:var(--colorDarkBlue);
+          }
+          .status3, .status7 {
+            background:var(--colorGrassGreen);
+            width:max-content;
+            padding:0.5rem 0.7rem;
+            border-radius:14px;
+            @include typography.type(caption);
+            color:white;
+          }
+          .status4, .status5 {
+            background:#CF3443;
+            width:max-content;
+            padding:0.5rem 0.7rem;
+            border-radius:14px;
+            @include typography.type(caption);
+            color:white;
+          }
+          .status6 {
+            background:var(--colorOrange);
+            width:max-content;
+            padding:0.5rem 0.7rem;
+            border-radius:14px;
+            @include typography.type(caption);
+            color:white;
+          }
+        }
+      }
+    }
+    &#mobileTableInstructions {
+      th {
+        border-bottom:1px solid var(--colorDarkBlue);
+        @include typography.type(h4);
+        color:var(--colorDarkBlue);
+        padding:1rem;
+        text-align:left;
+        width:40%;
+      }
+      td {
+        border-bottom:1px solid var(--colorDarkBlue);
+        text-align:left;
+        &.new {
+          background:var(--colorGreen);
+        }
+        &.expires {
+          &>div {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
           }
         }
       }
     }
   }
 
+  .instructionsNavContainer {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:2rem;
+    &>div {
+      display:flex;
+      gap:0.3rem;
+      align-items:center;
+      @include typography.type(h4);
+      color:var(--colorBeige);
+      &.disabled {
+        opacity:0.5;
+        pointer-events:none;
+      }
+    }
+  }
+}
+#paymentDialog {
+  margin:auto;
+  outline:none;
+  border:none;
+  z-index:100;
+  background:white;
+  border-radius:45px;
+  padding:4rem 6rem 2rem 6rem;
+  @media(max-width:1150px) {
+    border-radius:0;
+    width:100vw;
+    height:100dvh;
+    margin:0;
+    max-width: none;
+    max-height: none;
+    padding:5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  &.education {
+    #paymentInfo {
+      background: var(--colorDarkBlue);
+    }
+    .column {
+        label {
+          @include typography.type(text);
+          color:white;
+        }
+    }
+    .paymentContact {
+      color:white;
+    }
+    .print {
+      color: white;
+    }
+  }
+  &.repression {
+    #paymentInfo {
+      background: var(--colorGreen);
+    }
+    .column {
+        label {
+          @include typography.type(text);
+          color:var(--colorDarkBlue);
+        }
+    }
+    .paymentContact {
+      color:var(--colorDarkBlue);
+    }
+    .print {
+      color:var(--colorDarkBlue);
+    }
+  }
+  #closePaymentDialog {
+    text-align:right;
+    cursor:pointer;
+    position:absolute;
+    right:1rem;
+    top:1rem;
+    @media(max-width:1150px) {
+      svg {
+        width:36px;
+      }
+    }
+  }
+  h2 {
+    @include typography.type(h2);
+    color:var(--colorDarkBlue);
+    margin-top:1rem;
+    margin-bottom:1rem;
+    @media(max-width:1150px) {
+      @include typography.type(h3);
+    }
+  }
+  .paymentDialogTop {
+    width:950px;
+    max-width:100%;
+    &>svg {
+      @media(max-width:1150px) {
+        display:none;
+      }
+    }
+    .info {
+      display:flex;
+      gap:0.5rem;
+      color:var(--colorDarkBlue);
+      svg {
+        flex-shrink:0;
+      }
+    }
+  }
+  #paymentInfo {
+    width:950px;
+    max-width:100%;
+    margin-top:3rem;
+    padding:2rem;
+    border-radius:10px;
+    #paymentInfoLogo {
+      margin-bottom:4rem;
+    }
+    #paymentInfoData {
+      display:grid;
+      grid-template-columns:1fr 1fr 1fr;
+      gap:2rem;
+      @media(max-width:1150px) {
+        grid-template-columns:1fr;
+      }
+      .column {
+        display:flex;
+        flex-direction:column;
+        gap:1.5rem;
+        .inputContainer {
+          display:flex;
+          flex-direction:column;
+          gap:1rem;
+          .inputWrapper {
+            position:relative;
+            input {
+              padding:0.5rem 3rem 0.5rem 1rem;
+              background:white;
+              border-radius:10px;
+              outline:none;
+              border:none;
+              @include typography.type(h4);
+              color:var(--colorDarkBlue);
+              @media(max-width:1150px) {
+                width:100%;
+              }
+            }
+            .copyInput {
+              position:absolute;
+              top:0;
+              bottom:0;
+              right:1rem;
+              margin-top:auto;
+              margin-bottom:auto;
+              cursor:pointer;
+              display:flex;
+              align-items:center;
+              transition: transform 120ms ease;
+              &.active {
+                animation: pop 220ms ease;
+              }
+            }
+          }
+        }
+      }
+    }
+    .paymentContact {
+      margin-top:2rem;
+      display:flex;
+      align-items:center;
+      @include typography.type(caption);
+      svg {
+        margin-right:0.5rem;
+      }
+      a {
+        text-decoration:underline;
+        margin-left:0.3rem;
+      }
+    }
+  }
+  #confirmPayment {
+    margin-top:2rem;
+  }
+  .print {
+    display:flex;
+    align-items:center;
+    gap:0.5rem;
+    @include typography.type(caption);
+  }
+}
+
+#overlay {
+  display:none;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  z-index:99;
+  background:rgba(0, 0, 0, 0.5);
+  &.active {
+    display:block;
+  }
+}
+
+@keyframes pop {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(0.85); }
+  100% { transform: scale(1); }
+}
+
+#loadMoreContainer {
+  background:var(--colorDarkBlue);
+  padding-bottom:3rem;
+  @media(max-width:1150px) {
+    display:none;
+  }
+  #loadMore {
+    margin:0 auto;
+    display: block;
+    padding:0.5rem 1rem;
+  }
 }
