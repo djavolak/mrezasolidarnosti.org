@@ -42,12 +42,14 @@ $statusSelect = (new Select('status', $statusCollection, 'Status'))
 
 $isLoginProtectedCheckbox = (new \Skeletor\Form\InputTypes\Input\Checkbox('isLoginProtected', $data['model']?->isLoginProtected ?? 0, 'Login Protected'));
 
+$languageInput = new \Skeletor\Form\InputTypes\Input\Hidden('languageCode', $data['model']?->languageCode ?? 'sr');
 
 $groupOne = (new InputGroup(width: InputGroupWidth::FULL_WIDTH))
     ->addInput($title)
     ->addInput($slug)
     ->addInput($statusSelect)
     ->addInput($isLoginProtectedCheckbox)
+    ->addInput($languageInput)
     ->addInput($featuredImage);
 
 if ($data['model']?->blockData) {

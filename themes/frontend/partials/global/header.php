@@ -52,35 +52,52 @@
             </ul>
         </nav>
         <div id="headerContent">
-            <div class="languageSwitcher">
+            <div id="closeNavigation">
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1.41421 19.799C0.633165 19.0179 0.633165 17.7516 1.41421 16.9706L16.9706 1.4142C17.7516 0.633154 19.0179 0.633155 19.799 1.4142C20.58 2.19525 20.58 3.46158 19.799 4.24263L4.24264 19.799C3.46159 20.58 2.19526 20.58 1.41421 19.799Z"
+                          fill="#FE5101"/>
+                    <path d="M19.799 19.9706C19.0179 20.7516 17.7516 20.7516 16.9706 19.9706L1.4142 4.4142C0.633154 3.63315 0.633155 2.36682 1.4142 1.58578C2.19525 0.804728 3.46158 0.804728 4.24263 1.58578L19.799 17.1421C20.58 17.9232 20.58 19.1895 19.799 19.9706Z"
+                          fill="#FE5101"/>
+                </svg>
+            </div>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="<?=$this->localizeUrl('/doniraj')?>" title="<?=$this->t('Doniraj')?>" class="<?=$slug === 'doniraj' ? 'active' : ''?>">
+                            <span><?=$this->t('Doniraj')?></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?=$this->localizeUrl('/instrukcije-za-uplatu')?>" title="<?=$this->t('Instrukcije za uplatu')?>" class="<?=$slug === 'instrukcije-za-uplatu' ? 'active' : ''?>">
+                            <span><?=$this->t('Instrukcije za uplatu')?></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?=$this->localizeUrl('/korisnicki-podaci')?>" title="<?=$this->t('Korisnički podaci')?>" class="<?=$slug === 'korisnicki-podaci' ? 'active' : ''?>">
+                            <span><?=$this->t('Korisnički podaci')?></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/donor/logout" title="<?=$this->t('Odjavi se')?>">
+                            <span><?=$this->t('Odjavi se')?></span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div id="headerActions">
+                <div class="languageSwitcher">
                     <span class="currentLanguage">
                         <?=$localeLabels[$currentLoc] ?? strtoupper($currentLoc)?>
                     </span>
-                <ul class="languageOptions">
-                    <?php foreach ($alternates as $loc => $locUrl): ?>
-                        <li><a class="<?=$loc === $currentLoc ? 'active' : ''?>" href="<?=htmlentities($locUrl)?>" title="<?=htmlentities($localeTitles[$loc] ?? $loc)?>"><?=$localeLabels[$loc] ?? strtoupper($loc)?></a></li>
-                    <?php endforeach; ?>
-                </ul>
+                    <ul class="languageOptions">
+                        <?php foreach ($alternates as $loc => $locUrl): ?>
+                            <li><a class="<?=$loc === $currentLoc ? 'active' : ''?>" href="<?=htmlentities($locUrl)?>" title="<?=htmlentities($localeTitles[$loc] ?? $loc)?>"><?=$localeLabels[$loc] ?? strtoupper($loc)?></a></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
             </div>
         </div>
-        <a id="privacyNav" href="" title="<?=$this->t('Politika privatnosti')?>"><?=$this->t('Politika privatnosti')?></a>
         <div id="headerMobileActions">
-            <a href="" id="donateMobile" class="btnIcon">
-                <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M11.2479 1.62712C10.9699 1.34905 10.6399 1.12846 10.2767 0.977961C9.9135 0.827462 9.52419 0.75 9.13103 0.75C8.73787 0.75 8.34856 0.827462 7.98535 0.977961C7.62213 1.12846 7.29212 1.34905 7.01418 1.62712L6.43735 2.20395L5.86053 1.62712C5.2991 1.0657 4.53765 0.750291 3.74368 0.750291C2.9497 0.750291 2.18825 1.0657 1.62683 1.62712C1.0654 2.18854 0.75 2.95 0.75 3.74397C0.75 4.53794 1.0654 5.29939 1.62683 5.86082L6.43735 10.6713L11.2479 5.86082C11.526 5.58288 11.7465 5.25287 11.897 4.88965C12.0475 4.52644 12.125 4.13713 12.125 3.74397C12.125 3.35081 12.0475 2.9615 11.897 2.59828C11.7465 2.23507 11.526 1.90506 11.2479 1.62712Z"
-                          stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </a>
-            <a href="" id="loginMobile" class="btnIcon">
-                <svg width="17" height="13" viewBox="0 0 17 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M11.2479 1.62712C10.9699 1.34905 10.6399 1.12846 10.2767 0.977961C9.9135 0.827462 9.52419 0.75 9.13103 0.75C8.73787 0.75 8.34856 0.827462 7.98535 0.977961C7.62213 1.12846 7.29212 1.34905 7.01418 1.62712L6.43735 2.20395L5.86053 1.62712C5.2991 1.0657 4.53765 0.750291 3.74368 0.750291C2.9497 0.750291 2.18825 1.0657 1.62683 1.62712C1.0654 2.18854 0.75 2.95 0.75 3.74397C0.75 4.53794 1.0654 5.29939 1.62683 5.86082L6.43735 10.6713L11.2479 5.86082C11.526 5.58288 11.7465 5.25287 11.897 4.88965C12.0475 4.52644 12.125 4.13713 12.125 3.74397C12.125 3.35081 12.0475 2.9615 11.897 2.59828C11.7465 2.23507 11.526 1.90506 11.2479 1.62712Z"
-                          stroke="#262185" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M15.629 12.2367L15.6948 7.907C15.7038 7.45299 15.5372 7.01302 15.2297 6.6788C14.9222 6.34458 14.4975 6.1419 14.0442 6.11302L12.0617 6.08288L12.1127 2.72887C12.1164 2.48627 12.0235 2.25213 11.8545 2.07798C11.6856 1.90383 11.4543 1.80392 11.2116 1.80023C10.969 1.79654 10.7348 1.88937 10.5606 2.05831C10.3864 2.22725 10.2864 2.45845 10.2827 2.70105L10.2039 7.88452L9.50978 6.98952C9.36421 6.79613 9.14957 6.66638 8.91064 6.62733C8.6717 6.58829 8.42692 6.64296 8.22733 6.77995C8.02773 6.91694 7.88875 7.12568 7.83935 7.36262C7.78995 7.59957 7.83396 7.84643 7.9622 8.05173L10.444 12.1579"
-                          fill="#F3F4F6"/>
-                    <path d="M15.629 12.2367L15.6948 7.907C15.7038 7.45299 15.5372 7.01302 15.2297 6.6788C14.9222 6.34458 14.4975 6.1419 14.0442 6.11302L12.0617 6.08288L12.1127 2.72887C12.1164 2.48627 12.0235 2.25213 11.8545 2.07798C11.6856 1.90383 11.4543 1.80392 11.2116 1.80023C10.969 1.79654 10.7348 1.88937 10.5606 2.05831C10.3864 2.22725 10.2864 2.45845 10.2827 2.70105L10.2039 7.88452L9.50978 6.98952C9.36421 6.79613 9.14957 6.66638 8.91064 6.62733C8.6717 6.58829 8.42692 6.64296 8.22733 6.77995C8.02773 6.91694 7.88875 7.12568 7.83935 7.36262C7.78995 7.59957 7.83396 7.84643 7.9622 8.05173L10.444 12.1579"
-                          stroke="#262185" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </a>
             <div id="hamburger">
                 <svg width="26" height="20" viewBox="0 0 26 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M0 2C0 0.895431 0.895431 0 2 0H24C25.1046 0 26 0.895431 26 2C26 3.10457 25.1046 4 24 4H2C0.89543 4 0 3.10457 0 2Z"
@@ -149,13 +166,13 @@
             </div>
         </div>
         <div id="headerMobileActions">
-            <a href="" id="donateMobile" class="btnIcon">
+            <a href="<?=$this->localizeUrl($donateUrl)?>" id="donateMobile" class="btnIcon">
                 <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M11.2479 1.62712C10.9699 1.34905 10.6399 1.12846 10.2767 0.977961C9.9135 0.827462 9.52419 0.75 9.13103 0.75C8.73787 0.75 8.34856 0.827462 7.98535 0.977961C7.62213 1.12846 7.29212 1.34905 7.01418 1.62712L6.43735 2.20395L5.86053 1.62712C5.2991 1.0657 4.53765 0.750291 3.74368 0.750291C2.9497 0.750291 2.18825 1.0657 1.62683 1.62712C1.0654 2.18854 0.75 2.95 0.75 3.74397C0.75 4.53794 1.0654 5.29939 1.62683 5.86082L6.43735 10.6713L11.2479 5.86082C11.526 5.58288 11.7465 5.25287 11.897 4.88965C12.0475 4.52644 12.125 4.13713 12.125 3.74397C12.125 3.35081 12.0475 2.9615 11.897 2.59828C11.7465 2.23507 11.526 1.90506 11.2479 1.62712Z"
                           stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             </a>
-            <a href="" id="loginMobile" class="btnIcon">
+            <a href="<?=$this->localizeUrl('/logovanje')?>" title="<?=$this->t('Uloguj se')?>" id="loginMobile" class="btnIcon">
                 <svg width="17" height="13" viewBox="0 0 17 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M11.2479 1.62712C10.9699 1.34905 10.6399 1.12846 10.2767 0.977961C9.9135 0.827462 9.52419 0.75 9.13103 0.75C8.73787 0.75 8.34856 0.827462 7.98535 0.977961C7.62213 1.12846 7.29212 1.34905 7.01418 1.62712L6.43735 2.20395L5.86053 1.62712C5.2991 1.0657 4.53765 0.750291 3.74368 0.750291C2.9497 0.750291 2.18825 1.0657 1.62683 1.62712C1.0654 2.18854 0.75 2.95 0.75 3.74397C0.75 4.53794 1.0654 5.29939 1.62683 5.86082L6.43735 10.6713L11.2479 5.86082C11.526 5.58288 11.7465 5.25287 11.897 4.88965C12.0475 4.52644 12.125 4.13713 12.125 3.74397C12.125 3.35081 12.0475 2.9615 11.897 2.59828C11.7465 2.23507 11.526 1.90506 11.2479 1.62712Z"
                           stroke="#262185" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>

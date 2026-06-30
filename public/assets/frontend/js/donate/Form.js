@@ -14,6 +14,8 @@ export default class Form {
     #paymentTemplate;
     #formFieldsContainer;
     #projectInput;
+    #messagesContainer;
+    #changeDonationButton;
     constructor({form, eventEmitter}) {
         this.#form = form;
         this.eventEmitter = eventEmitter;
@@ -41,6 +43,9 @@ export default class Form {
         this.#paymentTemplate = document.getElementById('paymentTemplate');
         this.#formFieldsContainer = document.getElementById('donationFormFields');
         this.#projectInput = document.getElementById('projectInput');
+        this.#messagesContainer = document.querySelector('.messagesContainer');
+        this.#changeDonationButton = document.getElementById('changeDonation');
+
     }
 
     #listenToEvents() {
@@ -56,11 +61,49 @@ export default class Form {
             this.#titleElement.textContent = project.thankYouTitle;
             this.#projectInput.value = project.projectId;
         });
+        this.eventEmitter.on('prefillForm', (data) => {
+            this.#prefill(data);
+        });
+    }
+
+    // Pre-fills the form with the donor's existing donation data: frequency and,
+    // for each saved payment method, its amount (currency is derived from the method).
+    #prefill(data) {
+        if (data.frequency !== null && data.frequency !== undefined) {
+            const frequencyTrigger = Array.from(this.#frequencyTriggers)
+                .find((trigger) => trigger.getAttribute('data-value') === String(data.frequency));
+            if (frequencyTrigger) {
+                this.#frequencyActiveTrigger?.classList.remove('active');
+                frequencyTrigger.classList.add('active');
+                this.#frequencyActiveTrigger = frequencyTrigger;
+                this.#frequencyInput.value = frequencyTrigger.getAttribute('data-value');
+            }
+        }
+
+        // Clear any previously built payment fields / active triggers first.
+        this.#paymentMethodsTriggers.forEach((trigger) => trigger.classList.remove('active'));
+        this.#formFieldsContainer.querySelectorAll('.formFields[data-method]').forEach((fields) => fields.remove());
+
+        (data.paymentMethods ?? []).forEach((paymentMethod) => {
+            const trigger = Array.from(this.#paymentMethodsTriggers)
+                .find((trigger) => trigger.getAttribute('data-method') === String(paymentMethod.type));
+            if (!trigger) {
+                return;
+            }
+            // Reuse the trigger's own handler to build the amount/currency fields.
+            trigger.click();
+            const fields = this.#formFieldsContainer.querySelector(`.formFields[data-method="${paymentMethod.type}"]`);
+            const amountInput = fields?.querySelector('input[type="number"]');
+            if (amountInput) {
+                amountInput.value = paymentMethod.amount;
+            }
+        });
     }
 
 
     #addListeners() {
         this.#backToProfileButton.addEventListener('click', this.#close);
+        this.#changeDonationButton.addEventListener('click', this.#close);
         this.#closeFormButton.addEventListener('click', this.#close);
         this.#frequencyTriggers.forEach((trigger) => {
             trigger.addEventListener('click', () => {
@@ -83,28 +126,114 @@ export default class Form {
                     template.querySelector('h3').textContent = 'IZNOS ' + trigger.parentElement.querySelector(':scope >span').textContent;
                     template.querySelector('.formFields').setAttribute('data-method', method);
                     template.querySelector('input[type="number"]').name = `payment[${method}][value]`;
-                    template.querySelectorAll('input[type="radio"]').forEach((radio) => {
-                       radio.name = `payment[${method}][currency]`;
-                    });
-                    template.querySelectorAll('.currency').forEach((currencyButton) => {
-                        currencyButton.addEventListener('click', () => {
-                           const currency = currencyButton.getAttribute('data-currency');
-                           const inputs = currencyButton.parentElement.querySelectorAll('input');
-                           inputs.forEach((input) => {
-                              input.checked = currency === input.getAttribute('data-currency');
-                           });
-                           currencyButton.parentElement.querySelector('.currency.active').classList.remove('active');
-                           currencyButton.classList.add('active');
-                        });
-                    });
+                    // template.querySelectorAll('input[type="radio"]').forEach((radio) => {
+                    //    radio.name = `payment[${method}][currency]`;
+                    // });
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = `payment[${method}][currency]`;
+                    const button = document.createElement('span');
+                    button.classList.add('currency', 'active');
+                    const amountInput = template.querySelector('.amountInput');
+                    switch(method) {
+                        case '1':
+                            input.value = '1';
+                            button.setAttribute('data-currency', 'RSD');
+                            button.textContent = 'RSD';
+                            amountInput.placeholder = 'min 500 RSD';
+                            break;
+                        case '2':
+                        case '3':
+                        case '4':
+                            input.value = '2';
+                            button.setAttribute('data-currency', 'EUR');
+                            button.textContent = 'EUR';
+                            amountInput.placeholder = 'min 10 EUR';
+                            break;
+                    }
+                    const currenciesElement = template.querySelector('.currencies');
+                    currenciesElement.appendChild(input);
+                    currenciesElement.appendChild(button);
+                    // template.querySelectorAll('.currency').forEach((currencyButton) => {
+                    //     currencyButton.addEventListener('click', () => {
+                    //        const currency = currencyButton.getAttribute('data-currency');
+                    //        const inputs = currencyButton.parentElement.querySelectorAll('input');
+                    //        inputs.forEach((input) => {
+                    //           input.checked = currency === input.getAttribute('data-currency');
+                    //        });
+                    //        currencyButton.parentElement.querySelector('.currency.active').classList.remove('active');
+                    //        currencyButton.classList.add('active');
+                    //     });
+                    // });
                     this.#formFieldsContainer.appendChild(template);
                 }
            });
         });
+
+        this.#form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            this.#messagesContainer.innerHTML = '';
+            const res = await fetch(this.#form.action, {
+                method: 'POST',
+                body: new FormData(this.#form)
+            });
+            const resData = await res.json();
+            if(!resData.success) {
+                if(resData.data.errors.length) {
+                    resData.data.errors.forEach((error) => {
+                        if (Array.isArray(error)) {
+                            error.forEach((errorEntry) => {
+                                this.#messagesContainer.appendChild(this.#getMessageElement(errorEntry, 'error'));
+                            });
+                            this.#scrollToMessagesContainer();
+                        } else {
+                            this.#messagesContainer.appendChild(this.#getMessageElement(error, 'error'));
+                            this.#scrollToMessagesContainer();
+                        }
+                    });
+                }
+            } else {
+                this.#messagesContainer.appendChild(this.#getMessageElement('Uspešno ste sačuvali izmene.', 'success'));
+                //@TODO TRANSLATION AND LOCALE
+                this.#messagesContainer.appendChild(this.#getMessageElement(
+                    '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">\n' +
+                    '                            <path d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2ZM12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4ZM12 11C12.5523 11 13 11.4477 13 12V15H13.5C14.0523 15 14.5 15.4477 14.5 16C14.5 16.5523 14.0523 17 13.5 17H10.5C9.94772 17 9.5 16.5523 9.5 16C9.5 15.4477 9.94772 15 10.5 15H11V13H10.5C9.94772 13 9.5 12.5523 9.5 12C9.5 11.4477 9.94772 11 10.5 11H12ZM11.75 7C12.4404 7 13 7.55964 13 8.25C13 8.94036 12.4404 9.5 11.75 9.5C11.0596 9.5 10.5 8.94036 10.5 8.25C10.5 7.55964 11.0596 7 11.75 7Z" fill="#FE5101"></path>\n' +
+                    '                        </svg><a href="/kako-fukncionise-mreza?step=4" title="Pogledajte sledeće korake">Pogledajte sledeće korake</a>',
+                    'info', true));
+                this.#scrollToMessagesContainer();
+            }
+            if(resData.data.token) {
+                this.#replaceCsrf(resData.data.token);
+            }
+        });
     }
 
+    #scrollToMessagesContainer() {
+        const top = this.#messagesContainer.getBoundingClientRect().top + window.scrollY - 100;
 
-    #close = () => {
+        window.scrollTo({
+            top,
+            behavior: 'smooth'
+        });
+    }
+
+    #getMessageElement(message, type, asHTML = false) {
+        const messageElement = document.createElement('span');
+        if(!asHTML) {
+            messageElement.textContent = message;
+        } else {
+            messageElement.innerHTML = message;
+        }
+        messageElement.classList.add(type);
+        return messageElement;
+    }
+
+    #replaceCsrf(val) {
+        this.#form.querySelector('input[name^="_csrf"]').value = val;
+    }
+
+    #close = (e) => {
+        e.preventDefault();
         this.#form.className = '';
         this.#form.classList.remove('active');
         this.eventEmitter.emit('formClosed');

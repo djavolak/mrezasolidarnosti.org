@@ -26,6 +26,15 @@ export default class LineGrid {
         this.progressLineMobile = this.mobileContainer.querySelector('.mainLine');
         this.#addListeners();
         this.#initComplete = true;
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const id = `numbered${urlParams.get('step')}`;
+        const element = document.getElementById(id);
+        if(element) {
+            const yOffset = -150;
+            const yPosition = element.getBoundingClientRect().top + window.scrollY + yOffset;
+            window.scrollTo({ top: yPosition, behavior: "smooth" });
+        }
     }
 
 

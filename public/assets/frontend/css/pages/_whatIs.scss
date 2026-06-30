@@ -1,4 +1,67 @@
 @use '../setup/typography';
+.instructionsWhatIs {
+  display:flex;
+  padding:5rem 11rem 2rem 11rem;
+  position:relative;
+  gap:8rem;
+  align-items:center;
+  @media(max-width:1200px) {
+    flex-direction:column;
+    padding: 3rem 1.25rem;
+    gap:2rem;
+  }
+  h1 {
+    @include typography.type(h2);
+    color:var(--colorDarkBlue);
+  }
+  .left {
+    width:682px;
+    max-width:100%;
+    &>p {
+      @include typography.type(text);
+      color:var(--colorDarkBlue);
+      margin-top:1rem;
+      margin-bottom:1rem;
+    }
+    .instructionsLink {
+      display:flex;
+      align-items:center;
+      gap:0.5rem;
+      @include typography.type(text);
+      color:var(--colorDarkBlue);
+      a {
+        text-decoration:underline;
+      }
+    }
+  }
+  .right {
+    margin-left:auto;
+    @media(max-width:1200px) {
+      margin-right:auto;
+    }
+  }
+}
+.infoWhatIs {
+  padding-top:0;
+}
+.infoSection {
+  padding:1rem;
+  background:white;
+  border-radius:10px;
+  display:flex;
+  gap:1rem;
+  svg {
+    flex-shrink:0;
+  }
+  h2 {
+    @include typography.type(h4);
+    color:var(--colorDarkBlue);
+  }
+  p {
+    @include typography.type(text);
+    color:var(--colorDarkBlue);
+  }
+}
 .whatIsContent {
   display:flex;
   flex-direction:column;

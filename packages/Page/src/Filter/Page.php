@@ -4,11 +4,23 @@ namespace Solidarity\Page\Filter;
 
 use Laminas\Filter\ToInt;
 use Skeletor\Blog\Service\UrlHelper;
+use Skeletor\ContentEditor\Contracts\ContentEditorParserInterface;
+use Skeletor\Core\Filter\FilterInterface;
 use Skeletor\Core\Validator\ValidatorException;
 use Volnix\CSRF\CSRF;
 
-class Page extends \Skeletor\Page\Filter\Page
+class Page implements FilterInterface
 {
+
+    public function __construct(protected \Solidarity\Page\Validator\Page $validator, protected ContentEditorParserInterface $parser)
+    {
+    }
+
+    public function getErrors()
+    {
+        return $this->validator->getMessages();
+    }
+
     public function filter(array $postData) : array
     {
         $blockData = [];
@@ -29,7 +41,8 @@ class Page extends \Skeletor\Page\Filter\Page
             'seoTitle' => $postData['seoTitle'] ?? null,
             'seoDescription' => $postData['seoDescription'] ?? null,
             'seoImageId' => $postData['seoImageId'] ?? '',
-            'isLoginProtected' => $postData['isLoginProtected'] === 'on' ? true : false,
+            'isLoginProtected' => isset($postData['isLoginProtected']) && $postData['isLoginProtected'] === 'on',
+            'languageCode' => $postData['languageCode'] ?? 'sr',
             CSRF::TOKEN_NAME => $postData[CSRF::TOKEN_NAME],
         ];
         if (!$this->validator->isValid($data)) {
