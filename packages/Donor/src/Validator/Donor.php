@@ -47,19 +47,21 @@ class Donor implements ValidatorInterface
             $valid = false;
         }
 
-        if(trim($data['firstName']) === '') {
+        $firstName = trim($data['firstName'] ?? '');
+        if ($firstName === '') {
             $this->messages['firstName'][] = 'First name is required';
         }
 
-        if(strlen(trim($data['firstName'])) < 2) {
+        if (strlen($firstName) < 2) {
             $this->messages['firstName'][] = 'First name must be at least 2 characters long';
         }
 
-        if(trim($data['lastName']) === '') {
+        $lastName = trim($data['lastName'] ?? '');
+        if ($lastName === '') {
             $this->messages['lastName'][] = 'Last name is required';
         }
 
-        if(strlen(trim($data['lastName'])) < 2) {
+        if (strlen($lastName) < 2) {
             $this->messages['lastName'][] = 'Last name must be at least 2 characters long';
         }
 
