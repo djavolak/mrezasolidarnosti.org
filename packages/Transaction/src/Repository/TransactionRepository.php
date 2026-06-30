@@ -99,6 +99,41 @@ class TransactionRepository extends TableViewRepository
         return (int) $qb->getQuery()->getSingleScalarResult();
     }
 
+    /**
+     * Payment instructions (transactions) for a donor, newest first, paginated.
+     * The beneficiary is eager-joined so the caller can read its name without extra
+     * queries. The project is intentionally NOT fetch-joined: Transaction.project
+     * declares inversedBy 'transactions' but Project has no such inverse collection,
+     * so selecting it would crash the hydrator. It lazy-loads fine for getReferenceCode().
+     *
+     * @return Transaction[]
+     */
+    public function getInstructionsForDonor(Donor $donor, int $offset, int $limit): array
+    {
+        $qb = $this->entityManager->createQueryBuilder();
+        $qb->select('t', 'b')
+            ->from(static::ENTITY, 't')
+            ->leftJoin('t.beneficiary', 'b')
+            ->where('t.donor = :donor')
+            ->setParameter('donor', $donor->getId())
+            ->orderBy('t.createdAt', 'DESC')
+            ->setFirstResult($offset)
+            ->setMaxResults($limit);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function getInstructionsCountForDonor(Donor $donor): int
+    {
+        $qb = $this->entityManager->createQueryBuilder();
+        $qb->select('COUNT(t.id)')
+            ->from(static::ENTITY, 't')
+            ->where('t.donor = :donor')
+            ->setParameter('donor', $donor->getId());
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
     public function getSumAmountForBeneficiary(Beneficiary $beneficiary, ?Project $project = null, ?Period $period = null): int
     {
         $qb = $this->entityManager->createQueryBuilder();

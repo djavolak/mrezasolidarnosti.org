@@ -83,7 +83,7 @@ class BaseAction extends Html
         }
     }
 
-    protected function returnWithData(bool $success = true, array $data = [],   int $statusCode = 200): \Psr\Http\Message\MessageInterface
+    protected function returnWithData(bool $success = true, array $data = [], int $statusCode = 200): \Psr\Http\Message\MessageInterface
     {
         $returnData['success'] = $success;
         $returnData['data'] = $data;

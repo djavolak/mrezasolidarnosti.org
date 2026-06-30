@@ -21,6 +21,7 @@ use Solidarity\Backend\Blocks\Donate\Donate;
 use Solidarity\Backend\Blocks\Faq\Faq;
 use Solidarity\Backend\Blocks\Herotext\Herotext;
 use Solidarity\Backend\Blocks\Instructionsintro\Instructionsintro;
+use Solidarity\Backend\Blocks\Instructionstable\Instructionstable;
 use Solidarity\Backend\Blocks\Projectsdisplay\Projectsdisplay;
 use Solidarity\Backend\Blocks\Sidebyside\Sidebyside;
 use Solidarity\Backend\Blocks\Threepillars\Threepillars;
@@ -123,6 +124,7 @@ $container->set(\Skeletor\ContentEditor\Contracts\BlockParserFactoryInterface::c
     $blockParserFactory->registerBlockParser(Profiledata::NAME, new Profiledata());
     $blockParserFactory->registerBlockParser(Donate::NAME, new Donate());
     $blockParserFactory->registerBlockParser(Instructionsintro::NAME, new Instructionsintro());
+    $blockParserFactory->registerBlockParser(Instructionstable::NAME, new Instructionstable());
 
     return $blockParserFactory;
 });

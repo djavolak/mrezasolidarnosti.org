@@ -15,7 +15,7 @@
         </div>
         <div class="right">
             <?php if(!empty($block['buttonText'])): ?>
-                <a class="donateButton" title="<?=htmlentities($block['buttonText'])?>">
+                <a class="donateButton" title="<?=htmlentities($block['buttonText'])?>" href="<?=$this->localizeUrl('/doniraj?action=instruction')?>">
                     <?=$block['buttonSvg'] ?? ''?>
                     <?=htmlentities($block['buttonText'])?>
                 </a>

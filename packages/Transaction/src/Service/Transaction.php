@@ -57,6 +57,19 @@ class Transaction extends TableView
         return $this->repo->getTransactionCountForDonor($donor);
     }
 
+    /**
+     * @return TransactionEntity[]
+     */
+    public function getInstructionsForDonor(Donor $donor, int $offset, int $limit): array
+    {
+        return $this->repo->getInstructionsForDonor($donor, $offset, $limit);
+    }
+
+    public function getInstructionsCountForDonor(Donor $donor): int
+    {
+        return $this->repo->getInstructionsCountForDonor($donor);
+    }
+
     private const LOCKED_STATUSES = [
         TransactionEntity::STATUS_CONFIRMED,
         TransactionEntity::STATUS_CANCELLED,

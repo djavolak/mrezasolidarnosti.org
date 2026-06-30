@@ -28,6 +28,9 @@ return [
     [['GET'], '/donor/logout', \Solidarity\Frontend\Action\Donor\Logout::class],
     [['POST'], '/donor/updateProfileData', \Solidarity\Frontend\Action\Donor\UpdateProfileData::class],
     [['POST'], '/donor/updateDonationData', \Solidarity\Frontend\Action\Donor\UpdateDonationData::class],
+    [['POST'], '/donor/getInstructions', \Solidarity\Frontend\Action\Donor\GetInstructions::class],
+    [['POST'], '/donor/createInstruction', \Solidarity\Frontend\Action\Donor\CreateInstruction::class],
+    [['POST'], '/donor/confirmPayment', \Solidarity\Frontend\Action\Donor\ConfirmPayment::class],
 
     [['GET'], '/{slug}', PageAction::class],
 
