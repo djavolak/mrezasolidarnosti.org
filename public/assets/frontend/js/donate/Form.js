@@ -196,6 +196,9 @@ export default class Form {
                     });
                 }
             } else {
+                if(resData?.data?.redirect) {
+                    window.location.href = resData.data.redirect;
+                }
                 this.#messagesContainer.appendChild(this.#getMessageElement('Uspešno ste sačuvali izmene.', 'success'));
                 //@TODO TRANSLATION AND LOCALE
                 this.#messagesContainer.appendChild(this.#getMessageElement(

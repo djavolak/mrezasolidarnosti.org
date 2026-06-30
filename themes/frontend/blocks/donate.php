@@ -1,5 +1,5 @@
 <?php if(isset($block)): ?>
-    <?php $isForInstruction = $_GET['action'] === 'instruction';?>
+    <?php $isForInstruction = isset($_GET['action']) && $_GET['action'] === 'instruction';?>
     <div id="profileContent">
         <div id="profileHeroText">
             <?php

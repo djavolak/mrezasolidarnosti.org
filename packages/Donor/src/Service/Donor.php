@@ -196,4 +196,13 @@ class Donor extends TableView
         $this->repo->updateDonationData($filteredData);
     }
 
+    public function createTransaction(array $data): void
+    {
+        $filteredData = $this->donorDonationDataFilter->filter($data);
+        if (!$this->donorDonationDataValidator->isValid($filteredData)) {
+            throw new ValidatorException();
+        }
+        //@TODO create transaction for donor
+    }
+
 }
