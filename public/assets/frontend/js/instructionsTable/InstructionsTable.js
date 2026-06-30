@@ -63,6 +63,7 @@ export default class InstructionsTable {
 
         this.closePaymentDialog.addEventListener('click', () => {
            this.paymentDialog.close();
+            this.paymentDialog.classList.remove('active');
            this.overlay.classList.remove('active');
             document.body.classList.remove('freeze');
         });
@@ -190,6 +191,7 @@ export default class InstructionsTable {
                     </svg> UPLATI`; //@TODO translate
         button.addEventListener('click', () => {
             this.paymentDialog.showModal();
+            this.paymentDialog.classList.add('active');
             this.overlay.classList.add('active');
             document.body.classList.add('freeze');
             const instruction = this.#data[parseInt(button.getAttribute('data-index'), 10)];
