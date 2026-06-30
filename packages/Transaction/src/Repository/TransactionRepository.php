@@ -160,20 +160,26 @@ class TransactionRepository extends TableViewRepository
     }
 
     /**
-     * Returns remaining amount under the per-person limit (across all projects).
-     * Returns 0 if limit is already reached.
+     * Returns the remaining amount under the per-person limit for the current
+     * calendar year (across all projects). The cap (Transaction::PER_PERSON_LIMIT)
+     * is a yearly limit, so only transactions created from January 1st of the
+     * current year onward are counted. Returns 0 if the limit is already reached.
      */
     public function getRemainingPerPersonLimit(Donor $donor, Beneficiary $beneficiary): int
     {
+        $yearStart = (new \DateTimeImmutable('first day of January this year'))->setTime(0, 0, 0);
+
         $qb = $this->entityManager->createQueryBuilder();
         $qb->select('SUM(t.amount)')
             ->from(static::ENTITY, 't')
             ->where('t.donor = :donor')
             ->andWhere('t.beneficiary = :beneficiary')
             ->andWhere('t.status IN (:statuses)')
+            ->andWhere('t.createdAt >= :yearStart')
             ->setParameter('donor', $donor->getId())
             ->setParameter('beneficiary', $beneficiary->getId())
-            ->setParameter('statuses', $this->getAllocatedStatuses());
+            ->setParameter('statuses', $this->getAllocatedStatuses())
+            ->setParameter('yearStart', $yearStart);
 
         $donated = (int) $qb->getQuery()->getSingleScalarResult();
         return max(0, Transaction::PER_PERSON_LIMIT - $donated);

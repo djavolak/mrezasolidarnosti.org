@@ -10,6 +10,7 @@ use Solidarity\Transaction\Service\Project as ProjectService;
 use Solidarity\Transaction\Entity\Project;
 use Solidarity\Transaction\Entity\Transaction as TransactionEntity;
 use Solidarity\Transaction\Repository\TransactionRepository;
+use Solidarity\Beneficiary\Repository\BeneficiaryRepository;
 use Skeletor\Core\TableView\Service\TableView;
 use Psr\Log\LoggerInterface as Logger;
 use Skeletor\User\Service\Session;
@@ -17,6 +18,9 @@ use Solidarity\Transaction\Filter\Transaction as TransactionFilter;
 
 class Transaction extends TableView
 {
+    /** Below this RSD amount we stop allocating (too small to be worth an instruction). */
+    const MIN_TRANSACTION_DONATION_AMOUNT = 500;
+
     /**
      * @param TransactionRepository $repo
      * @param Session $user
@@ -24,6 +28,7 @@ class Transaction extends TableView
      */
     public function __construct(
         TransactionRepository $repo, Session $user, Logger $logger, TransactionFilter $filter, private ProjectService $project,
+        private BeneficiaryRepository $beneficiaryRepo,
     ) {
         parent::__construct($repo, $user, $logger, $filter);
     }
@@ -95,6 +100,302 @@ class Transaction extends TableView
         return $this->repo->getRemainingPerPersonLimit($donor, $beneficiary);
     }
 
+    /**
+     * Allocate $amount (RSD) from $donor to the beneficiaries of a single $period in one
+     * $project, paying through $paymentType, until the leftover drops below the minimum.
+     * Beneficiaries are served in lowest-share-of-target order. For pledges over 100k the
+     * minimum slice rises to 10,000 RSD so large donors don't generate a flood of tiny
+     * instructions. Returns the total RSD allocated.
+     */
+    public function allocateAmount(Donor $donor, Project $project, int $amount, Period $period, int $paymentType): int
+    {
+        $minSlice = $amount > 100000 ? 10000 : self::MIN_TRANSACTION_DONATION_AMOUNT;
+        if ($amount < $minSlice) {
+            return 0;
+        }
+
+        $totalAllocated = 0;
+        foreach ($this->beneficiaryRepo->fetchByPeriod($period->id) as $beneficiary) {
+            $result = $this->allocateToBeneficiary(
+                $donor, $project, $period, $beneficiary, [$paymentType => $amount], $minSlice
+            );
+            if ($result['amount'] > 0) {
+                $amount -= $result['amount'];
+                $totalAllocated += $result['amount'];
+                if ($amount < $minSlice) {
+                    break;
+                }
+            }
+        }
+
+        return $totalAllocated;
+    }
+
+    /**
+     * Allocate up to $amount (RSD) from $donor across $projects, creating transactions
+     * to beneficiaries whose payment methods match one of the donor's $paymentMethods,
+     * until the leftover drops below the minimum.
+     *
+     * Distribution is kept balanced two ways:
+     *  - across projects: a round-robin gives one allocation to each project per pass,
+     *    so funds spread over all projects instead of draining the first one;
+     *  - across beneficiaries: within a project, candidates come back in the repository's
+     *    received-ascending order and the cursor advances each pass, so each pass hits a
+     *    different (and least-funded) beneficiary. The per-person yearly cap further
+     *    limits how much any single beneficiary takes from this donor.
+     *
+     * @param \Solidarity\Donor\Entity\PaymentMethod[] $paymentMethods donor payment methods (define the matchable type/currency)
+     * @param Project[] $projects
+     * @return int total RSD allocated
+     */
+    public function createForDonor(Donor $donor, array $paymentMethods, int $amount, array $projects): int
+    {
+        $types = array_values(array_unique(array_map(static fn($pm) => $pm->type, $paymentMethods)));
+        $minSlice = $amount > 100000 ? 10000 : self::MIN_TRANSACTION_DONATION_AMOUNT;
+        if (!$types || !$projects || $amount < $minSlice) {
+            return 0;
+        }
+
+        // One ordered candidate queue per project (eligible beneficiaries per processing period).
+        $queues = [];
+        foreach ($projects as $project) {
+            $candidates = [];
+            foreach ($project->periods as $period) {
+                if (!$period->processing) {
+                    continue;
+                }
+                foreach ($this->beneficiaryRepo->fetchByPeriod($period->id) as $beneficiary) {
+                    $candidates[] = ['period' => $period, 'beneficiary' => $beneficiary];
+                }
+            }
+            if ($candidates) {
+                $queues[] = ['project' => $project, 'candidates' => $candidates, 'cursor' => 0];
+            }
+        }
+
+        $leftover = $amount;
+        $totalAllocated = 0;
+
+        while ($leftover >= $minSlice && $queues) {
+            $allocatedThisPass = false;
+
+            foreach (array_keys($queues) as $qi) {
+                $slice = 0;
+                // Advance this project's cursor until we allocate or run out of candidates.
+                // Pooled allocation: every donor type can draw from the whole leftover.
+                while ($queues[$qi]['cursor'] < count($queues[$qi]['candidates'])) {
+                    $candidate = $queues[$qi]['candidates'][$queues[$qi]['cursor']];
+                    $queues[$qi]['cursor']++;
+                    $slice = $this->allocateToBeneficiary(
+                        $donor, $queues[$qi]['project'], $candidate['period'], $candidate['beneficiary'],
+                        array_fill_keys($types, $leftover), $minSlice
+                    )['amount'];
+                    if ($slice > 0) {
+                        break;
+                    }
+                }
+
+                if ($slice > 0) {
+                    $leftover -= $slice;
+                    $totalAllocated += $slice;
+                    $allocatedThisPass = true;
+                    if ($leftover < $minSlice) {
+                        break;
+                    }
+                }
+
+                if ($queues[$qi]['cursor'] >= count($queues[$qi]['candidates'])) {
+                    unset($queues[$qi]); // project exhausted
+                }
+            }
+
+            if (!$allocatedThisPass) {
+                break;
+            }
+        }
+
+        return $totalAllocated;
+    }
+
+    /**
+     * Allocate a donor's per-project pledges across all $projects in a balanced way: each
+     * project keeps its own pledged budget (PaymentMethod.amount minus what the donor already
+     * paid into that project), and a round-robin gives one beneficiary allocation to each
+     * project per pass, so projects progress together instead of one draining first. Money
+     * never moves between projects. Beneficiaries are served in lowest-share-of-target order,
+     * capped by the per-person yearly limit.
+     *
+     * @param Project[] $projects all projects to consider (those the donor has not pledged to are skipped)
+     * @return int total RSD allocated
+     */
+    public function createBalancedForDonor(Donor $donor, array $projects): int
+    {
+        // One track per project the donor pledged to: remaining budget per payment type
+        // plus an ordered beneficiary cursor over the project's processing periods.
+        $tracks = [];
+        foreach ($projects as $project) {
+            $budgets = [];
+            foreach ($donor->getPaymentMethodsForProject($project) as $pm) {
+                $pledgedRsd = $pm->type === PaymentMethod::TYPE_BANK_TRANSFER
+                    ? $pm->amount
+                    : TransactionEntity::eurToRsd($pm->amount);
+                $remaining = $pledgedRsd - $this->repo->getPaidSumAmountForDonorPerProject($donor, $project, $pm->type);
+                if ($remaining >= self::MIN_TRANSACTION_DONATION_AMOUNT) {
+                    $budgets[$pm->type] = ($budgets[$pm->type] ?? 0) + $remaining;
+                }
+            }
+            if (!$budgets) {
+                continue;
+            }
+
+            $candidates = [];
+            foreach ($project->periods as $period) {
+                if (!$period->processing) {
+                    continue;
+                }
+                foreach ($this->beneficiaryRepo->fetchByPeriod($period->id) as $beneficiary) {
+                    $candidates[] = ['period' => $period, 'beneficiary' => $beneficiary];
+                }
+            }
+            if (!$candidates) {
+                continue;
+            }
+
+            $minSlice = array_sum($budgets) > 100000 ? 10000 : self::MIN_TRANSACTION_DONATION_AMOUNT;
+            $tracks[] = [
+                'project' => $project, 'budgets' => $budgets, 'candidates' => $candidates, 'cursor' => 0, 'minSlice' => $minSlice,
+            ];
+        }
+
+        $totalAllocated = 0;
+
+        while ($tracks) {
+            $allocatedThisPass = false;
+
+            foreach (array_keys($tracks) as $ti) {
+                $result = ['type' => null, 'amount' => 0];
+                while ($tracks[$ti]['cursor'] < count($tracks[$ti]['candidates'])) {
+                    $candidate = $tracks[$ti]['candidates'][$tracks[$ti]['cursor']];
+                    $tracks[$ti]['cursor']++;
+                    $result = $this->allocateToBeneficiary(
+                        $donor, $tracks[$ti]['project'], $candidate['period'], $candidate['beneficiary'],
+                        $tracks[$ti]['budgets'], $tracks[$ti]['minSlice']
+                    );
+                    if ($result['amount'] > 0) {
+                        break;
+                    }
+                }
+
+                if ($result['amount'] > 0) {
+                    $tracks[$ti]['budgets'][$result['type']] -= $result['amount'];
+                    $totalAllocated += $result['amount'];
+                    $allocatedThisPass = true;
+                }
+
+                // Drop the track once it is out of beneficiaries or out of usable budget.
+                $hasBudget = false;
+                foreach ($tracks[$ti]['budgets'] as $budget) {
+                    if ($budget >= $tracks[$ti]['minSlice']) {
+                        $hasBudget = true;
+                        break;
+                    }
+                }
+                if (!$hasBudget || $tracks[$ti]['cursor'] >= count($tracks[$ti]['candidates'])) {
+                    unset($tracks[$ti]);
+                }
+            }
+
+            if (!$allocatedThisPass) {
+                break;
+            }
+        }
+
+        return $totalAllocated;
+    }
+
+    /**
+     * Create a single transaction allocating to one beneficiary, applying the cron's
+     * constraints (donor school/uni choice, payment-type match, beneficiary remaining for
+     * the period, and the per-person yearly cap). The beneficiary is paid through the first
+     * of its payment methods whose type still has budget in $typeBudgets (type => available RSD).
+     *
+     * @param array<int,int> $typeBudgets available RSD keyed by payment type
+     * @param int $minSlice a type must have at least this much budget to be used (the 10k rule for large donors)
+     * @return array{type: int|null, amount: int} the type used and RSD allocated, or amount 0 when skipped
+     */
+    private function allocateToBeneficiary(
+        Donor $donor, Project $project, Period $period, Beneficiary $beneficiary, array $typeBudgets,
+        int $minSlice = self::MIN_TRANSACTION_DONATION_AMOUNT
+    ): array {
+        $skip = ['type' => null, 'amount' => 0];
+
+        // Donor's school/uni preference (MSP only). School types 9 and 17 are universities.
+        if ($project->code === 'MSP') {
+            $typeId = $beneficiary->school->type->id ?? null;
+            $isUni = in_array($typeId, [9, 17], true);
+            if ($donor->wantsToDonateTo === Donor::DONATE_TO_SCHOOL && $isUni) {
+                return $skip;
+            }
+            if ($donor->wantsToDonateTo === Donor::DONATE_TO_UNI && !$isUni) {
+                return $skip;
+            }
+        }
+
+        // Match a beneficiary payment method to a donor payment type that still has budget.
+        $beneficiaryPM = null;
+        $paymentType = null;
+        foreach ($beneficiary->paymentMethods as $pm) {
+            if (($typeBudgets[$pm->type] ?? 0) >= $minSlice) {
+                $beneficiaryPM = $pm;
+                $paymentType = $pm->type;
+                break;
+            }
+        }
+        if (!$beneficiaryPM) {
+            return $skip;
+        }
+
+        $receivedSoFar = $this->repo->getSumAmountForBeneficiary($beneficiary, $project, $period);
+        $beneficiaryRemaining = $beneficiary->getAmountForPeriod($period) - $receivedSoFar;
+        if ($beneficiaryRemaining <= self::MIN_TRANSACTION_DONATION_AMOUNT) {
+            return $skip;
+        }
+
+        $perPersonRemaining = $this->repo->getRemainingPerPersonLimit($donor, $beneficiary);
+        if ($perPersonRemaining <= 0) {
+            return $skip;
+        }
+
+        $transactionAmount = min($typeBudgets[$paymentType], $beneficiaryRemaining, $perPersonRemaining);
+
+        $accountNumber = null;
+        $instructions = null;
+        $amountEur = 0;
+        if ($paymentType === PaymentMethod::TYPE_BANK_TRANSFER) {
+            $accountNumber = $beneficiaryPM->accountNumber;
+        } else {
+            $amountEur = TransactionEntity::rsdToEur($transactionAmount);
+            $instructions = $beneficiaryPM->wireInstructions;
+        }
+
+        $this->create([
+            'donor' => $donor->id,
+            'project' => $project->id,
+            'amount' => $transactionAmount,
+            'amountEur' => $amountEur,
+            'period' => $period->id,
+            'comment' => '',
+            'status' => TransactionEntity::STATUS_NEW,
+            'donorConfirmed' => 0,
+            'beneficiary' => $beneficiary->id,
+            'paymentType' => $paymentType,
+            'accountNumber' => $accountNumber,
+            'instructions' => $instructions,
+        ]);
+
+        return ['type' => $paymentType, 'amount' => $transactionAmount];
+    }
+
     public function prepareEntities($entities)
     {
         $items = [];
@@ -117,14 +418,12 @@ class Transaction extends TableView
                     'editColumn' => true,
                 ],
                 'status' => \Solidarity\Transaction\Entity\Transaction::getHrStatuses()[$transaction->status],
-//                'accountNumber' => $transaction->accountNumber,
                 'amountEur' => number_format($transaction->amountEur, 0),
                 'amount' => number_format($transaction->amount, 0),
                 'email' => $transaction->donor->firstName .' '. $transaction->donor->lastName .'<br />'. $transaction->donor->email,
                 'name' => $beneficiaryName,
                 'project' => $transaction->project->code,
                 'createdAt' => $transaction->getCreatedAt()->format('d.m.Y'),
-//                'updatedAt' => $transaction->getUpdatedAt()->format('d.m.Y'),
             ];
             $items[] = [
                 'columns' => $itemData,

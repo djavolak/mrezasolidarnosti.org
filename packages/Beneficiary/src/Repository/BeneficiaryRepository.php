@@ -52,6 +52,10 @@ class BeneficiaryRepository extends TableViewRepository
         $qb = $this->entityManager->createQueryBuilder();
         $qb->select('b')
             ->addSelect('COALESCE(SUM(t.amount), 0) AS HIDDEN receivedAmount')
+            // Share of this period's target already received. Beneficiaries who have
+            // received the smallest fraction of what they need are served first; the
+            // absolute amount breaks ties. NULLIF guards a zero/absent target.
+            ->addSelect('(COALESCE(SUM(t.amount), 0) / NULLIF(rp.amount, 0)) AS HIDDEN receivedRatio')
             ->from(static::ENTITY, 'b')
             ->join('b.registeredPeriods', 'rp')
             ->leftJoin('b.transactions', 't', 'WITH', 't.status IN (:transactionStatuses) AND t.period = :periodId')
@@ -64,7 +68,9 @@ class BeneficiaryRepository extends TableViewRepository
                 Transaction::STATUS_PAID,
             ])
             ->groupBy('b.id')
-            ->orderBy('receivedAmount', 'ASC');
+            ->addGroupBy('rp.amount')
+            ->orderBy('receivedRatio', 'ASC')
+            ->addOrderBy('receivedAmount', 'ASC');
 
         return $qb->getQuery()->getResult();
     }
