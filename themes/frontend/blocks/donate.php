@@ -1,9 +1,17 @@
 <?php if(isset($block)): ?>
-
+    <?php $isForInstruction = $_GET['action'] === 'instruction';?>
     <div id="profileContent">
         <div id="profileHeroText">
-            <h1>Izaberite pravac podrške za koji želite da donirate</h1>
-            <p>Na ovoj stranici možete kreirati i menjati načine svojih donacija.</p>
+            <?php
+                $title = $this->t('Izaberite pravac podrške za koji želite da donirate');
+                if($isForInstruction) {
+                    $title = $this->t('Izaberite pravac podrške za koji želite da kreirate instrukciju.');
+                }
+            ?>
+            <h1><?=$title?></h1>
+            <?php if(!$isForInstruction):?>
+                <p><?=$this->t('Na ovoj stranici možete kreirati i menjati načine svojih donacija.');?></p>
+            <?php endif;?>
         </div>
         <div id="projectsProfile">
             <div class="project" data-id="1" id="education" data-title="Hvala što ste izabrali da donirate za Mrežu solidarnosti za obrazovanje">
@@ -156,13 +164,19 @@
 
         </div>
         <?=$this->formToken()?>
+        <?php
+            $changeTitle = $this->t('Izmenite pravac podrške za koji želite da donirate');
+            if($isForInstruction) {
+                $changeTitle = $this->t('Izmenite pravac podrške za koji želite da kreirate instrukciju.');
+            }
+        ?>
         <input type="hidden" name="project" id="projectInput">
         <div id="donationFormTopBar">
             <div id="backToProfile">
                 <svg width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M2.79747 11.9216L11.5353 2.68437C12.7774 1.37122 14.8539 1.33551 16.1633 2.60477L16.1642 2.64039C17.4737 3.90965 17.5285 6.01119 16.2863 7.32434L12.9883 10.811L23.3162 10.9095C25.1197 10.8696 26.6278 12.3314 26.6756 14.1658C26.732 15.9912 25.3014 17.5035 23.4889 17.5347L12.7034 17.444L16.686 21.3043C17.9954 22.5736 18.0502 24.6751 16.8081 25.9883C15.566 27.3014 13.4994 27.3468 12.18 26.0679L0.30463 14.557L2.79747 11.9216Z" fill="#262185"/>
                 </svg>
-                <span>Izmenite pravac podrške za koji želite da donirate</span>
+                <span><?=$changeTitle?></span>
             </div>
             <div id="closeForm">
                 <svg width="66" height="66" viewBox="0 0 66 66" fill="none" xmlns="http://www.w3.org/2000/svg">

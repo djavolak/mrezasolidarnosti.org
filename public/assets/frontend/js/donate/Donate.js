@@ -9,6 +9,7 @@ export default class Donate {
     #projects = [];
     #form;
     eventEmitter = new EventEmitter();
+    #isForInstruction = false;
 
     constructor({initiatorElements, container}) {
         this.#initiatorElements = initiatorElements;
@@ -18,15 +19,22 @@ export default class Donate {
         if(this.#setupComplete) {
             return;
         }
+        this.#setIsForInstruction();
         this.#setProjects();
         this.#setForm();
         this.#listenToEvents();
-        this.#openExistingProject();
+        if(!this.#isForInstruction) {
+            this.#openExistingProject();
+        }
         this.#setupComplete = true;
     }
 
-    // When the donor already has donation data, open the matching project's popup
-    // (their single project, or the "all projects" -1 one) and pre-fill the form.
+    #setIsForInstruction() {
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        this.#isForInstruction = urlParams.get('action') === 'instruction';
+    }
+
     #openExistingProject() {
         const existingData = this.#getExistingData();
         if (!existingData || existingData.projectId === null || existingData.projectId === undefined) {
@@ -66,7 +74,11 @@ export default class Donate {
 
 
     #setForm() {
-        this.#form = new Form({form: document.getElementById('donationForm'), eventEmitter: this.eventEmitter});
+        this.#form = new Form({
+            form: document.getElementById('donationForm'),
+            eventEmitter: this.eventEmitter,
+            isForInstruction: this.#isForInstruction
+        });
         this.#form.init();
     }
 

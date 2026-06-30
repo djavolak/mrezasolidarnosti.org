@@ -2,6 +2,7 @@ import LanguageSwitcher from "./languageSwitcher/LanguageSwitcher.js";
 import Navigation from "./navigation/Navigation.js";
 import Faq from "./faq/faq.js";
 import LineGrid from "./lineGrid/lineGrid.js";
+import InstructionsTable from "./instructionsTable/InstructionsTable.js";
 
 document.addEventListener('DOMContentLoaded', () => {
     const languageSwitcherContainers = document.querySelectorAll('.languageSwitcher');
@@ -49,4 +50,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const lineGrid = new LineGrid(lineGridDesktop, lineGridMobile);
         lineGrid.init();
     }
+
+    const instructionsTables = document.querySelectorAll('.instructionsTable');
+    instructionsTables.forEach((instructionsTable) => {
+        const table = new InstructionsTable({container: instructionsTable});
+        table.init();
+    });
 });

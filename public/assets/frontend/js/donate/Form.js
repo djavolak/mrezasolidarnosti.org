@@ -16,9 +16,11 @@ export default class Form {
     #projectInput;
     #messagesContainer;
     #changeDonationButton;
-    constructor({form, eventEmitter}) {
+    #isForInstruction;
+    constructor({form, eventEmitter, isForInstruction}) {
         this.#form = form;
         this.eventEmitter = eventEmitter;
+        this.#isForInstruction = isForInstruction;
     }
 
     init() {
@@ -173,7 +175,8 @@ export default class Form {
         this.#form.addEventListener('submit', async (e) => {
             e.preventDefault();
             this.#messagesContainer.innerHTML = '';
-            const res = await fetch(this.#form.action, {
+            const action = this.#isForInstruction ? '/donor/createInstruction' : this.#form.action;
+            const res = await fetch(action, {
                 method: 'POST',
                 body: new FormData(this.#form)
             });
