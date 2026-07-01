@@ -1,4 +1,4 @@
-<?php if($isDonorLoggedIn):?>
+<?php if(isset($isDonorLoggedIn) && $isDonorLoggedIn):?>
     <footer id="footerLoggedIn">
         <div class="left">
             <svg width="205" height="57" viewBox="0 0 205 57" fill="none" xmlns="http://www.w3.org/2000/svg">
