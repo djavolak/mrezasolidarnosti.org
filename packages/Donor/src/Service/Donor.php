@@ -14,6 +14,7 @@ use Solidarity\Donor\Validator\DonorDonationData;
 use Solidarity\Mailer\Service\Mailer;
 use Solidarity\Transaction\Entity\Transaction;
 use Solidarity\Transaction\Service\Project;
+use Solidarity\Transaction\Service\QrCode;
 use Solidarity\Transaction\Service\Transaction as TransactionService;
 use Tamtamchik\SimpleFlash\Flash;
 
@@ -32,7 +33,7 @@ class Donor extends TableView
         private \Solidarity\Donor\Validator\DonorProfileData $donorProfileDataValidator,
         private DonorDonationData $donorDonationDataValidator,
         private \Solidarity\Donor\Filter\DonorDonationData $donorDonationDataFilter,
-        private TransactionService $transaction,
+        private TransactionService $transaction, private QrCode $qrCode
     ) {
         parent::__construct($repo, $user, $logger, $filter);
     }
@@ -210,9 +211,12 @@ class Donor extends TableView
 
         $transactions = $this->transaction->getInstructionsForDonor($donor, $offset, $perPage);
         $total = $this->transaction->getInstructionsCountForDonor($donor);
-
         $items = [];
         foreach ($transactions as $transaction) {
+            $qr = '';
+            if ($this->qrCode->canBuildFor($transaction)) {
+                $qr = $this->qrCode->forTransaction($transaction);
+            }
             $items[] = [
                 'id' => $transaction->id,
                 'beneficiaryName' => $transaction->beneficiary?->name ?? 'N/A',
@@ -226,7 +230,7 @@ class Donor extends TableView
                 'projectId' => $transaction->project->id,
                 'paymentType' => $transaction->paymentType,
                 'accountNumber' => $transaction->accountNumber,
-                'qrCode' => ''
+                'qrCode' => $qr
             ];
         }
 
