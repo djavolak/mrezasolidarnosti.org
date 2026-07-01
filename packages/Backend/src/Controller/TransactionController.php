@@ -268,14 +268,17 @@ class TransactionController extends AjaxCrudController
                 throw new \Exception('Donor or beneficiary not found.');
             }
 
-            $result = \Solidarity\Transaction\Factory\TransactionFactory::matchPaymentType($donor, $beneficiary);
+            // Match the payment type against the donor's pledge for the selected project
+            // (falls back to any pledge when no project is chosen yet) so the preview shows
+            // the same type that will actually be saved.
+            $project = $projectId ? $this->project->getById($projectId) : null;
+            $result = \Solidarity\Transaction\Factory\TransactionFactory::matchPaymentType($donor, $beneficiary, $project);
             $result['paymentTypeLabel'] = \Solidarity\Beneficiary\Entity\PaymentMethod::getHrType($result['paymentType']);
 
-            if ($projectId && $periodId) {
-                $project = $this->project->getById($projectId);
+            if ($project && $periodId) {
                 $periodEntity = $this->period->getById($periodId);
 
-                if ($project && $periodEntity) {
+                if ($periodEntity) {
                     $paymentType = $result['paymentType'];
 
                     // Donor leftover: pledged (in RSD) minus already donated for this payment type + project
