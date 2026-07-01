@@ -4,7 +4,7 @@
     $currentLoc   = $currentLocale ?? 'sr';
     $alternates   = $localeAlternates ?? [];
 ?>
-<?php if($isDonorLoggedIn):?>
+<?php if(isset($isDonorLoggedIn) && $isDonorLoggedIn):?>
     <header id="mainHeader" class="loggedIn">
         <div id="headerLogo">
             <a href="<?=$this->localizeUrl('/')?>" title="Mreža solidarnosti">
@@ -23,7 +23,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="<?=$this->localizeUrl('/instrukcije-za-uplatu')?>" title="<?=$this->t('Instrukcije za uplatu')?>" class="<?=$slug === 'instrukcije-za-uplatu' ? 'active' : ''?>">
+                    <a href="<?=$this->localizeUrl('/instrukcije-za-placanje')?>" title="<?=$this->t('Instrukcije za uplatu')?>" class="<?=$slug === 'instrukcije-za-uplatu' ? 'active' : ''?>">
                         <svg width="24" height="22" viewBox="0 0 24 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M11.4211 17.4706H4.47368C3.55241 17.4706 2.66886 17.0987 2.01742 16.4368C1.36598 15.775 1 14.8772 1 13.9412V4.52941C1 3.59335 1.36598 2.69563 2.01742 2.03374C2.66886 1.37185 3.55241 1 4.47368 1H18.3684C19.2897 1 20.1732 1.37185 20.8247 2.03374C21.4761 2.69563 21.8421 3.59335 21.8421 4.52941V9.82353M1 6.88235H21.8421M16.0526 17.4706H23M19.5263 21L23 17.4706L19.5263 13.9412M5.63737 12.7647H5.64316M10.2632 12.7647H12.5789" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
@@ -68,7 +68,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="<?=$this->localizeUrl('/instrukcije-za-uplatu')?>" title="<?=$this->t('Instrukcije za uplatu')?>" class="<?=$slug === 'instrukcije-za-uplatu' ? 'active' : ''?>">
+                        <a href="<?=$this->localizeUrl('/instrukcije-za-placanje')?>" title="<?=$this->t('Instrukcije za uplatu')?>" class="<?=$slug === 'instrukcije-za-uplatu' ? 'active' : ''?>">
                             <span><?=$this->t('Instrukcije za uplatu')?></span>
                         </a>
                     </li>
