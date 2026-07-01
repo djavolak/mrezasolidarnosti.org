@@ -23,7 +23,7 @@ class TransactionFactory extends AbstractFactory
         $transaction->project = $em->getRepository(Project::class)->find($data['project']);
         $transaction->period = $em->getRepository(Period::class)->find($data['period']);
         $transaction->beneficiary = $em->getRepository(Beneficiary::class)->find($data['beneficiary']);
-        $paymentType = static::matchPaymentType($transaction->donor, $transaction->beneficiary);
+        $paymentType = static::matchPaymentType($transaction->donor, $transaction->beneficiary, $transaction->project);
         $transaction->paymentType = $paymentType['paymentType'];
         $transaction->accountNumber = $paymentType['accountNumber'] ?? null;
         $transaction->instructions = $paymentType['instructions'] ?? null;
@@ -45,9 +45,19 @@ class TransactionFactory extends AbstractFactory
         return $transaction->id;
     }
 
-    public static function matchPaymentType(Donor $donor, Beneficiary $beneficiary)
+    /**
+     * Find a payment type both parties share. When $project is given, only the donor's
+     * payment methods pledged to that project are considered — a donor can pledge
+     * different types to different projects, so the type must match the project the
+     * transaction is being created for, not just any of the donor's pledges.
+     */
+    public static function matchPaymentType(Donor $donor, Beneficiary $beneficiary, ?Project $project = null)
     {
-        foreach ($donor->paymentMethods as $pm) {
+        $donorPaymentMethods = $project
+            ? $donor->getPaymentMethodsForProject($project)
+            : $donor->paymentMethods;
+
+        foreach ($donorPaymentMethods as $pm) {
             foreach ($beneficiary->paymentMethods as $bPm) {
                 if ($pm->type === $bPm->type) {
                     return [

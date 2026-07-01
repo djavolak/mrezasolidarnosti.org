@@ -19,27 +19,28 @@
                 </svg>
                       <span><?=$this->t('No results')?></span>
             </span>
-    <?php if ($loggedInEntityType === 'user'): ?>
-        <div class="item" data-href="/donor/view/">
-            <span class="tooltip"><?=$this->t('Donatori')?></span>
+
+    <?php if (in_array($loggedInEntityType, ['delegate', 'user'])): ?>
+        <div class="item" data-href="/transaction/view/">
+            <span class="tooltip"><?=$this->t('Instrukcije')?></span>
             <span class="itemAnchor">
+              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M660-160h40v-160h-40v160Zm20-200q8 0 14-6t6-14q0-8-6-14t-14-6q-8 0-14 6t-6 14q0 8 6 14t14 6ZM200-800v640-640 200-200Zm80 400h147q11-23 25.5-43t32.5-37H280v80Zm0 160h123q-3-20-3-40t3-40H280v80ZM200-80q-33 0-56.5-23.5T120-160v-640q0-33 23.5-56.5T200-880h320l240 240v92q-19-6-39-9t-41-3v-40H480v-200H200v640h227q11 23 25.5 43T485-80H200Zm621.5-341.5Q880-363 880-280t-58.5 141.5Q763-80 680-80t-141.5-58.5Q480-197 480-280t58.5-141.5Q597-480 680-480t141.5 58.5Z"/></svg>
+                    <?=$this->t('Instrukcije')?>
+            </span>
+        </div>
+        <?php if ($loggedInEntityType === 'user'):
+            // menu item placed here for convenience
+            ?>
+            <div class="item" data-href="/donor/view/">
+                <span class="tooltip"><?=$this->t('Donatori')?></span>
+                <span class="itemAnchor">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
                     <path d="M144 0a80 80 0 1 1 0 160A80 80 0 1 1 144 0zM512 0a80 80 0 1 1 0 160A80 80 0 1 1 512 0zM0 298.7C0 239.8 47.8 192 106.7 192h42.7c15.9 0 31 3.5 44.6 9.7c-1.3 7.2-1.9 14.7-1.9 22.3c0 38.2 16.8 72.5 43.3 96c-.2 0-.4 0-.7 0H21.3C9.6 320 0 310.4 0 298.7zM405.3 320c-.2 0-.4 0-.7 0c26.6-23.5 43.3-57.8 43.3-96c0-7.6-.7-15-1.9-22.3c13.6-6.3 28.7-9.7 44.6-9.7h42.7C592.2 192 640 239.8 640 298.7c0 11.8-9.6 21.3-21.3 21.3H405.3zM224 224a96 96 0 1 1 192 0 96 96 0 1 1 -192 0zM128 485.3C128 411.7 187.7 352 261.3 352H378.7C452.3 352 512 411.7 512 485.3c0 14.7-11.9 26.7-26.7 26.7H154.7c-14.7 0-26.7-11.9-26.7-26.7z"/>
                 </svg>
                 <?=$this->t('Donatori')?>
             </span>
-        </div>
-    <?php endif; ?>
-    <?php if (in_array($loggedInEntityType, ['delegate', 'user'])): ?>
-        <div class="item" data-href="/delegate/view/">
-            <span class="tooltip"><?=$this->t('Delegati')?></span>
-            <span class="itemAnchor">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
-                    <path d="M144 0a80 80 0 1 1 0 160A80 80 0 1 1 144 0zM512 0a80 80 0 1 1 0 160A80 80 0 1 1 512 0zM0 298.7C0 239.8 47.8 192 106.7 192h42.7c15.9 0 31 3.5 44.6 9.7c-1.3 7.2-1.9 14.7-1.9 22.3c0 38.2 16.8 72.5 43.3 96c-.2 0-.4 0-.7 0H21.3C9.6 320 0 310.4 0 298.7zM405.3 320c-.2 0-.4 0-.7 0c26.6-23.5 43.3-57.8 43.3-96c0-7.6-.7-15-1.9-22.3c13.6-6.3 28.7-9.7 44.6-9.7h42.7C592.2 192 640 239.8 640 298.7c0 11.8-9.6 21.3-21.3 21.3H405.3zM224 224a96 96 0 1 1 192 0 96 96 0 1 1 -192 0zM128 485.3C128 411.7 187.7 352 261.3 352H378.7C452.3 352 512 411.7 512 485.3c0 14.7-11.9 26.7-26.7 26.7H154.7c-14.7 0-26.7-11.9-26.7-26.7z"/>
-                </svg>
-                <?=$this->t('Delegati')?>
-            </span>
-        </div>
+            </div>
+        <?php endif; ?>
         <div class="item" data-href="/beneficiary/view/">
             <span class="tooltip"><?=$this->t('Oštećeni')?></span>
             <span class="itemAnchor">
@@ -49,11 +50,13 @@
                     <?=$this->t('Oštećeni')?>
             </span>
         </div>
-        <div class="item" data-href="/transaction/view/">
-            <span class="tooltip"><?=$this->t('Instrukcije')?></span>
+        <div class="item" data-href="/delegate/view/">
+            <span class="tooltip"><?=$this->t('Delegati')?></span>
             <span class="itemAnchor">
-              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M660-160h40v-160h-40v160Zm20-200q8 0 14-6t6-14q0-8-6-14t-14-6q-8 0-14 6t-6 14q0 8 6 14t14 6ZM200-800v640-640 200-200Zm80 400h147q11-23 25.5-43t32.5-37H280v80Zm0 160h123q-3-20-3-40t3-40H280v80ZM200-80q-33 0-56.5-23.5T120-160v-640q0-33 23.5-56.5T200-880h320l240 240v92q-19-6-39-9t-41-3v-40H480v-200H200v640h227q11 23 25.5 43T485-80H200Zm621.5-341.5Q880-363 880-280t-58.5 141.5Q763-80 680-80t-141.5-58.5Q480-197 480-280t58.5-141.5Q597-480 680-480t141.5 58.5Z"/></svg>
-                    <?=$this->t('Instrukcije')?>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
+                    <path d="M144 0a80 80 0 1 1 0 160A80 80 0 1 1 144 0zM512 0a80 80 0 1 1 0 160A80 80 0 1 1 512 0zM0 298.7C0 239.8 47.8 192 106.7 192h42.7c15.9 0 31 3.5 44.6 9.7c-1.3 7.2-1.9 14.7-1.9 22.3c0 38.2 16.8 72.5 43.3 96c-.2 0-.4 0-.7 0H21.3C9.6 320 0 310.4 0 298.7zM405.3 320c-.2 0-.4 0-.7 0c26.6-23.5 43.3-57.8 43.3-96c0-7.6-.7-15-1.9-22.3c13.6-6.3 28.7-9.7 44.6-9.7h42.7C592.2 192 640 239.8 640 298.7c0 11.8-9.6 21.3-21.3 21.3H405.3zM224 224a96 96 0 1 1 192 0 96 96 0 1 1 -192 0zM128 485.3C128 411.7 187.7 352 261.3 352H378.7C452.3 352 512 411.7 512 485.3c0 14.7-11.9 26.7-26.7 26.7H154.7c-14.7 0-26.7-11.9-26.7-26.7z"/>
+                </svg>
+                <?=$this->t('Delegati')?>
             </span>
         </div>
         <div class="item" data-href="/school/view/">
@@ -110,11 +113,11 @@
             <div class="item" data-href="/page/view/">
                 <span class="tooltip"> <?=$this->t('Stranice')?></span>
                 <span class="itemAnchor">
-               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-                <path d="M208 0L332.1 0c12.7 0 24.9 5.1 33.9 14.1l67.9 67.9c9 9 14.1 21.2 14.1 33.9L448 336c0 26.5-21.5 48-48 48l-192 0c-26.5 0-48-21.5-48-48l0-288c0-26.5 21.5-48 48-48zM48 128l80 0 0 64-64 0 0 256 192 0 0-32 64 0 0 48c0 26.5-21.5 48-48 48L48 512c-26.5 0-48-21.5-48-48L0 176c0-26.5 21.5-48 48-48z"/>
-             </svg>
-                <?=$this->t('Stranice')?>
-        </span>
+                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                       <path d="M208 0L332.1 0c12.7 0 24.9 5.1 33.9 14.1l67.9 67.9c9 9 14.1 21.2 14.1 33.9L448 336c0 26.5-21.5 48-48 48l-192 0c-26.5 0-48-21.5-48-48l0-288c0-26.5 21.5-48 48-48zM48 128l80 0 0 64-64 0 0 256 192 0 0-32 64 0 0 48c0 26.5-21.5 48-48 48L48 512c-26.5 0-48-21.5-48-48L0 176c0-26.5 21.5-48 48-48z"/>
+                   </svg>
+                    <?=$this->t('Stranice')?>
+                </span>
             </div>
         <?php endif;?>
         <?php if($loggedInRole === \Skeletor\User\Entity\User::ROLE_ADMIN): ?>
