@@ -215,7 +215,7 @@ class Donor extends TableView
         foreach ($transactions as $transaction) {
             $items[] = [
                 'id' => $transaction->id,
-                'beneficiaryName' => $transaction->beneficiary->name ?? 'N/A',
+                'beneficiaryName' => $transaction->beneficiary?->name ?? 'N/A',
                 'amount' => number_format($transaction->amount, 0),
                 'referenceCode' => $transaction->getReferenceCode(),
                 'createdAt' => $transaction->getCreatedAt()->format('d.m.Y'),

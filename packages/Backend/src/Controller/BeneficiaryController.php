@@ -35,7 +35,7 @@ class BeneficiaryController extends AjaxCrudController
     public function __construct(
         Beneficiary $service, Session $session, Config $config, Flash $flash, Engine $template, private School $school,
         private \Redis $redis, private Period $period, private Project $project, private Delegate $delegate,
-        private Transaction $transaction
+        private Transaction $transaction, private \Solidarity\Backend\Service\Redaction $redaction
     ) {
         parent::__construct($service, $session, $config, $flash, $template);
     }
@@ -43,13 +43,16 @@ class BeneficiaryController extends AjaxCrudController
     public function delete(): Response
     {
         $id = $this->getRequest()->getAttribute('id');
-        //
-        $this->service->updateField('status', \Solidarity\Beneficiary\Entity\Beneficiary::STATUS_DELETED, $id);
-        $this->getFlash()->success('Oštecena osoba je uspešno označena kao obrisana.');
+        // GDPR erasure: strip the account details off their transactions and delete the record.
+        $beneficiary = $this->service->getById($id);
+        if ($beneficiary) {
+            $this->redaction->redactBeneficiary($beneficiary);
+        }
+        $this->getFlash()->success('Podaci oštećenog su trajno uklonjeni.');
 
         $this->getResponse()->getBody()->write(json_encode([
             'errors' => [],
-            'message' => 'Oštecena osoba je uspešno označena kao obrisana.',
+            'message' => 'Podaci oštećenog su trajno uklonjeni.',
             'generalErrors' => [],
             'status' => 1,
         ]));
