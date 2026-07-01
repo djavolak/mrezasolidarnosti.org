@@ -158,7 +158,7 @@
                 </ul>
             </div>
             <div class="point repression">
-                <h3>KKontakt za akademsku zajednicu u Nišu:</h3>
+                <h3>Kontakt za akademsku zajednicu u Nišu:</h3>
                 <div class="logo">
                     <div class="images">
                         <img src="<?=FRONT_IMAGES_URL?>/sunis.png" alt="logo">
@@ -211,7 +211,7 @@
 
         <div class="whatIsContent">
             <div class="whatIsSection">
-                <h2>Delegati Mreže</h2>
+                <h2 id="Delegati">Delegati Mreže</h2>
                 <div>
                     <p>Mreža solidarnosti funkcioniše zahvaljujući ljudima, kolektivima i organizacijama koji pomažu da
                         podrška stigne tamo gde je najpotrebnija.</p>

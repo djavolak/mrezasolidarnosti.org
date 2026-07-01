@@ -79,6 +79,9 @@ return array(
         // Recover lost instructions (periods 26/27). Dry-run: `php public/cli.php recoverInstructions run`
         // Commit:                     `php public/cli.php recoverInstructions commit`
         'recoverInstructions' => \Solidarity\Backend\Action\RecoverInstructions::class,
+        // Recover SF/msdash dump transactions absent from the DB. Dry-run: `php public/cli.php recoverSfTransactions run`
+        // Commit:                          `php public/cli.php recoverSfTransactions commit`
+        'recoverSfTransactions' => \Solidarity\Backend\Action\RecoverSfTransactions::class,
     ],
     'cropSizes' => [
         PORTRAIT_600x820 => [600, 820, true],
