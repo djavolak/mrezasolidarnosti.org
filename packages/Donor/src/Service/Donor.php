@@ -198,12 +198,6 @@ class Donor extends TableView
         $this->repo->updateDonationData($filteredData);
     }
 
-    /**
-     * Paginated payment instructions (transactions) for a donor. Each row carries the
-     * beneficiary name, amount, reference code, creation date (d.m.Y) and human-readable status.
-     *
-     * @return array{items: array, total: int, page: int, perPage: int, totalPages: int}
-     */
     public function getInstructions(int $donorId, int $page = 1, int $perPage = 10): array
     {
         $donor = $this->repo->getById($donorId);
@@ -218,7 +212,6 @@ class Donor extends TableView
         $total = $this->transaction->getInstructionsCountForDonor($donor);
 
         $items = [];
-        /* @var Transaction $transaction */
         foreach ($transactions as $transaction) {
             $items[] = [
                 'id' => $transaction->id,
