@@ -30,7 +30,8 @@ class DonorController extends AjaxCrudController
      * @param Engine $template
      */
     public function __construct(
-        Donor $service, Session $session, Config $config, Flash $flash, Engine $template, private Project $project
+        Donor $service, Session $session, Config $config, Flash $flash, Engine $template, private Project $project,
+        private \Solidarity\Backend\Service\Redaction $redaction,
     ) {
         parent::__construct($service, $session, $config, $flash, $template);
 //        $this->tableViewConfig['createButton'] = false;
@@ -39,12 +40,15 @@ class DonorController extends AjaxCrudController
     public function delete(): Response
     {
         $id = $this->getRequest()->getAttribute('id');
-        // todo find user if registers again and suggest to restore data?
-        $this->service->updateField('status', \Solidarity\Donor\Entity\Donor::STATUS_DELETED, $id);
+        // GDPR erasure: remove personal data, keep the (anonymised) transactions.
+        $donor = $this->service->getById($id);
+        if ($donor) {
+            $this->redaction->redactDonor($donor);
+        }
 
         $this->getResponse()->getBody()->write(json_encode([
             'errors' => [],
-            'message' => 'Donator je uspešno označen kao obrisan.',
+            'message' => 'Podaci donatora su trajno uklonjeni.',
             'generalErrors' => [],
             'status' => 1,
         ]));
@@ -64,7 +68,10 @@ class DonorController extends AjaxCrudController
                 throw new \Exception('No ids provided.');
             }
             foreach($data['ids'] as $id) {
-                $this->service->updateField('status', \Solidarity\Donor\Entity\Donor::STATUS_DELETED, $id);
+                $donor = $this->service->getById($id);
+                if ($donor) {
+                    $this->redaction->redactDonor($donor);
+                }
             }
             $status = true;
             $message = $this->translate(static::TITLE_DELETE_SUCCESS);

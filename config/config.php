@@ -76,6 +76,9 @@ return array(
         // Legacy data migration. Dry-run: `php public/cli.php migrateLegacy run`
         // Commit:                `php public/cli.php migrateLegacy commit`
         'migrateLegacy' => \Solidarity\Backend\Action\MigrateLegacy::class,
+        // Recover lost instructions (periods 26/27). Dry-run: `php public/cli.php recoverInstructions run`
+        // Commit:                     `php public/cli.php recoverInstructions commit`
+        'recoverInstructions' => \Solidarity\Backend\Action\RecoverInstructions::class,
     ],
     'cropSizes' => [
         PORTRAIT_600x820 => [600, 820, true],

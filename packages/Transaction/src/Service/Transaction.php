@@ -414,8 +414,9 @@ class Transaction extends TableView
         $items = [];
         /* @var \Solidarity\Transaction\Entity\Transaction $transaction */
         foreach ($entities as $transaction) {
-            $beneficiaryName = $transaction->beneficiary->name ?? 'N/A';
-            if ($transaction->beneficiary->school) {
+            // donor/beneficiary may be null after GDPR redaction — show a placeholder.
+            $beneficiaryName = $transaction->beneficiary?->name ?? 'N/A';
+            if ($transaction->beneficiary?->school) {
                 $beneficiaryName .= '<br />' . $transaction->beneficiary->school->name
                     . '<br />' . $transaction->beneficiary->school->city->name;
             }
@@ -433,7 +434,9 @@ class Transaction extends TableView
                 'status' => \Solidarity\Transaction\Entity\Transaction::getHrStatuses()[$transaction->status],
                 'amountEur' => number_format($transaction->amountEur, 0),
                 'amount' => number_format($transaction->amount, 0),
-                'email' => $transaction->donor->firstName .' '. $transaction->donor->lastName .'<br />'. $transaction->donor->email,
+                'email' => $transaction->donor
+                    ? $transaction->donor->firstName . ' ' . $transaction->donor->lastName . '<br />' . $transaction->donor->email
+                    : 'N/A',
                 'name' => $beneficiaryName,
                 'project' => $transaction->project->code,
                 'createdAt' => $transaction->getCreatedAt()->format('d.m.Y'),

@@ -55,13 +55,15 @@ class Transaction
     #[ORM\JoinColumn(name: 'periodId', referencedColumnName: 'id', unique: false, nullable: false)]
     public Period $period;
 
+    // Nullable so a transaction survives GDPR erasure of its donor/beneficiary: the
+    // record is kept for accounting while the personal link is detached.
     #[ORM\ManyToOne(targetEntity: Donor::class, inversedBy: 'transactions')]
-    #[ORM\JoinColumn(name: 'donorId', referencedColumnName: 'id', unique: false)]
-    public Donor $donor;
+    #[ORM\JoinColumn(name: 'donorId', referencedColumnName: 'id', unique: false, nullable: true)]
+    public ?Donor $donor = null;
 
     #[ORM\ManyToOne(targetEntity: Beneficiary::class, inversedBy: 'transactions')]
-    #[ORM\JoinColumn(name: 'beneficiaryId', referencedColumnName: 'id', unique: false)]
-    public Beneficiary $beneficiary;
+    #[ORM\JoinColumn(name: 'beneficiaryId', referencedColumnName: 'id', unique: false, nullable: true)]
+    public ?Beneficiary $beneficiary = null;
 
     /**
      * Convert EUR amount to RSD.
