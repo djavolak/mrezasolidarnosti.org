@@ -4,6 +4,7 @@ namespace Solidarity\Transaction\Service;
 use chillerlan\QRCode\QRCode as QrCodeRenderer;
 use chillerlan\QRCode\QROptions;
 use chillerlan\QRCode\Common\EccLevel;
+use Solidarity\Donor\Entity\PaymentMethod;
 use Solidarity\Transaction\Entity\Transaction;
 
 /**
@@ -48,7 +49,8 @@ class QrCode
      */
     public function canBuildFor(Transaction $transaction): bool
     {
-        return $transaction->beneficiary !== null;
+        return $transaction->beneficiary !== null && $transaction->paymentType === PaymentMethod::TYPE_BANK_TRANSFER
+            && in_array($transaction->status, [Transaction::STATUS_NEW, Transaction::STATUS_WAITING_CONFIRMATION]);
     }
 
     /**
