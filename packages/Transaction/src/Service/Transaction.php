@@ -399,7 +399,6 @@ class Transaction extends TableView
             'period' => $period->id,
             'comment' => '',
             'status' => TransactionEntity::STATUS_NEW,
-            'donorConfirmed' => 0,
             'beneficiary' => $beneficiary->id,
             'paymentType' => $paymentType,
             'accountNumber' => $accountNumber,

@@ -230,7 +230,10 @@ class Donor extends TableView
                     $transaction->getExpiryDate()->format('d.m.Y h:i') :
                     null,
                 'status' => ['label' => Transaction::getHrStatus($transaction->status), 'value' => $transaction->status],
-                'projectId' => $transaction->project->id
+                'projectId' => $transaction->project->id,
+                'paymentType' => $transaction->paymentType,
+                'accountNumber' => $transaction->accountNumber,
+                'qrCode' => ''
             ];
         }
 

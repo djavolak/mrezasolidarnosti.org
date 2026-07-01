@@ -1,7 +1,7 @@
 @use '../setup/typography';
 .testimonials {
   display:flex;
-  padding: 7.7rem 4.25rem;
+  padding: 5rem 4.25rem;
   gap:1rem;
   @media(max-width:768px) {
     flex-direction:column;

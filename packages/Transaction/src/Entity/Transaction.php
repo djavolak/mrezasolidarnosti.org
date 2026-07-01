@@ -39,8 +39,6 @@ class Transaction
     public int $amountEur;
     #[ORM\Column(type: Types::INTEGER)]
     public int $status;
-    #[ORM\Column(type: Types::BOOLEAN)]
-    public bool $donorConfirmed;
     #[ORM\Column(type: Types::STRING, length: 1024, nullable: true)]
     public ?string $comment;
     // payment code provided by the payment institution, entered by the donor when confirming payment
