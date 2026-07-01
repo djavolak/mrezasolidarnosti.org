@@ -3037,7 +3037,7 @@ main.loggedIn {
   display: flex;
   gap: 1rem;
   justify-content: space-between;
-  padding: 5rem 4.25rem;
+  padding: 7.7rem 4.25rem 5rem 4.25rem;
 }
 @media (max-width: 900px) {
   #connect {
