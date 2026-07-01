@@ -35,7 +35,6 @@ class Transaction implements FilterInterface
             'comment' => $postData['comment'] ?? '',
             'status' => (int) ($postData['status'] ?? 1),
             'donor' => $postData['donor'],
-            'donorConfirmed' => (int) ($postData['donorConfirmed'] ?? 0),
             'accountNumber' => $postData['accountNumber'] ?? null,
             'instructions' => $postData['instructions'] ?? null,
             'skipCsrf' => $postData['skipCsrf'] ?? false,

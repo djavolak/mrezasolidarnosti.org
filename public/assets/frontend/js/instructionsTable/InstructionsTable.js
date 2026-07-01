@@ -23,6 +23,9 @@ export default class InstructionsTable {
     #maxPages;
     #page = 1;
     #perPage = 10;
+    activeInstruction = null;
+    messagesContainer;
+    printButton;
     constructor({container}) {
         this.container = container;
     }
@@ -50,6 +53,8 @@ export default class InstructionsTable {
         this.copyInputsInDialog = document.querySelectorAll('.copyInput');
         this.confirmPaymentButton = document.getElementById('confirmPayment');
         this.loadMoreButton = document.getElementById('loadMore');
+        this.messagesContainer = this.paymentDialog.querySelector('.messagesContainer');
+        this.printButton = this.paymentDialog.querySelector('.print');
     }
 
     #setCurrentView() {
@@ -81,6 +86,9 @@ export default class InstructionsTable {
             const formData = new FormData();
             formData.append('transactionId', this.confirmPaymentButton.getAttribute('data-id'));
             formData.append(this.#csrfInput.name, this.#csrfInput.value);
+            if(this.activeInstruction.paymentType === 3) {
+                formData.append('paymentCode', document.getElementById('refNumInput').value);
+            }
             const res = await fetch(this.#confirmPaymentEndpoint, {
                 method: 'POST',
                 body: formData
@@ -89,11 +97,18 @@ export default class InstructionsTable {
             if(resData?.data?.token) {
                 this.#replaceCsrf(resData.data.token);
             }
+            this.messagesContainer.innerHTML = '';
             if(resData.success) {
                 window.location.reload();
             }  else {
-                alert('An unknown error occurred, please refresh the page and try again');
-                //@TODO print errors
+               if(resData.data.errors) {
+                   resData.data.errors.forEach((error) => {
+                       this.messagesContainer.appendChild(this.getMessageElement(error, 'error'));
+                   });
+               } else {
+                   this.messagesContainer.appendChild(this.getMessageElement('Dogodila se neočekivana greška, osvežite stranicu i probajte ponovo.', 'error'));
+               }
+               this.messagesContainer.scrollIntoView();
             }
         });
 
@@ -109,6 +124,61 @@ export default class InstructionsTable {
             }
         });
 
+        this.paymentDialog.addEventListener('close', () => {
+            this.overlay.classList.remove('active');
+            document.body.classList.remove('freeze');
+            this.paymentDialog.classList.remove('active');
+        });
+        this.printButton.addEventListener('click', () => {
+            const iframe = document.createElement('iframe');
+            iframe.style.position = 'fixed';
+            iframe.style.right = '0';
+            iframe.style.bottom = '0';
+            iframe.style.width = '0';
+            iframe.style.height = '0';
+            iframe.style.border = '0';
+            document.body.appendChild(iframe);
+
+
+            const printAccountNum = this.activeInstruction.paymentType === 1 || this.activeInstruction.paymentType === 2;
+            const printQR = this.activeInstruction.paymentType === 1;
+            const doc = iframe.contentWindow.document;
+            doc.open();
+            doc.write(`<!DOCTYPE html><html><head>
+            <style>img{width:150px;height:auto;}body {display:flex;flex-direction:column;gap:1rem;}.inputContainer{display:flex;flex-direction:column;gap:0.5rem;} input {border:1px solid black;outline:none;}</style>
+    </head><body>
+        <div class="inputContainer">
+           <label>
+                Ime i prezime oštećenog:
+            </label>
+            <input type="text" value="${this.activeInstruction.beneficiaryName}">
+        </div>
+        <div class="inputContainer">
+           <label>
+                Iznos:
+            </label>
+          <input type="text" value="${this.activeInstruction.amount} ${this.activeInstruction.paymentType === 1 ? 'RSD' : 'EUR'}">
+        </div>
+        ${printAccountNum ? '<div class="inputContainer"><label>Broj žiro računa:</label><input type="text" value="' + this.activeInstruction.accountNumber +'"></div>' : ''}
+        ${printQR ? '<p>Ili skeniraj NBS QR Code:</p><img src="' + this.activeInstruction.qrCode  +'">' : ''}
+</body></html>`);
+
+            doc.close();
+
+            // wait for stylesheet/images before printing
+            iframe.onload = () => {
+                iframe.contentWindow.focus();
+                iframe.contentWindow.print();
+                setTimeout(() => iframe.remove(), 1000); // cleanup after print dialog
+            };
+        });
+    }
+
+    getMessageElement(message, type) {
+        const messageElement = document.createElement('span');
+        messageElement.textContent = message;
+        messageElement.classList.add(type);
+        return messageElement;
     }
 
     #render(resetPage = false) {
@@ -141,7 +211,7 @@ export default class InstructionsTable {
     #renderDesktopItem(instruction, index) {
         const tr = document.createElement('tr');
         Object.keys(instruction).forEach((instructionKey) => {
-            const skipKeys = ['expiresAt', 'projectId', 'id'];
+            const skipKeys = ['expiresAt', 'projectId', 'id', 'paymentType', 'accountNumber', 'qrCode'];
             if (skipKeys.includes(instructionKey)) {
                 return;
             }
@@ -195,6 +265,7 @@ export default class InstructionsTable {
             this.overlay.classList.add('active');
             document.body.classList.add('freeze');
             const instruction = this.#data[parseInt(button.getAttribute('data-index'), 10)];
+            this.activeInstruction = instruction;
             this.confirmPaymentButton.dataset.id = instruction.id;
             let logo = '';
             let className = '';
@@ -283,12 +354,46 @@ export default class InstructionsTable {
                     break;
             }
             this.paymentDialog.classList.add(className);
-            this.paymentDialog.querySelector('#nameInput').value = instruction.beneficiaryName;
-            this.paymentDialog.querySelector('#accNumInput').value = '160-6000001388926-33' //@TODO
-            this.paymentDialog.querySelector('#amountInput').value = instruction.amount + ' RSD'; //@TODO add currency based on type of payment
-            this.paymentDialog.querySelector('#paymentInfoLogo').innerHTML = logo;
-            //@TODO GET QR FROM PHP IF correct payment method
-            //@todo hide REFNUM / QR if not correct payment method (or show it since it could be hidden from before)
+            const nameInput =  this.paymentDialog.querySelector('#nameInput');
+            const accNumInput =  this.paymentDialog.querySelector('#accNumInput');
+            const amountInput =  this.paymentDialog.querySelector('#amountInput');
+            const paymentInfoLogo =  this.paymentDialog.querySelector('#paymentInfoLogo');
+            const refNumInput = this.paymentDialog.querySelector('#refNumInput');
+            const qrCodeImage = this.paymentDialog.querySelector('#qrCodeImage');
+            let currency = 'RSD';
+
+            switch(instruction.paymentType) {
+                case 1:
+                    accNumInput.value = instruction.accountNumber;
+                    accNumInput.parentElement.parentElement.classList.remove('hidden');
+                    refNumInput.parentElement.parentElement.classList.add('hidden');
+                    qrCodeImage.parentElement.parentElement.classList.remove('hidden');
+                    qrCodeImage.src = instruction.qrCode;
+                    break;
+                case 2:
+                    currency = 'EUR';
+                    accNumInput.value = instruction.accountNumber;
+                    accNumInput.parentElement.parentElement.classList.remove('hidden');
+                    refNumInput.parentElement.parentElement.classList.add('hidden');
+                    qrCodeImage.parentElement.parentElement.classList.add('hidden');
+                    qrCodeImage.src = instruction.qrCode;
+                    break;
+                case 3:
+                    currency = 'EUR';
+                    accNumInput.parentElement.parentElement.classList.add('hidden');
+                    refNumInput.parentElement.parentElement.classList.remove('hidden');
+                    qrCodeImage.parentElement.parentElement.classList.add('hidden');
+                    break;
+                case 4:
+                    currency = 'EUR';
+                    accNumInput.parentElement.parentElement.classList.add('hidden');
+                    refNumInput.parentElement.parentElement.classList.add('hidden');
+                    qrCodeImage.parentElement.parentElement.classList.add('hidden');
+                    break;
+            }
+            nameInput.value = instruction.beneficiaryName;
+            amountInput.value = instruction.amount + ` ${currency}`;
+            paymentInfoLogo.innerHTML = logo;
 
         });
         return button;

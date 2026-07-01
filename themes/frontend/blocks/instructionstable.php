@@ -63,6 +63,9 @@
                 <p>Ukoliko se uplata ne izvrši u roku od 72 časa, instrukcije su otkazane. Zatim možete ručno generisati instrukcije klikom na dugme na prethodnom ekranu “Generiši instrukcije” </p>
             </div>
         </div>
+        <div class="messagesContainer">
+
+        </div>
         <div id="paymentInfo">
             <div id="paymentInfoLogo">
             </div>
@@ -107,10 +110,10 @@
                     </div>
                 </div>
                 <div class="column">
-                    <div class="inputContainer accNum">
+                    <div class="inputContainer qrCode">
                         <label><?=$this->t('Ili skeniraj NBS QR Code:')?></label>
                         <div class="inputWrapper">
-                            <img class="QR" src="" alt="">
+                            <img id="qrCodeImage" class="QR" src="" alt="">
                         </div>
                     </div>
                     <div class="print">

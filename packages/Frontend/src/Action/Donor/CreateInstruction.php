@@ -41,7 +41,7 @@ class CreateInstruction extends BaseAction
         try {
             $data['donorId'] = $this->session->getId();
             $this->donor->createTransaction($data);
-            $responseData['redirect'] = '/instrukcije-za-uplatu'; //@TODO TRANSLATE
+            $responseData['redirect'] = '/instrukcije-za-placanje'; //@TODO TRANSLATE
         } catch (ValidatorException $e) {
             $success = false;
             foreach ($this->donor->getDonationDataFilterErrors() as $error) {

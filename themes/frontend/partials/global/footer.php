@@ -1,4 +1,4 @@
-<?php if($isDonorLoggedIn):?>
+<?php if(isset($isDonorLoggedIn) && $isDonorLoggedIn):?>
     <footer id="footerLoggedIn">
         <div class="left">
             <svg width="205" height="57" viewBox="0 0 205 57" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -45,7 +45,7 @@
             <ul>
                 <li><a href="/" title="Početna">Početna</a></li>
                 <li><a href="/sta-je-mreza" title="Šta je Mreža">Šta je Mreža</a></li>
-                <li><a href="/kako-fukncionise-mreza" title="Kako Mreža funkncioniše">Kako Mreža funkncioniše</a></li>
+                <li><a href="/kako-funkcionise-mreza" title="Kako Mreža funkncioniše">Kako Mreža funkncioniše</a></li>
                 <li><a href="/kako-do-pomoci" title="Kako do pomoći">Kako do pomoći</a></li>
                 <li><a href="/faq" title="FAQ">FAQ</a></li>
                 <li><a href="/kontakt" title="Kontakt">Kontakt</a></li>

@@ -40,8 +40,6 @@ $projectSelect = (new Select(name:'project', optionsCollection: $projectCollecti
 $periodCollection = (new OptionCollection())->fromArray($data['periods'], $data['model']?->period->id);
 $periodSelect = (new Select(name:'period', optionsCollection: $periodCollection, label: 'Period', readOnly: $readonly))
     ->required('Period is required', '');
-$donorConfirmedCollection = (new OptionCollection(new Option(0, 'No')))->fromArray([0 => 'No', 1 => 'Yes'], $data['model']?->donorConfirmed);
-$donorConfirmedSelect = (new Select(name:   'donorConfirmed', optionsCollection: $donorConfirmedCollection, label:  'Donator potvrdio uplatu?', readOnly: $readonly));
 
 $donorSelect = (new \Skeletor\Form\InputTypes\AjaxInputSearch\AjaxInputSearch(
     'donor',
@@ -83,8 +81,7 @@ $form->addTab((new Tab('Basic Info'))
     ->addInputGroup((new InputGroup())
         ->addInput($amount)        )
     ->addInputGroup((new InputGroup())
-        ->addInput($statusSelect)
-        ->addInput($donorConfirmedSelect))
+        ->addInput($statusSelect))
     ->addInputGroup((new InputGroup(width: InputGroupWidth::HALF_WIDTH))
         ->addInput($comment))
 );

@@ -9,6 +9,7 @@ use Skeletor\Core\Validator\ValidatorException;
 use Skeletor\ThemeSettings\Navigation\Service\Navigation;
 use Skeletor\ThemeSettings\SocialLinks\Service\SocialLinks;
 use Solidarity\Frontend\Action\BaseAction;
+use Solidarity\Transaction\Service\Transaction;
 use Volnix\CSRF\CSRF;
 
 class ConfirmPayment extends BaseAction
@@ -18,6 +19,7 @@ class ConfirmPayment extends BaseAction
         protected Navigation $navigationService,
         protected SocialLinks $socialLinks,
         \Solidarity\Frontend\Service\Session $session,
+        protected Transaction $transaction
     ) {
         parent::__construct($logger, $config, $template, $this->navigationService, $this->socialLinks, $session);
 
@@ -44,14 +46,34 @@ class ConfirmPayment extends BaseAction
             $responseData['errors'][] = 'Your session has expired, please refresh the page and try again.';
         }
         try {
-            //@TODO CHECK THAT ITS THE RIGHT STATUS BEFORE UPDATING AND THAT IT IS ASSIGNED TO THE LOGGED IN DONOR
-            //@TODO CONFIRM PAYMENT
+            $responseData['token'] = CSRF::getToken();
+            $trx = $this->transaction->getById((int)$data['transactionId']);
+            //@TODO move to validator
+            if(!$trx) {
+                $responseData['errors'][] = 'Transaction not found.';
+                return $this->returnWithData(false, $responseData, 404);
+            }
+            if($trx->donor->id !== $this->session->getUser()->id) {
+                $responseData['errors'][] = 'You are not authorized to confirm this payment.';
+                return $this->returnWithData(false, $responseData, 403);
+            }
+            if($trx->status !== \Solidarity\Transaction\Entity\Transaction::STATUS_NEW) {
+                $responseData['errors'][] = 'This transaction cannot be confirmed at this time.';
+                return $this->returnWithData(false, $responseData, 400);
+            }
+            if($trx->paymentType === 3) {
+                if(empty($data['paymentCode'])) {
+                    $responseData['errors'][] = 'Payment code is required for this payment type.';
+                    return $this->returnWithData(false, $responseData, 400);
+                }
+                $this->transaction->updateField('paymentCode', trim($data['paymentCode']), $trx->id);
+            }
+            $this->transaction->updateField('status', \Solidarity\Transaction\Entity\Transaction::STATUS_WAITING_CONFIRMATION, $trx->id);
         } catch (\Exception $e) {
             $success = false;
             $statusCode = 400;
             $responseData['errors'][] = 'An unexpected error occurred, please try again.';
         }
-        $responseData['token'] = CSRF::getToken();
         return $this->returnWithData($success, $responseData, $statusCode);
     }
 }
