@@ -166,12 +166,19 @@
           @include typography.type(text);
           color:white;
         }
+      #qrCodeImage {
+        width: 200px;
+        height: auto;
+        background: white;
+        border-radius: 6px;
+      }
     }
     .paymentContact {
       color:white;
     }
     .print {
       color: white;
+      cursor:pointer;
     }
   }
   &.repression {
@@ -253,6 +260,9 @@
           display:flex;
           flex-direction:column;
           gap:1rem;
+          &.hidden {
+            display:none;
+          }
           .inputWrapper {
             position:relative;
             input {

@@ -17,7 +17,6 @@ class TransactionFactory extends AbstractFactory
         $transaction->amount = (int) $data['amount'];
         $transaction->amountEur = (int) $data['amountEur'];
         $transaction->status = (int) $data['status'];
-        $transaction->donorConfirmed = (bool) $data['donorConfirmed'];
         $transaction->comment = $data['comment'] ?? null;
         $transaction->donor = $em->getRepository(Donor::class)->find($data['donor']);
         $transaction->project = $em->getRepository(Project::class)->find($data['project']);
@@ -38,7 +37,6 @@ class TransactionFactory extends AbstractFactory
     {
         $transaction = $em->getRepository(Transaction::class)->find($data['id']);
         $transaction->status = (int) $data['status'];
-        $transaction->donorConfirmed = (bool) $data['donorConfirmed'];
         // amount is not changeable. use case is to cancel it and create new one
         $transaction->comment = $data['comment'] ?? null;
 

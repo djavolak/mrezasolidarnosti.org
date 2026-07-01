@@ -23,7 +23,9 @@ class ProfiledataViewFilter implements BlockViewFilterInterface
             $data['donor'] = $this->session->getUser();
         }
         $data['totalDonated'] = number_format($this->transactionService->getPaidSumAmountForDonor($data['donor']));
-        $data['totalDonatedEUR'] = \Solidarity\Transaction\Entity\Transaction::rsdToEur($data['totalDonated']);
+        $data['totalDonatedEUR'] = \Solidarity\Transaction\Entity\Transaction::rsdToEur(
+            $this->transactionService->getPaidSumAmountForDonor($data['donor'])
+        );
         $data['totalTransactions'] = $this->transactionService->getTransactionCountForDonor($data['donor']);
 
         return $data;
