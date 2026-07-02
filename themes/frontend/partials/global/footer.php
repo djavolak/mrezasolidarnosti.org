@@ -68,12 +68,27 @@
         <div id="partners">
             <h2>Delegati i partneri Mreže</h2>
             <div id="partnerLogos">
-                <img src="<?=FRONT_ASSET_URL?>/images/partners/akc.png" alt="AKC">
+                <a href="https://www.instagram.com/pobunjeni_univerzitet/">
+                    <img src="<?=FRONT_ASSET_URL?>/images/partners/akc.png" alt="AKC">
+                </a>
+                <a href="https://www.instagram.com/slobodan_univerzitet_ns"> <?php //todo izvuci novi logo iz figme, spojena ova dva za ns ?>
                 <img src="<?=FRONT_ASSET_URL?>/images/partners/suns.png" alt="Slobodni Univerzitet Krizni Centar">
+                </a>
+                <a href="https://www.instagram.com/slobodan_univerzitet_ns">
                 <img src="<?=FRONT_ASSET_URL?>/images/partners/suns2.png" alt="Novi Sad Slobodan Univerzitet">
+                </a>
+                <a href="https://www.gradjanske.org/prijavi-se-za-aktivisticku-karticu-stit/">
                 <img src="<?=FRONT_ASSET_URL?>/images/partners/stit.png" alt="Štit">
+                </a>
+                <a href="https://www.instagram.com/ngp.uni/">
                 <img src="<?=FRONT_ASSET_URL?>/images/partners/sunis.png" alt="Suniš">
+                </a>
+                <a href="https://www.instagram.com/slobodni_uni_kg/"><?php //todo izvuci logo iz figme za kg ?>
+                    <img src="<?=FRONT_ASSET_URL?>/images/partners/sunis.png" alt="Slobodni Univerzitet Kragujevac">
+                </a>
+                <a href="https://itsrbija.org/">
                 <img src="<?=FRONT_ASSET_URL?>/images/partners/its.png" alt="ITS">
+                </a>
             </div>
         </div>
         <div id="footerBottom">
