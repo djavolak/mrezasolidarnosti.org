@@ -40,6 +40,7 @@ class CreateInstruction extends BaseAction
         }
         try {
             $data['donorId'] = $this->session->getId();
+            $data['frequency'] = 0; // one-time donation
             $this->donor->createTransaction($data);
             $responseData['redirect'] = '/instrukcije-za-uplatu'; //@TODO TRANSLATE
         } catch (ValidatorException $e) {
