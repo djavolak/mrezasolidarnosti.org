@@ -40,15 +40,6 @@ class CreateInstruction extends BaseAction
         }
         try {
             $data['donorId'] = $this->session->getId();
-            $allocated = $this->donor->createTransaction($data);
-            if ($allocated > 0) {
-                $responseData['redirect'] = '/instrukcije-za-placanje'; //@TODO TRANSLATE
-            } else {
-                // Nothing matched the donor's criteria (no unmet need right now).
-                $success = false;
-                $responseData['errors'][] = 'Trenutno nema potreba koje odgovaraju vašem izboru.';
-            }
-            $data['frequency'] = 0; // one-time donation
             $this->donor->createTransaction($data);
             $responseData['redirect'] = '/instrukcije-za-uplatu'; //@TODO TRANSLATE
         } catch (ValidatorException $e) {
@@ -60,7 +51,7 @@ class CreateInstruction extends BaseAction
         } catch (\Exception $e) {
             $success = false;
             $statusCode = 400;
-            $responseData['errors'][] = 'An unexpected error occurred, please try again.';
+            $responseData['errors'][] = 'An unexpected error occurred, please try again.' . $e->getMessage();
         }
         $responseData['token'] = CSRF::getToken();
         return $this->returnWithData($success, $responseData, $statusCode);

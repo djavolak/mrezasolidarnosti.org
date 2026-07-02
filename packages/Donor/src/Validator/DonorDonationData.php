@@ -23,11 +23,6 @@ class DonorDonationData
             $valid = false;
         }
 
-        if($data['frequency'] !== 0 && $data['frequency'] !== 1) {
-            $this->messages['frequency'][] = 'Invalid value provided for payment frequency.';
-            $valid = false;
-        }
-
         if($data['project'] !== -1 && $data['project'] !== 1 && $data['project'] !== 2) {
             $this->messages['project'][] = 'Project does not exist.';
             $valid = false;

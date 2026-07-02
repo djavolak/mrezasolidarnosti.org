@@ -419,19 +419,39 @@ class Transaction extends TableView
             $instructions = $beneficiaryPM->wireInstructions;
         }
 
-        $this->create([
-            'donor' => $donor->id,
-            'project' => $project->id,
-            'amount' => $transactionAmount,
-            'amountEur' => $amountEur,
-            'period' => $period->id,
-            'comment' => '',
-            'status' => TransactionEntity::STATUS_NEW,
-            'beneficiary' => $beneficiary->id,
-            'paymentType' => $paymentType,
-            'accountNumber' => $accountNumber,
-            'instructions' => $instructions,
-        ]);
+        try {
+            $this->create([
+                'donor' => $donor->id,
+                'project' => $project->id,
+                'amount' => $transactionAmount,
+                'amountEur' => $amountEur,
+                'period' => $period->id,
+                'comment' => '',
+                'status' => TransactionEntity::STATUS_NEW,
+                'beneficiary' => $beneficiary->id,
+                'paymentType' => $paymentType,
+                'accountNumber' => $accountNumber,
+                'instructions' => $instructions,
+                // Allocator-generated, not a form submission — CSRF was already validated
+                // upstream (cron has no request; the donor's on-demand form is CSRF-checked
+                // in DonorDonationData). Without this the Transaction validator rejects it.
+                'skipCsrf' => true,
+                // The allocator already matched donor↔beneficiary by the donor's chosen
+                // payment types; skip the validator's persisted-payment-method check, which
+                // doesn't apply to on-demand donations (the choice is on the form).
+                'skipDonorPaymentCheck' => true,
+            ]);
+        } catch (\Skeletor\Core\Validator\ValidatorException $e) {
+            // One beneficiary failing transaction validation must not abort the whole run.
+            // The real reason lives on the Transaction validator (parseErrors), not the
+            // donation validator the caller reads — so log it here with full context.
+            $this->logger->warning(sprintf(
+                'Skipped transaction (donor %d, beneficiary %d, project %d, period %d, type %d): %s',
+                $donor->id, $beneficiary->id, $project->id, $period->id, $paymentType,
+                json_encode($this->parseErrors())
+            ));
+            return $skip;
+        }
 
         return ['type' => $paymentType, 'amount' => $transactionAmount];
     }
@@ -483,8 +503,8 @@ class Transaction extends TableView
             ['name' => 'email', 'label' => 'Donator'],
             ['name' => 'name', 'label' => 'Oštećeni'],
             ['name' => 'accountNumber', 'label' => 'Br računa'],
-            ['name' => 'amount', 'label' => 'Iznos (RSD)'],
-            ['name' => 'amountEur', 'label' => 'Iznos (EUR)'],
+            ['name' => 'amount', 'label' => 'Iznos <br /> (RSD)'],
+            ['name' => 'amountEur', 'label' => 'Iznos <br /> (EUR)'],
             ['name' => 'status', 'label' => 'Status', 'filterData' => \Solidarity\Transaction\Entity\Transaction::getHrStatuses()],
             ['name' => 'project', 'label' => 'Projekat', 'filterData' => $this->project->getFilterData()],
             ['name' => 'createdAt', 'label' => 'Datum'],

@@ -22,10 +22,20 @@ class TransactionFactory extends AbstractFactory
         $transaction->project = $em->getRepository(Project::class)->find($data['project']);
         $transaction->period = $em->getRepository(Period::class)->find($data['period']);
         $transaction->beneficiary = $em->getRepository(Beneficiary::class)->find($data['beneficiary']);
-        $paymentType = static::matchPaymentType($transaction->donor, $transaction->beneficiary, $transaction->project);
-        $transaction->paymentType = $paymentType['paymentType'];
-        $transaction->accountNumber = $paymentType['accountNumber'] ?? null;
-        $transaction->instructions = $paymentType['instructions'] ?? null;
+        // The allocator already resolved the payment type (by the donor's chosen types on
+        // demand, or pledged methods for the cron) and the beneficiary's account/instructions
+        // — trust it. Only fall back to re-deriving from persisted methods for callers that
+        // don't supply one (e.g. legacy imports).
+        if (!empty($data['paymentType'])) {
+            $transaction->paymentType = (int) $data['paymentType'];
+            $transaction->accountNumber = $data['accountNumber'] ?? null;
+            $transaction->instructions = $data['instructions'] ?? null;
+        } else {
+            $match = static::matchPaymentType($transaction->donor, $transaction->beneficiary, $transaction->project);
+            $transaction->paymentType = $match['paymentType'];
+            $transaction->accountNumber = $match['accountNumber'] ?? null;
+            $transaction->instructions = $match['instructions'] ?? null;
+        }
 
         $em->persist($transaction);
         $em->flush();
