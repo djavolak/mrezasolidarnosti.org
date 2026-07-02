@@ -196,6 +196,7 @@
                 <span>Ovde možete uneti informacije o frenkfenciji, iznosu i načinima na koje možete izvršiti donaciju. Kada bude bilo potrebe, sistem će Vam poslate instrukcije za uplatu, koje će se nalaziti na stranici Instrukcije za uplatu.</span>
             </p>
             <div id="donationFormFields">
+                <?php if(!$isForInstruction):?>
                 <div class="formFields" id="frequencyFields">
                     <h3>Frekfencija donacije</h3>
                     <div class="inputs">
@@ -209,6 +210,7 @@
                     </div>
                     <span class="info">Izaberite Vašu željenu frenkfenciju donacije</span>
                 </div>
+                <?php endif;?>
                 <div class="formFields" id="paymentMethodFields">
                     <h3>Način plaćanja</h3>
                     <span class="info">Izaberete jedan, više ili sve načine plaćanja</span>
