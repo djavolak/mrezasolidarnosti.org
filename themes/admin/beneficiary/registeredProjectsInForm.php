@@ -17,7 +17,7 @@
                     <select class="input registeredPeriodSelect">
                         <option disabled selected value="-1">Izaberite Period</option>
                         <?php foreach($periods as $period): ?>
-                            <option <?=$period->id === $registeredPeriod['period'] ? 'selected' : ''?> data-project-id="<?=$period->project->id?>" value="<?=$period->id?>"><?=$period->getLabel()?></option>
+                            <option <?=$period->id === $registeredPeriod['period'] ? 'selected' : ''?> data-project-id="<?=$period->project->id?>" value="<?=$period->id?>"><?=$period->getLabel()?><?= $period->active ? '' : ' (neaktivan)' ?></option>
                         <?php endforeach;?>
                     </select>
                 </div>
@@ -54,7 +54,7 @@
             <select disabled class="input registeredPeriodSelect">
                 <option disabled selected value="-1">Izaberite Period</option>
                 <?php foreach($periods as $period): ?>
-                    <option data-project-id="<?=$period->project->id?>" value="<?=$period->id?>"><?=htmlspecialchars($period->getLabel())?></option>
+                    <option data-project-id="<?=$period->project->id?>" value="<?=$period->id?>"><?=htmlspecialchars($period->getLabel())?><?= $period->active ? '' : ' (neaktivan)' ?></option>
                 <?php endforeach;?>
             </select>
         </div>

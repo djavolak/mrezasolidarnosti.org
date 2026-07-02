@@ -243,13 +243,38 @@ class Donor extends TableView
         ];
     }
 
-    public function createTransaction(array $data): void
+    /**
+     * On-demand donation: match beneficiaries to the donor's chosen projects and payment
+     * types and create instructions now. Returns the total RSD allocated (0 when nothing
+     * currently matches the donor's criteria).
+     */
+    public function createTransaction(array $data): int
     {
         $filteredData = $this->donorDonationDataFilter->filter($data);
         if (!$this->donorDonationDataValidator->isValid($filteredData)) {
             throw new ValidatorException();
         }
-        //@TODO create transaction for donor
+
+        $donor = $this->repo->getById($filteredData['donorId']);
+        if (!$donor) {
+            throw new \Exception('Donor not found');
+        }
+
+        // project === -1 means "every project"; otherwise the single chosen one.
+        $projects = $filteredData['project'] === -1
+            ? $this->project->getEntities()
+            : array_values(array_filter([$this->project->getById($filteredData['project'])]));
+
+        // Per-payment-type budget in RSD (convert the EUR entries to RSD).
+        $budgets = [];
+        foreach ($filteredData['paymentData'] as $type => $payment) {
+            $rsd = (int) $payment['currency'] === PaymentMethod::CURRENCY_EUR
+                ? Transaction::eurToRsd((int) $payment['amount'])
+                : (int) $payment['amount'];
+            $budgets[(int) $type] = ($budgets[(int) $type] ?? 0) + $rsd;
+        }
+
+        return $this->transaction->createForDonor($donor, $projects, $budgets);
     }
 
 }

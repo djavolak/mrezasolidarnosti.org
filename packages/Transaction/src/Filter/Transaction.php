@@ -35,9 +35,14 @@ class Transaction implements FilterInterface
             'comment' => $postData['comment'] ?? '',
             'status' => (int) ($postData['status'] ?? 1),
             'donor' => $postData['donor'],
+            'paymentType' => $postData['paymentType'] ?? null,
             'accountNumber' => $postData['accountNumber'] ?? null,
             'instructions' => $postData['instructions'] ?? null,
             'skipCsrf' => $postData['skipCsrf'] ?? false,
+            // Allocator-generated transactions already matched donor↔beneficiary by the
+            // donor's *chosen* types (on-demand) or pledged methods (cron); the validator's
+            // persisted-payment-method check doesn't apply to them.
+            'skipDonorPaymentCheck' => $postData['skipDonorPaymentCheck'] ?? false,
             CSRF::TOKEN_NAME => $postData[CSRF::TOKEN_NAME] ?? null,
         ];
         if (!$this->validator->isValid($data)) {

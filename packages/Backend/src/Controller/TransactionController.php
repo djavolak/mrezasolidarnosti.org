@@ -245,6 +245,18 @@ class TransactionController extends AjaxCrudController
             $periodProjectMap[$period->id] = $period->project->id;
         }
 
+        // Include the edited transaction's own period even if it's no longer active —
+        // transactions are created for `processing` periods, which needn't stay `active`.
+        // Without this the Period dropdown can't preselect it and shows "---".
+        $id = $this->getRequest()->getAttribute('id');
+        if ($id) {
+            $transaction = $this->service->getById($id);
+            if ($transaction && $transaction->period && !array_key_exists($transaction->period->id, $assignedPeriods)) {
+                $assignedPeriods[$transaction->period->id] = $transaction->period->getLabel();
+                $periodProjectMap[$transaction->period->id] = $transaction->period->project->id;
+            }
+        }
+
         $this->formData['projects'] = $assignedProjects;
         $this->formData['periods'] = $assignedPeriods;
         $this->formData['periodProjectMap'] = $periodProjectMap;

@@ -36,7 +36,7 @@ class Transaction implements ValidatorInterface
         $beneficiaryId = $data['beneficiary'] ?? null;
         $projectId = $data['project'] ?? null;
 
-        if ($donorId && $beneficiaryId && $projectId) {
+        if (empty($data['skipDonorPaymentCheck']) && $donorId && $beneficiaryId && $projectId) {
             $donor = $this->donorRepo->getById((int) $donorId);
             $beneficiary = $this->beneficiaryRepo->getById((int) $beneficiaryId);
 

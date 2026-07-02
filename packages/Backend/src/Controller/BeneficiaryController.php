@@ -87,6 +87,19 @@ class BeneficiaryController extends AjaxCrudController
                 }
             }
         }
+        // Include the beneficiary's own registered periods even when inactive. Otherwise an
+        // inactive period has no <option>, the dropdown shows the empty "Izaberite Period"
+        // placeholder, and saving drops the registration (the placeholder submits no valid
+        // period). Keeps the period selectable and preserved on save.
+        if ($model && $model->registeredPeriods) {
+            $periodIds = array_map(static fn($p) => $p->id, $assignedPeriods);
+            foreach ($model->registeredPeriods as $rp) {
+                if (!in_array($rp->period->id, $periodIds, true)) {
+                    $assignedPeriods[] = $rp->period;
+                    $periodIds[] = $rp->period->id;
+                }
+            }
+        }
         $this->formData['assignedProjects'] = $assignedProjects;
         $this->formData['assignedPeriods'] = $assignedPeriods;
 

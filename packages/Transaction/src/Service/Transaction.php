@@ -11,6 +11,7 @@ use Solidarity\Transaction\Entity\Project;
 use Solidarity\Transaction\Entity\Transaction as TransactionEntity;
 use Solidarity\Transaction\Repository\TransactionRepository;
 use Solidarity\Beneficiary\Repository\BeneficiaryRepository;
+use Solidarity\Period\Repository\PeriodRepository;
 use Skeletor\Core\TableView\Service\TableView;
 use Psr\Log\LoggerInterface as Logger;
 use Skeletor\User\Service\Session;
@@ -28,9 +29,35 @@ class Transaction extends TableView
      */
     public function __construct(
         TransactionRepository $repo, Session $user, Logger $logger, TransactionFilter $filter, private ProjectService $project,
-        private BeneficiaryRepository $beneficiaryRepo,
+        private BeneficiaryRepository $beneficiaryRepo, private PeriodRepository $periodRepo,
     ) {
         parent::__construct($repo, $user, $logger, $filter);
+    }
+
+    /**
+     * Is there at least one active beneficiary in a processing period whose registered
+     * need for that period is not yet covered by allocated transactions? Gates the donor's
+     * on-demand donation button, so it uses the SAME period set (processing — the periods
+     * open for transaction creation) and the same unmet-need math as createForDonor — if
+     * the button shows, createForDonor has something to allocate.
+     *
+     * "Covered" uses the allocated statuses (NEW, WAITING_CONFIRMATION, CONFIRMED, PAID)
+     * via getSumAmountForBeneficiary — same as allocateToBeneficiary — so a need already
+     * pledged by pending instructions is treated as met. Short-circuits on the first hit.
+     */
+    public function hasUnmetNeeds(): bool
+    {
+        foreach ($this->periodRepo->fetchProcessing() as $period) {
+            foreach ($this->beneficiaryRepo->fetchByPeriod($period->getId()) as $beneficiary) {
+                $received = $this->repo->getSumAmountForBeneficiary($beneficiary, null, $period);
+                $remaining = $beneficiary->getAmountForPeriod($period) - $received;
+                if ($remaining > self::MIN_TRANSACTION_DONATION_AMOUNT) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     public function getSumAmountForBeneficiary(Beneficiary $beneficiary, ?Project $project = null, ?Period $period = null) {
@@ -145,31 +172,37 @@ class Transaction extends TableView
     }
 
     /**
-     * Allocate up to $amount (RSD) from $donor across $projects, creating transactions
-     * to beneficiaries whose payment methods match one of the donor's $paymentMethods,
-     * until the leftover drops below the minimum.
+     * On-demand donor allocation: the donor picks $projects and per-payment-type RSD
+     * $budgets, and we create instructions to the matching beneficiaries right now.
      *
-     * Distribution is kept balanced two ways:
-     *  - across projects: a round-robin gives one allocation to each project per pass,
-     *    so funds spread over all projects instead of draining the first one;
-     *  - across beneficiaries: within a project, candidates come back in the repository's
-     *    received-ascending order and the cursor advances each pass, so each pass hits a
-     *    different (and least-funded) beneficiary. The per-person yearly cap further
-     *    limits how much any single beneficiary takes from this donor.
+     * A beneficiary matches when it is registered in one of the $projects' **processing**
+     * periods (the ones open for transaction creation — `active` only lets delegates add
+     * beneficiaries), has a payment method of a type the donor is funding (and that type
+     * still has budget), and still has an unmet need for that period. Donor-triggered and
+     * one-time — same period set as the cron, just initiated on demand instead of scheduled.
      *
-     * @param \Solidarity\Donor\Entity\PaymentMethod[] $paymentMethods donor payment methods (define the matchable type/currency)
-     * @param Project[] $projects
+     * Distribution stays balanced two ways:
+     *  - across projects: a round-robin gives one allocation to each project per pass;
+     *  - across beneficiaries: fetchByPeriod returns them least-funded-first and the
+     *    cursor advances each pass, so each pass hits a different beneficiary. The
+     *    per-person yearly cap limits how much any one beneficiary takes.
+     *
+     * $budgets is a single per-type pool shared across all selected projects; each
+     * allocation decrements the type it actually used.
+     *
+     * @param Project[] $projects donor-selected projects
+     * @param array<int,int> $budgets RSD available per payment type ([type => rsd])
      * @return int total RSD allocated
      */
-    public function createForDonor(Donor $donor, array $paymentMethods, int $amount, array $projects): int
+    public function createForDonor(Donor $donor, array $projects, array $budgets): int
     {
-        $types = array_values(array_unique(array_map(static fn($pm) => $pm->type, $paymentMethods)));
-        $minSlice = $amount > 100000 ? 10000 : self::MIN_TRANSACTION_DONATION_AMOUNT;
-        if (!$types || !$projects || $amount < $minSlice) {
+        $minSlice = array_sum($budgets) > 100000 ? 10000 : self::MIN_TRANSACTION_DONATION_AMOUNT;
+        $budgets = array_filter($budgets, static fn($rsd) => $rsd >= $minSlice);
+        if (!$budgets || !$projects) {
             return 0;
         }
 
-        // One ordered candidate queue per project (eligible beneficiaries per processing period).
+        // One ordered candidate queue per project over its PROCESSING periods.
         $queues = [];
         foreach ($projects as $project) {
             $candidates = [];
@@ -186,35 +219,30 @@ class Transaction extends TableView
             }
         }
 
-        $leftover = $amount;
         $totalAllocated = 0;
 
-        while ($leftover >= $minSlice && $queues) {
+        while ($queues && array_sum($budgets) >= $minSlice) {
             $allocatedThisPass = false;
 
             foreach (array_keys($queues) as $qi) {
-                $slice = 0;
+                $result = ['type' => null, 'amount' => 0];
                 // Advance this project's cursor until we allocate or run out of candidates.
-                // Pooled allocation: every donor type can draw from the whole leftover.
                 while ($queues[$qi]['cursor'] < count($queues[$qi]['candidates'])) {
                     $candidate = $queues[$qi]['candidates'][$queues[$qi]['cursor']];
                     $queues[$qi]['cursor']++;
-                    $slice = $this->allocateToBeneficiary(
+                    $result = $this->allocateToBeneficiary(
                         $donor, $queues[$qi]['project'], $candidate['period'], $candidate['beneficiary'],
-                        array_fill_keys($types, $leftover), $minSlice
-                    )['amount'];
-                    if ($slice > 0) {
+                        $budgets, $minSlice
+                    );
+                    if ($result['amount'] > 0) {
                         break;
                     }
                 }
 
-                if ($slice > 0) {
-                    $leftover -= $slice;
-                    $totalAllocated += $slice;
+                if ($result['amount'] > 0) {
+                    $budgets[$result['type']] -= $result['amount']; // spend from the type actually used
+                    $totalAllocated += $result['amount'];
                     $allocatedThisPass = true;
-                    if ($leftover < $minSlice) {
-                        break;
-                    }
                 }
 
                 if ($queues[$qi]['cursor'] >= count($queues[$qi]['candidates'])) {
@@ -391,19 +419,39 @@ class Transaction extends TableView
             $instructions = $beneficiaryPM->wireInstructions;
         }
 
-        $this->create([
-            'donor' => $donor->id,
-            'project' => $project->id,
-            'amount' => $transactionAmount,
-            'amountEur' => $amountEur,
-            'period' => $period->id,
-            'comment' => '',
-            'status' => TransactionEntity::STATUS_NEW,
-            'beneficiary' => $beneficiary->id,
-            'paymentType' => $paymentType,
-            'accountNumber' => $accountNumber,
-            'instructions' => $instructions,
-        ]);
+        try {
+            $this->create([
+                'donor' => $donor->id,
+                'project' => $project->id,
+                'amount' => $transactionAmount,
+                'amountEur' => $amountEur,
+                'period' => $period->id,
+                'comment' => '',
+                'status' => TransactionEntity::STATUS_NEW,
+                'beneficiary' => $beneficiary->id,
+                'paymentType' => $paymentType,
+                'accountNumber' => $accountNumber,
+                'instructions' => $instructions,
+                // Allocator-generated, not a form submission — CSRF was already validated
+                // upstream (cron has no request; the donor's on-demand form is CSRF-checked
+                // in DonorDonationData). Without this the Transaction validator rejects it.
+                'skipCsrf' => true,
+                // The allocator already matched donor↔beneficiary by the donor's chosen
+                // payment types; skip the validator's persisted-payment-method check, which
+                // doesn't apply to on-demand donations (the choice is on the form).
+                'skipDonorPaymentCheck' => true,
+            ]);
+        } catch (\Skeletor\Core\Validator\ValidatorException $e) {
+            // One beneficiary failing transaction validation must not abort the whole run.
+            // The real reason lives on the Transaction validator (parseErrors), not the
+            // donation validator the caller reads — so log it here with full context.
+            $this->logger->warning(sprintf(
+                'Skipped transaction (donor %d, beneficiary %d, project %d, period %d, type %d): %s',
+                $donor->id, $beneficiary->id, $project->id, $period->id, $paymentType,
+                json_encode($this->parseErrors())
+            ));
+            return $skip;
+        }
 
         return ['type' => $paymentType, 'amount' => $transactionAmount];
     }
@@ -455,8 +503,8 @@ class Transaction extends TableView
             ['name' => 'email', 'label' => 'Donator'],
             ['name' => 'name', 'label' => 'Oštećeni'],
             ['name' => 'accountNumber', 'label' => 'Br računa'],
-            ['name' => 'amount', 'label' => 'Iznos (RSD)'],
-            ['name' => 'amountEur', 'label' => 'Iznos (EUR)'],
+            ['name' => 'amount', 'label' => 'Iznos <br /> (RSD)'],
+            ['name' => 'amountEur', 'label' => 'Iznos <br /> (EUR)'],
             ['name' => 'status', 'label' => 'Status', 'filterData' => \Solidarity\Transaction\Entity\Transaction::getHrStatuses()],
             ['name' => 'project', 'label' => 'Projekat', 'filterData' => $this->project->getFilterData()],
             ['name' => 'createdAt', 'label' => 'Datum'],

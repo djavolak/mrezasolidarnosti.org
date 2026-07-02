@@ -19,7 +19,7 @@
             <div class="pillarSections">
                 <?php foreach(($block['pillars'] ?? []) as $pillar): ?>
                     <div class="pillar">
-                        <h3><?=htmlentities($pillar['title'] ?? '')?></h3>
+                        <h3 id="<?=htmlentities($pillar['title'] ?? '')?>"><?=htmlentities($pillar['title'] ?? '')?></h3>
                         <div><?=$pillar['description'] ?? ''?></div>
                         <?php if(!empty($pillar['buttonText'])): ?>
                             <a href="<?=htmlentities($pillar['buttonLink'] ?? '')?>" title="<?=htmlentities($pillar['buttonText'])?>">
