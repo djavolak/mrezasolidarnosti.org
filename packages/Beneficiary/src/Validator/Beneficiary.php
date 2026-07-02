@@ -82,23 +82,30 @@ class Beneficiary implements ValidatorInterface
     private function validateAccountNumberUniqueness(string $accountNumber, ?int $beneficiaryId): void
     {
         $qb = $this->entityManager->createQueryBuilder();
-        $qb->select('IDENTITY(pm.beneficiary)')
+        // Join the beneficiary so the message can name the conflicting record — the bare
+        // "already assigned to another user" is undebuggable when the real cause is a
+        // duplicate account imported onto a second beneficiary. Self is still excluded in
+        // SQL (so editing a beneficiary never collides with its own account).
+        $qb->select('b.id', 'b.name')
             ->from(PaymentMethod::class, 'pm')
+            ->join('pm.beneficiary', 'b')
             ->where('pm.accountNumber = :accountNumber')
             ->setParameter('accountNumber', $accountNumber);
 
         if ($beneficiaryId) {
-            $qb->andWhere('pm.beneficiary != :beneficiaryId')
+            $qb->andWhere('b.id != :beneficiaryId')
                 ->setParameter('beneficiaryId', $beneficiaryId);
         }
 
         $qb->setMaxResults(1);
-        $result = $qb->getQuery()->getOneOrNullResult();
+        $conflict = $qb->getQuery()->getOneOrNullResult();
 
-        if ($result) {
+        if ($conflict) {
             $this->messages['paymentMethods'][] = sprintf(
-                'Broj računa %s je već dodeljen drugom korisniku.',
-                $accountNumber
+                'Broj računa %s je već dodeljen korisniku „%s" (#%d).',
+                $accountNumber,
+                $conflict['name'],
+                $conflict['id']
             );
         }
     }

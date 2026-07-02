@@ -22,4 +22,16 @@ class PeriodRepository extends TableViewRepository
         return ['type'];
     }
 
+    /**
+     * All processing periods — the ones open for transaction creation (both the cron
+     * and the on-demand donor flow draw from these). Distinct from `active`, which only
+     * governs whether delegates can add beneficiaries.
+     *
+     * @return Period[]
+     */
+    public function fetchProcessing(): array
+    {
+        return $this->entityManager->getRepository(Period::class)->findBy(['processing' => true]);
+    }
+
 }

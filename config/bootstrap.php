@@ -158,6 +158,10 @@ $container->set(\Skeletor\ContentEditor\Contracts\BlockViewInterface::class, fun
         $container->get(\Solidarity\Frontend\Service\Session::class)
     ));
 
+    $view->registerViewFilter(Instructionsintro::NAME, new \Solidarity\Backend\Blocks\Instructionsintro\InstructionsintroViewFilter(
+        $container->get(\Solidarity\Transaction\Service\Transaction::class)
+    ));
+
     return $view;
 });
 

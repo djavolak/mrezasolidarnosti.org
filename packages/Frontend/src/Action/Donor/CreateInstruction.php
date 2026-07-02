@@ -40,8 +40,14 @@ class CreateInstruction extends BaseAction
         }
         try {
             $data['donorId'] = $this->session->getId();
-            $this->donor->createTransaction($data);
-            $responseData['redirect'] = '/instrukcije-za-placanje'; //@TODO TRANSLATE
+            $allocated = $this->donor->createTransaction($data);
+            if ($allocated > 0) {
+                $responseData['redirect'] = '/instrukcije-za-placanje'; //@TODO TRANSLATE
+            } else {
+                // Nothing matched the donor's criteria (no unmet need right now).
+                $success = false;
+                $responseData['errors'][] = 'Trenutno nema potreba koje odgovaraju vašem izboru.';
+            }
         } catch (ValidatorException $e) {
             $success = false;
             foreach ($this->donor->getDonationDataFilterErrors() as $error) {
