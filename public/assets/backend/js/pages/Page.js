@@ -3,7 +3,7 @@ import Config from "https://skeletor.greenfriends.systems/skeletorjs/src/Config/
 import Response from "https://skeletor.greenfriends.systems/skeletorjs/src/Response/Response.js";
 import Message from "https://skeletor.greenfriends.systems/skeletorjs/src/Message/Message.js";
 
-export default class School extends CrudPage {
+export default class Page extends CrudPage {
     preload() {
         this.setDataTableAction({
             name: 'view',
