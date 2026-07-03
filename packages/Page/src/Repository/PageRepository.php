@@ -70,6 +70,38 @@ class PageRepository extends \Skeletor\Page\Repository\PageRepository
         return $map;
     }
 
+    /**
+     * The published slug of the $targetLocale variant of the page identified by
+     * $sourceSlug in $sourceLocale, or null when the source page or its translation
+     * doesn't exist. Drives localizeUrl(): a default-locale menu slug (e.g. sr
+     * `doniraj`) resolves to its localized counterpart (e.g. en `donate`).
+     */
+    public function findTranslatedSlug(string $sourceSlug, string $sourceLocale, string $targetLocale): ?string
+    {
+        $source = $this->findPublishedBySlugAndLocale($sourceSlug, $sourceLocale);
+        if (!$source) {
+            return null;
+        }
+        // Translations point at the source page's id via translationGroupId; the
+        // source itself may carry a group id or be the group root (its own id).
+        $groupId = $source->translationGroupId ?? $source->getId();
+
+        $row = $this->entityManager->createQueryBuilder()
+            ->select('p.slug AS slug')
+            ->from(static::ENTITY, 'p')
+            ->where('p.languageCode = :code')
+            ->andWhere('p.status = :status')
+            ->andWhere('(p.translationGroupId = :gid OR p.id = :gid)')
+            ->setParameter('code', $targetLocale)
+            ->setParameter('status', self::STATUS_PUBLISHED)
+            ->setParameter('gid', $groupId)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        return $row['slug'] ?? null;
+    }
+
     public function createTranslation(int $pageId): ?Page
     {
         $source = $this->entityManager->find(static::ENTITY, $pageId);

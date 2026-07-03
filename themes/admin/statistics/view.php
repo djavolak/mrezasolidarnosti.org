@@ -172,6 +172,10 @@ $formatNumber = function(int $amount): string {
                     <span class="statLabel">Otkazane (<?= $formatNumber($s['cancelledCount']) ?>)</span>
                     <span class="statValue"><?= $formatNumber($s['cancelledAmount']) ?> <span class="statUnit">RSD</span></span>
                 </div>
+                <div class="statCard">
+                    <span class="statLabel">Istekle (<?= $formatNumber($s['expiredCount']) ?>)</span>
+                    <span class="statValue"><?= $formatNumber($s['expiredAmount']) ?> <span class="statUnit">RSD</span></span>
+                </div>
             </div>
         </div>
     </div>
@@ -232,6 +236,10 @@ $formatNumber = function(int $amount): string {
                     <div class="statCard">
                         <span class="statLabel">Otkazane (<?= $formatNumber($s['cancelledCount']) ?>)</span>
                         <span class="statValue"><?= $formatNumber($s['cancelledAmount']) ?> <span class="statUnit">RSD</span></span>
+                    </div>
+                    <div class="statCard">
+                        <span class="statLabel">Istekle (<?= $formatNumber($s['expiredCount']) ?>)</span>
+                        <span class="statValue"><?= $formatNumber($s['expiredAmount']) ?> <span class="statUnit">RSD</span></span>
                     </div>
                 </div>
             </div>

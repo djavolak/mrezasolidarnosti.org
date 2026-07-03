@@ -86,6 +86,8 @@ class Statistics extends Html
             'activeCount' => $this->getTransactionCountByStatus(Transaction::STATUS_NEW, $project),
             'cancelledAmount' => $this->getTransactionSumByStatus(Transaction::STATUS_CANCELLED, $project),
             'cancelledCount' => $this->getTransactionCountByStatus(Transaction::STATUS_CANCELLED, $project),
+            'expiredAmount' => $this->getTransactionSumByStatus(Transaction::STATUS_EXPIRED, $project),
+            'expiredCount' => $this->getTransactionCountByStatus(Transaction::STATUS_EXPIRED, $project),
         ];
     }
 
@@ -126,15 +128,15 @@ class Statistics extends Html
 
     private function getBeneficiaryCount(?Project $project = null): int
     {
+        // Count every beneficiary regardless of status — deleted ones are no longer active
+        // but are kept in the total for transparency.
         $qb = $this->em->createQueryBuilder()
             ->select('COUNT(DISTINCT b.id)')
-            ->from(Beneficiary::class, 'b')
-            ->where('b.status != :deleted')
-            ->setParameter('deleted', Beneficiary::STATUS_DELETED);
+            ->from(Beneficiary::class, 'b');
 
         if ($project) {
             $qb->innerJoin('b.registeredPeriods', 'rp')
-                ->andWhere('rp.project = :projectId')
+                ->where('rp.project = :projectId')
                 ->setParameter('projectId', $project->id);
         }
 
