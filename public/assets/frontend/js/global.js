@@ -116,4 +116,5 @@ document.addEventListener('DOMContentLoaded', () => {
     function replaceCsrf(form, val) {
         form.querySelector('input[name^="_csrf"]').value = val;
     }
+
 });
