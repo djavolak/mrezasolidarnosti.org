@@ -20,7 +20,6 @@ a {
 }
 
 body {
-  max-width: 1920px;
   margin: 0 auto;
 }
 
@@ -281,6 +280,10 @@ main.loggedIn {
 }
 .messagesContainer > span.info a {
   text-decoration: underline;
+  font-weight: bold;
+}
+
+strong {
   font-weight: bold;
 }
 
@@ -915,11 +918,15 @@ main.loggedIn {
     justify-content: center;
   }
 }
+#footerMain #footerBottom #footerRight #footerSocials a:hover svg {
+  fill: var(--colorOrange);
+}
 #footerMain #footerBottom #footerRight #footerSocials a svg {
   pointer-events: all;
   width: 30px;
   height: 30px;
   fill: rgb(38, 33, 133);
+  transition: 0.3s ease all;
 }
 #footerMain #footerBottom #footerRight #footerBottomLast {
   padding: 5rem;
@@ -1045,11 +1052,18 @@ main.loggedIn {
   line-height: 1.4;
   color: var(--colorDarkBlue);
 }
+#footerLoggedIn .right ul li a:hover {
+  color: var(--colorOrange);
+}
+#footerLoggedIn #footerSocials a:hover svg {
+  fill: var(--colorOrange);
+}
 #footerLoggedIn #footerSocials a svg {
   pointer-events: all;
   width: 30px;
   height: 30px;
   fill: rgb(38, 33, 133);
+  transition: 0.3s ease all;
 }
 
 .languageSwitcher {
@@ -1091,6 +1105,8 @@ main.loggedIn {
 
 .faq {
   padding: 5rem 4.25rem;
+  max-width: 1920px;
+  margin: 0 auto;
   background-repeat: no-repeat;
   display: flex;
   justify-content: space-between;
@@ -1098,6 +1114,8 @@ main.loggedIn {
 }
 .faq.home {
   background-image: url("../images/faqArrow.png");
+  min-height: 743px;
+  background-color: white;
 }
 .faq:not(.home) {
   padding: 5rem 4.25rem 3rem 4.25rem;
@@ -1108,6 +1126,7 @@ main.loggedIn {
   }
 }
 .faq:not(.home) .faqLeft h2 {
+  max-width: 440px;
   font-size: 3rem;
   font-weight: 700;
   line-height: 1.2;
@@ -1207,6 +1226,9 @@ main.loggedIn {
   display: flex;
   padding: 5rem 4.25rem;
   gap: 1rem;
+  max-width: 1920px;
+  margin: 0 auto;
+  background: white;
 }
 @media (max-width: 768px) {
   .testimonials {
@@ -1474,6 +1496,8 @@ main.loggedIn {
   display: flex;
   justify-content: center;
   gap: 6rem;
+  max-width: 1920px;
+  margin: 0 auto;
 }
 .projectsWrapper .projectsDisplay img {
   width: 140px;
@@ -1741,6 +1765,10 @@ main.loggedIn {
   font-size: 1rem;
   font-weight: 700;
   line-height: 1.4;
+  transition: 0.3s ease all;
+}
+.contactCards .contactCard a:hover {
+  color: var(--colorOrange);
 }
 
 .lineGridWrapper {
@@ -2415,6 +2443,9 @@ main.loggedIn {
 #loginAction .loginActionContainer > p a {
   text-decoration: underline;
 }
+#loginAction .loginActionContainer > p a:hover {
+  color: var(--colorOrange);
+}
 
 .instructionsTable {
   background: var(--colorDarkBlue);
@@ -2798,12 +2829,17 @@ main.loggedIn {
   padding: 0.5rem 1rem;
 }
 
+#howItWorksWrapper {
+  background: var(--colorBackgroundGray);
+}
+
 #howItWorks {
   display: flex;
   gap: 1rem;
   justify-content: space-between;
   padding: 5rem 4.25rem;
-  background: var(--colorBackgroundGray);
+  max-width: 1920px;
+  margin: 0 auto;
 }
 @media (max-width: 1130px) {
   #howItWorks {
@@ -2949,12 +2985,17 @@ main.loggedIn {
   margin-right: auto;
 }
 
+#whyWeAreDifferentWrapper {
+  background: var(--colorBackgroundGray);
+}
+
 #whyWeAreDifferent {
   display: flex;
   gap: 1rem;
   justify-content: space-between;
   padding: 5rem 4.25rem;
-  background: var(--colorBackgroundGray);
+  max-width: 1920px;
+  margin: 0 auto;
 }
 @media (max-width: 900px) {
   #whyWeAreDifferent {
@@ -3033,11 +3074,17 @@ main.loggedIn {
   color: var(--colorOrange);
 }
 
+#connectWrapper {
+  background: white;
+}
+
 #connect {
   display: flex;
   gap: 1rem;
   justify-content: space-between;
-  padding: 7.7rem 4.25rem 5rem 4.25rem;
+  padding: 7.7rem 4.25rem 0 4.25rem;
+  max-width: 1920px;
+  margin: 0 auto;
 }
 @media (max-width: 900px) {
   #connect {
@@ -3131,9 +3178,14 @@ main.loggedIn {
   margin-top: 3rem;
 }
 
+#findWrapper {
+  background: var(--colorDarkBlue);
+}
+
 #find {
   padding: 5rem 4.25rem;
-  background: var(--colorDarkBlue);
+  max-width: 1920px;
+  margin: 0 auto;
 }
 @media (max-width: 768px) {
   #find {
@@ -3220,12 +3272,17 @@ main.loggedIn {
   }
 }
 
+#directionWrapper {
+  background: var(--colorDarkBlue);
+}
+
 #direction {
   display: flex;
   gap: 1rem;
   justify-content: space-between;
   padding: 5rem 4.25rem;
-  background: var(--colorDarkBlue);
+  max-width: 1920px;
+  margin: 0 auto;
 }
 @media (max-width: 1100px) {
   #direction {
@@ -3290,13 +3347,13 @@ main.loggedIn {
 #direction #directionRight #directionEducation {
   background: var(--colorBlue);
 }
-#direction #directionRight #directionEducation span, #direction #directionRight #directionEducation p, #direction #directionRight #directionEducation ul, #direction #directionRight #directionEducation a, #direction #directionRight #directionEducation h3 {
+#direction #directionRight #directionEducation span, #direction #directionRight #directionEducation p, #direction #directionRight #directionEducation ul, #direction #directionRight #directionEducation a, #direction #directionRight #directionEducation h3, #direction #directionRight #directionEducation li, #direction #directionRight #directionEducation ol {
   color: var(--colorBeige);
 }
 #direction #directionRight #directionRepression {
   background: var(--colorGreen);
 }
-#direction #directionRight #directionRepression span, #direction #directionRight #directionRepression p, #direction #directionRight #directionRepression ul, #direction #directionRight #directionRepression a, #direction #directionRight #directionRepression h3 {
+#direction #directionRight #directionRepression span, #direction #directionRight #directionRepression p, #direction #directionRight #directionRepression ul, #direction #directionRight #directionRepression a, #direction #directionRight #directionRepression h3, #direction #directionRight #directionRepression li, #direction #directionRight #directionRepression ol {
   color: var(--colorDarkBlue);
 }
 #direction #directionRight .directionProject {
@@ -3347,11 +3404,16 @@ main.loggedIn {
   color: var(--colorOrange) !important;
 }
 
+#heroWrapper {
+  background: var(--colorBackgroundGray);
+}
+
 #hero {
   position: relative;
   padding-top: 5rem;
   overflow: hidden;
-  background: var(--colorBackgroundGray);
+  max-width: 1920px;
+  margin: 0 auto;
 }
 @media (max-width: 960px) {
   #hero {
@@ -3473,6 +3535,11 @@ main.loggedIn {
     font-size: 1rem;
     font-weight: 700;
     line-height: 1.4;
+  }
+}
+@media (max-width: 500px) {
+  #hero #heroTop > p {
+    margin-bottom: 1rem;
   }
 }
 #hero #heroTop #heroTopActions {
@@ -3807,6 +3874,8 @@ main.loggedIn {
   padding-top: 5rem;
   padding-bottom: 5rem;
   position: relative;
+  max-width: 1920px;
+  margin: 0 auto;
 }
 .whatIsContent.smallTop {
   padding-top: 1rem;
@@ -3828,10 +3897,10 @@ main.loggedIn {
 }
 .whatIsContent .whatIsArrow {
   position: absolute;
-  z-index: -1;
+  z-index: 0;
   width: 850px;
   height: 800px;
-  top: 80px;
+  top: 0;
 }
 @media (max-width: 1730px) {
   .whatIsContent .whatIsArrow {
@@ -3940,8 +4009,14 @@ main.loggedIn {
   margin-top: 1.5rem;
   margin-bottom: 3rem;
 }
+.whatIsContent .howItBecame {
+  z-index: 1;
+}
 .whatIsContent .howItBecame p {
   margin-bottom: 1.5rem;
+}
+.whatIsContent .whatWeDo {
+  z-index: 1;
 }
 .whatIsContent .whatWeDo .whatWeDoProjects {
   display: flex;
@@ -4105,7 +4180,7 @@ main.loggedIn {
   width: 340px;
   display: flex;
   flex-direction: column;
-  min-height: 250px;
+  min-height: 230px;
 }
 @media (max-width: 560px) {
   .threePillars .pillars .pillarSections .pillar {
@@ -4150,6 +4225,13 @@ main.loggedIn {
     margin-top: 1rem;
   }
 }
+.threePillars .pillars .pillarSections .pillar a svg {
+  margin-bottom: 1px;
+}
+
+.aboutContent {
+  padding-top: 3rem;
+}
 
 .howItWorksContent {
   padding-top: 5rem;
@@ -4162,10 +4244,15 @@ main.loggedIn {
   }
 }
 
+.howItWorksBannerWrapper {
+  background: var(--colorDarkBlue);
+}
+
 .howItWorksBanner {
+  max-width: 1920px;
+  margin: 0 auto;
   padding: 7.75rem 4.25rem;
   display: flex;
-  background: var(--colorDarkBlue);
   gap: 4rem;
   position: relative;
   overflow: hidden;
@@ -4282,6 +4369,19 @@ main.loggedIn {
   line-height: 1.2;
   color: var(--colorDarkBlue);
   margin-top: 1.5rem;
+}
+.staticWrapper .static ul, .staticWrapper .static ol {
+  padding-left: 2rem;
+  list-style: disc;
+  color: var(--colorDarkBlue);
+}
+.staticWrapper .static a {
+  text-decoration: underline;
+  transition: 0.3s ease all;
+  color: var(--colorDarkBlue);
+}
+.staticWrapper .static a:hover {
+  color: var(--colorOrange);
 }
 
 main:has(#donationForm.active) {
@@ -4647,6 +4747,7 @@ main:has(#donationForm.active) {
   display: block;
 }
 #donationForm #donationFormInner #donationFormFields #paymentMethodFields .trigger {
+  height: 75px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -4723,6 +4824,12 @@ main:has(#donationForm.active) {
 #donationForm #donationFormInner #donationFormActions a {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
+}
+
+.wuImg {
+  width: 122px;
+  height: 30px;
+  object-fit: contain;
 }
 
 #profileData {

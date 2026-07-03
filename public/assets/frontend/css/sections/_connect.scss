@@ -1,9 +1,14 @@
 @use '../setup/typography';
+#connectWrapper {
+  background:white;
+}
 #connect {
   display:flex;
   gap:1rem;
   justify-content:space-between;
-  padding: 7.7rem  4.25rem 5rem 4.25rem;
+  padding: 7.7rem  4.25rem 0 4.25rem;
+  max-width:1920px;
+  margin:0 auto;
   @media(max-width:900px) {
     padding: 3rem 1.25rem;
     flex-direction:column;

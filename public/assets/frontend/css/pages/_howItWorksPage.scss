@@ -8,10 +8,14 @@
   }
 }
 
+.howItWorksBannerWrapper {
+  background:var(--colorDarkBlue);
+}
 .howItWorksBanner {
+  max-width:1920px;
+  margin:0 auto;
   padding:7.75rem 4.25rem;
   display:flex;
-  background:var(--colorDarkBlue);
   gap:4rem;
   position:relative;
   overflow:hidden;

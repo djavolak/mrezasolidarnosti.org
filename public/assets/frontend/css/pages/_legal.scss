@@ -26,5 +26,18 @@
       color:var(--colorDarkBlue);
       margin-top:1.5rem;
     }
+    ul,ol {
+      padding-left: 2rem;
+      list-style: disc;
+      color: var(--colorDarkBlue);
+    }
+    a {
+      text-decoration:underline;
+      transition:0.3s ease all;
+      color: var(--colorDarkBlue);
+      &:hover {
+        color:var(--colorOrange);
+      }
+    }
   }
 }
