@@ -8,7 +8,6 @@ ini_set('display_errors', 0);
 
 include(__DIR__ . "/../config/constants.php");
 include(APP_PATH . "/vendor/autoload.php");
-$path = getenv('APPLICATION');
 if (!\Solidarity\Core\Environment::isProduction()) {
     \Tracy\Debugger::enable(false);
 }
@@ -16,32 +15,7 @@ if (!\Solidarity\Core\Environment::isProduction()) {
 
 try {
     /* @var \DI\Container $container */
-//    $container = require sprintf('%s/config/%s/bootstrap.php', APP_PATH, $path);
     $container = require sprintf('%s/config/bootstrap.php', APP_PATH);
-    // Frontend i18n: resolve the locale from the URL prefix and strip it before
-    // routing, so every language dispatches the same base routes. Expose the
-    // resolved locale to every template as shared Plates data.
-    if ($path === 'frontend') {
-        $locale = $container->get(\Solidarity\Frontend\Service\Locale::class);
-        $locale->detectFromRequest();
-
-        // Locale-aware main navigation: a per-language menu titled "Main Navigation {locale}"
-        // (e.g. "Main Navigation en"), falling back to the default "Main Navigation". Each
-        // language's menu carries its own labels and (locale-correct) URLs.
-        $navigationService = $container->get(\Skeletor\ThemeSettings\Navigation\Service\Navigation::class);
-        $mainNavigation = $locale->isDefault()
-            ? $navigationService->getByTitle('Main Navigation')
-            : ($navigationService->getByTitle('Main Navigation ' . $locale->current())
-                ?? $navigationService->getByTitle('Main Navigation'));
-
-        $container->get(\League\Plates\Engine::class)->addData([
-            'currentLocale'    => $locale->current(),
-            'defaultLocale'    => $locale->default(),
-            'availableLocales' => $locale->available(),
-            'localeAlternates' => $locale->alternates(),
-            'mainNavigation'   => $mainNavigation,
-        ]);
-    }
     $app = new WebSkeletor($container, $container->get(LoggerInterface::class));
 } catch (\Exception $e) {
     if (isset($app) && $app) {

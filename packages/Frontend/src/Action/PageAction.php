@@ -51,6 +51,9 @@ class PageAction extends BaseAction
             if($page->isLoginProtected && !$this->session->isLoggedIn()) {
                 throw new NotFoundException();
             }
+
+            $this->resolveRedirectsBasedOnSession($slug);
+
             $this->setSEO($page);
             $this->setGlobalVariable(
                 'canonical',
@@ -66,6 +69,16 @@ class PageAction extends BaseAction
             'webpSupport' => (isset($_SERVER['HTTP_ACCEPT']) && strpos($_SERVER['HTTP_ACCEPT'], 'image/webp') >= 0),
             'content' => $content,
         ]);
+    }
+
+    function resolveRedirectsBasedOnSession($slug)
+    {
+        if ($this->session->isLoggedIn()) {
+            // @TODO add english slugs, check what else is required
+            if (in_array($slug, ['registracija-donatora', 'logovanje', 'potvrdi-email'])) {
+                $this->redirect($this->locale->localizeUrl('/instrukcije-za-uplatu'));
+            }
+        }
     }
 
     /**
