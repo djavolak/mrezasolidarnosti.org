@@ -70,7 +70,7 @@ class Page extends TableView
         if($page->languageCode !== 'sr') {
             return false;
         }
-        $translationExists = $this->getEntities(['languageCode' => 'en', 'translationGroupId' => $page->translationGroupId]);
+        $translationExists = $this->getEntities(['languageCode' => 'en', 'translationGroupId' => $page->id]);
         if(count($translationExists) > 0) {
             return false;
         }

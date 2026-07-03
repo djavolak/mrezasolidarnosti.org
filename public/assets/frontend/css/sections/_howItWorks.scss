@@ -1,11 +1,15 @@
 @use '../setup/typography';
 @use '../setup/buttons';
+#howItWorksWrapper {
+  background:var(--colorBackgroundGray);
+}
 #howItWorks {
   display:flex;
   gap:1rem;
   justify-content:space-between;
   padding: 5rem 4.25rem;
-  background:var(--colorBackgroundGray);
+  max-width:1920px;
+  margin:0 auto;
   @media(max-width:1130px) {
     flex-direction:column;
   }

@@ -1,8 +1,12 @@
 @use '../setup/typography';
 .faq {
   padding: 5rem 4.25rem;
+  max-width:1920px;
+  margin:0 auto;
   &.home {
     background-image: url('../images/faqArrow.png');
+    min-height:743px;
+    background-color:white;
   }
   &:not(.home) {
     padding:5rem 4.25rem 3rem 4.25rem;
@@ -13,6 +17,7 @@
     }
     .faqLeft {
       h2 {
+        max-width:440px;
         @include typography.type(h1);
         @media(max-width:768px) {
           @include typography.type(h2);

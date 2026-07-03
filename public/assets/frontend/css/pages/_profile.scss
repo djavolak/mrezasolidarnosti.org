@@ -360,6 +360,7 @@ main {
           display:block;
         }
         .trigger {
+          height:75px;
           display:flex;
           align-items:center;
           justify-content:center;
@@ -436,4 +437,10 @@ main {
       }
     }
   }
+}
+
+.wuImg {
+  width:122px;
+  height:30px;
+  object-fit:contain;
 }

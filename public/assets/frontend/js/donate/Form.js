@@ -17,6 +17,20 @@ export default class Form {
     #messagesContainer;
     #changeDonationButton;
     #isForInstruction;
+    paymentLogoURLs =  {
+        2: {
+            dark: '/assets/frontend/images/payment/sepa.png',
+            light: '/assets/frontend/images/payment/sepaW.png'
+        },
+        3: {
+            dark: '/assets/frontend/images/payment/WU.png',
+            light: '/assets/frontend/images/payment/wuW.png'
+        },
+        4: {
+            dark: '/assets/frontend/images/payment/mg.png',
+            light: '/assets/frontend/images/payment/mgW.png'
+        }
+    }
     constructor({form, eventEmitter, isForInstruction}) {
         this.#form = form;
         this.eventEmitter = eventEmitter;
@@ -85,6 +99,17 @@ export default class Form {
         // Clear any previously built payment fields / active triggers first.
         this.#paymentMethodsTriggers.forEach((trigger) => trigger.classList.remove('active'));
         this.#formFieldsContainer.querySelectorAll('.formFields[data-method]').forEach((fields) => fields.remove());
+        if(this.#projectInput.value === '2') {
+            const triggers = document.querySelectorAll('#paymentMethodFields .triggerContainer .trigger');
+            triggers.forEach((trigger) => {
+               const method = parseInt(trigger.getAttribute('data-method'), 10);
+               const img = trigger.querySelector('img');
+               if(img) {
+                   img.src = this.paymentLogoURLs[method].dark;
+               }
+            });
+
+        }
 
         (data.paymentMethods ?? []).forEach((paymentMethod) => {
             const trigger = Array.from(this.#paymentMethodsTriggers)
@@ -105,7 +130,7 @@ export default class Form {
 
     #addListeners() {
         this.#backToProfileButton.addEventListener('click', this.#close);
-        this.#changeDonationButton.addEventListener('click', this.#close);
+        this.#changeDonationButton.addEventListener('click', this.#resetForm);
         this.#closeFormButton.addEventListener('click', this.#close);
         this.#frequencyTriggers.forEach((trigger) => {
             trigger.addEventListener('click', () => {
@@ -116,18 +141,48 @@ export default class Form {
             });
         });
         this.#paymentMethodsTriggers.forEach((trigger) => {
+           trigger.addEventListener('mouseenter', () => {
+               if(!trigger.classList.contains('active')) {
+                   if(this.#projectInput.value !== '2') {
+                       const img = trigger.querySelector('img');
+                       const method = trigger.getAttribute('data-method');
+                       if(img && this.#projectInput.value !== '2') {
+                           img.src = this.paymentLogoURLs[parseInt(method, 10)].light;
+                       }
+                   }
+               }
+           });
+            trigger.addEventListener('mouseleave', () => {
+                if(!trigger.classList.contains('active')) {
+                    if(this.#projectInput.value !== '2') {
+                        const img = trigger.querySelector('img');
+                        const method = trigger.getAttribute('data-method');
+                        if(img && this.#projectInput.value !== '2') {
+                            img.src = this.paymentLogoURLs[parseInt(method, 10)].dark;
+                        }
+                    }
+                }
+            });
            trigger.addEventListener('click', () => {
                 const method = trigger.getAttribute('data-method');
                 if(trigger.classList.contains('active')) {
                     trigger.classList.remove('active');
                     const existing = document.querySelector(`.formFields[data-method="${method}"]`);
                     existing.remove();
+                    const img = trigger.querySelector('img');
+                    if(img && this.#projectInput.value !== '2') {
+                        img.src = this.paymentLogoURLs[parseInt(method, 10)].dark;
+                    }
                 } else {
                     trigger.classList.add('active');
                     const template = this.#paymentTemplate.content.cloneNode(true);
                     template.querySelector('h3').textContent = 'IZNOS ' + trigger.parentElement.querySelector(':scope >span').textContent;
                     template.querySelector('.formFields').setAttribute('data-method', method);
                     template.querySelector('input[type="number"]').name = `payment[${method}][value]`;
+                    const img = trigger.querySelector('img');
+                    if(img && this.#projectInput.value !== '2') {
+                        img.src = this.paymentLogoURLs[parseInt(method, 10)].light;
+                    }
                     // template.querySelectorAll('input[type="radio"]').forEach((radio) => {
                     //    radio.name = `payment[${method}][currency]`;
                     // });
@@ -212,6 +267,28 @@ export default class Form {
                 this.#replaceCsrf(resData.data.token);
             }
         });
+    }
+
+    #resetForm = (e) => {
+        e.preventDefault();
+        const defaultFrequencyTrigger = this.#form.querySelector('#frequencyFields .trigger[data-value="0"]');
+        this.#frequencyActiveTrigger.classList.remove('active');
+        this.#frequencyInput.value = defaultFrequencyTrigger.getAttribute('data-value');
+        defaultFrequencyTrigger.classList.add('active');
+        this.#frequencyActiveTrigger = defaultFrequencyTrigger;
+        this.#paymentMethodsTriggers.forEach((trigger) => {
+           trigger.classList.remove('active');
+        });
+        const payments = document.querySelectorAll('.paymentInputContainer');
+        if(payments) {
+            payments.forEach((payment) => {
+               payment.remove();
+            });
+        }
+        setTimeout(() => {
+            this.#scrollToMessagesContainer();
+        }, 200);
+
     }
 
     #scrollToMessagesContainer() {

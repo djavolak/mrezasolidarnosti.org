@@ -154,11 +154,17 @@
           justify-content:center;
         }
         a {
+          &:hover {
+            svg {
+              fill:var(--colorOrange);
+            }
+          }
           svg {
             pointer-events: all;
             width:30px;
             height:30px;
             fill:rgb(38, 33, 133);
+            transition:0.3s ease all;
           }
         }
       }
@@ -259,16 +265,27 @@
       li {
         @include typography.type(text);
         color:var(--colorDarkBlue);
+        a {
+          &:hover {
+            color:var(--colorOrange);
+          }
+        }
       }
     }
   }
   #footerSocials {
     a {
+      &:hover {
+        svg {
+          fill:var(--colorOrange);
+        }
+      }
       svg {
         pointer-events: all;
         width:30px;
         height:30px;
         fill:rgb(38, 33, 133);
+        transition:0.3s ease all;
       }
     }
   }

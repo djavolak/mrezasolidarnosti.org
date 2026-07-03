@@ -69,6 +69,8 @@
   padding-top:5rem;
   padding-bottom:5rem;
   position:relative;
+  max-width:1920px;
+  margin:0 auto;
   &.smallTop {
     padding-top:1rem;
   }
@@ -87,10 +89,10 @@
   }
   .whatIsArrow {
     position:absolute;
-    z-index:-1;
+    z-index:0;
     width:850px;
     height:800px;
-    top:80px;
+    top:0;
     @media(max-width:1730px) {
       left:-50px;
     }
@@ -176,12 +178,14 @@
     margin-bottom:3rem;
   }
   .howItBecame {
+    z-index:1;
     p {
       margin-bottom:1.5rem;
     }
   }
 
   .whatWeDo {
+    z-index:1;
     .whatWeDoProjects {
       display:flex;
       margin-top:3rem;
@@ -310,7 +314,7 @@
         width:340px;
         display:flex;
         flex-direction:column;
-        min-height: 250px;
+        min-height: 230px;
         @media(max-width:560px) {
           width:unset;
         }
@@ -345,8 +349,15 @@
           @media(max-width:1150px) {
             margin-top:1rem;
           }
+          svg {
+            margin-bottom:1px;
+          }
         }
       }
     }
   }
+}
+
+.aboutContent {
+  padding-top:3rem;
 }

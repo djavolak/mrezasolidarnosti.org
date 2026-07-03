@@ -1,11 +1,15 @@
 @use '../setup/typography';
 @use '../setup/buttons';
 
+#heroWrapper {
+  background:var(--colorBackgroundGray);
+}
 #hero {
   position: relative;
   padding-top: 5rem;
   overflow: hidden;
-  background:var(--colorBackgroundGray);
+  max-width:1920px;
+  margin:0 auto;
   @media(max-width:960px) {
     padding-top:0;
   }
@@ -90,6 +94,12 @@
       margin-right: auto;
       @media(max-width: 990px) {
         @include typography.type(h4);
+      }
+    }
+
+    &>p {
+      @media(max-width:500px) {
+        margin-bottom:1rem;
       }
     }
 
