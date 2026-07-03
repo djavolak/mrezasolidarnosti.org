@@ -68,7 +68,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="<?=$this->localizeUrl('/instrukcije-za-placanje')?>" title="<?=$this->t('Instrukcije za uplatu')?>" class="<?=$slug === 'instrukcije-za-uplatu' ? 'active' : ''?>">
+                        <a href="<?=$this->localizeUrl('/instrukcije-za-uplatu')?>" title="<?=$this->t('Instrukcije za uplatu')?>" class="<?=$slug === 'instrukcije-za-uplatu' ? 'active' : ''?>">
                             <span><?=$this->t('Instrukcije za uplatu')?></span>
                         </a>
                     </li>

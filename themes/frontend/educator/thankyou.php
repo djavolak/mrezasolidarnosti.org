@@ -5,6 +5,6 @@
 
         <p>Ako imate još kolega koje želite da prijavite, slobodno nastavite klikom na dugme ispod</p>
 
-        <a href="/obrazacOsteceni">Prijavi sledećeg oštećenog</a>
+        <a href="<?=$this->localizeUrl('/obrazacOsteceni')?>">Prijavi sledećeg oštećenog</a>
     </div>
 </main>
