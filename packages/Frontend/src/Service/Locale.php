@@ -2,6 +2,7 @@
 namespace Solidarity\Frontend\Service;
 
 use Laminas\Config\Config;
+use Solidarity\Page\Repository\PageRepository;
 
 /**
  * Frontend locale resolver.
@@ -26,7 +27,10 @@ class Locale
     /** Request path with the locale prefix removed (always starts with '/'). */
     private string $basePath = '/';
 
-    public function __construct(Config $config)
+    /** @var array<string, ?string> source slug => translated slug, memoized per request. */
+    private array $slugCache = [];
+
+    public function __construct(Config $config, private PageRepository $pages)
     {
         $locales = $config->get('locales');
         $this->default = $locales?->get('default') ?: 'sr';
@@ -88,6 +92,55 @@ class Locale
             return $path;
         }
         return '/' . $locale . ($path === '/' ? '' : $path);
+    }
+
+    /**
+     * Localize an internal link for the active locale, translating the leading page
+     * slug to its counterpart in the current language (sr `/doniraj` → en `/donate`).
+     * Used by the localizeUrl() template helper for menu/content links that are
+     * authored with default-locale slugs.
+     *
+     * - External, protocol-relative and non-root links pass through unchanged.
+     * - Default locale: returned as-is (its slugs are the canonical, authored form).
+     * - A page with no translation in the current locale keeps its original link, so
+     *   it still resolves (served in the default locale) instead of 404-ing.
+     * - The home path and non-page routes are only prefixed, never slug-translated.
+     */
+    public function localizeUrl(string $url): string
+    {
+        if ($url === '' || !str_starts_with($url, '/') || str_starts_with($url, '//')) {
+            return $url;
+        }
+        if ($this->current === $this->default) {
+            return $url;
+        }
+
+        // Split the path from any ?query / #fragment so only the path is translated.
+        $cut = strcspn($url, '?#');
+        $path = substr($url, 0, $cut);
+        $suffix = substr($url, $cut);
+
+        $slug = trim($path, '/');
+        if ($slug === '') {
+            return $this->localize('/') . $suffix; // home: prefix only
+        }
+
+        $translated = $this->translateSlug($slug);
+        if ($translated !== null) {
+            return $this->localize('/' . $translated) . $suffix;
+        }
+
+        // No translation for this page (or not a page at all): leave the link as-is.
+        return $url;
+    }
+
+    /** Translated slug for the current locale, or null when there is none. Memoized. */
+    private function translateSlug(string $slug): ?string
+    {
+        if (!array_key_exists($slug, $this->slugCache)) {
+            $this->slugCache[$slug] = $this->pages->findTranslatedSlug($slug, $this->default, $this->current);
+        }
+        return $this->slugCache[$slug];
     }
 
     /** [locale => url] for the current page in every available locale (switcher/hreflang). */

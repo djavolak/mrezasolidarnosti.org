@@ -198,16 +198,13 @@ $container->set(Engine::class, function() use ($container) {
     // i18n: the default locale (sr) is the source language strings are authored in,
     // so t() is a pass-through there. For any other frontend locale, drive t() through
     // the Translator (SR source -> translated string, falling back to the original).
-    // localizeUrl() prefixes internal links with the active locale (for menus/links).
+    // localizeUrl() localizes internal links for the active locale, translating the
+    // page slug to its counterpart in the current language (see Locale::localizeUrl).
     $useTranslator = false;
     if (\Solidarity\Core\Environment::isFrontend()) {
         $locale = $container->get(\Solidarity\Frontend\Service\Locale::class);
         $plates->registerFunction('localizeUrl', function (string $url) use ($locale) {
-            // Only touch internal, root-relative paths; leave external/protocol-relative/anchors alone.
-            if ($url === '' || !str_starts_with($url, '/') || str_starts_with($url, '//')) {
-                return $url;
-            }
-            return $locale->localize($url);
+            return $locale->localizeUrl($url);
         });
         if (!$locale->isDefault()) {
             $translator = $container->get(\Skeletor\Translator\Service\Translator::class);
@@ -457,5 +454,32 @@ $container->set(EntityManagerInterface::class, function() use ($container) {
 
     return $em;
 });
+
+// Frontend i18n bootstrapping: resolve the locale from the URL prefix and strip it
+// before routing (so every language dispatches the same base routes), then expose the
+// resolved locale — and its locale-aware main navigation — to every template as shared
+// Plates data. Runs before the Engine is first resolved so its translator loads for the
+// active locale (the Engine factory reads Locale::isDefault()).
+if (\Solidarity\Core\Environment::isFrontend()) {
+    $locale = $container->get(\Solidarity\Frontend\Service\Locale::class);
+    $locale->detectFromRequest();
+
+    // Locale-aware main navigation: a per-language menu titled "Main Navigation {locale}"
+    // (e.g. "Main Navigation en"), falling back to the default "Main Navigation". Each
+    // language's menu carries its own labels and (locale-correct) URLs.
+    $navigationService = $container->get(\Skeletor\ThemeSettings\Navigation\Service\Navigation::class);
+    $mainNavigation = $locale->isDefault()
+        ? $navigationService->getByTitle('Main Navigation')
+        : ($navigationService->getByTitle('Main Navigation ' . $locale->current())
+            ?? $navigationService->getByTitle('Main Navigation'));
+
+    $container->get(Engine::class)->addData([
+        'currentLocale'    => $locale->current(),
+        'defaultLocale'    => $locale->default(),
+        'availableLocales' => $locale->available(),
+        'localeAlternates' => $locale->alternates(),
+        'mainNavigation'   => $mainNavigation,
+    ]);
+}
 
 return $container;
