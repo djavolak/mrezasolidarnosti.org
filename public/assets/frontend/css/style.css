@@ -105,8 +105,8 @@ p {
   max-width: 100%;
 }
 .buttonPrimary:not(:disabled):hover {
-  background-color: var(--colorBlueHover);
-  border: 1px solid var(--colorBlueHover);
+  background-color: var(--colorOrange);
+  border: 1px solid var(--colorOrange);
 }
 .buttonPrimary.disabled {
   opacity: 0.5;
@@ -142,7 +142,8 @@ p {
   max-width: 100%;
 }
 .buttonSecondary:not(:disabled):hover {
-  background-color: var(--colorGrayLight);
+  border: 1px solid var(--colorOrange);
+  color: var(--colorOrange);
 }
 .buttonSecondary.disabled {
   opacity: 0.5;
@@ -224,8 +225,8 @@ p {
   gap: 0.2rem;
 }
 .donateButton:not(:disabled):hover {
-  background-color: var(--colorBlueHover);
-  border: 1px solid var(--colorBlueHover);
+  background-color: var(--colorOrange);
+  border: 1px solid var(--colorOrange);
 }
 .donateButton.disabled {
   opacity: 0.5;
@@ -484,7 +485,8 @@ strong {
   max-width: 100%;
 }
 #mainHeader #headerContent #headerActions #login:not(:disabled):hover {
-  background-color: var(--colorGrayLight);
+  border: 1px solid var(--colorOrange);
+  color: var(--colorOrange);
 }
 #mainHeader #headerContent #headerActions #login.disabled {
   opacity: 0.5;
@@ -519,8 +521,8 @@ strong {
   max-width: 100%;
 }
 #mainHeader #headerContent #headerActions #donate:not(:disabled):hover {
-  background-color: var(--colorBlueHover);
-  border: 1px solid var(--colorBlueHover);
+  background-color: var(--colorOrange);
+  border: 1px solid var(--colorOrange);
 }
 #mainHeader #headerContent #headerActions #donate.disabled {
   opacity: 0.5;
@@ -626,7 +628,8 @@ strong {
   display: flex;
 }
 #headerMobileActions #loginMobile:not(:disabled):hover {
-  background-color: var(--colorGrayLight);
+  border: 1px solid var(--colorOrange);
+  color: var(--colorOrange);
 }
 #headerMobileActions #loginMobile.disabled {
   opacity: 0.5;
@@ -666,8 +669,8 @@ strong {
   display: flex;
 }
 #headerMobileActions #donateMobile:not(:disabled):hover {
-  background-color: var(--colorBlueHover);
-  border: 1px solid var(--colorBlueHover);
+  background-color: var(--colorOrange);
+  border: 1px solid var(--colorOrange);
 }
 #headerMobileActions #donateMobile.disabled {
   opacity: 0.5;
@@ -891,7 +894,8 @@ strong {
   display: block;
 }
 #footerMain #footerBottom #footerRight #footerRightContent a:not(:disabled):hover {
-  background-color: var(--colorDarkBlue);
+  background-color: var(--colorOrange);
+  border: 1px solid var(--colorOrange);
   color: white;
 }
 #footerMain #footerBottom #footerRight #footerRightContent a.disabled {
@@ -1675,8 +1679,8 @@ strong {
   max-width: 100%;
 }
 .bannerWrapper .banner .buttons a.primary:not(:disabled):hover {
-  background-color: var(--colorBlueHover);
-  border: 1px solid var(--colorBlueHover);
+  background-color: var(--colorOrange);
+  border: 1px solid var(--colorOrange);
 }
 .bannerWrapper .banner .buttons a.primary.disabled {
   opacity: 0.5;
@@ -1711,7 +1715,8 @@ strong {
   max-width: 100%;
 }
 .bannerWrapper .banner .buttons a.secondary:not(:disabled):hover {
-  background-color: var(--colorGrayLight);
+  border: 1px solid var(--colorOrange);
+  color: var(--colorOrange);
 }
 .bannerWrapper .banner .buttons a.secondary.disabled {
   opacity: 0.5;
@@ -2969,8 +2974,8 @@ strong {
   margin-top: 1.5rem;
 }
 #howItWorks #howItWorksRight .step a:not(:disabled):hover {
-  background-color: var(--colorBlueHover);
-  border: 1px solid var(--colorBlueHover);
+  background-color: var(--colorOrange);
+  border: 1px solid var(--colorOrange);
 }
 #howItWorks #howItWorksRight .step a.disabled {
   opacity: 0.5;
@@ -3576,7 +3581,8 @@ strong {
   background: transparent;
 }
 #hero #heroTop #heroTopActions .signUpHero:not(:disabled):hover {
-  background-color: var(--colorGrayLight);
+  border: 1px solid var(--colorOrange);
+  color: var(--colorOrange);
 }
 #hero #heroTop #heroTopActions .signUpHero.disabled {
   opacity: 0.5;
