@@ -6,6 +6,12 @@
   width: max-content;
 }
 
+select[readonly] {
+  pointer-events: none;
+  background: var(--colorSurface-200);
+  color: var(--colorSurface-600);
+}
+
 #themeSettingsContainer {
   order: 2;
   display: flex;
