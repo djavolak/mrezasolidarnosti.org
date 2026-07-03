@@ -46,3 +46,14 @@ main {
 strong {
   font-weight:bold;
 }
+
+.linkWithArrow {
+  svg {
+    transition: 0.3s ease all;
+  }
+  &:hover {
+    svg {
+      transform:translateX(4px);
+    }
+  }
+}
