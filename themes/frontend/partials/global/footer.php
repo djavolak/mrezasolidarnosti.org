@@ -71,8 +71,9 @@
                 <a target="_blank" href="https://www.instagram.com/pobunjeni_univerzitet/">
                     <img src="<?=FRONT_ASSET_URL?>/images/partners/akc.png" alt="AKC">
                 </a>
-                <a target="_blank" href="https://www.instagram.com/slobodan_univerzitet_ns"> <?php //todo izvuci novi logo iz figme ?>
+                <a target="_blank" href="https://www.instagram.com/slobodan_univerzitet_ns">
                     <img src="<?=FRONT_ASSET_URL?>/images/partners/suns.png" alt="Slobodni Univerzitet Krizni Centar">
+                    <img src="<?=FRONT_ASSET_URL?>/images/partners/suns2.png" alt="Slobodni Univerzitet Krizni Centar">
                 </a>
                 <a target="_blank" href="https://www.gradjanske.org/prijavi-se-za-aktivisticku-karticu-stit/">
                     <img src="<?=FRONT_ASSET_URL?>/images/partners/stit.png" alt="Štit">
@@ -80,8 +81,8 @@
                 <a target="_blank" href="https://www.instagram.com/ngp.uni/">
                     <img src="<?=FRONT_ASSET_URL?>/images/partners/sunis.png" alt="Suniš">
                 </a>
-                <a target="_blank" href="https://www.instagram.com/slobodni_uni_kg/"><?php //todo izvuci logo iz figme za kg ?>
-                    <img src="<?=FRONT_ASSET_URL?>/images/partners/sunis.png" alt="Slobodni Univerzitet Kragujevac">
+                <a target="_blank" href="https://www.instagram.com/slobodni_uni_kg/">
+                    <img src="<?=FRONT_ASSET_URL?>/images/partners/sukg.png" alt="Slobodni Univerzitet Kragujevac">
                 </a>
                 <a target="_blank" href="https://itsrbija.org/">
                     <img src="<?=FRONT_ASSET_URL?>/images/partners/its.png" alt="ITS">
