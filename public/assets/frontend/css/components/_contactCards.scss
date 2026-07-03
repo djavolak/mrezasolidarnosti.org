@@ -33,6 +33,10 @@
       color:var(--colorDarkBlue);
       font-weight:bold;
       @include typography.type(h4);
+      transition:0.3s ease all;
+      &:hover {
+        color:var(--colorOrange);
+      }
     }
   }
 }
