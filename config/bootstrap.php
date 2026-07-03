@@ -162,6 +162,15 @@ $container->set(\Skeletor\ContentEditor\Contracts\BlockViewInterface::class, fun
         $container->get(\Solidarity\Transaction\Service\Transaction::class)
     ));
 
+    // On the frontend, localize internal URLs in block data (buttonLink, linkUrl, ...)
+    // for the active locale before rendering — same treatment as the menus/footer.
+    if (\Solidarity\Core\Environment::isFrontend()) {
+        return new \Solidarity\Frontend\Service\LocalizingBlockView(
+            $view,
+            $container->get(\Solidarity\Frontend\Service\Locale::class)
+        );
+    }
+
     return $view;
 });
 
