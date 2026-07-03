@@ -56,4 +56,64 @@ document.addEventListener('DOMContentLoaded', () => {
         const table = new InstructionsTable({container: instructionsTable});
         table.init();
     });
+
+    const nlSignupForm = document.getElementById('nlSignup');
+    const emailInput = document.getElementById('nlEmail');
+    const messagesContainer = nlSignupForm.querySelector('.messagesContainer');
+    if(nlSignupForm) {
+        nlSignupForm.addEventListener('submit', async (e) => {
+           e.preventDefault();
+           let valid = true;
+           messagesContainer.innerHTML = '';
+            if(emailInput.value.trim() === '') {
+                //@TODO TRANSLATE
+                messagesContainer.appendChild(getMessageElement('Email je obavezan.', 'error'));
+                valid = false;
+            }
+            if(!validateEmail(emailInput.value)) {
+                //@TODO TRANSLATE
+                messagesContainer.appendChild(getMessageElement('Email nije validan.', 'error'));
+                valid = false;
+            }
+            if(!valid) {
+                return;
+            }
+           const res = await fetch('/emailList', {method: 'POST', body: new FormData(nlSignupForm)});
+           const resData = await res.json();
+            if(!resData.success) {
+                if(resData.data.errors.length) {
+                    resData.data.errors.forEach((error) => {
+                        if (Array.isArray(error)) {
+                            error.forEach((errorEntry) => {
+                                messagesContainer.appendChild(getMessageElement(errorEntry, 'error'));
+                            });
+                        } else {
+                            messagesContainer.appendChild(getMessageElement(error, 'error'));
+                        }
+                    });
+                }
+                if(resData.data.token) {
+                    replaceCsrf(nlSignupForm, resData.data.token);
+                }
+            } else {
+                messagesContainer.appendChild(getMessageElement('Uspešno ste se prijavili.', 'success'));
+            }
+        });
+    }
+
+    function getMessageElement(message, type) {
+        const messageElement = document.createElement('span');
+        messageElement.textContent = message;
+        messageElement.classList.add(type);
+        return messageElement;
+    }
+
+    function validateEmail(email) {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(email);
+    }
+
+    function replaceCsrf(form, val) {
+        form.querySelector('input[name^="_csrf"]').value = val;
+    }
 });

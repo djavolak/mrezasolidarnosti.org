@@ -109,8 +109,16 @@
                     <h2>
                         Ostanite povezani sa mrežom
                     </h2>
-                    <p>Prijavite se za važne vesti, priče i načine da se uključite kada je podrška najpotrebnija.</p>
-                    <a href="" title="Prijavi se">Prijavi se</a> <?php //@todo add newsletter ?>
+                    <p>Prijavite se za važne vesti, priče i načine da se uključite kada podrška bude najpotrebnija.</p>
+                    <form id="nlSignup" action="" method="post">
+                        <?=$this->formToken()?>
+                        <div class="messagesContainer">
+
+                        </div>
+                        <input name="email" aria-label="Email" type="email" id="nlEmail" placeholder="test@example.com">
+                        <button type="submit" title="Prijavi se">Prijavi se</button>
+                    </form>
+
                 </div>
                 <ul id="footerSocials">
                     <?php if(isset($socialLinks) && $socialLinks):?>

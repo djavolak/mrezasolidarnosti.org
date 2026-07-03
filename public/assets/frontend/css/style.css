@@ -872,7 +872,7 @@ strong {
   width: 440px;
   max-width: 100%;
 }
-#footerMain #footerBottom #footerRight #footerRightContent a {
+#footerMain #footerBottom #footerRight #footerRightContent button {
   border: none;
   cursor: pointer;
   transition: 0.3s ease;
@@ -893,22 +893,53 @@ strong {
   max-width: 100%;
   display: block;
 }
-#footerMain #footerBottom #footerRight #footerRightContent a:not(:disabled):hover {
+#footerMain #footerBottom #footerRight #footerRightContent button:not(:disabled):hover {
   background-color: var(--colorOrange);
   border: 1px solid var(--colorOrange);
   color: white;
 }
-#footerMain #footerBottom #footerRight #footerRightContent a.disabled {
+#footerMain #footerBottom #footerRight #footerRightContent button.disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
-#footerMain #footerBottom #footerRight #footerRightContent a:disabled {
+#footerMain #footerBottom #footerRight #footerRightContent button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
-#footerMain #footerBottom #footerRight #footerRightContent a.centered {
+#footerMain #footerBottom #footerRight #footerRightContent button.centered {
   margin-left: auto;
   margin-right: auto;
+}
+#footerMain #footerBottom #footerRight #footerRightContent #nlSignup {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+@media (max-width: 500px) {
+  #footerMain #footerBottom #footerRight #footerRightContent #nlSignup {
+    flex-direction: column;
+  }
+}
+#footerMain #footerBottom #footerRight #footerRightContent #nlSignup .messagesContainer {
+  flex-basis: 100%;
+}
+#footerMain #footerBottom #footerRight #footerRightContent #nlSignup input {
+  background: var(--colorBeige);
+  border: 1px solid var(--colorDarkBlue);
+  border-radius: 6px;
+  outline: none;
+  padding: 0 1rem;
+  color: var(--colorDarkBlue);
+  width: 300px;
+}
+#footerMain #footerBottom #footerRight #footerRightContent #nlSignup input::placeholder {
+  color: var(--colorDarkBlue);
+  opacity: 50%;
+}
+@media (max-width: 500px) {
+  #footerMain #footerBottom #footerRight #footerRightContent #nlSignup input {
+    padding: 1rem;
+  }
 }
 #footerMain #footerBottom #footerRight #footerSocials {
   display: flex;
