@@ -229,7 +229,7 @@
                         </div>
                         <div class="triggerContainer">
                             <div class="trigger" data-method="3">
-                                <img class="wuImg" src="<?=FRONT_IMAGES_URL?>/payment/wu.png" alt="WU">
+                                <img class="wuImg" src="<?=FRONT_IMAGES_URL?>/payment/WU.png" alt="WU">
                             </div>
                             <span>Western Union -  Međunarodni devizni transfer </span>
                         </div>
