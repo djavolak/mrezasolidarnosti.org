@@ -23,7 +23,7 @@ export default class Form {
             light: '/assets/frontend/images/payment/sepaW.png'
         },
         3: {
-            dark: '/assets/frontend/images/payment/wu.png',
+            dark: '/assets/frontend/images/payment/WU.png',
             light: '/assets/frontend/images/payment/wuW.png'
         },
         4: {
