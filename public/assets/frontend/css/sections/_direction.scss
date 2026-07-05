@@ -1,9 +1,14 @@
 @use '../setup/typography';
+#directionWrapper {
+  background: var(--colorDarkBlue);
+}
 #direction {
   display: flex;
   gap: 1rem;
   justify-content: space-between;
   padding: 5rem 4.25rem;
+  max-width:1920px;
+  margin:0 auto;
   @media(max-width:1100px) {
     flex-direction:column;
     padding:3rem 4.25rem;
@@ -12,7 +17,6 @@
   @media(max-width:768px) {
     padding: 3rem 1.25rem;
   }
-  background: var(--colorDarkBlue);
   #directionLeft {
     max-width:443px;
     h2 {
@@ -48,13 +52,13 @@
     }
     #directionEducation {
       background:var(--colorBlue);
-       span, p, ul, a, h3 {
+       span, p, ul, a, h3, li, ol {
           color:var(--colorBeige);
        }
     }
     #directionRepression {
       background:var(--colorGreen);
-      span, p, ul, a, h3 {
+      span, p, ul, a, h3, li, ol {
         color:var(--colorDarkBlue);
       }
     }

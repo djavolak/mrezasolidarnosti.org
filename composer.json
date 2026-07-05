@@ -43,7 +43,8 @@
       "Solidarity\\Delegate\\": "packages/Delegate/src",
       "Solidarity\\Beneficiary\\": "packages/Beneficiary/src",
       "Solidarity\\Period\\": "packages/Period/src",
-      "Solidarity\\Page\\": "packages/Page/src"
+      "Solidarity\\Page\\": "packages/Page/src",
+      "Solidarity\\EmailList\\": "packages/EmailList/src"
     }
   },
   "autoload-dev": {

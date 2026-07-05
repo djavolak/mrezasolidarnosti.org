@@ -139,9 +139,36 @@
             width:440px;
             max-width:100%;
         }
-        a {
+        button {
           @include buttons.button(small, transparent);
           display:block;
+        }
+        #nlSignup {
+          display:flex;
+          gap:2rem;
+          flex-wrap:wrap;
+          @media(max-width:500px) {
+            flex-direction:column;
+          }
+          .messagesContainer {
+            flex-basis:100%;
+          }
+          input {
+            background:var(--colorBeige);
+            border:1px solid var(--colorDarkBlue);
+            border-radius:6px;
+            outline:none;
+            padding:0 1rem;
+            color:var(--colorDarkBlue);
+            width:300px;
+            &::placeholder {
+              color:var(--colorDarkBlue);
+              opacity:50%;
+            }
+            @media(max-width:500px) {
+              padding:1rem;
+            }
+          }
         }
       }
       #footerSocials {
@@ -154,11 +181,17 @@
           justify-content:center;
         }
         a {
+          &:hover {
+            svg {
+              fill:var(--colorOrange);
+            }
+          }
           svg {
             pointer-events: all;
             width:30px;
             height:30px;
             fill:rgb(38, 33, 133);
+            transition:0.3s ease all;
           }
         }
       }
@@ -259,16 +292,27 @@
       li {
         @include typography.type(text);
         color:var(--colorDarkBlue);
+        a {
+          &:hover {
+            color:var(--colorOrange);
+          }
+        }
       }
     }
   }
   #footerSocials {
     a {
+      &:hover {
+        svg {
+          fill:var(--colorOrange);
+        }
+      }
       svg {
         pointer-events: all;
         width:30px;
         height:30px;
         fill:rgb(38, 33, 133);
+        transition:0.3s ease all;
       }
     }
   }

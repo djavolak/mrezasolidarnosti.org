@@ -223,19 +223,19 @@
                         </div>
                         <div class="triggerContainer">
                             <div class="trigger" data-method="2">
-                                <img src="<?=FRONT_IMAGES_URL?>/sepa.png" alt="SEPA">
+                                <img src="<?=FRONT_IMAGES_URL?>/payment/sepa.png" alt="SEPA">
                             </div>
                             <span><?=$this->t('SEPA Međunarodni devizni transfer')?> </span>
                         </div>
                         <div class="triggerContainer">
                             <div class="trigger" data-method="3">
-                                <img src="<?=FRONT_IMAGES_URL?>/WU.png" alt="WU">
+                                <img class="wuImg" src="<?=FRONT_IMAGES_URL?>/payment/WU.png" alt="WU">
                             </div>
                             <span><?=$this->t('Western Union -  Međunarodni devizni transfer')?> </span>
                         </div>
                         <div class="triggerContainer">
                             <div class="trigger" data-method="4">
-                                <img src="<?=FRONT_IMAGES_URL?>/moneygram.png" alt="Moneygram">
+                                <img src="<?=FRONT_IMAGES_URL?>/payment/mg.png" alt="Moneygram">
                             </div>
                             <span><?=$this->t('MoneyGram - Međunarodni devizni transfer')?> </span>
                         </div>
@@ -266,5 +266,5 @@ Minimalni iznos je u vrednosti od 500 RSD ili 10 EUR.')?></span>
         'frequency' => $block['existingFrequency'] ?? null,
         'paymentMethods' => $block['existingPaymentMethods'] ?? [],
     ])?></script>
-    <script type="module" src="<?=FRONT_ASSET_URL?>/js/donate.js"></script>
+    <script type="module" src="<?=FRONT_ASSET_URL?>/js/donate.js?v=0.0.2"></script>
 <?php endif; ?>

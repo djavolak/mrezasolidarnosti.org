@@ -59,6 +59,13 @@ return [
         'project.manage' => [User::ROLE_ADMIN],
         'city.manage' => [User::ROLE_ADMIN],
 
+        // Email list permissions
+        'emailList.view_list' => [User::ROLE_ADMIN],
+        'emailList.view' => [User::ROLE_ADMIN],
+        'emailList.create' => [User::ROLE_ADMIN],
+        'emailList.edit' => [User::ROLE_ADMIN],
+        'emailList.delete' => [User::ROLE_ADMIN],
+
         // Page permissions
         'page.view_list' => [User::ROLE_ADMIN],
         'page.view' => [User::ROLE_ADMIN],
@@ -181,6 +188,16 @@ return [
         '/page/update/*' => 'page.edit',
         '/page/delete/*' => 'page.delete',
         '/page/createTranslation/*' => 'page.create_translation',
+
+        // Email list routes
+        '/emails/view/' => 'emailList.view_list',
+        '/emails/view/*' => 'emailList.view',
+        '/emails/tableHandler/' => 'emailList.view_list',
+        '/emails/create/' => 'emailList.create',
+        '/emails/form/' => 'emailList.create',
+        '/emails/form/*' => 'emailList.edit',
+        '/emails/update/*' => 'emailList.edit',
+        '/emails/delete/*' => 'emailList.delete',
 
         // Image routes
         '/image/view/' => 'page.view_list',

@@ -49,5 +49,6 @@ return [
     [['GET', 'POST'], '/school/{action}[/{id}]', \Solidarity\Backend\Controller\SchoolController::class],
     [['GET', 'POST'], '/schoolType/{action}[/{id}]', \Solidarity\Backend\Controller\SchoolTypeController::class],
     [['GET', 'POST'], '/city/{action}[/{id}]', \Solidarity\Backend\Controller\CityController::class],
+    [['GET', 'POST'], '/emails/{action}[/{id}]', \Solidarity\Backend\Controller\EmailListController::class],
     [['GET', 'POST'], '/page/{action}[/{id}]', PageController::class],
 ];

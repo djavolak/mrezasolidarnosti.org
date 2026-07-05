@@ -20,9 +20,11 @@ class DonorDonationData
         $data = [
             'donorId' => filter_var($postData['donorId'] ?? null, FILTER_VALIDATE_INT) ?: null,
             'project' => filter_var($postData['project'] ?? null, FILTER_VALIDATE_INT) ?: null,
+            'frequency' => (int)$postData['frequency'],
             'paymentData' => $paymentData,
             CSRF::TOKEN_NAME => $postData[CSRF::TOKEN_NAME] ?? '',
         ];
+
 
         return $data;
     }

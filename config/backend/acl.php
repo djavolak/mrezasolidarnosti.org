@@ -53,6 +53,7 @@ $level1 = [
     '/translator/*',
     '/transactionImport/*',
     '/activity/*',
+    '/emailList/*',
 ];
 
 // Delegate permissions (role 10)

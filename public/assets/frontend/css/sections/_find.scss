@@ -1,10 +1,14 @@
 @use '../setup/typography';
+#findWrapper {
+  background:var(--colorDarkBlue);
+}
 #find {
   padding: 5rem 4.25rem;
+  max-width:1920px;
+  margin:0 auto;
   @media(max-width:768px) {
     padding: 3rem 1.25rem;
   }
-  background:var(--colorDarkBlue);
   h2 {
     @include typography.type(h1);
     max-width:536px;
