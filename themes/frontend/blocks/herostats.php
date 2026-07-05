@@ -20,15 +20,15 @@
                         <path d="M11.2479 1.62712C10.9699 1.34905 10.6399 1.12846 10.2767 0.977961C9.9135 0.827462 9.52419 0.75 9.13103 0.75C8.73787 0.75 8.34856 0.827462 7.98535 0.977961C7.62213 1.12846 7.29212 1.34905 7.01418 1.62712L6.43735 2.20395L5.86053 1.62712C5.2991 1.0657 4.53765 0.750291 3.74368 0.750291C2.9497 0.750291 2.18825 1.0657 1.62683 1.62712C1.0654 2.18854 0.75 2.95 0.75 3.74397C0.75 4.53794 1.0654 5.29939 1.62683 5.86082L6.43735 10.6713L11.2479 5.86082C11.526 5.58288 11.7465 5.25287 11.897 4.88965C12.0475 4.52644 12.125 4.13713 12.125 3.74397C12.125 3.35081 12.0475 2.9615 11.897 2.59828C11.7465 2.23507 11.526 1.90506 11.2479 1.62712Z"
                               stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
-                    Doniraj
+                    <?=$this->t('Doniraj')?>
                 </a>
-                <a href="<?=$this->localizeUrl('/kako-funkcionise-mreza')?>" class="signUpHero" title="Pogledaj kako Mreža funkcioniše">Pogledaj kako Mreža funkcioniše</a>
+                <a href="<?=$this->localizeUrl('/kako-funkcionise-mreza')?>" class="signUpHero" title="<?=$this->t('Pogledaj kako Mreža funkcioniše')?>"><?=$this->t('Pogledaj kako Mreža funkcioniše')?></a>
             </div>
         </div>
         <div id="heroBottom">
             <div id="heroBottomLeft">
                 <div class="heroAmount">
-                    <span class="heroTitleStats">Umreženo</span>
+                    <span class="heroTitleStats"><?=$this->t('Umreženo')?></span>
                     <div>
                         <span class="number"><?=htmlentities($block['totalAmount'] ?? '0')?><span class="currency">rsd</span></span>
                         <span class="numberEur"><?=htmlentities($block['totalAmountEur'] ?? '0,00')?><span class="currencyEur">eur</span></span>
@@ -36,11 +36,11 @@
                 </div>
                 <div class="heroConnected">
                     <div>
-                        <span class="heroTitleStats">Donatora</span>
+                        <span class="heroTitleStats"><?=$this->t('Donatora')?></span>
                         <span class="number"><?=$block['donorCount']?>+</span>
                     </div>
                     <div>
-                        <span class="heroTitleStats">Podržanih</span>
+                        <span class="heroTitleStats"><?=$this->t('Podržanih')?></span>
                         <span class="number"><?=htmlentities($block['supportedCount'] ?? '0')?>+</span>
                     </div>
                 </div>
@@ -48,7 +48,7 @@
             <div id="heroBottomRight">
                 <div class="projects">
                     <span class="numberOfProjects">2</span>
-                    <span>oblasti podrške<br>u jednoj mreži</span>
+                    <span><?=$this->t('oblasti podrške')?><br><?=$this->t('u jednoj mreži')?></span>
                 </div>
                 <div class="projectLogos">
                     <div class="education">
@@ -58,7 +58,7 @@
                             <path d="M31.1143 15.8241C31.1143 17.5658 29.7144 18.9867 27.9888 18.9867H15.8697C17.4501 18.8308 18.6739 17.4723 18.6739 15.8375C18.6739 14.2027 17.3092 12.7016 15.5968 12.6749H15.4912C13.7919 12.6972 12.4141 14.1048 12.4141 15.8375V3.17819C12.4141 1.42317 13.8139 0.0155902 15.5396 0.0155902C17.2652 0.0155902 18.6651 1.43208 18.6651 3.17819V8.47889L25.7569 0.928735C26.9807 -0.309578 28.9661 -0.309578 30.1767 0.928735C31.4005 2.16705 31.4005 4.17597 30.1767 5.40092L23.393 12.6393H27.9668C29.688 12.6393 31.0923 14.0558 31.0923 15.8019L31.1143 15.8241Z" fill="#1A00F3"/>
                             <path d="M15.8742 18.9867C15.7685 18.9867 15.6585 19.0001 15.5528 19.0001C15.4472 19.0001 15.3371 19.0001 15.2314 18.9867H15.8742Z" fill="#1A00F3"/>
                         </svg>
-                        <span>Obrazovanje</span>
+                        <span><?=$this->t('Obrazovanje')?></span>
                     </div>
                     <div class="repression">
                         <svg width="31" height="31" viewBox="0 0 31 31" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -67,15 +67,15 @@
                             <path d="M30.2007 15.4369C30.2007 17.1376 28.8402 18.5212 27.168 18.5212H15.406C16.9405 18.3689 18.1269 17.0429 18.1269 15.4493C18.1269 13.8557 16.7988 12.3897 15.1388 12.365H15.0335C13.3856 12.3897 12.0454 13.7609 12.0454 15.4493V3.09974C12.0454 1.3867 13.4058 0.0154422 15.078 0.0154422C16.7502 0.0154422 18.1107 1.39905 18.1107 3.09974V8.27181L24.9938 0.904906C26.1801 -0.301635 28.1074 -0.301635 29.2816 0.904906C30.4679 2.11145 30.4679 4.07156 29.2816 5.26575L22.6981 12.3279H27.1356C28.8078 12.3279 30.1683 13.7115 30.1683 15.4122L30.1926 15.4369H30.2007Z" fill="#4AA91C"/>
                             <path d="M15.406 18.5212C15.3007 18.5212 15.1995 18.5336 15.0942 18.5336C14.989 18.5336 14.8877 18.5336 14.7825 18.5212H15.406Z" fill="#4AA91C"/>
                         </svg>
-                        <span>Protiv represije</span>
+                        <span><?=$this->t('Protiv represije')?></span>
                     </div>
                 </div>
-                <a class="howItWorksHero" title="Pogledaj kako funkcioniše raspodela" href="">
+                <a class="howItWorksHero" title="<?=$this->t('Pogledaj kako funkcioniše raspodela')?>" href="">
                     <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M6.85054 1.36864C7.60514 0.614033 8.82874 0.60944 9.5777 1.3584L14.8463 6.62697C14.0916 6.00765 12.9715 6.0637 12.2638 6.77147C11.556 7.47924 11.4995 8.72377 12.2329 9.47797L12.2794 9.52446C13.0284 10.2527 14.2365 10.243 14.9859 9.49356L9.50585 14.9736C8.74604 15.7334 7.52765 15.7328 6.77869 14.9838C6.02972 14.2348 6.03432 13.0113 6.78892 12.2566L9.08397 9.9616L2.73156 10.1467C1.6635 10.1507 0.800904 9.2881 0.810079 8.22521C0.814088 7.15715 1.68319 6.28805 2.74604 6.28925L8.82833 6.10569L6.8397 4.11707C6.09074 3.3681 6.09533 2.14451 6.84994 1.3899L6.85001 1.36916L6.85054 1.36864Z" fill="#262185"/>
                         <path d="M13.2294 10.611L14.2679 10.185L16.3316 8.12129L13.8685 5.65818L12.2309 6.36383L10.8329 8.00146L13.2294 10.611Z" fill="#262185"/>
                     </svg>
-                    <span>Pogledaj kako funkcioniše raspodela</span>
+                    <span><?=$this->t('Pogledaj kako funkcioniše raspodela')?></span>
                 </a>
             </div>
         </div>

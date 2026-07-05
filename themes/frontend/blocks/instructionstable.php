@@ -60,7 +60,7 @@
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2ZM12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4ZM12 11C12.5523 11 13 11.4477 13 12V15H13.5C14.0523 15 14.5 15.4477 14.5 16C14.5 16.5523 14.0523 17 13.5 17H10.5C9.94772 17 9.5 16.5523 9.5 16C9.5 15.4477 9.94772 15 10.5 15H11V13H10.5C9.94772 13 9.5 12.5523 9.5 12C9.5 11.4477 9.94772 11 10.5 11H12ZM11.75 7C12.4404 7 13 7.55964 13 8.25C13 8.94036 12.4404 9.5 11.75 9.5C11.0596 9.5 10.5 8.94036 10.5 8.25C10.5 7.55964 11.0596 7 11.75 7Z" fill="#262185"/>
                 </svg>
-                <p>Ukoliko se uplata ne izvrši u roku od 72 časa, instrukcije su otkazane. Zatim možete ručno generisati instrukcije klikom na dugme na prethodnom ekranu “Generiši instrukcije” </p>
+                <p><?=$this->t('Ukoliko se uplata ne izvrši u roku od 72 časa, instrukcije su otkazane. Zatim možete ručno generisati instrukcije klikom na dugme na prethodnom ekranu “Generiši instrukcije” ')?></p>
             </div>
         </div>
         <div class="messagesContainer">
@@ -97,7 +97,7 @@
                     <div class="inputContainer refNum">
                         <label><?=$this->t('Referentni broj plaćanja (MTCN broj):')?></label>
                         <div class="inputWrapper">
-                            <input id="refNumInput" placeholder="Upiši  MTCN broj " type="text">
+                            <input id="refNumInput" placeholder="<?=$this->t('Upiši  MTCN broj ')?>" type="text">
                         </div>
                     </div>
                 </div>
@@ -129,7 +129,7 @@
                                 </clipPath>
                             </defs>
                         </svg>
-                        <span>Štampaj ove instrukcije</span>
+                        <span><?=$this->t('Štampaj ove instrukcije')?></span>
                     </div>
                 </div>
             </div>
@@ -137,11 +137,11 @@
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M10.8989 4.8609L7.03444 0.996428C6.48508 0.447066 5.58697 0.451047 5.03271 1.0053L5.03264 1.02052C4.47839 1.57478 4.47441 2.47289 5.02377 3.02225L6.48242 4.4809L2.01797 4.61866C1.23784 4.61831 0.599493 5.25666 0.596019 6.04061C0.588755 6.82077 1.22147 7.45348 2.00542 7.45L6.66776 7.31137L4.98207 8.99706C4.42781 9.55132 4.42383 10.4494 4.97319 10.9988C5.52256 11.5482 6.41646 11.5484 6.97492 10.9899L12.0014 5.96342L10.8989 4.8609Z" fill="#CF3443"/>
                 </svg>
-                Naišli ste na problem? <a href="<?=$this->localizeUrl('/kontakt')?>" title="<?=$this->t('Kontakt')?>">
-                    Kontaktirajte nas
+                <?=$this->t('Naišli ste na problem?')?> <a href="<?=$this->localizeUrl('/kontakt')?>" title="<?=$this->t('Kontakt')?>">
+                    <?=$this->t('Kontaktirajte nas')?>
                 </a>
             </div>
         </div>
-        <div class="donateButton" id="confirmPayment">Potvrdi uplatu</div>
+        <div class="donateButton" id="confirmPayment"><?=$this->t('Potvrdi uplatu')?></div>
     </dialog>
 <?php endif; ?>

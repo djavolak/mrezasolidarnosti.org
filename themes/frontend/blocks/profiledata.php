@@ -9,11 +9,11 @@
 
                     </div>
                     <div class="inputContainer">
-                        <label for="name">Ime</label>
+                        <label for="name"><?=$this->t('Ime')?></label>
                         <input type="text" id="name" name="firstName" disabled value="<?=$block['donor']->firstName?>">
                     </div>
                     <div class="inputContainer">
-                        <label for="lastname">Prezime</label>
+                        <label for="lastname"><?=$this->t('Prezime')?></label>
                         <input type="text" id="lastname" name="lastName" disabled value="<?=$block['donor']->lastName?>">
                     </div>
                     <div class="inputContainer">
@@ -21,20 +21,20 @@
                         <input type="email" id="email" name="email" disabled value="<?=$block['donor']->email?>">
                     </div>
                     <p></p>
-                    <button id="formSubmit" type="submit" class="buttonPrimary centered">Izmeni</button>
+                    <button id="formSubmit" type="submit" class="buttonPrimary centered"><?=$this->t('Izmeni')?></button>
                 </form>
             </div>
             <div id="profileDataStats">
                 <div class="left">
-                    <h2>Ukupno donirano</h2>
+                    <h2><?=$this->t('Ukupno donirano')?></h2>
                     <div class="amount big"><?=$block['totalDonated']?> RSD</div>
                     <div class="amount small"><?=$block['totalDonatedEUR']?> EUR</div>
                 </div>
                 <div class="right">
-                    <h2>Ukupno transakcija</h2>
+                    <h2><?=$this->t('Ukupno transakcija')?></h2>
                     <div class="amount big"><?=$block['totalTransactions']?></div>
                 </div>
-                <a class="instructions buttonPrimary centered" href="<?=$this->localizeUrl('/instrukcije-za-uplatu')?>" title="Kreiraj instrukcije za uplatu">
+                <a class="instructions buttonPrimary centered" href="<?=$this->localizeUrl('/instrukcije-za-uplatu')?>" title="<?=$this->t('Kreiraj instrukcije za uplatu')?>">
                     <svg width="12" height="14" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g clip-path="url(#clip0_759_2558)">
                             <path d="M5.41118 10.0395H2.09539C1.65569 10.0395 1.234 9.86478 0.923086 9.55387C0.612171 9.24295 0.4375 8.82126 0.4375 8.38156V3.96051C0.4375 3.52081 0.612171 3.09911 0.923086 2.7882C1.234 2.47728 1.65569 2.30261 2.09539 2.30261H8.72697C9.16667 2.30261 9.58837 2.47728 9.89928 2.7882C10.2102 3.09911 10.3849 3.52081 10.3849 3.96051V6.44735M0.4375 5.06577H10.3849M7.62171 10.0395H10.9375M9.2796 11.6973L10.9375 10.0395L9.2796 8.38156M2.65079 7.82893H2.65355M4.85855 7.82893H5.96382" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
@@ -45,16 +45,16 @@
                             </clipPath>
                         </defs>
                     </svg>
-                    Kreiraj instrukcije za uplatu
+                    <?=$this->t('Kreiraj instrukcije za uplatu')?>
                 </a>
             </div>
             <div id="profileDataLinks">
-                <p>Pregled svih dosadašnjih kao i nove instrukcija možeš videti na stranici <a href="<?=$this->localizeUrl('/instrukcije-za-uplatu')?>" title="Instrukcije za uplatu">Instrukcije za uplatu</a>.</p>
-                <a href="<?=$this->localizeUrl('/instrukcije-za-uplatu')?>" title="Instrukcije za uplatu" class="buttonPrimary centered">
+                <p><?=$this->t('Pregled svih dosadašnjih kao i nove instrukcija možeš videti na stranici')?> <a href="<?=$this->localizeUrl('/instrukcije-za-uplatu')?>" title="<?=$this->t('Instrukcije za uplatu')?>"><?=$this->t('Instrukcije za uplatu')?></a>.</p>
+                <a href="<?=$this->localizeUrl('/instrukcije-za-uplatu')?>" title="<?=$this->t('Instrukcije za uplatu')?>" class="buttonPrimary centered">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M11.4211 18.4706H4.47368C3.55241 18.4706 2.66886 18.0987 2.01742 17.4368C1.36598 16.775 1 15.8772 1 14.9412V5.52941C1 4.59335 1.36598 3.69563 2.01742 3.03374C2.66886 2.37185 3.55241 2 4.47368 2H18.3684C19.2897 2 20.1732 2.37185 20.8247 3.03374C21.4761 3.69563 21.8421 4.59335 21.8421 5.52941V10.8235M1 7.88235H21.8421M16.0526 18.4706H23M19.5263 22L23 18.4706L19.5263 14.9412M5.63737 13.7647H5.64316M10.2632 13.7647H12.5789" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
-                    Instrukcije za uplatu
+                    <?=$this->t('Instrukcije za uplatu')?>
                 </a>
             </div>
         </div>

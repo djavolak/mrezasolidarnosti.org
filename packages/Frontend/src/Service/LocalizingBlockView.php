@@ -49,24 +49,10 @@ class LocalizingBlockView implements BlockViewInterface
             if (is_array($value)) {
                 $data[$key] = $this->processUrls($value);
             } elseif (is_string($key) && is_string($value) && preg_match(self::URL_KEY, $key)) {
-                $url = $this->ensureLeadingSlash($value);
+                $url = Locale::absolutePath($value);
                 $data[$key] = $localize ? $this->locale->localizeUrl($url) : $url;
             }
         }
         return $data;
-    }
-
-    /**
-     * Prefix internal relative links with '/'. Left untouched: already-absolute '/…'
-     * and protocol-relative '//…' paths, anchors '#…', links with a scheme
-     * (http:, https:, mailto:, tel:, …) and empty values.
-     */
-    private function ensureLeadingSlash(string $url): string
-    {
-        if ($url === '' || $url[0] === '/' || $url[0] === '#'
-            || preg_match('~^[a-z][a-z0-9+.\-]*:~i', $url)) {
-            return $url;
-        }
-        return '/' . $url;
     }
 }

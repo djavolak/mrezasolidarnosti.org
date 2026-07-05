@@ -11,7 +11,7 @@
         <div id="directionRight">
             <?php foreach(($block['projects'] ?? []) as $project): ?>
                 <div class="directionProject"<?=!empty($project['projectHTMLId']) ? ' id="' . htmlentities($project['projectHTMLId']) . '"' : ''?>>
-                    <span>Mreža solidarnosti</span>
+                    <span><?=$this->t('Mreža solidarnosti')?></span>
                     <h3><?=htmlentities($project['title'] ?? '')?></h3>
                     <div class="directionProjectDescription"><?=$project['description'] ?? ''?></div>
                     <?php if(!empty($project['linkText'])): ?>
