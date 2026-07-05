@@ -68,6 +68,18 @@ class Session
         return $name !== '' ? $name : $this->getEmail();
     }
 
+    /** The locale the visitor explicitly chose via the language switcher, if any. */
+    public function getPreferredLocale(): ?string
+    {
+        $locale = $this->get('preferredLocale');
+        return is_string($locale) && $locale !== '' ? $locale : null;
+    }
+
+    public function setPreferredLocale(string $locale): void
+    {
+        $this->session->getStorage()->offsetSet('preferredLocale', $locale);
+    }
+
     public function isDonor(): bool
     {
         return $this->isLoggedIn() && $this->getEntityType() === self::TYPE_DONOR;

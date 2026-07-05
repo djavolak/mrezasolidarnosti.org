@@ -91,7 +91,7 @@
                     </span>
                     <ul class="languageOptions">
                         <?php foreach ($alternates as $loc => $locUrl): ?>
-                            <li><a class="<?=$loc === $currentLoc ? 'active' : ''?>" href="<?=htmlentities($locUrl)?>" title="<?=htmlentities($localeTitles[$loc] ?? $loc)?>"><?=$localeLabels[$loc] ?? strtoupper($loc)?></a></li>
+                            <li><a class="<?=$loc === $currentLoc ? 'active' : ''?>" href="<?=htmlentities($locUrl)?>?setLocale=<?=htmlentities($loc)?>" title="<?=htmlentities($localeTitles[$loc] ?? $loc)?>"><?=$localeLabels[$loc] ?? strtoupper($loc)?></a></li>
                         <?php endforeach; ?>
                     </ul>
                 </div>
@@ -133,7 +133,7 @@
                 <ul>
                     <?php if(isset($mainNavigation) && $mainNavigation):?>
                         <?php foreach($mainNavigation->getItemsFormatted() as $item):?>
-                            <li><a href="<?=htmlentities($item['url'] ?? '')?>" title="<?=htmlentities($item['label'] ?? '')?>"><?=htmlentities($item['label'] ?? '')?></a></li>
+                            <li><a href="<?=htmlentities($this->absUrl($item['url'] ?? ''))?>" title="<?=htmlentities($item['label'] ?? '')?>"><?=htmlentities($item['label'] ?? '')?></a></li>
                         <?php endforeach;?>
                     <?php endif; ?>
                 </ul>
@@ -159,7 +159,7 @@
                         </span>
                     <ul class="languageOptions">
                         <?php foreach ($alternates as $loc => $locUrl): ?>
-                            <li><a class="<?=$loc === $currentLoc ? 'active' : ''?>" href="<?=htmlentities($locUrl)?>" title="<?=htmlentities($localeTitles[$loc] ?? $loc)?>"><?=$localeLabels[$loc] ?? strtoupper($loc)?></a></li>
+                            <li><a class="<?=$loc === $currentLoc ? 'active' : ''?>" href="<?=htmlentities($locUrl)?>?setLocale=<?=htmlentities($loc)?>" title="<?=htmlentities($localeTitles[$loc] ?? $loc)?>"><?=$localeLabels[$loc] ?? strtoupper($loc)?></a></li>
                         <?php endforeach; ?>
                     </ul>
                 </div>

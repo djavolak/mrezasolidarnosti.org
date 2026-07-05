@@ -95,6 +95,21 @@ class Locale
     }
 
     /**
+     * Ensure an internal link is absolute (leading slash) so it can't resolve relative
+     * to the current path (e.g. a slug-less `doniraj` on `/en/x` → `/en/en/doniraj`).
+     * External links (with a scheme), protocol-relative `//`, anchors `#…` and empty
+     * values are returned unchanged.
+     */
+    public static function absolutePath(string $url): string
+    {
+        if ($url === '' || $url[0] === '/' || $url[0] === '#'
+            || preg_match('~^[a-z][a-z0-9+.\-]*:~i', $url)) {
+            return $url;
+        }
+        return '/' . $url;
+    }
+
+    /**
      * Localize an internal link for the active locale, translating the leading page
      * slug to its counterpart in the current language (sr `/doniraj` → en `/donate`).
      * Used by the localizeUrl() template helper for menu/content links that are

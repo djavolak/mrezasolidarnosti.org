@@ -5,7 +5,7 @@ if (isset($block)): ?>
             <div class="mainLine"></div>
             <div class="grid" style="margin-bottom:120px;">
                 <div class="left" style="top:10px;">
-                    <span class="title">Registracija i login</span>
+                    <span class="title"><?=$this->t('Registracija i login')?></span>
                 </div>
                 <div id="numbered1" class="center numbered">1</div>
                 <div class="right" style="top:10px;">
@@ -25,14 +25,14 @@ if (isset($block)): ?>
                             <path d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2ZM12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4ZM12 11C12.5523 11 13 11.4477 13 12V15H13.5C14.0523 15 14.5 15.4477 14.5 16C14.5 16.5523 14.0523 17 13.5 17H10.5C9.94772 17 9.5 16.5523 9.5 16C9.5 15.4477 9.94772 15 10.5 15H11V13H10.5C9.94772 13 9.5 12.5523 9.5 12C9.5 11.4477 9.94772 11 10.5 11H12ZM11.75 7C12.4404 7 13 7.55964 13 8.25C13 8.94036 12.4404 9.5 11.75 9.5C11.0596 9.5 10.5 8.94036 10.5 8.25C10.5 7.55964 11.0596 7 11.75 7Z"
                                   fill="#FE5101"/>
                         </svg>
-                        <p>Donator se postaje registracijom na našem sajtu klikom na dugme </p>
+                        <p><?=$this->t('Donator se postaje registracijom na našem sajtu klikom na dugme')?> </p>
                         <a href="<?=$this->localizeUrl('/registracija-donatora')?>" class="donateButton">
                             <svg width="13" height="12" viewBox="0 0 13 12" fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
                                 <path d="M11.2479 1.62712C10.9699 1.34905 10.6399 1.12846 10.2767 0.977961C9.9135 0.827462 9.52419 0.75 9.13103 0.75C8.73787 0.75 8.34856 0.827462 7.98535 0.977961C7.62213 1.12846 7.29212 1.34905 7.01418 1.62712L6.43735 2.20395L5.86053 1.62712C5.2991 1.0657 4.53765 0.750291 3.74368 0.750291C2.9497 0.750291 2.18825 1.0657 1.62683 1.62712C1.0654 2.18854 0.75 2.95 0.75 3.74397C0.75 4.53794 1.0654 5.29939 1.62683 5.86082L6.43735 10.6713L11.2479 5.86082C11.526 5.58288 11.7465 5.25287 11.897 4.88965C12.0475 4.52644 12.125 4.13713 12.125 3.74397C12.125 3.35081 12.0475 2.9615 11.897 2.59828C11.7465 2.23507 11.526 1.90506 11.2479 1.62712Z"
                                       stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
-                            Doniraj
+                            <?=$this->t('Doniraj')?>
                         </a>
                     </div>
                 </div>
@@ -44,11 +44,11 @@ if (isset($block)): ?>
                             <path d="M2 2L8 8L14 2" stroke="#FE5101" stroke-width="4" stroke-linecap="round"
                                   stroke-linejoin="round"/>
                         </svg>
-                        <span>Unose se osnovni podaci potrebni za registraciju.</span>
+                        <span><?=$this->t('Unose se osnovni podaci potrebni za registraciju.')?></span>
                     </div>
                     <div class="collapsible">
                         <div class="collapsibleWrapper">
-                            <p>Unose se osnovne informacije: Ime Prezime i email adresa.</p>
+                            <p><?=$this->t('Unose se osnovne informacije: Ime Prezime i email adresa.')?></p>
                         </div>
                     </div>
                 </div>
@@ -77,11 +77,11 @@ if (isset($block)): ?>
                             <path d="M2 2L8 8L14 2" stroke="#FE5101" stroke-width="4" stroke-linecap="round"
                                   stroke-linejoin="round"/>
                         </svg>
-                        <span>Link sa potvrdom registracije stiže na ostavljenu email adresu.</span>
+                        <span><?=$this->t('Link sa potvrdom registracije stiže na ostavljenu email adresu.')?></span>
                     </div>
                     <div class="collapsible">
                         <div class="collapsibleWrapper">
-                            <p>Donatorski nalog se kreira brzo i bez lozinke.</p>
+                            <p><?=$this->t('Donatorski nalog se kreira brzo i bez lozinke.')?></p>
                         </div>
                     </div>
                 </div>
@@ -93,12 +93,12 @@ if (isset($block)): ?>
                             <path d="M2 2L8 8L14 2" stroke="#FE5101" stroke-width="4" stroke-linecap="round"
                                   stroke-linejoin="round"/>
                         </svg>
-                        <span>Potvrda registracije</span>
+                        <span><?=$this->t('Potvrda registracije')?></span>
                     </div>
                     <div class="collapsible">
                         <div class="collapsibleWrapper">
-                            <p>Registracija se vrši putem sigurnog linka koji stiže na email adresu.
-                                <span>Sa istim e-mailom uvek se može iznova ulogovati  u već otvoren nalog na našem websajtu preko dugmeta “Uloguj se”.</span>
+                            <p><?=$this->t('Registracija se vrši putem sigurnog linka koji stiže na email adresu.')?>
+                                <span><?=$this->t('Sa istim e-mailom uvek se može iznova ulogovati  u već otvoren nalog na našem websajtu preko dugmeta “Uloguj se”.')?></span>
                             </p>
                         </div>
                     </div>
@@ -116,24 +116,24 @@ if (isset($block)): ?>
                             <path d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2ZM12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4ZM12 11C12.5523 11 13 11.4477 13 12V15H13.5C14.0523 15 14.5 15.4477 14.5 16C14.5 16.5523 14.0523 17 13.5 17H10.5C9.94772 17 9.5 16.5523 9.5 16C9.5 15.4477 9.94772 15 10.5 15H11V13H10.5C9.94772 13 9.5 12.5523 9.5 12C9.5 11.4477 9.94772 11 10.5 11H12ZM11.75 7C12.4404 7 13 7.55964 13 8.25C13 8.94036 12.4404 9.5 11.75 9.5C11.0596 9.5 10.5 8.94036 10.5 8.25C10.5 7.55964 11.0596 7 11.75 7Z"
                                   fill="#FE5101"/>
                         </svg>
-                        <p>Registracija je gotova, sada je potrebno izabrati oblasti podrške.</p>
+                        <p><?=$this->t('Registracija je gotova, sada je potrebno izabrati oblasti podrške.')?></p>
                     </div>
                 </div>
             </div>
             <div class="grid" style="margin-bottom:180px;">
                 <div class="left" style="top:10px;">
-                    <span class="title">Odabir oblast podrške</span>
+                    <span class="title"><?=$this->t('Odabir oblast podrške')?></span>
                 </div>
                 <div id="numbered2" class="center numbered">2</div>
                 <div class="right" style="top:20px;">
                     <div class="description">
-                        <p>Donator može odabrati da podrži:</p>
+                        <p><?=$this->t('Donator može odabrati da podrži:')?></p>
                         <ul>
-                            <li>Mrežu solidarnosti za obrazovanje</li>
-                            <li>Mrežu solidarnosti protiv represije</li>
-                            <li>ili obe oblasti istovremeno</li>
+                            <li><?=$this->t('Mrežu solidarnosti za obrazovanje')?></li>
+                            <li><?=$this->t('Mrežu solidarnosti protiv represije')?></li>
+                            <li><?=$this->t('ili obe oblasti istovremeno')?></li>
                         </ul>
-                        <span>Izbor se možete prilagoditi u skladu sa tim gde se želi da  podrška bude usmerena.</span>
+                        <span><?=$this->t('Izbor se možete prilagoditi u skladu sa tim gde se želi da  podrška bude usmerena.')?></span>
                     </div>
                 </div>
             </div>
@@ -215,8 +215,8 @@ if (isset($block)): ?>
                     </div>
                     <div class="collapsible">
                         <div class="collapsibleWrapper">
-                            <p>Solidarnost sa ljudima iz obrazovanja koji trpe posledice svog profesionalnog i
-                                društvenog angažmana.</p>
+                            <p><?=$this->t('Solidarnost sa ljudima iz obrazovanja koji trpe posledice svog profesionalnog i
+                                društvenog angažmana.')?></p>
                         </div>
                     </div>
                 </div>
@@ -316,8 +316,8 @@ if (isset($block)): ?>
                     </div>
                     <div class="collapsible">
                         <div class="collapsibleWrapper">
-                            <p>Podrška ljudima pogođenim kaznama, pritiscima ili drugim posledicama društvenog
-                                angažmana.</p>
+                            <p><?=$this->t('Podrška ljudima pogođenim kaznama, pritiscima ili drugim posledicama društvenog
+                                angažmana.')?></p>
                         </div>
                     </div>
                 </div>
@@ -330,12 +330,12 @@ if (isset($block)): ?>
                             <path d="M2 2L8 8L14 2" stroke="#FE5101" stroke-width="4" stroke-linecap="round"
                                   stroke-linejoin="round"></path>
                         </svg>
-                        <span>Mogu se podržati obe oblasti istovremeno.</span>
+                        <span><?=$this->t('Mogu se podržati obe oblasti istovremeno.')?></span>
                     </div>
                     <div class="collapsible">
                         <div class="collapsibleWrapper">
-                            <p>Novac se usmerava gde je najpotrebniji.
-                                <b>Ako izaberete oba pravca podrške sistem raspoređuje sredstva po potrebi</b>.</p>
+                            <p><?=$this->t('Novac se usmerava gde je najpotrebniji.')?>
+                                <b><?=$this->t('Ako izaberete oba pravca podrške sistem raspoređuje sredstva po potrebi')?></b>.</p>
                         </div>
                     </div>
                 </div>
@@ -356,7 +356,7 @@ if (isset($block)): ?>
                 </div>
                 <div id="numbered3" class="center numbered">3</div>
                 <div class="right" style="top:12px;">
-                    <span class="title">Biranje načina donacije</span>
+                    <span class="title"><?=$this->t('Biranje načina donacije')?></span>
                 </div>
             </div>
             <div class="grid" style="margin-bottom:90px;">
@@ -366,20 +366,20 @@ if (isset($block)): ?>
                             <path d="M2 2L8 8L14 2" stroke="#FE5101" stroke-width="4" stroke-linecap="round"
                                   stroke-linejoin="round"></path>
                         </svg>
-                        <span>Uplate iz inostranstva</span>
+                        <span><?=$this->t('Uplate iz inostranstva')?></span>
                     </div>
                     <div class="collapsible">
                         <div class="collapsibleWrapper">
                             <p>
-                                Za uplate iz inostranstva dostupni su načini donacije:
-                                <b class="boldSubtitle">Western Union</b>
-                                Nakon uplate, u sistem se unosi MTCN broj, koji služi kao referenca na osnovu koje
-                                podržani podiže sredstva.
-                                <b class="boldSubtitle">Moneygram</b>
-                                Nakon uplate, u sistem se unosi kontrolni broj, koji služi kao referenca na osnovu koje
-                                oštećeni podiže sredstva.
-                                <b class="boldSubtitle">SEPA uplata</b>
-                                Dobija se uputstvo za SEPA devizne uplate.
+                                <?=$this->t('Za uplate iz inostranstva dostupni su načini donacije:')?>
+                                <b class="boldSubtitle"><?=$this->t('Western Union')?></b>
+                                <?=$this->t('Nakon uplate, u sistem se unosi MTCN broj, koji služi kao referenca na osnovu koje
+                                podržani podiže sredstva.')?>
+                                <b class="boldSubtitle"><?=$this->t('Moneygram')?></b>
+                                <?=$this->t('Nakon uplate, u sistem se unosi kontrolni broj, koji služi kao referenca na osnovu koje
+                                oštećeni podiže sredstva.')?>
+                                <b class="boldSubtitle"><?=$this->t('SEPA uplata')?></b>
+                                <?=$this->t('Dobija se uputstvo za SEPA devizne uplate.')?>
                             </p>
                         </div>
                     </div>
@@ -413,17 +413,17 @@ if (isset($block)): ?>
                             <path d="M2 2L8 8L14 2" stroke="#FE5101" stroke-width="4" stroke-linecap="round"
                                   stroke-linejoin="round"></path>
                         </svg>
-                        <span>Uplate unutar Republike Srbije</span>
+                        <span><?=$this->t('Uplate unutar Republike Srbije')?></span>
                     </div>
                     <div class="collapsible">
                         <div class="collapsibleWrapper">
                             <p>
-                                <b>Preko dinarskog žiro računa</b>
+                                <b><?=$this->t('Preko dinarskog žiro računa')?></b>
                                 <br>
-                                Donacija se realizuje kroz instrukcije za uplatu koje se dobijaju putem e-maila, koje je
+                                <?=$this->t('Donacija se realizuje kroz instrukcije za uplatu koje se dobijaju putem e-maila, koje je
                                 sistem Mreže generisao (kada za to postoji potreba) ili preko sistema koji je donator
-                                sam generisao.*
-                                <b class="footerText">*Vidi sekciju "Generisanje instrukcija"</b>
+                                sam generisao.*')?>
+                                <b class="footerText"><?=$this->t('*Vidi sekciju "Generisanje instrukcija"')?></b>
                             </p>
                         </div>
                     </div>
@@ -437,7 +437,7 @@ if (isset($block)): ?>
                             <path d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2ZM12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4ZM12 11C12.5523 11 13 11.4477 13 12V15H13.5C14.0523 15 14.5 15.4477 14.5 16C14.5 16.5523 14.0523 17 13.5 17H10.5C9.94772 17 9.5 16.5523 9.5 16C9.5 15.4477 9.94772 15 10.5 15H11V13H10.5C9.94772 13 9.5 12.5523 9.5 12C9.5 11.4477 9.94772 11 10.5 11H12ZM11.75 7C12.4404 7 13 7.55964 13 8.25C13 8.94036 12.4404 9.5 11.75 9.5C11.0596 9.5 10.5 8.94036 10.5 8.25C10.5 7.55964 11.0596 7 11.75 7Z"
                                   fill="#FE5101"></path>
                         </svg>
-                        <p>Kada nastanu potrebe Mreža šalje instrukcije e-mailom.</p>
+                        <p><?=$this->t('Kada nastanu potrebe Mreža šalje instrukcije e-mailom.')?></p>
                     </div>
                 </div>
                 <div class="center icon" style="background:#262185;">
@@ -449,14 +449,14 @@ if (isset($block)): ?>
                             <path d="M2 2L8 8L14 2" stroke="#FE5101" stroke-width="4" stroke-linecap="round"
                                   stroke-linejoin="round"></path>
                         </svg>
-                        <span>Iznos donacije</span>
+                        <span><?=$this->t('Iznos donacije')?></span>
                     </div>
                     <div class="collapsible">
                         <div class="collapsibleWrapper">
                             <p>
-                                Unosi se visina donacije, koja može biti jednokratna ili mesečna. Za uplate unutar
-                                platnog sistema u Srbiji u RSD, za plaćanje iz inostranstva u Evrima.*
-                                <span class="footerText">*Za uplate iz inostranstva iznos se konvertuje u RSD po kursu od 117.5 dinara.</span>
+                                <?=$this->t('Unosi se visina donacije, koja može biti jednokratna ili mesečna. Za uplate unutar
+                                platnog sistema u Srbiji u RSD, za plaćanje iz inostranstva u Evrima.*')?>
+                                <span class="footerText"><?=$this->t('*Za uplate iz inostranstva iznos se konvertuje u RSD po kursu od 117.5 dinara.')?></span>
                             </p>
                         </div>
                     </div>
@@ -468,9 +468,9 @@ if (isset($block)): ?>
                 </div>
                 <div id="numbered4" class="center numbered">4</div>
                 <div class="right">
-                    <span class="title">Biranje načina donacije</span>
+                    <span class="title"><?=$this->t('Biranje načina donacije')?></span>
                     <span class="belowTitleDescription" style="top:20px;">
-                        Instrukcije stižu e-mailom kada postoje aktivne potrebe. Instrukcije za uplatu generišu se automatski ili ručno.
+                        <?=$this->t('Instrukcije stižu e-mailom kada postoje aktivne potrebe. Instrukcije za uplatu generišu se automatski ili ručno.')?>
                     </span>
                 </div>
             </div>
@@ -481,15 +481,15 @@ if (isset($block)): ?>
                             <path d="M2 2L8 8L14 2" stroke="#FE5101" stroke-width="4" stroke-linecap="round"
                                   stroke-linejoin="round"/>
                         </svg>
-                        <span>Automatski generisane instrukcije</span>
+                        <span><?=$this->t('Automatski generisane instrukcije')?></span>
                     </div>
                     <div class="collapsible">
                         <div class="collapsibleWrapper">
                             <p>
-                                Instrukcije za uplatu se automatski generišu <b>ponedeljkom i četvrtkom u 7:00 časova i
-                                    važe ograničeno vreme.</b>
-                                Generiše se kada postoji potreba za donacijom, a mogu se dobiti putem sistema i putem
-                                e-mail-a.
+                                <?=$this->t('Instrukcije za uplatu se automatski generišu')?> <b><?=$this->t('ponedeljkom i četvrtkom u 7:00 časova i
+                                    važe ograničeno vreme.')?></b>
+                                <?=$this->t('Generiše se kada postoji potreba za donacijom, a mogu se dobiti putem sistema i putem
+                                e-mail-a.')?>
                             </p>
                         </div>
                     </div>
@@ -524,16 +524,16 @@ if (isset($block)): ?>
                             <path d="M2 2L8 8L14 2" stroke="#FE5101" stroke-width="4" stroke-linecap="round"
                                   stroke-linejoin="round"></path>
                         </svg>
-                        <span>Iznos donacije</span>
+                        <span><?=$this->t('Iznos donacije')?></span>
                     </div>
                     <div class="collapsible">
                         <div class="collapsibleWrapper">
                             <p>
-                                Kada je instrukcija generisana, ona ostaje aktivna (rezervisana) 72 sata. Ako se nakon
+                                <?=$this->t('Kada je instrukcija generisana, ona ostaje aktivna (rezervisana) 72 sata. Ako se nakon
                                 tog vremenskog perioda donator nije ulogovao u sistem ili potvrdio uplatu, instrukcija
-                                se briše i oslobađa za drugog donatora.
-                                <span class="footerText">(Pogledaj više na sekciji “Ručno generisanje instrukcija”)</span>
-                                <span class="belowFooterText">Posle isteka roka, podaci za uplatu se zatvaraju kako ne bi došlo do pogrešne ili kasne uplate.</span>
+                                se briše i oslobađa za drugog donatora.')?>
+                                <span class="footerText"><?=$this->t('(Pogledaj više na sekciji “Ručno generisanje instrukcija”)')?></span>
+                                <span class="belowFooterText"><?=$this->t('Posle isteka roka, podaci za uplatu se zatvaraju kako ne bi došlo do pogrešne ili kasne uplate.')?></span>
 
                             </p>
                         </div>
@@ -547,16 +547,16 @@ if (isset($block)): ?>
                             <path d="M2 2L8 8L14 2" stroke="#FE5101" stroke-width="4" stroke-linecap="round"
                                   stroke-linejoin="round"></path>
                         </svg>
-                        <span>Ručno generisanje instrukcija</span>
+                        <span><?=$this->t('Ručno generisanje instrukcija')?></span>
                     </div>
                     <div class="collapsible">
                         <div class="collapsibleWrapper">
                             <p>
-                                Kada u sistemu postoji otvorena potreba za donacijom, moguće je ručno generisati
+                                <?=$this->t('Kada u sistemu postoji otvorena potreba za donacijom, moguće je ručno generisati
                                 instrukcije za uplatu u željenom iznosu.
-                                Ako su sve potrebe već pokrivene, ova opcija privremeno neće biti dostupna.
+                                Ako su sve potrebe već pokrivene, ova opcija privremeno neće biti dostupna.')?>
                                 <span class="footerText">
-                                    Mreža generiše instrukcije koje šalje e-mailom donatorima i koje traju 72h. Ako neko od donatora ne izvrši uplatu, otvaraju se slobodna mesta za koje nov donator može sam da generiše instrukcije za uplatu (isto što bi radilo i dugme "Uplata na čekanju" te će se instrukcije generisati ako postoji potreba za donacijom.
+                                    <?=$this->t('Mreža generiše instrukcije koje šalje e-mailom donatorima i koje traju 72h. Ako neko od donatora ne izvrši uplatu, otvaraju se slobodna mesta za koje nov donator može sam da generiše instrukcije za uplatu (isto što bi radilo i dugme "Uplata na čekanju" te će se instrukcije generisati ako postoji potreba za donacijom.')?>
                                 </span>
                             </p>
                         </div>
@@ -584,9 +584,9 @@ if (isset($block)): ?>
                     5
                 </div>
                 <div class="right">
-                    <span class="title">Uplata donacije</span>
+                    <span class="title"><?=$this->t('Uplata donacije')?></span>
                     <span class="belowTitleDescription" style="top:20px;">
-                        Instrukcija je generisana. Stigla je na e-mail donatora ili je donator sam generisao u sistemu Mreže.
+                        <?=$this->t('Instrukcija je generisana. Stigla je na e-mail donatora ili je donator sam generisao u sistemu Mreže.')?>
                     </span>
                 </div>
             </div>
@@ -597,14 +597,14 @@ if (isset($block)): ?>
                             <path d="M2 2L8 8L14 2" stroke="#FE5101" stroke-width="4" stroke-linecap="round"
                                   stroke-linejoin="round"></path>
                         </svg>
-                        <span>Donacija se uplaćuje direktno osobi kojoj je podrška namenjena.</span>
+                        <span><?=$this->t('Donacija se uplaćuje direktno osobi kojoj je podrška namenjena.')?></span>
                     </div>
                     <div class="collapsible">
                         <div class="collapsibleWrapper">
                             <p>
-                                Mreža solidarnosti funkcioniše po <b>peer-to-peer</b> principu.<br>
-                                To znači da vaša donacija ide direktno osobi kojoj je podrška potrebna – bez fondova,
-                                bez posrednika i bez zadržavanja novca u sistemu. Čovek do čoveka.
+                                <?=$this->t('Mreža solidarnosti funkcioniše po')?> <b><?=$this->t('peer-to-peer')?></b> <?=$this->t('principu.')?><br>
+                                <?=$this->t('To znači da vaša donacija ide direktno osobi kojoj je podrška potrebna – bez fondova,
+                                bez posrednika i bez zadržavanja novca u sistemu. Čovek do čoveka.')?>
                             </p>
                         </div>
                     </div>
@@ -642,13 +642,13 @@ if (isset($block)): ?>
                             <path d="M2 2L8 8L14 2" stroke="#FE5101" stroke-width="4" stroke-linecap="round"
                                   stroke-linejoin="round"></path>
                         </svg>
-                        <span>Potvrda uplate</span>
+                        <span><?=$this->t('Potvrda uplate')?></span>
                     </div>
                     <div class="collapsible">
                         <div class="collapsibleWrapper">
                             <p>
-                                Kada donator izvrši uplatu, u svom profilu potvrđuje da je donacija poslata. Na taj
-                                način sistem može da prati status i zatvori instrukciju.
+                                <?=$this->t('Kada donator izvrši uplatu, u svom profilu potvrđuje da je donacija poslata. Na taj
+                                način sistem može da prati status i zatvori instrukciju.')?>
                             </p>
                         </div>
                     </div>
@@ -661,15 +661,15 @@ if (isset($block)): ?>
                             <path d="M2 2L8 8L14 2" stroke="#FE5101" stroke-width="4" stroke-linecap="round"
                                   stroke-linejoin="round"></path>
                         </svg>
-                        <span>Praćenje statusa</span>
+                        <span><?=$this->t('Praćenje statusa')?></span>
                     </div>
                     <div class="collapsible">
                         <div class="collapsibleWrapper">
                             <p>
-                                U svom profilu donator može pratiti status instrukcije:
-                                <span class="listItemInText">Čeka se uplata</span>
-                                <span class="listItemInText">Uplata potvrđena</span>
-                                Ovaj sistem omogućava jednostavan pregled i dodatnu transparentnost.
+                                <?=$this->t('U svom profilu donator može pratiti status instrukcije:')?>
+                                <span class="listItemInText"><?=$this->t('Čeka se uplata')?></span>
+                                <span class="listItemInText"><?=$this->t('Uplata potvrđena')?></span>
+                                <?=$this->t('Ovaj sistem omogućava jednostavan pregled i dodatnu transparentnost.')?>
                             </p>
                         </div>
                     </div>
@@ -701,19 +701,19 @@ if (isset($block)): ?>
                             <path d="M2 2L8 8L14 2" stroke="#FE5101" stroke-width="4" stroke-linecap="round"
                                   stroke-linejoin="round"></path>
                         </svg>
-                        <span>Delegati potvrđuju prijem</span>
+                        <span><?=$this->t('Delegati potvrđuju prijem')?></span>
                     </div>
                     <div class="collapsible">
                         <div class="collapsibleWrapper">
                             <p>
-                                Delegati potvrđuju da je podrška zaista stigla.
+                                <?=$this->t('Delegati potvrđuju da je podrška zaista stigla.')?>
                                 <br>
-                                <span class="belowFooterText">Delegati su ljudi određeni od strane Mreže koji:</span>
-                                <span class="listItemInText">unose oštećene u sistem</span>
-                                <span class="listItemInText">proveravaju osnovne informacije</span>
-                                <span class="listItemInText">potvrđuju da je pomoć stigla</span>
-                                Na taj način Mreža obezbeđuje dodatni sloj poverenja i odgovornosti.
-                                <a href="" title="Pogledaj više">
+                                <span class="belowFooterText"><?=$this->t('Delegati su ljudi određeni od strane Mreže koji:')?></span>
+                                <span class="listItemInText"><?=$this->t('unose oštećene u sistem')?></span>
+                                <span class="listItemInText"><?=$this->t('proveravaju osnovne informacije')?></span>
+                                <span class="listItemInText"><?=$this->t('potvrđuju da je pomoć stigla')?></span>
+                                <?=$this->t('Na taj način Mreža obezbeđuje dodatni sloj poverenja i odgovornosti.')?>
+                                <a href="" title="<?=$this->t('Pogledaj više')?>">
                                     <svg width="17" height="17" viewBox="0 0 17 17" fill="none"
                                          xmlns="http://www.w3.org/2000/svg">
                                         <path d="M6.85054 1.3687C7.60514 0.614094 8.82874 0.609501 9.5777 1.35846L14.8463 6.62703C14.0916 6.00771 12.9715 6.06376 12.2638 6.77153C11.556 7.4793 11.4995 8.72383 12.2329 9.47803L12.2794 9.52452C13.0284 10.2527 14.2365 10.243 14.9859 9.49362L9.50585 14.9736C8.74604 15.7334 7.52765 15.7328 6.77869 14.9839C6.02972 14.2349 6.03432 13.0113 6.78892 12.2567L9.08397 9.96166L2.73156 10.1467C1.6635 10.1508 0.800904 9.28816 0.810079 8.22527C0.814088 7.15721 1.68319 6.28811 2.74604 6.28931L8.82833 6.10575L6.8397 4.11713C6.09074 3.36816 6.09533 2.14457 6.84994 1.38996L6.85001 1.36922L6.85054 1.3687Z"
@@ -721,7 +721,7 @@ if (isset($block)): ?>
                                         <path d="M13.2292 10.611L14.2677 10.185L16.3314 8.12127L13.8683 5.65816L12.2306 6.36381L10.8326 8.00145L13.2292 10.611Z"
                                               fill="#FE5101"/>
                                     </svg>
-                                    Pogledaj više
+                                    <?=$this->t('Pogledaj više')?>
                                 </a>
                             </p>
                         </div>
@@ -731,8 +731,8 @@ if (isset($block)): ?>
             <div class="grid">
                 <div class="left" style="top:-10px;">
                     <div class="title end">
-                        <span class="main">Hvala Vam</span>
-                        <span class="secondary">što ste deo Mreže solidarnosti</span>
+                        <span class="main"><?=$this->t('Hvala Vam')?></span>
+                        <span class="secondary"><?=$this->t('što ste deo Mreže solidarnosti')?></span>
                     </div>
                 </div>
                 <div class="center icon" style="background:var(--colorOrange)">
@@ -759,19 +759,19 @@ if (isset($block)): ?>
             </svg>
         </div>
         <div class="stepSection">
-            <span class="title">Registracija i login</span>
+            <span class="title"><?=$this->t('Registracija i login')?></span>
             <div class="info">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2ZM12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4ZM12 11C12.5523 11 13 11.4477 13 12V15H13.5C14.0523 15 14.5 15.4477 14.5 16C14.5 16.5523 14.0523 17 13.5 17H10.5C9.94772 17 9.5 16.5523 9.5 16C9.5 15.4477 9.94772 15 10.5 15H11V13H10.5C9.94772 13 9.5 12.5523 9.5 12C9.5 11.4477 9.94772 11 10.5 11H12ZM11.75 7C12.4404 7 13 7.55964 13 8.25C13 8.94036 12.4404 9.5 11.75 9.5C11.0596 9.5 10.5 8.94036 10.5 8.25C10.5 7.55964 11.0596 7 11.75 7Z"
                           fill="#FE5101"/>
                 </svg>
-                <p>Donator se postaje registracijom na našem sajtu klikom na dugme </p>
+                <p><?=$this->t('Donator se postaje registracijom na našem sajtu klikom na dugme')?> </p>
                 <a href="" class="donateButton">
                     <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M11.2479 1.62712C10.9699 1.34905 10.6399 1.12846 10.2767 0.977961C9.9135 0.827462 9.52419 0.75 9.13103 0.75C8.73787 0.75 8.34856 0.827462 7.98535 0.977961C7.62213 1.12846 7.29212 1.34905 7.01418 1.62712L6.43735 2.20395L5.86053 1.62712C5.2991 1.0657 4.53765 0.750291 3.74368 0.750291C2.9497 0.750291 2.18825 1.0657 1.62683 1.62712C1.0654 2.18854 0.75 2.95 0.75 3.74397C0.75 4.53794 1.0654 5.29939 1.62683 5.86082L6.43735 10.6713L11.2479 5.86082C11.526 5.58288 11.7465 5.25287 11.897 4.88965C12.0475 4.52644 12.125 4.13713 12.125 3.74397C12.125 3.35081 12.0475 2.9615 11.897 2.59828C11.7465 2.23507 11.526 1.90506 11.2479 1.62712Z"
                               stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
                     </svg>
-                    Doniraj
+                    <?=$this->t('Doniraj')?>
                 </a>
             </div>
         </div>
@@ -790,11 +790,11 @@ if (isset($block)): ?>
                     <path d="M2 2L8 8L14 2" stroke="#FE5101" stroke-width="4" stroke-linecap="round"
                           stroke-linejoin="round"/>
                 </svg>
-                <span>Unose se osnovni podaci potrebni za registraciju.</span>
+                <span><?=$this->t('Unose se osnovni podaci potrebni za registraciju.')?></span>
             </div>
             <div class="collapsible">
                 <div class="collapsibleWrapper">
-                    <p>Unose se osnovne informacije: Ime Prezime i email adresa.</p>
+                    <p><?=$this->t('Unose se osnovne informacije: Ime Prezime i email adresa.')?></p>
                 </div>
             </div>
         </div>
@@ -810,11 +810,11 @@ if (isset($block)): ?>
                     <path d="M2 2L8 8L14 2" stroke="#FE5101" stroke-width="4" stroke-linecap="round"
                           stroke-linejoin="round"/>
                 </svg>
-                <span>Link sa potvrdom registracije stiže na ostavljenu e-mail adresu.</span>
+                <span><?=$this->t('Link sa potvrdom registracije stiže na ostavljenu e-mail adresu.')?></span>
             </div>
             <div class="collapsible">
                 <div class="collapsibleWrapper">
-                    <p>Donatorski nalog se kreira brzo i bez lozinke.</p>
+                    <p><?=$this->t('Donatorski nalog se kreira brzo i bez lozinke.')?></p>
                 </div>
             </div>
         </div>
@@ -830,12 +830,12 @@ if (isset($block)): ?>
                     <path d="M2 2L8 8L14 2" stroke="#FE5101" stroke-width="4" stroke-linecap="round"
                           stroke-linejoin="round"/>
                 </svg>
-                <span>Potvrda registracije</span>
+                <span><?=$this->t('Potvrda registracije')?></span>
             </div>
             <div class="collapsible">
                 <div class="collapsibleWrapper">
-                    <p>Registracija se vrši putem sigurnog linka koji stiže na e-mail adresu.</p>
-                    <span>Sa istim e-mailom donator se može direktno ulogovati u već otvoren nalog na našem vebsajtu, dugmetom "Uloguj se".</span>
+                    <p><?=$this->t('Registracija se vrši putem sigurnog linka koji stiže na e-mail adresu.')?></p>
+                    <span><?=$this->t('Sa istim e-mailom donator se može direktno ulogovati u već otvoren nalog na našem vebsajtu, dugmetom "Uloguj se".')?></span>
                 </div>
             </div>
             <div class="info">
@@ -843,7 +843,7 @@ if (isset($block)): ?>
                     <path d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2ZM12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4ZM12 11C12.5523 11 13 11.4477 13 12V15H13.5C14.0523 15 14.5 15.4477 14.5 16C14.5 16.5523 14.0523 17 13.5 17H10.5C9.94772 17 9.5 16.5523 9.5 16C9.5 15.4477 9.94772 15 10.5 15H11V13H10.5C9.94772 13 9.5 12.5523 9.5 12C9.5 11.4477 9.94772 11 10.5 11H12ZM11.75 7C12.4404 7 13 7.55964 13 8.25C13 8.94036 12.4404 9.5 11.75 9.5C11.0596 9.5 10.5 8.94036 10.5 8.25C10.5 7.55964 11.0596 7 11.75 7Z"
                           fill="#FE5101"/>
                 </svg>
-                <p>Registracija je gotova, sada je potrebno izabrati oblast podrške.</p>
+                <p><?=$this->t('Registracija je gotova, sada je potrebno izabrati oblast podrške.')?></p>
             </div>
         </div>
         <div class="step number">
@@ -852,14 +852,14 @@ if (isset($block)): ?>
         <div class="stepSection">
             <div class="description">
                 <p>
-                    Donator može odabrati da podrži:
+                    <?=$this->t('Donator može odabrati da podrži:')?>
                 </p>
                 <ul>
-                    <li>Mrežu solidarnosti za obrazovanje</li>
-                    <li>Mrežu solidarnosti  protiv represije</li>
-                    <li>ili obe oblasti istovremeno</li>
+                    <li><?=$this->t('Mrežu solidarnosti za obrazovanje')?></li>
+                    <li><?=$this->t('Mrežu solidarnosti  protiv represije')?></li>
+                    <li><?=$this->t('ili obe oblasti istovremeno')?></li>
                 </ul>
-                <span class="footerText">Izbor se može promeniti u skladu sa tim gde želite da podrška bude usmerena.</span>
+                <span class="footerText"><?=$this->t('Izbor se može promeniti u skladu sa tim gde želite da podrška bude usmerena.')?></span>
             </div>
         </div>
         <div class="step icon">
@@ -917,8 +917,8 @@ if (isset($block)): ?>
                 </div>
                 <div class="collapsible">
                     <div class="collapsibleWrapper">
-                        <p>Solidarnost sa ljudima iz obrazovanja koji trpe posledice svog profesionalnog i
-                            društvenog angažmana.</p>
+                        <p><?=$this->t('Solidarnost sa ljudima iz obrazovanja koji trpe posledice svog profesionalnog i
+                            društvenog angažmana.')?></p>
                     </div>
                 </div>
             </div>
@@ -974,8 +974,8 @@ if (isset($block)): ?>
             </div>
             <div class="collapsible">
                 <div class="collapsibleWrapper">
-                    <p>Podrška ljudima pogođenim kaznama, pritiscima ili drugim posledicama društvenog
-                        angažmana.</p>
+                    <p><?=$this->t('Podrška ljudima pogođenim kaznama, pritiscima ili drugim posledicama društvenog
+                        angažmana.')?></p>
                 </div>
             </div>
         </div>
@@ -992,12 +992,12 @@ if (isset($block)): ?>
                 <svg width="16" height="10" viewBox="0 0 16 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M2 2L8 8L14 2" stroke="#FE5101" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path>
                 </svg>
-                <span>Mogu se podržati obe oblasti istovremeno.</span>
+                <span><?=$this->t('Mogu se podržati obe oblasti istovremeno.')?></span>
             </div>
             <div class="collapsible">
                 <div class="collapsibleWrapper">
-                    <p>Novac se usmerava gde je najpotrebniji.
-                        <b>Ako izaberete oba pravca podrške sistem raspoređuje sredstva po potrebi</b>.</p>
+                    <p><?=$this->t('Novac se usmerava gde je najpotrebniji.')?>
+                        <b><?=$this->t('Ako izaberete oba pravca podrške sistem raspoređuje sredstva po potrebi')?></b>.</p>
                 </div>
             </div>
         </div>
@@ -1005,7 +1005,7 @@ if (isset($block)): ?>
             3
         </div>
         <div class="stepSection">
-            <span class="title">Biranje načina donacije</span>
+            <span class="title"><?=$this->t('Biranje načina donacije')?></span>
         </div>
         <div class="step icon">
             <svg width="57" height="57" viewBox="0 0 57 57" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1017,20 +1017,20 @@ if (isset($block)): ?>
                 <svg width="16" height="10" viewBox="0 0 16 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M2 2L8 8L14 2" stroke="#FE5101" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path>
                 </svg>
-                <span>Uplate iz inostranstva</span>
+                <span><?=$this->t('Uplate iz inostranstva')?></span>
             </div>
             <div class="collapsible">
                 <div class="collapsibleWrapper">
                     <p>
-                        Za uplate iz inostranstva dostupni su načini donacije:
-                        <b class="boldSubtitle">Western Union</b>
-                        Nakon uplate, u sistem se unosi MTCN broj, koji služi kao referenca na osnovu koje
-                        podržani podiže sredstva.
-                        <b class="boldSubtitle">Moneygram</b>
-                        Nakon uplate, u sistem se unosi kontrolni broj, koji služi kao referenca na osnovu koje
-                        oštećeni podiže sredstva.
-                        <b class="boldSubtitle">SEPA uplata</b>
-                        Dobija se uputstvo za SEPA devizne uplate.
+                        <?=$this->t('Za uplate iz inostranstva dostupni su načini donacije:')?>
+                        <b class="boldSubtitle"><?=$this->t('Western Union')?></b>
+                        <?=$this->t('Nakon uplate, u sistem se unosi MTCN broj, koji služi kao referenca na osnovu koje
+                        podržani podiže sredstva.')?>
+                        <b class="boldSubtitle"><?=$this->t('Moneygram')?></b>
+                        <?=$this->t('Nakon uplate, u sistem se unosi kontrolni broj, koji služi kao referenca na osnovu koje
+                        oštećeni podiže sredstva.')?>
+                        <b class="boldSubtitle"><?=$this->t('SEPA uplata')?></b>
+                        <?=$this->t('Dobija se uputstvo za SEPA devizne uplate.')?>
                     </p>
                 </div>
             </div>
@@ -1052,17 +1052,17 @@ if (isset($block)): ?>
                 <svg width="16" height="10" viewBox="0 0 16 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M2 2L8 8L14 2" stroke="#FE5101" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path>
                 </svg>
-                <span>Uplate unutar Republike Srbije</span>
+                <span><?=$this->t('Uplate unutar Republike Srbije')?></span>
             </div>
             <div class="collapsible">
                 <div class="collapsibleWrapper">
                     <p>
-                        <b>Preko dinarskog žiro računa</b>
+                        <b><?=$this->t('Preko dinarskog žiro računa')?></b>
                         <br>
-                        Donacija se realizuje kroz instrukcije za uplatu koje se dobijaju putem e-maila, koje je
+                        <?=$this->t('Donacija se realizuje kroz instrukcije za uplatu koje se dobijaju putem e-maila, koje je
                         sistem Mreže generisao (kada za to postoji potreba) ili preko sistema koji je donator
-                        sam generisao.*
-                        <b class="footerText">*Vidi sekciju "Generisanje instrukcija"</b>
+                        sam generisao.*')?>
+                        <b class="footerText"><?=$this->t('*Vidi sekciju "Generisanje instrukcija"')?></b>
                     </p>
                 </div>
             </div>
@@ -1077,15 +1077,15 @@ if (isset($block)): ?>
                 <svg width="16" height="10" viewBox="0 0 16 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M2 2L8 8L14 2" stroke="#FE5101" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path>
                 </svg>
-                <span>Iznos donacije</span>
+                <span><?=$this->t('Iznos donacije')?></span>
             </div>
             <div class="collapsible">
                 <div class="collapsibleWrapper">
                     <p>
-                        Unosi se visina donacije, koja može biti jednokratna ili mesečna. Za uplate unutar
-                        platnog sistema u Srbiji u RSD, za plaćanje iz inostranstva u Evrima.*
+                        <?=$this->t('Unosi se visina donacije, koja može biti jednokratna ili mesečna. Za uplate unutar
+                        platnog sistema u Srbiji u RSD, za plaćanje iz inostranstva u Evrima.*')?>
                     </p>
-                    <span class="footerText">*Za uplate iz inostranstva iznos se konvertuje u RSD po kursu od 117.5 dinara.</span>
+                    <span class="footerText"><?=$this->t('*Za uplate iz inostranstva iznos se konvertuje u RSD po kursu od 117.5 dinara.')?></span>
                 </div>
             </div>
             <div class="info">
@@ -1093,16 +1093,16 @@ if (isset($block)): ?>
                     <path d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2ZM12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4ZM12 11C12.5523 11 13 11.4477 13 12V15H13.5C14.0523 15 14.5 15.4477 14.5 16C14.5 16.5523 14.0523 17 13.5 17H10.5C9.94772 17 9.5 16.5523 9.5 16C9.5 15.4477 9.94772 15 10.5 15H11V13H10.5C9.94772 13 9.5 12.5523 9.5 12C9.5 11.4477 9.94772 11 10.5 11H12ZM11.75 7C12.4404 7 13 7.55964 13 8.25C13 8.94036 12.4404 9.5 11.75 9.5C11.0596 9.5 10.5 8.94036 10.5 8.25C10.5 7.55964 11.0596 7 11.75 7Z"
                           fill="#FE5101"/>
                 </svg>
-                <p>Kada nastanu potrebe Mreža šalje instrukcije e-mailom.</p>
+                <p><?=$this->t('Kada nastanu potrebe Mreža šalje instrukcije e-mailom.')?></p>
             </div>
         </div>
         <div class="step number">
             4
         </div>
         <div class="stepSection">
-            <span class="title">Generisanje instrukcija</span>
+            <span class="title"><?=$this->t('Generisanje instrukcija')?></span>
             <div class="description">
-                <p>Instrukcije stižu e-mailom kada postoje aktivne potrebe. Instrukcije za uplatu generišu se automatski ili ručno.</p>
+                <p><?=$this->t('Instrukcije stižu e-mailom kada postoje aktivne potrebe. Instrukcije za uplatu generišu se automatski ili ručno.')?></p>
             </div>
         </div>
         <div class="step icon">
@@ -1117,15 +1117,15 @@ if (isset($block)): ?>
                 <svg width="16" height="10" viewBox="0 0 16 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M2 2L8 8L14 2" stroke="#FE5101" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path>
                 </svg>
-                <span>Automatski generisane instrukcije</span>
+                <span><?=$this->t('Automatski generisane instrukcije')?></span>
             </div>
             <div class="collapsible">
                 <div class="collapsibleWrapper">
                     <p>
-                        Instrukcije za uplatu se automatski generišu <b>ponedeljkom i četvrtkom u 7:00 časova i
-                            važe ograničeno vreme.</b>
-                        Generiše se kada postoji potreba za donacijom, a mogu se dobiti putem sistema i putem
-                        e-mail-a.
+                        <?=$this->t('Instrukcije za uplatu se automatski generišu')?> <b><?=$this->t('ponedeljkom i četvrtkom u 7:00 časova i
+                            važe ograničeno vreme.')?></b>
+                        <?=$this->t('Generiše se kada postoji potreba za donacijom, a mogu se dobiti putem sistema i putem
+                        e-mail-a.')?>
                     </p>
                 </div>
             </div>
@@ -1141,16 +1141,16 @@ if (isset($block)): ?>
                 <svg width="16" height="10" viewBox="0 0 16 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M2 2L8 8L14 2" stroke="#FE5101" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path>
                 </svg>
-                <span>Iznos donacije</span>
+                <span><?=$this->t('Iznos donacije')?></span>
             </div>
             <div class="collapsible">
                 <div class="collapsibleWrapper">
                     <p>
-                        Kada je instrukcija generisana, ona ostaje aktivna (rezervisana) 72 sata. Ako se nakon
+                        <?=$this->t('Kada je instrukcija generisana, ona ostaje aktivna (rezervisana) 72 sata. Ako se nakon
                         tog vremenskog perioda donator nije ulogovao u sistem ili potvrdio uplatu, instrukcija
-                        se briše i oslobađa za drugog donatora.
-                        <span class="footerText">(Pogledaj više na sekciji “Ručno generisanje instrukcija”)</span>
-                        <span class="belowFooterText">Posle isteka roka, podaci za uplatu se zatvaraju kako ne bi došlo do pogrešne ili kasne uplate.</span>
+                        se briše i oslobađa za drugog donatora.')?>
+                        <span class="footerText"><?=$this->t('(Pogledaj više na sekciji “Ručno generisanje instrukcija”)')?></span>
+                        <span class="belowFooterText"><?=$this->t('Posle isteka roka, podaci za uplatu se zatvaraju kako ne bi došlo do pogrešne ili kasne uplate.')?></span>
 
                     </p>
                 </div>
@@ -1169,16 +1169,16 @@ if (isset($block)): ?>
                 <svg width="16" height="10" viewBox="0 0 16 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M2 2L8 8L14 2" stroke="#FE5101" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path>
                 </svg>
-                <span>Ručno generisanje instrukcija</span>
+                <span><?=$this->t('Ručno generisanje instrukcija')?></span>
             </div>
             <div class="collapsible">
                 <div class="collapsibleWrapper">
                     <p>
-                        Kada u sistemu postoji otvorena potreba za donacijom, moguće je ručno generisati
+                        <?=$this->t('Kada u sistemu postoji otvorena potreba za donacijom, moguće je ručno generisati
                         instrukcije za uplatu u željenom iznosu.
-                        Ako su sve potrebe već pokrivene, ova opcija privremeno neće biti dostupna.
+                        Ako su sve potrebe već pokrivene, ova opcija privremeno neće biti dostupna.')?>
                         <span class="footerText">
-                                    Mreža generiše instrukcije koje šalje e-mailom donatorima i koje traju 72h. Ako neko od donatora ne izvrši uplatu, otvaraju se slobodna mesta za koje nov donator može sam da generiše instrukcije za uplatu (isto što bi radilo i dugme "Uplata na čekanju" te će se instrukcije generisati ako postoji potreba za donacijom.
+                                    <?=$this->t('Mreža generiše instrukcije koje šalje e-mailom donatorima i koje traju 72h. Ako neko od donatora ne izvrši uplatu, otvaraju se slobodna mesta za koje nov donator može sam da generiše instrukcije za uplatu (isto što bi radilo i dugme "Uplata na čekanju" te će se instrukcije generisati ako postoji potreba za donacijom.')?>
                                 </span>
                     </p>
                 </div>
@@ -1188,9 +1188,9 @@ if (isset($block)): ?>
             5
         </div>
         <div class="stepSection">
-            <span class="title">Uplata donacije</span>
+            <span class="title"><?=$this->t('Uplata donacije')?></span>
             <div class="description">
-                <p>Instrukcija je generisana. Stigla je na e-mail donatora ili je donator sam generisao u sistemu Mreže.</p>
+                <p><?=$this->t('Instrukcija je generisana. Stigla je na e-mail donatora ili je donator sam generisao u sistemu Mreže.')?></p>
             </div>
         </div>
         <div class="step icon">
@@ -1207,14 +1207,14 @@ if (isset($block)): ?>
                 <svg width="16" height="10" viewBox="0 0 16 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M2 2L8 8L14 2" stroke="#FE5101" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path>
                 </svg>
-                <span>Donacija se uplaćuje direktno osobi kojoj je podrška namenjena.</span>
+                <span><?=$this->t('Donacija se uplaćuje direktno osobi kojoj je podrška namenjena.')?></span>
             </div>
             <div class="collapsible">
                 <div class="collapsibleWrapper">
                     <p>
-                        Mreža solidarnosti funkcioniše po <b>peer-to-peer</b> principu.<br>
-                        To znači da vaša donacija ide direktno osobi kojoj je podrška potrebna – bez fondova,
-                        bez posrednika i bez zadržavanja novca u sistemu. Čovek do čoveka.
+                        <?=$this->t('Mreža solidarnosti funkcioniše po')?> <b><?=$this->t('peer-to-peer')?></b> <?=$this->t('principu.')?><br>
+                        <?=$this->t('To znači da vaša donacija ide direktno osobi kojoj je podrška potrebna – bez fondova,
+                        bez posrednika i bez zadržavanja novca u sistemu. Čovek do čoveka.')?>
                     </p>
                 </div>
             </div>
@@ -1230,13 +1230,13 @@ if (isset($block)): ?>
                 <svg width="16" height="10" viewBox="0 0 16 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M2 2L8 8L14 2" stroke="#FE5101" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path>
                 </svg>
-                <span>Potvrda uplate</span>
+                <span><?=$this->t('Potvrda uplate')?></span>
             </div>
             <div class="collapsible">
                 <div class="collapsibleWrapper">
                     <p>
-                        Kada donator izvrši uplatu, u svom profilu potvrđuje da je donacija poslata. Na taj
-                        način sistem može da prati status i zatvori instrukciju.
+                        <?=$this->t('Kada donator izvrši uplatu, u svom profilu potvrđuje da je donacija poslata. Na taj
+                        način sistem može da prati status i zatvori instrukciju.')?>
                     </p>
                 </div>
             </div>
@@ -1252,15 +1252,15 @@ if (isset($block)): ?>
                 <svg width="16" height="10" viewBox="0 0 16 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M2 2L8 8L14 2" stroke="#FE5101" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path>
                 </svg>
-                <span>Praćenje statusa</span>
+                <span><?=$this->t('Praćenje statusa')?></span>
             </div>
             <div class="collapsible">
                 <div class="collapsibleWrapper">
                     <p>
-                        U svom profilu donator može pratiti status instrukcije:
-                        <span class="listItemInText">Čeka se uplata</span>
-                        <span class="listItemInText">Uplata potvrđena</span>
-                        Ovaj sistem omogućava jednostavan pregled i dodatnu transparentnost.
+                        <?=$this->t('U svom profilu donator može pratiti status instrukcije:')?>
+                        <span class="listItemInText"><?=$this->t('Čeka se uplata')?></span>
+                        <span class="listItemInText"><?=$this->t('Uplata potvrđena')?></span>
+                        <?=$this->t('Ovaj sistem omogućava jednostavan pregled i dodatnu transparentnost.')?>
                     </p>
                 </div>
             </div>
@@ -1276,24 +1276,24 @@ if (isset($block)): ?>
                 <svg width="16" height="10" viewBox="0 0 16 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M2 2L8 8L14 2" stroke="#FE5101" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path>
                 </svg>
-                <span>Delegati potvrđuju prijem</span>
+                <span><?=$this->t('Delegati potvrđuju prijem')?></span>
             </div>
             <div class="collapsible">
                 <div class="collapsibleWrapper">
                     <p>
-                        Delegati potvrđuju da je podrška zaista stigla.
+                        <?=$this->t('Delegati potvrđuju da je podrška zaista stigla.')?>
                         <br>
-                        <span class="belowFooterText">Delegati su ljudi određeni od strane Mreže koji:</span>
-                        <span class="listItemInText">unose oštećene u sistem</span>
-                        <span class="listItemInText">proveravaju osnovne informacije</span>
-                        <span class="listItemInText">potvrđuju da je pomoć stigla</span>
-                        Na taj način Mreža obezbeđuje dodatni sloj poverenja i odgovornosti.
-                        <a href="" title="Pogledaj više">
+                        <span class="belowFooterText"><?=$this->t('Delegati su ljudi određeni od strane Mreže koji:')?></span>
+                        <span class="listItemInText"><?=$this->t('unose oštećene u sistem')?></span>
+                        <span class="listItemInText"><?=$this->t('proveravaju osnovne informacije')?></span>
+                        <span class="listItemInText"><?=$this->t('potvrđuju da je pomoć stigla')?></span>
+                        <?=$this->t('Na taj način Mreža obezbeđuje dodatni sloj poverenja i odgovornosti.')?>
+                        <a href="" title="<?=$this->t('Pogledaj više')?>">
                             <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M6.85054 1.3687C7.60514 0.614094 8.82874 0.609501 9.5777 1.35846L14.8463 6.62703C14.0916 6.00771 12.9715 6.06376 12.2638 6.77153C11.556 7.4793 11.4995 8.72383 12.2329 9.47803L12.2794 9.52452C13.0284 10.2527 14.2365 10.243 14.9859 9.49362L9.50585 14.9736C8.74604 15.7334 7.52765 15.7328 6.77869 14.9839C6.02972 14.2349 6.03432 13.0113 6.78892 12.2567L9.08397 9.96166L2.73156 10.1467C1.6635 10.1508 0.800904 9.28816 0.810079 8.22527C0.814088 7.15721 1.68319 6.28811 2.74604 6.28931L8.82833 6.10575L6.8397 4.11713C6.09074 3.36816 6.09533 2.14457 6.84994 1.38996L6.85001 1.36922L6.85054 1.3687Z" fill="#FE5101"></path>
                                 <path d="M13.2292 10.611L14.2677 10.185L16.3314 8.12127L13.8683 5.65816L12.2306 6.36381L10.8326 8.00145L13.2292 10.611Z" fill="#FE5101"></path>
                             </svg>
-                            Pogledaj više
+                            <?=$this->t('Pogledaj više')?>
                         </a>
                     </p>
                 </div>
@@ -1306,8 +1306,8 @@ if (isset($block)): ?>
         </div>
         <div class="stepSection">
             <span class="title">
-                <span class="main">Hvala Vam</span>
-                <span class="secondary">što ste deo Mreže solidarnosti</span>
+                <span class="main"><?=$this->t('Hvala Vam')?></span>
+                <span class="secondary"><?=$this->t('što ste deo Mreže solidarnosti')?></span>
             </span>
         </div>
     </div>

@@ -10,18 +10,18 @@
             <div class="messagesContainer">
 
             </div>
-            <span class="step">Korak 1 od 3</span>
+            <span class="step"><?=$this->t('Korak 1 od 3')?></span>
             <div class="formInputs">
                 <label class="inputContainer">
-                    <span class="label">Ime<span class="required">*</span></span>
+                    <span class="label"><?=$this->t('Ime')?><span class="required">*</span></span>
                     <input type="text" name="firstName">
                 </label>
                 <label class="inputContainer">
-                    <span class="label">Prezime<span class="required">*</span></span>
+                    <span class="label"><?=$this->t('Prezime')?><span class="required">*</span></span>
                     <input type="text" name="lastName">
                 </label>
                 <label class="inputContainer">
-                    <span class="label">Email adresa<span class="required">*</span></span>
+                    <span class="label"><?=$this->t('Email adresa')?><span class="required">*</span></span>
                     <span class="inputWithIcons">
                         <span class="iconLeft">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -42,13 +42,13 @@
                 <svg width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M13.6705 1.82953C13.3284 1.48729 12.9222 1.2158 12.4752 1.03057C12.0282 0.845338 11.549 0.75 11.0651 0.75C10.5812 0.75 10.1021 0.845338 9.65504 1.03057C9.20801 1.2158 8.80185 1.48729 8.45976 1.82953L7.74982 2.53947L7.03988 1.82953C6.3489 1.13855 5.41172 0.750358 4.43453 0.750358C3.45733 0.750358 2.52016 1.13855 1.82917 1.82953C1.13819 2.52051 0.75 3.45769 0.75 4.43488C0.75 5.41208 1.13819 6.34926 1.82917 7.04024L7.74982 12.9609L13.6705 7.04024C14.0127 6.69816 14.2842 6.29199 14.4694 5.84496C14.6547 5.39792 14.75 4.91877 14.75 4.43488C14.75 3.95099 14.6547 3.47184 14.4694 3.02481C14.2842 2.57777 14.0127 2.17161 13.6705 1.82953Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-                Registruj se
+                <?=$this->t('Registruj se')?>
             </button>
             <p class="logIn">
-                Ako već imaš nalog na sajtu možeš se ulogovati <a href="<?=$this->localizeUrl('/logovanje')?>" title="Uloguj se">ovde</a>
+                <?=$this->t('Ako već imaš nalog na sajtu možeš se ulogovati')?> <a href="<?=$this->localizeUrl('/logovanje')?>" title="<?=$this->t('Uloguj se')?>"><?=$this->t('ovde')?></a>
             </p>
             <div class="requiredFieldsNotice">
-                <span><span class="required">*</span>Obavezna polja</span>
+                <span><span class="required">*</span><?=$this->t('Obavezna polja')?></span>
             </div>
         </form>
     </div>

@@ -14,6 +14,8 @@ use Psr\Log\LoggerInterface as Logger;
 
 class Index extends BaseAction
 {
+    use LocalePreferenceTrait;
+
     public function __construct(
         Logger $logger, Config $config, Engine $template, private \Solidarity\Donor\Service\Donor $donor,
         protected Navigation $navigationService,
@@ -31,6 +33,9 @@ class Index extends BaseAction
         \Psr\Http\Message\ServerRequestInterface $request,
         \Psr\Http\Message\ResponseInterface $response
     ) {
+        if ($redirect = $this->resolveLocalePreference(null)) {
+            return $redirect;
+        }
         $this->setGlobalVariable('isHome', true);
         $this->setGlobalVariable('title', 'Mreža Solidarnosti');
         try {

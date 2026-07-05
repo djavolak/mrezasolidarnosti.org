@@ -215,6 +215,11 @@ $container->set(Engine::class, function() use ($container) {
         $plates->registerFunction('localizeUrl', function (string $url) use ($locale) {
             return $locale->localizeUrl($url);
         });
+        // absUrl() forces a leading slash on internal links, so a relative value (e.g. a
+        // slug-less nav URL) can't resolve against — and compound onto — the /en/ path.
+        $plates->registerFunction('absUrl', function (string $url) {
+            return \Solidarity\Frontend\Service\Locale::absolutePath($url);
+        });
         if (!$locale->isDefault()) {
             $translator = $container->get(\Skeletor\Translator\Service\Translator::class);
             $translator->setLanguage($locale->current());

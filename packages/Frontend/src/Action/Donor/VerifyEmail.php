@@ -51,7 +51,7 @@ class VerifyEmail extends BaseAction
             if($verifyingAfterRegister) {
                 return $this->redirect('/registrovani-ste');
             }
-            return $this->redirect('/instrukcije-za-placanje');
+            return $this->redirect('/instrukcije-za-uplatu');
         } catch (InvalidCredentials $e) {
             return $this->respond('donor/invalidVerifyEmailToken');
         }

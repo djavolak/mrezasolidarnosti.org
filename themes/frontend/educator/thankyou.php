@@ -1,10 +1,10 @@
 <?php $this->layout('layout::standard') ?>
 <main>
     <div class="it-grid">
-        <h2>Uspešno ste prijavili oštećenog kolegu!</h2>
+        <h2><?=$this->t('Uspešno ste prijavili oštećenog kolegu!')?></h2>
 
-        <p>Ako imate još kolega koje želite da prijavite, slobodno nastavite klikom na dugme ispod</p>
+        <p><?=$this->t('Ako imate još kolega koje želite da prijavite, slobodno nastavite klikom na dugme ispod')?></p>
 
-        <a href="<?=$this->localizeUrl('/obrazacOsteceni')?>">Prijavi sledećeg oštećenog</a>
+        <a href="<?=$this->localizeUrl('/obrazacOsteceni')?>"><?=$this->t('Prijavi sledećeg oštećenog')?></a>
     </div>
 </main>

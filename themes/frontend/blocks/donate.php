@@ -14,7 +14,7 @@
             <?php endif;?>
         </div>
         <div id="projectsProfile">
-            <div class="project" data-id="1" id="education" data-title="Hvala što ste izabrali da donirate za Mrežu solidarnosti za obrazovanje">
+            <div class="project" data-id="1" id="education" data-title="<?=$this->t('Hvala što ste izabrali da donirate za Mrežu solidarnosti za obrazovanje')?>">
                 <div class="projectLogo">
                     <svg width="140" height="43" viewBox="0 0 140 43" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g clip-path="url(#clip0_640_5610)">
@@ -57,15 +57,15 @@
 
                 </div>
                 <div class="projectTitle">
-                    <span>Mreža solidarnosti</span>
-                    <h2>Za obrazovanje</h2>
+                    <span><?=$this->t('Mreža solidarnosti')?></span>
+                    <h2><?=$this->t('Za obrazovanje')?></h2>
                 </div>
                 <div class="projectDescription">
-                    Podrška nastavnicima, profesorima, saradnicima koji su zbog svog angažmana ostali bez dela zarade ili podrške.
+                    <?=$this->t('Podrška nastavnicima, profesorima, saradnicima koji su zbog svog angažmana ostali bez dela zarade ili podrške.')?>
                 </div>
-                <button class="showForm">Izaberi</button>
+                <button class="showForm"><?=$this->t('Izaberi')?></button>
             </div>
-            <div class="project" data-id="2" id="repression" data-title="Hvala što ste izabrali da donirate za Mrežu solidarnosti protiv represije">
+            <div class="project" data-id="2" id="repression" data-title="<?=$this->t('Hvala što ste izabrali da donirate za Mrežu solidarnosti protiv represije')?>">
                 <div class="projectLogo">
                     <svg width="140" height="43" viewBox="0 0 140 43" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g clip-path="url(#clip0_640_5807)">
@@ -107,15 +107,15 @@
 
                 </div>
                 <div class="projectTitle">
-                    <span>Mreža solidarnosti</span>
-                    <h2>Protiv represije</h2>
+                    <span><?=$this->t('Mreža solidarnosti')?></span>
+                    <h2><?=$this->t('Protiv represije')?></h2>
                 </div>
                 <div class="projectDescription">
-                    Podrška ljudima koji se suočavaju sa kaznama, pritiscima, nasiljem ili drugim posledicama društvenog angažmana.
+                    <?=$this->t('Podrška ljudima koji se suočavaju sa kaznama, pritiscima, nasiljem ili drugim posledicama društvenog angažmana.')?>
                 </div>
-                <button class="showForm">Izaberi</button>
+                <button class="showForm"><?=$this->t('Izaberi')?></button>
             </div>
-            <div class="project" data-id="-1" id="allProjects" data-title="Hvala što ste izabrali da donirate za oba pravca podrške">
+            <div class="project" data-id="-1" id="allProjects" data-title="<?=$this->t('Hvala što ste izabrali da donirate za oba pravca podrške')?>">
                 <div class="projectLogo">
                     <svg width="140" height="43" viewBox="0 0 140 43" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M22.8087 17.222V21.518C22.8087 19.1658 21.1401 17.2547 19.0508 17.222H22.8087Z" fill="#F9F3DC"/>
@@ -143,20 +143,20 @@
 
                 </div>
                 <div class="projectTitle">
-                    <span>Mreža solidarnosti</span>
-                    <h2>Oba pravca podrške</h2>
+                    <span><?=$this->t('Mreža solidarnosti')?></span>
+                    <h2><?=$this->t('Oba pravca podrške')?></h2>
                 </div>
                 <div class="projectDescription">
-                    Podrži i doniraj za oba pravca podrške, a sistem će sam na osnovu potreba da ti pošalje instrukcije za uplatu.
+                    <?=$this->t('Podrži i doniraj za oba pravca podrške, a sistem će sam na osnovu potreba da ti pošalje instrukcije za uplatu.')?>
                 </div>
-                <button class="showForm">Izaberi</button>
+                <button class="showForm"><?=$this->t('Izaberi')?></button>
             </div>
         </div>
         <div id="projectTooltip">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2ZM12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4ZM12 11C12.5523 11 13 11.4477 13 12V15H13.5C14.0523 15 14.5 15.4477 14.5 16C14.5 16.5523 14.0523 17 13.5 17H10.5C9.94772 17 9.5 16.5523 9.5 16C9.5 15.4477 9.94772 15 10.5 15H11V13H10.5C9.94772 13 9.5 12.5523 9.5 12C9.5 11.4477 9.94772 11 10.5 11H12ZM11.75 7C12.4404 7 13 7.55964 13 8.25C13 8.94036 12.4404 9.5 11.75 9.5C11.0596 9.5 10.5 8.94036 10.5 8.25C10.5 7.55964 11.0596 7 11.75 7Z" fill="#262185"/>
             </svg>
-            <p>Kako bi izmenili vrstu i načine donacije ponovo izaberite jednu od ponuđenih načina donacije.</p>
+            <p><?=$this->t('Kako bi izmenili vrstu i načine donacije ponovo izaberite jednu od ponuđenih načina donacije.')?></p>
         </div>
     </div>
     <form id="donationForm" action="/donor/updateDonationData" method="post">
@@ -193,58 +193,58 @@
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2ZM12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4ZM12 11C12.5523 11 13 11.4477 13 12V15H13.5C14.0523 15 14.5 15.4477 14.5 16C14.5 16.5523 14.0523 17 13.5 17H10.5C9.94772 17 9.5 16.5523 9.5 16C9.5 15.4477 9.94772 15 10.5 15H11V13H10.5C9.94772 13 9.5 12.5523 9.5 12C9.5 11.4477 9.94772 11 10.5 11H12ZM11.75 7C12.4404 7 13 7.55964 13 8.25C13 8.94036 12.4404 9.5 11.75 9.5C11.0596 9.5 10.5 8.94036 10.5 8.25C10.5 7.55964 11.0596 7 11.75 7Z" fill="#262185"/>
                 </svg>
-                <span>Ovde možete uneti informacije o frenkfenciji, iznosu i načinima na koje možete izvršiti donaciju. Kada bude bilo potrebe, sistem će Vam poslate instrukcije za uplatu, koje će se nalaziti na stranici Instrukcije za uplatu.</span>
+                <span><?=$this->t('Ovde možete uneti informacije o frenkfenciji, iznosu i načinima na koje možete izvršiti donaciju. Kada bude bilo potrebe, sistem će Vam poslate instrukcije za uplatu, koje će se nalaziti na stranici Instrukcije za uplatu.')?></span>
             </p>
             <div id="donationFormFields">
                 <?php if(!$isForInstruction):?>
                 <div class="formFields" id="frequencyFields">
-                    <h3>Frekfencija donacije</h3>
+                    <h3><?=$this->t('Frekfencija donacije')?></h3>
                     <div class="inputs">
                         <input id="frequencyInput" type="hidden" name="frequency" value="0">
                         <div class="trigger active" data-value="0">
-                            Jednokratno
+                            <?=$this->t('Jednokratno')?>
                         </div>
                         <div class="trigger" data-value="1">
-                            Mesečno
+                            <?=$this->t('Mesečno')?>
                         </div>
                     </div>
-                    <span class="info">Izaberite Vašu željenu frenkfenciju donacije</span>
+                    <span class="info"><?=$this->t('Izaberite Vašu željenu frenkfenciju donacije')?></span>
                 </div>
                 <?php endif;?>
                 <div class="formFields" id="paymentMethodFields">
-                    <h3>Način plaćanja</h3>
-                    <span class="info">Izaberete jedan, više ili sve načine plaćanja</span>
+                    <h3><?=$this->t('Način plaćanja')?></h3>
+                    <span class="info"><?=$this->t('Izaberete jedan, više ili sve načine plaćanja')?></span>
                     <div class="inputs">
                         <div class="triggerContainer">
                             <div class="trigger" data-method="1">
                                 <span>RSD</span>
                             </div>
-                            <span>Dinarski bankovni  transfer </span>
+                            <span><?=$this->t('Dinarski bankovni  transfer')?> </span>
                         </div>
                         <div class="triggerContainer">
                             <div class="trigger" data-method="2">
                                 <img src="<?=FRONT_IMAGES_URL?>/payment/sepa.png" alt="SEPA">
                             </div>
-                            <span>SEPA Međunarodni devizni transfer </span>
+                            <span><?=$this->t('SEPA Međunarodni devizni transfer')?> </span>
                         </div>
                         <div class="triggerContainer">
                             <div class="trigger" data-method="3">
                                 <img class="wuImg" src="<?=FRONT_IMAGES_URL?>/payment/WU.png" alt="WU">
                             </div>
-                            <span>Western Union -  Međunarodni devizni transfer </span>
+                            <span><?=$this->t('Western Union -  Međunarodni devizni transfer')?> </span>
                         </div>
                         <div class="triggerContainer">
                             <div class="trigger" data-method="4">
                                 <img src="<?=FRONT_IMAGES_URL?>/payment/mg.png" alt="Moneygram">
                             </div>
-                            <span>MoneyGram - Međunarodni devizni transfer </span>
+                            <span><?=$this->t('MoneyGram - Međunarodni devizni transfer')?> </span>
                         </div>
                     </div>
                 </div>
             </div>
             <div id="donationFormActions">
-                <button type="submit" class="buttonPrimary" title="Sačuvaj">Sačuvaj</button>
-                <button id="changeDonation" class="buttonSecondary small" href="" title="Izmeni">Izmeni</button>
+                <button type="submit" class="buttonPrimary" title="<?=$this->t('Sačuvaj')?>"><?=$this->t('Sačuvaj')?></button>
+                <button id="changeDonation" class="buttonSecondary small" href="" title="<?=$this->t('Izmeni')?>"><?=$this->t('Izmeni')?></button>
             </div>
         </div>
     </form>
@@ -257,8 +257,8 @@
 
                 </div>
             </div>
-            <span class="info">Sistem prikazuje konvertovane vrednosti samo u Eurima i dinarima.
-Minimalni iznos je u vrednosti od 500 RSD ili 10 EUR.</span>
+            <span class="info"><?=$this->t('Sistem prikazuje konvertovane vrednosti samo u Eurima i dinarima.
+Minimalni iznos je u vrednosti od 500 RSD ili 10 EUR.')?></span>
         </div>
     </template>
     <script type="application/json" id="donationExistingData"><?=json_encode([

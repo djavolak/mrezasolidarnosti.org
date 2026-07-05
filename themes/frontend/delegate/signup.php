@@ -1,7 +1,7 @@
 <?php $this->layout('layout::standard') ?>
 <main class="it-grid">
-	<h2>Obrazac za delegate u obustavi</h2>
-	<p>Molimo Vas da, kao delegat Vaše škole, u ime svog kolektiva popunite ovaj formular kako bismo Vas mogli kontaktirati u vezi sa finansijskom podrškom za prosvetne radnike u obustavi, uključujući i nastavno i nenastavno osoblje.</p>
+	<h2><?=$this->t('Obrazac za delegate u obustavi')?></h2>
+	<p><?=$this->t('Molimo Vas da, kao delegat Vaše škole, u ime svog kolektiva popunite ovaj formular kako bismo Vas mogli kontaktirati u vezi sa finansijskom podrškom za prosvetne radnike u obustavi, uključujući i nastavno i nenastavno osoblje.')?></p>
 
 	<?=$this->printError( $data['errors'] ?? array(), 'form' ); ?>
 
@@ -12,13 +12,13 @@
 			<div class="it-row">
 				<div class="it-column">
 					<div class="it-form-field">
-						<label for="email">Email *</label>
+						<label for="email"><?=$this->t('Email *')?></label>
 						<input type="email" name="email" id="email" size="40" maxlength="60" autocomplete="email" aria-required="true" aria-invalid="false" value="" required />
 					</div>
 				</div>
 				<div class="it-column">
 					<div class="it-form-field">
-						<label for="full-name">Ime i Prezime *</label>
+						<label for="full-name"><?=$this->t('Ime i Prezime *')?></label>
 						<input type="text" name="name" id="full-name" aria-required="true" value="" required />
 					</div>
 				</div>
@@ -28,13 +28,13 @@
 			<div class="it-row">
 				<div class="it-column">
 					<div class="it-form-field">
-						<label for="phone">Broj telefona *</label>
+						<label for="phone"><?=$this->t('Broj telefona *')?></label>
 						<input type="tel" name="phone" id="phone" maxlength="20" aria-required="true" aria-invalid="false" value="" required="">
 					</div>
 				</div>
 				<div class="it-column">
 					<div class="it-form-field">
-						<label for="school-type">Tip obrazovne ustanove *</label>
+						<label for="school-type"><?=$this->t('Tip obrazovne ustanove *')?></label>
 						<select name="schoolType" id="school-type" aria-required="true" required>
 							<?php
 							if ( isset( $schoolTypes ) && is_array( $schoolTypes ) ) {
@@ -54,7 +54,7 @@
 			<div class="it-row">
 				<div class="it-column">
 					<div class="it-form-field">
-						<label for="city">Mesto škole *</label>
+						<label for="city"><?=$this->t('Mesto škole *')?></label>
 						<select name="city" id="city" class="it-school-city" aria-required="true" required>
 							<?php
 							if ( isset( $schoolsMap ) && is_array( $schoolsMap ) ) {
@@ -72,14 +72,14 @@
 				</div>
 				<div class="it-column">
 					<div class="it-form-field">
-						<label>Naziv škole *</label>
+						<label><?=$this->t('Naziv škole *')?></label>
 						<input type="hidden" name="schoolName" id="school-name" class="it-school-value" value="" aria-required="true" required />
 						<?php
 						if ( isset( $schoolsMap ) && is_array( $schoolsMap ) ) {
 							foreach ( $schoolsMap as $city => $schools ) {
 								?>
 								<select class="it-school-name" data-city="<?php echo $city; ?>">
-									<option value="">Izaberite školu</option>
+									<option value=""><?=$this->t('Izaberite školu')?></option>
 									<?php
 									foreach ( $schools as $school ) {
 										?>
@@ -100,27 +100,27 @@
 			<div class="it-row">
 				<div class="it-column">
 					<div class="it-form-field">
-						<label for="suspended-number">Broj u obustavi *</label>
+						<label for="suspended-number"><?=$this->t('Broj u obustavi *')?></label>
 						<input type="number" name="countBlocking" id="suspended-number" min="0" max="500" aria-required="true" aria-describedby="suspended-number-desc" value="" placeholder="0" required />
-						<small id="suspended-number-desc">Broj nastavnog i nenastavnog osoblja Vaše škole, koji su u obustavi</small>
+						<small id="suspended-number-desc"><?=$this->t('Broj nastavnog i nenastavnog osoblja Vaše škole, koji su u obustavi')?></small>
 					</div>
 				</div>
 				<div class="it-column">
 					<div class="it-form-field">
-						<label for="total-number">Ukupan broj *</label>
+						<label for="total-number"><?=$this->t('Ukupan broj *')?></label>
 						<input type="number" name="count" id="total-number" min="1" max="500" aria-required="true" aria-describedby="total-number-desc" value="" placeholder="1" required />
-						<small id="total-number-desc">Ukupan broj nastavnog i nenastavnog osoblja u Vašoj školi (dovoljano je uneti približan broj)</small>
+						<small id="total-number-desc"><?=$this->t('Ukupan broj nastavnog i nenastavnog osoblja u Vašoj školi (dovoljano je uneti približan broj)')?></small>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="it-form-field">
-			<label for="message">Komentar (opciono)</label>
+			<label for="message"><?=$this->t('Komentar (opciono)')?></label>
 			<textarea name="comment" id="message" cols="40" rows="6" maxlength="600" aria-describedby="message-desc"></textarea>
-			<small id="message-desc">Unesi dodatni komentar ili sugestiju</small>
+			<small id="message-desc"><?=$this->t('Unesi dodatni komentar ili sugestiju')?></small>
 		</div>
 		<button type="submit" class="it-form-button it-button it-size--normal it-layout--filled it-m">
-			<span class="it-m-text">Pošalji</span>
+			<span class="it-m-text"><?=$this->t('Pošalji')?></span>
 		</button>
     </form>
 </main>

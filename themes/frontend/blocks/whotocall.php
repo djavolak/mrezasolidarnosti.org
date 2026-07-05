@@ -1,8 +1,7 @@
 <?php if(isset($block)): ?>
     <div class="projectsWrapper dark vertical">
-        <h2>Kome da se obratite ako vam je potrebna podrška.</h2>
-        <p>U zavisnosti od vaše situacije, prvi korak je da se obratite odgovarajućem delegatu, kolektivu ili
-            partnerskoj organizaciji.</p>
+        <h2><?=$this->t('Kome da se obratite ako vam je potrebna podrška.')?></h2>
+        <p><?=$this->t('U zavisnosti od vaše situacije, prvi korak je da se obratite odgovarajućem delegatu, kolektivu ili partnerskoj organizaciji.')?></p>
         <div class="projectsDisplay">
             <div class="projectDisplay education">
                 <svg width="140" height="43" viewBox="0 0 140 43" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -43,18 +42,15 @@
                         </clipPath>
                     </defs>
                 </svg>
-                <h2>Ako vam je potrebna podrška u oblasti obrazovanja</h2>
+                <h2><?=$this->t('Ako vam je potrebna podrška u oblasti obrazovanja')?></h2>
                 <div>
-                    <p>Ako ste deo obrazovnog sistema i potrebna vam je podrška, obratite se svom školskom ili
-                        kolektivnom delegatu, odnosno osobi ili grupi kroz koju se vaš kolektiv već povezuje sa Mrežom
-                        solidarnosti.
-                        Delegati imaju ulogu da:</p>
+                    <p><?=$this->t('Ako ste deo obrazovnog sistema i potrebna vam je podrška, obratite se svom školskom ili kolektivnom delegatu, odnosno osobi ili grupi kroz koju se vaš kolektiv već povezuje sa Mrežom solidarnosti. Delegati imaju ulogu da:')?></p>
                     <br>
                     <ul>
-                        <li>prikupe osnovne informacije</li>
-                        <li>potvrde situaciju</li>
-                        <li>pomognu u usmeravanju podrške</li>
-                        <li>povežu kolektiv sa Mrežom</li>
+                        <li><?=$this->t('prikupe osnovne informacije')?></li>
+                        <li><?=$this->t('potvrde situaciju')?></li>
+                        <li><?=$this->t('pomognu u usmeravanju podrške')?></li>
+                        <li><?=$this->t('povežu kolektiv sa Mrežom')?></li>
                     </ul>
                 </div>
             </div>
@@ -95,59 +91,52 @@
                         </clipPath>
                     </defs>
                 </svg>
-                <h2>Ako vam je potrebna podrška zbog represije</h2>
+                <h2><?=$this->t('Ako vam je potrebna podrška zbog represije')?></h2>
                 <div>
-                    <p>Ako ste pogođeni represijom, kaznom, zastrašivanjem, nasiljem ili drugim oblikom pritiska,
-                        potrebno je da se obratite partnerskim organizacijama i kriznim centrima koji rade u okviru ove
-                        mreže podrške.
-                        Prema dostupnim informacijama, podrška se u ovoj oblasti organizuje kroz sledeće kontakt
-                        tačke:</p>
+                    <p><?=$this->t('Ako ste pogođeni represijom, kaznom, zastrašivanjem, nasiljem ili drugim oblikom pritiska, potrebno je da se obratite partnerskim organizacijama i kriznim centrima koji rade u okviru ove mreže podrške. Prema dostupnim informacijama, podrška se u ovoj oblasti organizuje kroz sledeće kontakt tačke:')?></p>
                 </div>
             </div>
         </div>
         <div class="points">
             <div class="point repression">
-                <h3>Kontakt za građane:</h3>
+                <h3><?=$this->t('Kontakt za građane:')?></h3>
                 <div class="logo">
                     <div class="images">
                         <img src="<?=FRONT_IMAGES_URL?>/stit.png" alt="logo">
                     </div>
-                    <h4>ŠTIT</h4>
-                    <p>Građani i građanke koji su izloženi pritiscima mogu se, radi pravne i druge hitne podrške,
-                        obratiti inicijativi ŠTIT</p>
+                    <h4><?=$this->t('ŠTIT')?></h4>
+                    <p><?=$this->t('Građani i građanke koji su izloženi pritiscima mogu se, radi pravne i druge hitne podrške, obratiti inicijativi ŠTIT')?></p>
                 </div>
                 <ul>
                     <li>
-                        telefoni (dostupni 24 časa dnevno):
+                        <?=$this->t('telefoni (dostupni 24 časa dnevno):')?>
                         <br>
                         <a href="tel:069 1921 920" title="069 1921 920"><b>069 1921 920</b></a>
                         <br>
                         <a href="tel:060 3624 006" title="060 3624 006"><b>060 3624 006</b></a>
                     </li>
-                    <li>email: <a href="mailto:stit@gradjanske.org" title="stit@gradjanske.org"><b>stit@gradjanske.org</b></a></li>
-                    <li>putem formulara na sajtu organizacije na sajtu
-                        https://www.gradjanske.org/prijavi-se-za-aktivisticku-karticu-stit/ *ŠTIT kartica omogućava brzu
-                        reakciju i pristup podršci u situacijama kao što su privođenja, zastrašivanja i drugi oblici
-                        ugrožavanja prava.
+                    <li><?=$this->t('email:')?> <a href="mailto:stit@gradjanske.org" title="stit@gradjanske.org"><b>stit@gradjanske.org</b></a></li>
+                    <li><?=$this->t('putem formulara na')?> <a href="https://www.gradjanske.org/prijavi-se-za-aktivisticku-karticu-stit/"><?=$this->t('sajtu organizacije')?></a></li>
+                    <li><?=$this->t('ŠTIT kartica omogućava brzu reakciju i pristup podršci u situacijama kao što su privođenja, zastrašivanja i drugi oblici ugrožavanja prava.')?>
                     </li>
                 </ul>
             </div>
             <div class="point repression">
-                <h3>Kontakt za akademsku zajednicu u Beogradu:</h3>
+                <h3><?=$this->t('Kontakt za akademsku zajednicu u Beogradu:')?></h3>
                 <div class="logo">
                     <div class="images">
                         <img src="<?=FRONT_IMAGES_URL?>/akc.png" alt="logo">
                     </div>
-                    <h4>Akademski krizni centar Pobunjenog univerziteta u Beogradu</h4>
+                    <h4><?=$this->t('Akademski krizni centar Pobunjenog univerziteta u Beogradu')?></h4>
                 </div>
                 <ul>
                     <li>
-                        email:
+                        <?=$this->t('email:')?>
                         <br>
                         <a href="mailto:akademskikriznicentar@gmail.com" title="akademskikriznicentar@gmail.com">akademskikriznicentar@gmail.com</a>
                     </li>
                     <li>
-                        telefoni (dostupni 24 časa dnevno):
+                        <?=$this->t('telefoni (dostupni 24 časa dnevno):')?>
                         <br>
                         <a href="tel: 0800 500 801" title=" 0800 500 801"><b>0800 500 801</b></a>
                         <br>
@@ -158,16 +147,16 @@
                 </ul>
             </div>
             <div class="point repression">
-                <h3>Kontakt za akademsku zajednicu u Nišu:</h3>
+                <h3><?=$this->t('Kontakt za akademsku zajednicu u Nišu:')?></h3>
                 <div class="logo">
                     <div class="images">
                         <img src="<?=FRONT_IMAGES_URL?>/sunis.png" alt="logo">
                     </div>
-                    <h4>Akademski krizni centar Niš</h4>
+                    <h4><?=$this->t('Akademski krizni centar Niš')?></h4>
                 </div>
                 <ul>
                     <li>
-                        telefon (dostupan 24 časa dnevno):
+                        <?=$this->t('telefon (dostupan 24 časa dnevno):')?>
                         <br>
                         <a href="tel:063 1045 833" title="063 1045 833"><b>063 1045 833</b></a>
 
@@ -175,33 +164,33 @@
                 </ul>
             </div>
             <div class="point repression">
-                <h3>Kontakt za akademsku zajednicu u Novom Sadu:</h3>
+                <h3><?=$this->t('Kontakt za akademsku zajednicu u Novom Sadu:')?></h3>
                 <div class="logo">
                     <div class="images">
                         <img src="<?=FRONT_IMAGES_URL?>/suns.png" alt="logo">
                         <img src="<?=FRONT_IMAGES_URL?>/sikr.png" alt="logo">
                     </div>
-                    <h4>Akademski krizni centar Slobodnog univerziteta u Novom Sadu</h4>
+                    <h4><?=$this->t('Akademski krizni centar Slobodnog univerziteta u Novom Sadu')?></h4>
                 </div>
                 <ul>
                     <li>
-                        telefon (dostupan 24 časa dnevno):
+                        <?=$this->t('telefon (dostupan 24 časa dnevno):')?>
                         <br>
                         <a href="tel:061 1585 232" title="061 1585 232"><b>061 1585 232</b></a>
                     </li>
                 </ul>
             </div>
             <div class="point repression">
-                <h3>Kontakt za akademsku zajednicu u Kragujevcu:</h3>
+                <h3><?=$this->t('Kontakt za akademsku zajednicu u Kragujevcu:')?></h3>
                 <div class="logo">
                     <div class="images">
                         <img src="<?=FRONT_IMAGES_URL?>/akckg.png" alt="logo">
                     </div>
-                    <h4>Akademski krizni centar Slobodnog univerziteta u Kragujevcu</h4>
+                    <h4><?=$this->t('Akademski krizni centar Slobodnog univerziteta u Kragujevcu')?></h4>
                 </div>
                 <ul>
                     <li>
-                        telefon (dostupan 24 časa dnevno):
+                        <?=$this->t('telefon (dostupan 24 časa dnevno):')?>
                         <br>
                         <a href="tel:061 598 0589" title="061 598 0589"><b>061 598 0589</b></a>
                     </li>
@@ -211,19 +200,17 @@
 
         <div class="whatIsContent">
             <div class="whatIsSection">
-                <h2 id="Delegati">Delegati Mreže</h2>
+                <h2 id="Delegati"><?=$this->t('Delegati Mreže')?></h2>
                 <div>
-                    <p>Mreža solidarnosti funkcioniše zahvaljujući ljudima, kolektivima i organizacijama koji pomažu da
-                        podrška stigne tamo gde je najpotrebnija.</p>
-                    <span>Delegati i partneri imaju važnu ulogu u:</span>
+                    <p><?=$this->t('Mreža solidarnosti funkcioniše zahvaljujući ljudima, kolektivima i organizacijama koji pomažu da podrška stigne tamo gde je najpotrebnija.')?></p>
+                    <span><?=$this->t('Delegati i partneri imaju važnu ulogu u:')?></span>
                     <ul>
-                        <li>proveri informacija</li>
-                        <li>usmeravanju slučajeva</li>
-                        <li>povezivanju zajednica</li>
-                        <li>očuvanju poverenja u sistem</li>
+                        <li><?=$this->t('proveri informacija')?></li>
+                        <li><?=$this->t('usmeravanju slučajeva')?></li>
+                        <li><?=$this->t('povezivanju zajednica')?></li>
+                        <li><?=$this->t('očuvanju poverenja u sistem')?></li>
                     </ul>
-                    <p><b>Delegati su važni jer pomažu da podrška bude proverena, usmerena i brza. Oni su veza između
-                            ljudi kojima je pomoć potrebna i same Mreže.</b></p>
+                    <p><b><?=$this->t('Delegati su važni jer pomažu da podrška bude proverena, usmerena i brza. Oni su veza između ljudi kojima je pomoć potrebna i same Mreže.')?></b></p>
                 </div>
             </div>
         </div>

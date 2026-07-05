@@ -16,6 +16,8 @@ use Solidarity\Page\Service\Page;
 
 class PageAction extends BaseAction
 {
+    use LocalePreferenceTrait;
+
     public function __construct(
         Logger $logger,
         Config $config,
@@ -44,6 +46,9 @@ class PageAction extends BaseAction
             if (!$slug) {
                 throw new NotFoundException();
             }
+            if ($redirect = $this->resolveLocalePreference($slug)) {
+                return $redirect;
+            }
             $page = $this->pageRepository->findPublishedBySlugAndLocale($slug, $this->locale->current());
             if (!$page) {
                 throw new NotFoundException();
@@ -52,7 +57,9 @@ class PageAction extends BaseAction
                 throw new NotFoundException();
             }
 
-            $this->resolveRedirectsBasedOnSession($slug);
+            if ($redirect = $this->resolveRedirectsBasedOnSession($slug)) {
+                return $redirect;
+            }
 
             $this->setSEO($page);
             $this->setGlobalVariable(
@@ -71,14 +78,14 @@ class PageAction extends BaseAction
         ]);
     }
 
-    function resolveRedirectsBasedOnSession($slug)
+    function resolveRedirectsBasedOnSession($slug): ?\GuzzleHttp\Psr7\Response
     {
-        if ($this->session->isLoggedIn()) {
-            // @TODO add english slugs, check what else is required
-            if (in_array($slug, ['registracija-donatora', 'logovanje', 'potvrdi-email'])) {
-                $this->redirect($this->locale->localizeUrl('/instrukcije-za-uplatu'));
-            }
+        // @TODO add english slugs, check what else is required
+        if ($this->session->isLoggedIn()
+            && in_array($slug, ['registracija-donatora', 'logovanje', 'potvrdi-email'], true)) {
+            return $this->redirect($this->locale->localizeUrl('/instrukcije-za-uplatu'));
         }
+        return null;
     }
 
     /**
