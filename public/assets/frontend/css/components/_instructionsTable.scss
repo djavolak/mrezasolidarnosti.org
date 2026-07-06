@@ -54,38 +54,6 @@
           &.status {
             background:var(--colorBackgroundGray);
           }
-          .status2 {
-            background:var(--colorYellow);
-            width:max-content;
-            padding:0.5rem;
-            border-radius:14px;
-            @include typography.type(caption);
-            color:var(--colorDarkBlue);
-          }
-          .status3, .status7 {
-            background:var(--colorGrassGreen);
-            width:max-content;
-            padding:0.5rem 0.7rem;
-            border-radius:14px;
-            @include typography.type(caption);
-            color:white;
-          }
-          .status4, .status5 {
-            background:#CF3443;
-            width:max-content;
-            padding:0.5rem 0.7rem;
-            border-radius:14px;
-            @include typography.type(caption);
-            color:white;
-          }
-          .status6 {
-            background:var(--colorOrange);
-            width:max-content;
-            padding:0.5rem 0.7rem;
-            border-radius:14px;
-            @include typography.type(caption);
-            color:white;
-          }
         }
       }
     }
@@ -132,6 +100,38 @@
       }
     }
   }
+}
+.status2 {
+  background:var(--colorYellow);
+  width:max-content;
+  padding:0.5rem;
+  border-radius:14px;
+  @include typography.type(caption);
+  color:var(--colorDarkBlue);
+}
+.status3, .status7 {
+  background:var(--colorGrassGreen);
+  width:max-content;
+  padding:0.5rem 0.7rem;
+  border-radius:14px;
+  @include typography.type(caption);
+  color:white;
+}
+.status4, .status5 {
+  background:#CF3443;
+  width:max-content;
+  padding:0.5rem 0.7rem;
+  border-radius:14px;
+  @include typography.type(caption);
+  color:white;
+}
+.status6 {
+  background:var(--colorOrange);
+  width:max-content;
+  padding:0.5rem 0.7rem;
+  border-radius:14px;
+  @include typography.type(caption);
+  color:white;
 }
 #paymentDialog {
   margin:auto;
@@ -351,5 +351,38 @@
     margin:0 auto;
     display: block;
     padding:0.5rem 1rem;
+  }
+}
+
+#legend {
+  padding:2rem 11rem;
+  @media(max-width:1000px) {
+    padding:2rem 1.5rem;
+  }
+  h3 {
+    @include typography.type(h3);
+    color:var(--colorDarkBlue);
+    margin-bottom:2rem;
+  }
+  ul {
+    display:flex;
+    flex-direction:column;
+    gap:1rem;
+    li {
+      display:flex;
+      gap:1.5rem;
+      align-items:center;
+      @media(max-width:800px) {
+        flex-direction:column;
+        align-items:flex-start;
+      }
+      span {
+        @include typography.type(text);
+        color:var(--colorDarkBlue);
+      }
+      .donateButton {
+        pointer-events:none;
+      }
+    }
   }
 }

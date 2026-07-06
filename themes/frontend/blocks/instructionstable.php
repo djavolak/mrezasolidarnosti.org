@@ -144,4 +144,50 @@
         </div>
         <div class="donateButton" id="confirmPayment"><?=$this->t('Potvrdi uplatu')?></div>
     </dialog>
+    <div id="legend">
+        <h3><?=$this->t('Legenda')?></h3>
+        <ul>
+            <li>
+                <div class="donateButton"><svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M11.2479 1.62712C10.9699 1.34905 10.6399 1.12846 10.2767 0.977961C9.9135 0.827462 9.52419 0.75 9.13103 0.75C8.73787 0.75 8.34856 0.827462 7.98535 0.977961C7.62213 1.12846 7.29212 1.34905 7.01418 1.62712L6.43735 2.20395L5.86053 1.62712C5.2991 1.0657 4.53765 0.750291 3.74368 0.750291C2.9497 0.750291 2.18825 1.0657 1.62683 1.62712C1.0654 2.18854 0.75 2.95 0.75 3.74397C0.75 4.53794 1.0654 5.29939 1.62683 5.86082L6.43735 10.6713L11.2479 5.86082C11.526 5.58288 11.7465 5.25287 11.897 4.88965C12.0475 4.52644 12.125 4.13713 12.125 3.74397C12.125 3.35081 12.0475 2.9615 11.897 2.59828C11.7465 2.23507 11.526 1.90506 11.2479 1.62712Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg> <?=$this->t('UPLATI')?></div>
+                <span><?=$this->t('Potrebno izvršiti uplatu po generisanim instrukcijama.')?></span>
+            </li>
+            <li>
+                <div class="status2"><?=$this->t('Čeka se potvrda građana')?></div>
+                <span><?=$this->t('Čeka se na delegata ili partnera, da potvrdi da je oštećeni građanin primio uplatu.')?></span>
+            </li>
+            <li>
+                <div class="status3"><?=$this->t('Potvrđeno')?></div>
+                <span><?=$this->t('Uplata je potvrđena')?></span>
+            </li>
+            <li>
+                <div class="status6"><?=$this->t('Isteklo')?></div>
+                <span><?=$this->t('Uplata je istekla jer nije potvrđena uplata u roku od 72h od kako je kreirana instrukcija za uplatu.')?></span>
+            </li>
+            <li>
+                <div class="status5"><?=$this->t('Otkazano')?></div>
+                <span><?=$this->t('Uplata je otkazana')?></span>
+            </li>
+            <li>
+                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6 0.5H22C25.0376 0.5 27.5 2.96243 27.5 6V22C27.5 25.0376 25.0376 27.5 22 27.5H6C2.96243 27.5 0.5 25.0376 0.5 22V6C0.5 2.96243 2.96243 0.5 6 0.5Z" fill="white"/>
+                        <path d="M6 0.5H22C25.0376 0.5 27.5 2.96243 27.5 6V22C27.5 25.0376 25.0376 27.5 22 27.5H6C2.96243 27.5 0.5 25.0376 0.5 22V6C0.5 2.96243 2.96243 0.5 6 0.5Z" stroke="#262185"/>
+                        <g clip-path="url(#clip0_638_2787)">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M11.4297 8.42856C11.2024 8.42856 10.9843 8.51886 10.8236 8.67961C10.6629 8.84035 10.5725 9.05837 10.5725 9.2857V10.5714H17.4297V9.2857C17.4297 9.05837 17.3393 8.84036 17.1786 8.67961C17.0179 8.51886 16.7999 8.42856 16.5725 8.42856H11.4297ZM9.7154 11.6428C9.3744 11.6428 9.04738 11.7783 8.80626 12.0194C8.56515 12.2605 8.42969 12.5876 8.42969 12.9286V16.5714C8.42969 16.9124 8.56515 17.2395 8.80626 17.4806C9.04738 17.7217 9.3744 17.8571 9.7154 17.8571H10.3583V16.3571C10.3583 15.5287 11.0298 14.8571 11.8583 14.8571H16.144C16.9724 14.8571 17.644 15.5287 17.644 16.3571V17.8571H18.2868C18.6278 17.8571 18.9549 17.7217 19.196 17.4806C19.4371 17.2395 19.5725 16.9124 19.5725 16.5714V12.9286C19.5725 12.5876 19.4371 12.2605 19.196 12.0194C18.9549 11.7783 18.6278 11.6428 18.2868 11.6428H9.7154ZM16.5725 12.8214C16.2767 12.8214 16.0368 13.0613 16.0368 13.3571C16.0368 13.653 16.2767 13.8928 16.5725 13.8928H17.4297C17.7256 13.8928 17.9654 13.653 17.9654 13.3571C17.9654 13.0613 17.7256 12.8214 17.4297 12.8214H16.5725ZM11.8583 15.9286C11.6216 15.9286 11.4297 16.1204 11.4297 16.3571V18.7143C11.4297 18.9416 11.52 19.1596 11.6807 19.3204C11.8415 19.4811 12.0595 19.5714 12.2868 19.5714H15.7154C15.9427 19.5714 16.1607 19.4811 16.3215 19.3204C16.4822 19.1596 16.5725 18.9416 16.5725 18.7143V16.3571C16.5725 16.1204 16.3807 15.9286 16.144 15.9286H11.8583Z" fill="#262185"/>
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_638_2787">
+                                <rect width="12" height="12" fill="white" transform="translate(8 8)"/>
+                            </clipPath>
+                        </defs>
+                    </svg>
+                <span><?=$this->t('Oštampajte instrukcije za uplatu')?></span>
+            </li>
+            <li>
+                <div class="donateButton" id="confirmPayment" data-id="1"><?=$this->t('Potvrdi uplatu')?></div>
+                <span><?=$this->t('Donator klikom potvrđuje da je izvršio uplatu')?></span>
+            </li>
+        </ul>
+    </div>
 <?php endif; ?>

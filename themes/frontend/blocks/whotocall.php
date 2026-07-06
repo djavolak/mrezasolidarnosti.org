@@ -116,7 +116,7 @@
                         <a href="tel:060 3624 006" title="060 3624 006"><b>060 3624 006</b></a>
                     </li>
                     <li><?=$this->t('email:')?> <a href="mailto:stit@gradjanske.org" title="stit@gradjanske.org"><b>stit@gradjanske.org</b></a></li>
-                    <li><?=$this->t('putem formulara na')?> <a href="https://www.gradjanske.org/prijavi-se-za-aktivisticku-karticu-stit/"><?=$this->t('sajtu organizacije')?></a></li>
+                    <li><?=$this->t('putem formulara na')?> <a class="underline" title="<?=$this->t('Sajt organizacije')?>" href="https://www.gradjanske.org/prijavi-se-za-aktivisticku-karticu-stit/"><?=$this->t('sajtu organizacije')?></a></li>
                     <li><?=$this->t('ŠTIT kartica omogućava brzu reakciju i pristup podršci u situacijama kao što su privođenja, zastrašivanja i drugi oblici ugrožavanja prava.')?>
                     </li>
                 </ul>
