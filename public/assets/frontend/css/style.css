@@ -1643,6 +1643,9 @@ strong {
   padding-left: 1.5rem;
   margin-top: 1.5rem;
 }
+.projectsWrapper .points .point .underline {
+  text-decoration: underline;
+}
 .projectsWrapper .whatIsContent .whatIsSection {
   padding-left: 0;
   padding-right: 0;
@@ -2548,46 +2551,6 @@ strong {
 .instructionsTable table tbody tr td.status {
   background: var(--colorBackgroundGray);
 }
-.instructionsTable table tbody tr td .status2 {
-  background: var(--colorYellow);
-  width: max-content;
-  padding: 0.5rem;
-  border-radius: 14px;
-  font-size: 0.75rem;
-  font-weight: 400;
-  line-height: 1.4;
-  color: var(--colorDarkBlue);
-}
-.instructionsTable table tbody tr td .status3, .instructionsTable table tbody tr td .status7 {
-  background: var(--colorGrassGreen);
-  width: max-content;
-  padding: 0.5rem 0.7rem;
-  border-radius: 14px;
-  font-size: 0.75rem;
-  font-weight: 400;
-  line-height: 1.4;
-  color: white;
-}
-.instructionsTable table tbody tr td .status4, .instructionsTable table tbody tr td .status5 {
-  background: #CF3443;
-  width: max-content;
-  padding: 0.5rem 0.7rem;
-  border-radius: 14px;
-  font-size: 0.75rem;
-  font-weight: 400;
-  line-height: 1.4;
-  color: white;
-}
-.instructionsTable table tbody tr td .status6 {
-  background: var(--colorOrange);
-  width: max-content;
-  padding: 0.5rem 0.7rem;
-  border-radius: 14px;
-  font-size: 0.75rem;
-  font-weight: 400;
-  line-height: 1.4;
-  color: white;
-}
 .instructionsTable table#mobileTableInstructions th {
   border-bottom: 1px solid var(--colorDarkBlue);
   font-size: 1rem;
@@ -2628,6 +2591,50 @@ strong {
 .instructionsTable .instructionsNavContainer > div.disabled {
   opacity: 0.5;
   pointer-events: none;
+}
+
+.status2 {
+  background: var(--colorYellow);
+  width: max-content;
+  padding: 0.5rem;
+  border-radius: 14px;
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--colorDarkBlue);
+}
+
+.status3, .status7 {
+  background: var(--colorGrassGreen);
+  width: max-content;
+  padding: 0.5rem 0.7rem;
+  border-radius: 14px;
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: white;
+}
+
+.status4, .status5 {
+  background: #CF3443;
+  width: max-content;
+  padding: 0.5rem 0.7rem;
+  border-radius: 14px;
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: white;
+}
+
+.status6 {
+  background: var(--colorOrange);
+  width: max-content;
+  padding: 0.5rem 0.7rem;
+  border-radius: 14px;
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: white;
 }
 
 #paymentDialog {
@@ -2870,6 +2877,47 @@ strong {
   margin: 0 auto;
   display: block;
   padding: 0.5rem 1rem;
+}
+
+#legend {
+  padding: 2rem 11rem;
+}
+@media (max-width: 1000px) {
+  #legend {
+    padding: 2rem 1.5rem;
+  }
+}
+#legend h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--colorDarkBlue);
+  margin-bottom: 2rem;
+}
+#legend ul {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+#legend ul li {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+@media (max-width: 800px) {
+  #legend ul li {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+#legend ul li span {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--colorDarkBlue);
+}
+#legend ul li .donateButton {
+  pointer-events: none;
 }
 
 #howItWorksWrapper {
