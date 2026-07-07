@@ -82,6 +82,9 @@ return array(
         // Recover SF/msdash dump transactions absent from the DB. Dry-run: `php public/cli.php recoverSfTransactions run`
         // Commit:                          `php public/cli.php recoverSfTransactions commit`
         'recoverSfTransactions' => \Solidarity\Backend\Action\RecoverSfTransactions::class,
+        // Clear the Translator's Redis cache after a manual `translation` table edit/import.
+        // Run: `php public/cli.php resetTranslationsCache run`   (the 2nd arg is required but ignored)
+        'resetTranslationsCache' => \Solidarity\Backend\Action\ResetTranslationsCache::class,
     ],
     'cropSizes' => [
         PORTRAIT_600x820 => [600, 820, true],

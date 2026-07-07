@@ -8,15 +8,15 @@
         <title><?=$title?></title>
         <meta property="og:title" content="<?=$title?>">
     <?php else:?>
-        <title><?=$this->t('Mreža solidarnosti - IT Srbija')?></title>
-        <meta property="og:title" content="<?=$this->t('Mreža solidarnosti - IT Srbija')?>">
+        <title>Mreža solidarnosti</title>
+        <meta property="og:title" content="Mreža solidarnosti">
     <?php endif;?>
     <?php if(isset($description)):?>
         <meta name="description" content="<?=$description?>">
         <meta property="og:description" content="<?=$description?>">
     <?php else:?>
-        <meta name="description" content="<?=$this->t('Mreža solidarnosti je inicijativa IT Srbije za direktnu finansijsku podršku nastavnicima i vannastavnom osoblju čija je plata umanjena zbog obustave rada. Pridruži se, doniraj i podrži one koji se bore za bolje obrazovanje!')?>">
-        <meta property="og:description" content="<?=$this->t('Direktna podrška nastavnicima čija je plata umanjena zbog obustave rada. Uključi se, doniraj, podrži solidarnost u prosveti!')?>">
+        <meta name="description" content="<?=$this->t('Mreža solidarnosti je inicijativa grupe neformalnih stručnjaka iz raznih oblasti. Služi za  direktnu finansijsku podršku nastavnicima i vannastavnom osoblju, kao i za donacije protiv represije. Pridruži se, doniraj i podrži one koji se bore za bolje obrazovanje i protiv represije!')?>">
+        <meta property="og:description" content="<?=$this->t('Mreža solidarnosti je inicijativa grupe neformalnih stručnjaka iz raznih oblasti. Služi za  direktnu finansijsku podršku nastavnicima i vannastavnom osoblju, kao i za donacije protiv represije. Pridruži se, doniraj i podrži one koji se bore za bolje obrazovanje i protiv represije!')?>">
     <?php endif;?>
     <?php if(isset($canonical)):?>
         <link rel="canonical" href="<?=$canonical?>">
@@ -42,24 +42,24 @@
         <meta property="twitter:image" content="/assets/img/social.webp">
     <?php endif;?>
 
-	<meta name="keywords" content="<?=$this->t('Mreža solidarnosti, IT Srbija, prosveta, donacije, podrška nastavnicima, solidarnost, pomoć nastavnicima, obustava rada, direktna podrška')?>">
+	<meta name="keywords" content="<?=$this->t('Mreža solidarnosti, prosveta, donacije, podrška nastavnicima, solidarnost, pomoć nastavnicima, obustava rada, direktna podrška')?>">
 	<!-- Open Graph -->
 	<meta property="og:type" content="website">
 	<meta property="og:url" content="https://mrezasolidarnosti.org/">
 
     <link rel="icon" type="image/svg+xml" href="/assets/img/serbian-flag.svg">
     <link rel="apple-touch-icon" href="/assets/img/serbian-flag.svg">
-    <meta name="description" content="<?=$this->t('Mreža solidarnosti je inicijativa IT Srbije za direktnu finansijsku podršku nastavnicima i vannastavnom osoblju čija je plata umanjena zbog obustave rada. Pridruži se, doniraj i podrži one koji se bore za bolje obrazovanje!')?>">
-    <meta name="keywords" content="<?=$this->t('Mreža solidarnosti, IT Srbija, prosveta, donacije, podrška nastavnicima, solidarnost, pomoć nastavnicima, obustava rada, direktna podrška')?>">
+    <meta name="description" content="<?=$this->t('Mreža solidarnosti je inicijativa grupe neformalnih stručnjaka iz raznih oblasti. Služi za  direktnu finansijsku podršku nastavnicima i vannastavnom osoblju, kao i za donacije protiv represije. Pridruži se, doniraj i podrži one koji se bore za bolje obrazovanje i protiv represije!')?>">
+    <meta name="keywords" content="<?=$this->t('Mreža solidarnosti, prosveta, donacije, podrška nastavnicima, solidarnost, pomoć nastavnicima, obustava rada, direktna podrška')?>">
     <!-- Open Graph / Facebook --><meta property="og:type" content="website">
     <meta property="og:url" content="https://mrezasolidarnosti.org/">
-    <meta property="og:title" content="<?=$this->t('Mreža solidarnosti - IT Srbija')?>">
-    <meta property="og:description" content="<?=$this->t('Direktna podrška nastavnicima čija je plata umanjena zbog obustave rada. Uključi se, doniraj, podrži solidarnost u prosveti!')?>">
+    <meta property="og:title" content="Mreža solidarnosti">
+    <meta property="og:description" content="<?=$this->t('Mreža solidarnosti je inicijativa grupe neformalnih stručnjaka iz raznih oblasti. Služi za  direktnu finansijsku podršku nastavnicima i vannastavnom osoblju, kao i za donacije protiv represije. Pridruži se, doniraj i podrži one koji se bore za bolje obrazovanje i protiv represije!')?>">
     <meta property="og:image" content="/social.webp"><!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://mrezasolidarnosti.org/">
-    <meta property="twitter:title" content="<?=$this->t('Mreža solidarnosti - IT Srbija')?>">
-    <meta property="twitter:description" content="<?=$this->t('Direktna finansijska pomoć nastavnicima u obustavi rada. Pridruži se IT Srbiji u inicijativi solidarnosti!')?>">
+    <meta property="twitter:title" content="Mreža solidarnosti">
+    <meta property="twitter:description" content="<?=$this->t('Mreža solidarnosti je inicijativa grupe neformalnih stručnjaka iz raznih oblasti. Služi za  direktnu finansijsku podršku nastavnicima i vannastavnom osoblju, kao i za donacije protiv represije. Pridruži se, doniraj i podrži one koji se bore za bolje obrazovanje i protiv represije!')?>">
     <meta property="twitter:image" content="/assets/img/social.webp">
 
     <script defer src="https://cloud.umami.is/script.js" data-website-id="775ac248-d1eb-4779-9e22-1ae08ede6310"></script>
