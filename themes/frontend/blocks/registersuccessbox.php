@@ -17,7 +17,7 @@
     </div>
     <div class="actionWrapper withSpacing lowGapAction gray">
         <div class="actionStep">
-            <span class="step">Korak 3 od 3</span>
+            <span class="step"><?=$this->t('Korak 3 od 3')?></span>
             <h2 class="heading"><?=htmlentities($block['subtitle'] ?? '')?></h2>
             <p><?=nl2br(htmlentities($block['secondDescription'] ?? ''))?></p>
             <?php if(!empty($block['buttonText'])): ?>
