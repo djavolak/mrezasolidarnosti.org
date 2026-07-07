@@ -486,8 +486,8 @@ if (isset($block)): ?>
                     <div class="collapsible">
                         <div class="collapsibleWrapper">
                             <p>
-                                <?=$this->t('Instrukcije za uplatu se automatski generišu')?> <b><?=$this->t('ponedeljkom i četvrtkom u 7:00 časova i
-                                    važe ograničeno vreme.')?></b>
+                                <?=$this->t('Instrukcije za uplatu se automatski generišu <b>ponedeljkom i četvrtkom u 7:00 časova i
+                                    važe ograničeno vreme</b>.')?>
                                 <?=$this->t('Generiše se kada postoji potreba za donacijom, a mogu se dobiti putem sistema i putem
                                 e-mail-a.')?>
                             </p>
