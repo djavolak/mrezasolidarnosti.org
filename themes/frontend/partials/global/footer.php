@@ -24,7 +24,7 @@
                 <path d="M194.08 40.9306V34.9979H192.125V33.2873H193.697C194.08 33.2873 194.228 33.0925 194.271 32.4645L194.356 30.5591H195.992V33.2873H200.283V34.9979H195.992V40.8007C195.992 42.6412 196.565 43.7238 198.35 43.7238C200.135 43.7238 199.922 43.5722 200.198 43.4856V45.1529C199.837 45.3044 199.136 45.456 198.18 45.456C195.312 45.456 194.08 43.5939 194.08 40.9306Z" fill="#262185"></path>
                 <path d="M203.024 33.2851H204.937V45.3455H203.024V33.2851ZM202.939 29.2794H205V31.7478H202.939V29.2794Z" fill="#262185"></path>
             </svg>
-            <span>© <?=date('Y')?> <?=$this->t('Mreža solidarnosti. All rights reserved.')?></span>
+            <span><?=date('Y')?> Mreža solidarnosti.</span>
         </div>
         <div class="center">
             <ul id="footerSocials">
@@ -109,11 +109,7 @@
                     <h2>
                         <?=$this->t('Ostanite povezani sa mrežom')?>
                     </h2>
-<<<<<<< HEAD
                     <p><?=$this->t('Prijavite se za važne vesti, priče i načine da se uključite kada je podrška najpotrebnija.')?></p>
-                    <a href="" title="<?=$this->t('Prijavi se')?>"><?=$this->t('Prijavi se')?></a> <?php //@todo add newsletter ?>
-=======
-                    <p>Prijavite se za važne vesti, priče i načine da se uključite kada podrška bude najpotrebnija.</p>
                     <form id="nlSignup" action="" method="post">
                         <?=$this->formToken()?>
                         <div class="messagesContainer">
@@ -122,8 +118,6 @@
                         <input name="email" aria-label="Email" type="email" id="nlEmail" placeholder="test@example.com">
                         <button type="submit" title="Prijavi se">Prijavi se</button>
                     </form>
-
->>>>>>> 8566037a9e8e4578b250ee5a971b4e9f809ed516
                 </div>
                 <ul id="footerSocials">
                     <?php if(isset($socialLinks) && $socialLinks):?>
