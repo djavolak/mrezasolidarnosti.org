@@ -116,7 +116,7 @@
 
                         </div>
                         <input name="email" aria-label="Email" type="email" id="nlEmail" placeholder="test@example.com">
-                        <button type="submit" title="Prijavi se">Prijavi se</button>
+                        <button type="submit" title="<?=$this->t('Prijavi se')?>"><?=$this->t('Prijavi se')?></button>
                     </form>
                 </div>
                 <ul id="footerSocials">
