@@ -602,7 +602,7 @@ if (isset($block)): ?>
                     <div class="collapsible">
                         <div class="collapsibleWrapper">
                             <p>
-                                <?=$this->t('Mreža solidarnosti funkcioniše po')?> <b><?=$this->t('peer-to-peer')?></b> <?=$this->t('principu.')?><br>
+                                <?=$this->t('Mreža solidarnosti funkcioniše po <b>peer-to-peer</b> principu.')?><br>
                                 <?=$this->t('To znači da vaša donacija ide direktno osobi kojoj je podrška potrebna – bez fondova,
                                 bez posrednika i bez zadržavanja novca u sistemu. Čovek do čoveka.')?>
                             </p>
