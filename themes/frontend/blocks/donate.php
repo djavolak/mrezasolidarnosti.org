@@ -265,5 +265,5 @@
         'frequency' => $block['existingFrequency'] ?? null,
         'paymentMethods' => $block['existingPaymentMethods'] ?? [],
     ])?></script>
-    <script type="module" src="<?=FRONT_ASSET_URL?>/js/donate.js?v=0.0.2"></script>
+    <script type="module" src="<?=FRONT_ASSET_URL?>/js/donate.js?v=0.0.3"></script>
 <?php endif; ?>

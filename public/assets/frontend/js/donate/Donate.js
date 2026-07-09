@@ -1,6 +1,6 @@
-import Project from "./Project.js?v=0.0.2";
-import EventEmitter from "../EventEmitter/EventEmitter.js?v=0.0.2";
-import Form from "./Form.js?v=0.0.2";
+import Project from "./Project.js?v=0.0.3";
+import EventEmitter from "../EventEmitter/EventEmitter.js?v=0.0.3";
+import Form from "./Form.js?v=0.0.3";
 
 export default class Donate {
     #setupComplete = false;

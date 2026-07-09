@@ -52,5 +52,5 @@
             </div>
         </form>
     </div>
-<script src="<?=FRONT_ASSET_URL?>/js/register.js"></script>
+<script type="module" src="<?=FRONT_ASSET_URL?>/js/register.js"></script>
 <?php endif; ?>

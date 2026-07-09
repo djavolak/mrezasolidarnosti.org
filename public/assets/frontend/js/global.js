@@ -3,6 +3,12 @@ import Navigation from "./navigation/Navigation.js";
 import Faq from "./faq/faq.js";
 import LineGrid from "./lineGrid/lineGrid.js";
 import InstructionsTable from "./instructionsTable/InstructionsTable.js";
+import Translator from "./Translator/Translator.js";
+import {translations} from "../config/translations.js";
+
+Translator.setTranslations(translations);
+const isEnglish = window.location.pathname.startsWith('/en/');
+Translator.setLanguage(isEnglish ? 'en' : 'sr');
 
 document.addEventListener('DOMContentLoaded', () => {
     const languageSwitcherContainers = document.querySelectorAll('.languageSwitcher');
@@ -59,20 +65,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const nlSignupForm = document.getElementById('nlSignup');
     const emailInput = document.getElementById('nlEmail');
-    const messagesContainer = nlSignupForm.querySelector('.messagesContainer');
     if(nlSignupForm) {
+        const messagesContainer = nlSignupForm.querySelector('.messagesContainer');
         nlSignupForm.addEventListener('submit', async (e) => {
            e.preventDefault();
            let valid = true;
            messagesContainer.innerHTML = '';
             if(emailInput.value.trim() === '') {
-                //@TODO TRANSLATE
-                messagesContainer.appendChild(getMessageElement('Email je obavezan.', 'error'));
+                messagesContainer.appendChild(getMessageElement(Translator.translate('Email is required.'), 'error'));
                 valid = false;
             }
             if(!validateEmail(emailInput.value)) {
-                //@TODO TRANSLATE
-                messagesContainer.appendChild(getMessageElement('Email nije validan.', 'error'));
+                messagesContainer.appendChild(getMessageElement(Translator.translate('Email is not valid.'), 'error'));
                 valid = false;
             }
             if(!valid) {
