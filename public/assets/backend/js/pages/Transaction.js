@@ -343,7 +343,11 @@ export default class Educator extends CrudPage {
         if (action.getName() === 'delete' && role != 1) {
             return false;
         }
-        if (entity.columns.status !== 'Čeka se uplata' && (action.getName() === 'confirm' || action.getName() === 'cancel')) {
+        // Confirm/cancel are available while the transaction is still open — status NEW
+        // ("Čeka se uplata") or WAITING_CONFIRMATION ("Čeka se potvrda građana"). Once it's
+        // finalized (confirmed/cancelled/paid/expired) the actions are hidden.
+        const changeableStatuses = ['Čeka se uplata', 'Čeka se potvrda građana'];
+        if (!changeableStatuses.includes(entity.columns.status) && (action.getName() === 'confirm' || action.getName() === 'cancel')) {
             return false;
         }
 

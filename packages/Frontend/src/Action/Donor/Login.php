@@ -14,6 +14,7 @@ class Login extends BaseAction
         Logger $logger, Config $config, Engine $template, private \Solidarity\Donor\Service\Donor $donor,
         protected Navigation $navigationService, protected SocialLinks $socialLinks,
         \Solidarity\Frontend\Service\Session $session,
+        private \Solidarity\Frontend\Service\Locale $locale,
     ) {
         parent::__construct($logger, $config, $template, $this->navigationService, $this->socialLinks, $session);
     }
@@ -32,7 +33,9 @@ class Login extends BaseAction
             }
             $this->donor->requestLoginLink($email);
         }
-        $responseData['redirect'] = '/login-link-poslat';
+        // Localize the redirect: on `en` this resolves to the translated page slug
+        // (e.g. /en/login-link-sent); on the default locale it stays /login-link-poslat.
+        $responseData['redirect'] = $this->locale->localizeUrl('/login-link-poslat');
 
         return $this->returnWithData(true, $responseData);
     }

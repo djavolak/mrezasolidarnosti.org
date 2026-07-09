@@ -104,7 +104,7 @@
                     <div class="images">
                         <img src="<?=FRONT_IMAGES_URL?>/stit.png" alt="logo">
                     </div>
-                    <h4><?=$this->t('ŠTIT')?></h4>
+                    <h4>ŠTIT</h4>
                     <p><?=$this->t('Građani i građanke koji su izloženi pritiscima mogu se, radi pravne i druge hitne podrške, obratiti inicijativi ŠTIT')?></p>
                 </div>
                 <ul>
@@ -115,7 +115,7 @@
                         <br>
                         <a href="tel:060 3624 006" title="060 3624 006"><b>060 3624 006</b></a>
                     </li>
-                    <li><?=$this->t('email:')?> <a href="mailto:stit@gradjanske.org" title="stit@gradjanske.org"><b>stit@gradjanske.org</b></a></li>
+                    <li>email: <a href="mailto:stit@gradjanske.org" title="stit@gradjanske.org"><b>stit@gradjanske.org</b></a></li>
                     <li><?=$this->t('putem formulara na')?> <a class="underline" title="<?=$this->t('Sajt organizacije')?>" href="https://www.gradjanske.org/prijavi-se-za-aktivisticku-karticu-stit/"><?=$this->t('sajtu organizacije')?></a></li>
                     <li><?=$this->t('ŠTIT kartica omogućava brzu reakciju i pristup podršci u situacijama kao što su privođenja, zastrašivanja i drugi oblici ugrožavanja prava.')?>
                     </li>
@@ -131,7 +131,7 @@
                 </div>
                 <ul>
                     <li>
-                        <?=$this->t('email:')?>
+                        email:
                         <br>
                         <a href="mailto:akademskikriznicentar@gmail.com" title="akademskikriznicentar@gmail.com">akademskikriznicentar@gmail.com</a>
                     </li>
