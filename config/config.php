@@ -69,6 +69,10 @@ return array(
             APP_PATH . '/public/assets/backend/js/config/translations.js',
             APP_PATH . '/public/assets/frontend/js/config/translations.js',
         ],
+        // Only emit English-source translations so the file stays keyed by the English
+        // string with a Serbian value: "English": {"sr": "Serbian"}. Reverse-direction
+        // rows (Serbian-source, target 'en') are excluded.
+        'jsLanguages' => ['sr'],
     ],
     'cliMap' =>  [
         // Cron entry point. CliSkeletor invokes Action classes via __invoke().
