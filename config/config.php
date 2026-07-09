@@ -62,14 +62,15 @@ return array(
     'captcha' => [
         'siteKey' => '',
     ],
+    // Translator JS export: the same generated module is written to both the backend and
+    // frontend asset trees for now (deduped later). See TranslationFileExporter.
+    'translator' => [
+        'jsFilePaths' => [
+            APP_PATH . '/public/assets/backend/js/config/translations.js',
+            APP_PATH . '/public/assets/frontend/js/config/translations.js',
+        ],
+    ],
     'cliMap' =>  [
-        'test' => \Solidarity\Backend\Action\Index::class,
-        'donor' => \Solidarity\Backend\Controller\DonorController::class,
-        'delegate' => \Solidarity\Backend\Controller\DelegateController::class,
-        'educator' => \Solidarity\Backend\Controller\EducatorController::class,
-        'educatorImport' => \Solidarity\Backend\Controller\EducatorImportController::class,
-        'transactionImport' => \Solidarity\Backend\Controller\TransactionImportController::class,
-        'transaction' => \Solidarity\Backend\Controller\TransactionController::class,
         // Cron entry point. CliSkeletor invokes Action classes via __invoke().
         // Run: php public/cli.php createTransactions run   (the 2nd arg is ignored)
         'createTransactions' => \Solidarity\Backend\Action\CreateTransaction::class,
@@ -85,6 +86,13 @@ return array(
         // Clear the Translator's Redis cache after a manual `translation` table edit/import.
         // Run: `php public/cli.php resetTranslationsCache run`   (the 2nd arg is required but ignored)
         'resetTranslationsCache' => \Solidarity\Backend\Action\ResetTranslationsCache::class,
+        // Regenerate the JS translations module (public/assets/backend/js/config/translations.js)
+        // from the `translation` table. Admin edits regenerate it automatically; run this after a
+        // manual DB import. Run: `php public/cli.php exportTranslations run`
+        'exportTranslations' => \Skeletor\Translator\Action\ExportTranslationsFile::class,
+        // Scan a JS asset tree for translate('...') calls and generate an idempotent SQL file
+        // (empty translations) to collect them. Run: `php public/cli.php importJsTranslations backend|frontend`
+        'importJsTranslations' => \Solidarity\Backend\Action\ImportJsTranslations::class,
     ],
     'cropSizes' => [
         PORTRAIT_600x820 => [600, 820, true],
