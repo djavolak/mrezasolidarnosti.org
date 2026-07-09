@@ -21,10 +21,12 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ImportJsTranslations
 {
+    // Both sides use English source strings translated into Serbian ('sr'), so the JS file
+    // stays keyed by English: "English": {"sr": "Serbian"}. The switch only picks the dir.
     /** side => [ js dir relative to APP_PATH, target language code, language display name ] */
     private const SIDES = [
         'backend'  => ['dir' => '/public/assets/backend/js',  'lang' => 'sr', 'name' => 'Serbian'],
-        'frontend' => ['dir' => '/public/assets/frontend/js', 'lang' => 'en', 'name' => 'English'],
+        'frontend' => ['dir' => '/public/assets/frontend/js', 'lang' => 'sr', 'name' => 'Serbian'],
     ];
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
