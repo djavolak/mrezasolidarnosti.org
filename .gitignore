@@ -54,6 +54,8 @@ Thumbs.db
 /public/assets/package-lock.json
 /public/images
 /public/assets/backend/js/config/config-local.js
+/public/assets/backend/js/config/translations.js
+/public/assets/frontend/js/config/translations.js
 
 # Docker
 /db/data/
