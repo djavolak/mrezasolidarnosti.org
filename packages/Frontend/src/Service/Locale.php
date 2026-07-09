@@ -54,6 +54,17 @@ class Locale
         }
 
         $this->current = $this->parse($requestUri);
+
+        // Forms submit to unprefixed action URLs (e.g. POST /donor/login), so a non-GET
+        // request carries no locale in its path and would fall back to the default. Recover
+        // the locale from the Referer — the locale-prefixed page the form was submitted from —
+        // so redirect targets and t() messages resolve in the user's language.
+        if ($this->current === $this->default
+            && ($_SERVER['REQUEST_METHOD'] ?? 'GET') !== 'GET'
+            && !empty($_SERVER['HTTP_REFERER'])) {
+            $this->current = $this->parse((string) parse_url($_SERVER['HTTP_REFERER'], PHP_URL_PATH));
+        }
+
         $this->basePath = $this->strip($requestUri);
 
         $_SERVER['REQUEST_URI'] = $this->basePath . $query;

@@ -18,6 +18,7 @@ class CreateInstruction extends BaseAction
         protected Navigation $navigationService,
         protected SocialLinks $socialLinks,
         \Solidarity\Frontend\Service\Session $session,
+        private \Solidarity\Frontend\Service\Locale $locale,
     ) {
         parent::__construct($logger, $config, $template, $this->navigationService, $this->socialLinks, $session);
 
@@ -41,7 +42,7 @@ class CreateInstruction extends BaseAction
         try {
             $data['donorId'] = $this->session->getId();
             $this->donor->createTransaction($data);
-            $responseData['redirect'] = '/instrukcije-za-uplatu'; //@TODO TRANSLATE
+            $responseData['redirect'] = $this->locale->localizeUrl('/instrukcije-za-uplatu');
         } catch (ValidatorException $e) {
             $success = false;
             foreach ($this->donor->getDonationDataFilterErrors() as $error) {

@@ -10,7 +10,7 @@
                 <div class="messagesContainer">
 
                 </div>
-                <label>Email adresa<span>*</span></label>
+                <label>Email<span>*</span></label>
                 <div class="loginInputContainer">
                     <div class="loginMailSvg">
                         <svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -21,6 +21,7 @@ class VerifyEmail extends BaseAction
         protected AuthenticatorRegistry $authenticatorRegistry, protected EntityRegistry $entityRegistry,
         protected Login $loginService,
         \Solidarity\Frontend\Service\Session $session,
+        private \Solidarity\Frontend\Service\Locale $locale,
     ) {
         parent::__construct($logger, $config, $template, $this->navigationService, $this->socialLinks, $session);
 
@@ -45,13 +46,13 @@ class VerifyEmail extends BaseAction
             }
 
             if($donor->status !== \Solidarity\Donor\Entity\Donor::STATUS_VERIFIED) {
-                return $this->redirect('/'); //@TODO redirect to a page displaying a message?
+                return $this->redirect($this->locale->localizeUrl('/')); //@TODO redirect to a page displaying a message?
             }
             $this->loginService->login($donor, 'donor');
             if($verifyingAfterRegister) {
-                return $this->redirect('/registrovani-ste');
+                return $this->redirect($this->locale->localizeUrl('/registrovani-ste'));
             }
-            return $this->redirect('/instrukcije-za-uplatu');
+            return $this->redirect($this->locale->localizeUrl('/instrukcije-za-uplatu'));
         } catch (InvalidCredentials $e) {
             return $this->respond('donor/invalidVerifyEmailToken');
         }

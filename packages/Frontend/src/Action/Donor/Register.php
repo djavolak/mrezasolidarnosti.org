@@ -17,6 +17,7 @@ class Register extends BaseAction
         protected Navigation $navigationService,
         protected SocialLinks $socialLinks,
         \Solidarity\Frontend\Service\Session $session,
+        private \Solidarity\Frontend\Service\Locale $locale,
     ) {
         parent::__construct($logger, $config, $template, $this->navigationService, $this->socialLinks, $session);
 
@@ -39,7 +40,7 @@ class Register extends BaseAction
                 $data['status'] = \Solidarity\Donor\Entity\Donor::STATUS_NEW;
                 $this->donor->create($data);
 
-                $responseData['redirect'] = '/potvrdi-email';
+                $responseData['redirect'] = $this->locale->localizeUrl('/potvrdi-email');
             } catch(ValidatorException $e) {
                 $success = false;
                 $responseData['token'] = CSRF::getToken();
