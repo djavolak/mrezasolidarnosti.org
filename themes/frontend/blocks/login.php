@@ -35,5 +35,5 @@
             </form>
         </div>
     </div>
-    <script src="<?=FRONT_ASSET_URL?>/js/login.js"></script>
+    <script type="module" src="<?=FRONT_ASSET_URL?>/js/login.js?v=0.0.1"></script>
 <?php endif; ?>

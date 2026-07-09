@@ -1,4 +1,4 @@
-import Translator from "./Translator/Translator";
+import Translator from "./Translator/Translator.js";
 
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('formProfileData');
