@@ -1,3 +1,5 @@
+import Translator from "./Translator/Translator.js";
+
 document.addEventListener('DOMContentLoaded', (e) => {
     const forms = document.querySelectorAll('.loginActionContainer');
     if(forms) {
@@ -9,12 +11,10 @@ document.addEventListener('DOMContentLoaded', (e) => {
                 let valid = true;
                 messagesContainer.innerHTML = '';
                 if(emailInput.value.trim() === '') {
-                    //@TODO TRANSLATE
-                    messagesContainer.appendChild(getMessageElement('Email je obavezan.', 'error'));
+                    messagesContainer.appendChild(getMessageElement(Translator.translate('Email is required.'), 'error'));
                     valid = false;
                 } else if(!validateEmail(emailInput.value)) {
-                    //@TODO TRANSLATE
-                    messagesContainer.appendChild(getMessageElement('Email nije validan.', 'error'));
+                    messagesContainer.appendChild(getMessageElement(Translator.translate('Email is not valid.'), 'error'));
                     valid = false;
                 }
                 if(!valid) {

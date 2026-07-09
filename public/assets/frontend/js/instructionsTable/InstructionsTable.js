@@ -1,3 +1,5 @@
+import Translator from "../Translator/Translator.js";
+
 export default class InstructionsTable {
     #setupComplete = false;
     mobileBreakpoint = window.matchMedia('(max-width: 1000px)');
@@ -240,7 +242,7 @@ export default class InstructionsTable {
 <path d="M17 22V17.828C16.9999 17.2976 16.7891 16.789 16.414 16.414L12 12L7.586 16.414C7.2109 16.789 7.00011 17.2976 7 17.828V22" stroke="#CF3443" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M7 2V6.172C7.00011 6.70239 7.2109 7.21101 7.586 7.586L12 12L16.414 7.586C16.7891 7.21101 16.9999 6.70239 17 6.172V2" stroke="#CF3443" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
-<span>Rok za uplatu ističe ${instruction['expiresAt']}</span></div>`; //@TODO TRANSLATE
+<span>${Translator.translate('Payment deadline is expiring.')} ${instruction['expiresAt']}</span></div>`;
                 } else {
                     td.textContent = instruction[instructionKey];
                 }
@@ -258,7 +260,7 @@ export default class InstructionsTable {
         button.classList.add('donateButton');
         button.innerHTML = `<svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M11.2479 1.62712C10.9699 1.34905 10.6399 1.12846 10.2767 0.977961C9.9135 0.827462 9.52419 0.75 9.13103 0.75C8.73787 0.75 8.34856 0.827462 7.98535 0.977961C7.62213 1.12846 7.29212 1.34905 7.01418 1.62712L6.43735 2.20395L5.86053 1.62712C5.2991 1.0657 4.53765 0.750291 3.74368 0.750291C2.9497 0.750291 2.18825 1.0657 1.62683 1.62712C1.0654 2.18854 0.75 2.95 0.75 3.74397C0.75 4.53794 1.0654 5.29939 1.62683 5.86082L6.43735 10.6713L11.2479 5.86082C11.526 5.58288 11.7465 5.25287 11.897 4.88965C12.0475 4.52644 12.125 4.13713 12.125 3.74397C12.125 3.35081 12.0475 2.9615 11.897 2.59828C11.7465 2.23507 11.526 1.90506 11.2479 1.62712Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                    </svg> UPLATI`; //@TODO translate
+                    </svg> ${Translator.translate('DONATE')}`;
         button.addEventListener('click', () => {
             this.paymentDialog.showModal();
             this.paymentDialog.classList.add('active');
@@ -409,13 +411,13 @@ export default class InstructionsTable {
 <path d="M9.49883 14.9807C8.74422 15.7353 7.52062 15.7399 6.77166 14.991L1.50309 9.72239C2.25773 10.3417 3.37782 10.2857 4.08559 9.57789C4.79336 8.87012 4.84988 7.62559 4.11649 6.87139L4.07 6.8249C3.32096 6.09668 2.1129 6.1064 1.3635 6.8558L6.84351 1.37579C7.60332 0.615977 8.82171 0.616588 9.57068 1.36555C10.3196 2.11451 10.315 3.33811 9.56044 4.09272L7.26539 6.38776L13.6178 6.20268C14.6859 6.19867 15.5485 7.06127 15.5393 8.12415C15.5353 9.19221 14.6662 10.0613 13.6033 10.0601L7.52104 10.2437L9.50966 12.2323C10.2586 12.9813 10.254 14.2049 9.49943 14.9595L9.49935 14.9802L9.49883 14.9807Z" fill="#F3F4F6"/>
 <path d="M3.11921 5.73835L2.08071 6.1644L0.017026 8.22809L2.48013 10.6912L4.11777 9.98555L5.51575 8.34792L3.11921 5.73835Z" fill="#F3F4F6"/>
 </svg>
- NAZAD`; //@TODO TRANSLATE
+ ${Translator.translate('BACK')}`;
         const next = document.createElement('div');
         next.classList.add('nextInstruction');
-        next.innerHTML = `SLEDEĆI<svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+        next.innerHTML = `${Translator.translate('NEXT')}<svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M6.85054 1.36864C7.60514 0.614033 8.82874 0.60944 9.5777 1.3584L14.8463 6.62697C14.0916 6.00765 12.9715 6.0637 12.2638 6.77147C11.556 7.47924 11.4995 8.72377 12.2329 9.47797L12.2794 9.52446C13.0284 10.2527 14.2365 10.243 14.9859 9.49356L9.50585 14.9736C8.74604 15.7334 7.52765 15.7328 6.77869 14.9838C6.02972 14.2348 6.03432 13.0113 6.78892 12.2566L9.08397 9.9616L2.73156 10.1467C1.6635 10.1507 0.800904 9.2881 0.810079 8.22521C0.814088 7.15715 1.68319 6.28805 2.74604 6.28925L8.82833 6.10569L6.8397 4.11707C6.09074 3.3681 6.09533 2.14451 6.84994 1.3899L6.85001 1.36916L6.85054 1.36864Z" fill="#F3F4F6"/>
 <path d="M13.2302 10.611L14.2687 10.185L16.3323 8.12127L13.8692 5.65816L12.2316 6.36381L10.8336 8.00145L13.2302 10.611Z" fill="#F3F4F6"/>
-</svg>`; //@TODO TRANSLATE
+</svg>`;
         navContainer.append(previous, next);
         this.container.appendChild(navContainer);
 
@@ -484,7 +486,7 @@ export default class InstructionsTable {
                 <path d="M17 22V17.828C16.9999 17.2976 16.7891 16.789 16.414 16.414L12 12L7.586 16.414C7.2109 16.789 7.00011 17.2976 7 17.828V22" stroke="#CF3443" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 <path d="M7 2V6.172C7.00011 6.70239 7.2109 7.21101 7.586 7.586L12 12L16.414 7.586C16.7891 7.21101 16.9999 6.70239 17 6.172V2" stroke="#CF3443" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-                <span>Rok za uplatu ističe ${instruction['expiresAt']}</span></div>`;
+                <span>${Translator.translate('Payment deadline is expiring.')} ${instruction['expiresAt']}</span></div>`;
             } else {
                 createdTD.textContent = instruction.createdAt;
             }

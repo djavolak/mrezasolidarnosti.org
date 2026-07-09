@@ -1,3 +1,5 @@
+import Translator from "./Translator/Translator.js";
+
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('formProfileData');
     const submitButton = document.getElementById('formSubmit');
@@ -27,13 +29,11 @@ document.addEventListener('DOMContentLoaded', () => {
         let valid = true;
         messagesContainer.innerHTML = '';
         if(firstNameInput.value.trim() === '') {
-            //@TODO TRANSLATE
-            messagesContainer.appendChild(getMessageElement('Ime je obavezno.', 'error'));
+            messagesContainer.appendChild(getMessageElement(Translator.translate('Name is required.'), 'error'));
             valid = false;
         }
         if(lastNameInput.value.trim() === '') {
-            //@TODO TRANSLATE
-            messagesContainer.appendChild(getMessageElement('Prezime je obavezno.', 'error'));
+            messagesContainer.appendChild(getMessageElement(Translator.translate('Surname is required.'), 'error'));
             valid = false;
         }
         if(!valid) {
@@ -59,8 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                 }
             } else {
-                //@TODO TRANSLATE
-                messagesContainer.appendChild(getMessageElement('Uspešno ste izmenili podatke.', 'success'));
+                messagesContainer.appendChild(getMessageElement(Translator.translate('Data has been changed successfully.'), 'success'));
             }
         } catch (e) {
 
