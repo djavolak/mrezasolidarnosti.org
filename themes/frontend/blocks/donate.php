@@ -257,8 +257,7 @@
 
                 </div>
             </div>
-            <span class="info"><?=$this->t('Sistem prikazuje konvertovane vrednosti samo u Eurima i dinarima.
-Minimalni iznos je u vrednosti od 500 RSD ili 10 EUR.')?></span>
+            <span class="info"><?=$this->t('Možete platiti bilo kojom valutom. Sistem prikazuje konvertovane vrednosti samo u Eurima i dinarima. Minimalni iznos je u vrednosti od 500 RSD.')?></span>
         </div>
     </template>
     <script type="application/json" id="donationExistingData"><?=json_encode([
